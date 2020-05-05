@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2020/5 | Hexo</title>
+  <title>更高级的bean装配第五谈 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/2020/05/index.html">
+  <meta name="description" content="更高级的bean装配第五谈  在运行时向方法中装配&#x2F;注入值12345需求：避免在声明bean时使用硬编码；手段：使原来硬编码的值推迟到运行时再确定；具体方法：Spring提供的再运行时求值的方式    1 属性占位符（Property placeholder）    2 Spring表达式语言（SpEL）  使用属性表达式来动态注入值12345手段SOP：    1 把属性单独定义到一个prope">
+<meta property="og:type" content="article">
+<meta property="og:title" content="更高级的bean装配第五谈">
+<meta property="og:url" content="http://yoursite.com/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%94%E8%B0%88/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="更高级的bean装配第五谈  在运行时向方法中装配&#x2F;注入值12345需求：避免在声明bean时使用硬编码；手段：使原来硬编码的值推迟到运行时再确定；具体方法：Spring提供的再运行时求值的方式    1 属性占位符（Property placeholder）    2 Spring表达式语言（SpEL）  使用属性表达式来动态注入值12345手段SOP：    1 把属性单独定义到一个prope">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-05T14:33:48.477Z">
+<meta property="article:modified_time" content="2020-05-05T14:34:27.619Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -150,295 +154,169 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-更高级的bean装配第五谈" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      更高级的bean装配第五谈
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%94%E8%B0%88/" class="archive-article-date">
+
+        
+        <a href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%94%E8%B0%88/" class="archive-article-date">
   	<time datetime="2020-05-05T14:33:48.477Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%94%E8%B0%88/">更高级的bean装配第五谈</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>更高级的bean装配第五谈</p>
+<hr>
+<h4 id="在运行时向方法中装配-注入值"><a href="#在运行时向方法中装配-注入值" class="headerlink" title="在运行时向方法中装配/注入值"></a>在运行时向方法中装配/注入值</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">需求：避免在声明bean时使用硬编码；</span><br><span class="line">手段：使原来硬编码的值推迟到运行时再确定；</span><br><span class="line">具体方法：Spring提供的再运行时求值的方式</span><br><span class="line">    1 属性占位符（Property placeholder）</span><br><span class="line">    2 Spring表达式语言（SpEL）</span><br></pre></td></tr></table></figure>
 
-        <div class="article-info info-on-right">
-          
-          
+<h5 id="使用属性表达式来动态注入值"><a href="#使用属性表达式来动态注入值" class="headerlink" title="使用属性表达式来动态注入值"></a>使用属性表达式来动态注入值</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">手段SOP：</span><br><span class="line">    1 把属性单独定义到一个properties文件中（外部文件）</span><br><span class="line">    2 在java配置类中加载属性文件到Spring的Environment中</span><br><span class="line">    3 在java代码中从Environment中获取到属性值————用于替换占位符所占的位置</span><br><span class="line">参考：EnvironmentConfig</span><br></pre></td></tr></table></figure>
 
+<hr>
+<p>Spring中的Environment实例：getProperty()方法的各种重载</p>
+<hr>
+<h6 id="在xml配置文件中使用属性占位符"><a href="#在xml配置文件中使用属性占位符" class="headerlink" title="在xml配置文件中使用属性占位符"></a>在xml配置文件中使用属性占位符</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SOP:</span><br><span class="line">	1 在java配置类中声明PropertySourcesPlaceholderConfigurer这个bean；</span><br><span class="line">    或者在xml配置文件中，使用context命名空间中的property-placeholder元素</span><br><span class="line">	2 在需要属性值的地方使用属性占位符</span><br><span class="line">作用：用于解析占位符；</span><br><span class="line">特征：</span><br><span class="line">    1 把值得注入操作推迟到运行时；</span><br><span class="line">    2 属性表达式需要放在$&#123;xxx&#125;中</span><br><span class="line">原理：根据名称来解析来自于Spring Environment和属性源中的属性值</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h6 id="使用SpEL表达式来动态注入值"><a href="#使用SpEL表达式来动态注入值" class="headerlink" title="使用SpEL表达式来动态注入值"></a>使用SpEL表达式来动态注入值</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">作用：把一个变量装配到bean的方法中</span><br><span class="line">特征：变量的值在运行时才会计算出来</span><br><span class="line">用法：</span><br><span class="line">    1 SpEL表达式要放在#&#123;xxx&#125;中</span><br><span class="line">    2 引用字面量的值</span><br><span class="line">    3 引用bean、属性以及方法</span><br><span class="line">    4 访问类作用域的方法与常量：T()运算符   语法：T(java类型)</span><br><span class="line">    5 使用运算符来创建复杂的表达式</span><br><span class="line">        使用三目运算符来检查null值</span><br><span class="line">    6 匹配正则表达式的模式</span><br><span class="line">    7 计算集合</span><br><span class="line">太强不记 有点子像正则表达式哈</span><br></pre></td></tr></table></figure>
+
+<p>it’s running late,call it a day~</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%94%E8%B0%88/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E5%9B%9B%E8%B0%88/" class="archive-article-date">
-  	<time datetime="2020-05-05T14:19:28.147Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E5%9B%9B%E8%B0%88/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">更高级的bean装配第四谈</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E5%9B%9B%E8%B0%88/">更高级的bean装配第四谈</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%B8%89%E8%B0%88/" class="archive-article-date">
-  	<time datetime="2020-05-05T14:07:08.807Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%B8%89%E8%B0%88/">更高级的bean装配第三谈</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84Bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%8C%E8%B0%88/" class="archive-article-date">
-  	<time datetime="2020-05-05T09:55:24.851Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84Bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%8C%E8%B0%88/">更高级的Bean装配第二谈</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E9%85%8D%E7%BD%AE%E7%AC%AC%E4%B8%80%E8%B0%88/" class="archive-article-date">
-  	<time datetime="2020-05-05T08:56:51.173Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E9%85%8D%E7%BD%AE%E7%AC%AC%E4%B8%80%E8%B0%88/">更高级的bean配置第一谈</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/Spring%E4%B8%ADbean%E7%9A%84%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D%EF%BC%88%E7%AC%AC%E4%B8%89%E8%B0%88%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2020-05-05T07:51:41.770Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/Spring%E4%B8%ADbean%E7%9A%84%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D%EF%BC%88%E7%AC%AC%E4%B8%89%E8%B0%88%EF%BC%89/">Spring中bean的创建&amp;装配（第三谈）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/Spring%E4%B8%ADBean%E7%9A%84%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D%EF%BC%88%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2020-05-05T07:36:37.320Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/Spring%E4%B8%ADBean%E7%9A%84%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D%EF%BC%88%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%89/">Spring中Bean的创建&amp;装配（第二谈）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/Spring%E4%B8%AD%E7%9A%84Bean%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D/" class="archive-article-date">
-  	<time datetime="2020-05-05T07:24:47.068Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/Spring%E4%B8%AD%E7%9A%84Bean%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D/">Spring中的Bean创建&amp;装配</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/" class="archive-article-date">
-  	<time datetime="2020-05-04T17:04:35.734Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/">Spring初体验</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/04/Spring%E7%9A%84%E7%89%B9%E5%BE%81%E2%80%94%E2%80%94%E9%9D%A2%E5%90%91%E5%88%87%E9%9D%A2/" class="archive-article-date">
-  	<time datetime="2020-05-04T08:13:46.847Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/04/Spring%E7%9A%84%E7%89%B9%E5%BE%81%E2%80%94%E2%80%94%E9%9D%A2%E5%90%91%E5%88%87%E9%9D%A2/">Spring的特征——面向切面</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/2020/05/page/2/">2</a><a class="extend next" rel="next" href="/archives/2020/05/page/2/">Next &amp;raquo;</a>
-    </nav>
   
 
 
@@ -462,8 +340,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

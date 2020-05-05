@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2020/5 | Hexo</title>
+  <title>更高级的bean装配第四谈 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/2020/05/index.html">
+  <meta name="description" content="更高级的bean装配第四谈  Spring中bean实例的作用域12345说明：Spring应用上下文中的bean默认都是单例的；单例：一个类就只会创建一个bean实例；特征：    1 bean实例没有状态，对所有的其他bean都是一样的；    2 能够在应用中反复使用；  pickle：如果对象需要保持自己的状态，这时候再反复重用就行不通了（单例作用域也就不适用了） 123456789101">
+<meta property="og:type" content="article">
+<meta property="og:title" content="更高级的bean装配第四谈">
+<meta property="og:url" content="http://yoursite.com/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E5%9B%9B%E8%B0%88/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="更高级的bean装配第四谈  Spring中bean实例的作用域12345说明：Spring应用上下文中的bean默认都是单例的；单例：一个类就只会创建一个bean实例；特征：    1 bean实例没有状态，对所有的其他bean都是一样的；    2 能够在应用中反复使用；  pickle：如果对象需要保持自己的状态，这时候再反复重用就行不通了（单例作用域也就不适用了） 123456789101">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-05T14:19:28.147Z">
+<meta property="article:modified_time" content="2020-05-05T14:34:23.219Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -150,295 +154,206 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-更高级的bean装配第四谈" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%94%E8%B0%88/" class="archive-article-date">
-  	<time datetime="2020-05-05T14:33:48.477Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%94%E8%B0%88/">更高级的bean装配第五谈</a>
+    <h1 class="article-title" itemprop="name">
+      更高级的bean装配第四谈
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E5%9B%9B%E8%B0%88/" class="archive-article-date">
+        
+        <a href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E5%9B%9B%E8%B0%88/" class="archive-article-date">
   	<time datetime="2020-05-05T14:19:28.147Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E5%9B%9B%E8%B0%88/">更高级的bean装配第四谈</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>更高级的bean装配第四谈</p>
+<hr>
+<h4 id="Spring中bean实例的作用域"><a href="#Spring中bean实例的作用域" class="headerlink" title="Spring中bean实例的作用域"></a>Spring中bean实例的作用域</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">说明：Spring应用上下文中的bean默认都是单例的；</span><br><span class="line">单例：一个类就只会创建一个bean实例；</span><br><span class="line">特征：</span><br><span class="line">    1 bean实例没有状态，对所有的其他bean都是一样的；</span><br><span class="line">    2 能够在应用中反复使用；</span><br></pre></td></tr></table></figure>
 
-        <div class="article-info info-on-right">
-          
-          
+<p>pickle：如果对象需要保持自己的状态，这时候再反复重用就行不通了（单例作用域也就不适用了）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">解决手段：</span><br><span class="line">Spring为bean实例提供了多种作用域；</span><br><span class="line">    1 单例：整个应用中，就只有一个bean实例；[这是默认的作用域]</span><br><span class="line">    2 原型：</span><br><span class="line">        01 每次注入&#x2F;装配时，</span><br><span class="line">        02 每次通过Spring容器获取时，都会创建一个新的bean实例</span><br><span class="line">    3 会话：</span><br><span class="line">        为web应用中的每一个会话创建一个bean实例；</span><br><span class="line">        特征：适用于购物车需求</span><br><span class="line">    4 请求：</span><br><span class="line">        在Web应用中，为每个请求创建一个bean实例；</span><br></pre></td></tr></table></figure>
 
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">需求：在配置Bean时，手动指定bean实例的作用域；</span><br><span class="line">手段：使用@Scope注解声明bean实例的作用域</span><br><span class="line">参见：Notepad.java</span><br><span class="line">    &#x2F;&#x2F; 获取可配置的bean工厂的静态常量xxx作为注解的参数</span><br><span class="line">    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE) &#x2F;&#x2F; 手动指定bean实例的作用域</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">需求：Web应用中的购物车；</span><br><span class="line">参考：ShoppingCart.java</span><br><span class="line">作用：每个会话中，只会有一个购物车实例；</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">需求：把会话&#x2F;请求作用域的bean注入到单例bean中；</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 单例Bean</span><br><span class="line">	... &#x2F;&#x2F; 装配&#x2F;注入一个会话域的bean作为参数</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 会话作用域的Bean</span><br><span class="line">@Scope(value&#x3D;WebApplicationContext.SCOPE_SESSION, proxyMode&#x3D;ScopedProxyMode.INTERFACES)</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h5 id="pickle-one"><a href="#pickle-one" class="headerlink" title="pickle one:"></a>pickle one:</h5><p>1 storeService是一个单例的bean实例——它会在Spring应用上下文被加载的时候创建；<br>2 在创建1中的bean实例时，Spring会尝试把ShoppingCart bean实例注入到方法中。但是此时shoppingCart bean实例还不存在<br>说明：会话作用域的bean实例在用户登录系统创建了会话之后才会创建；</p>
+<hr>
+<h5 id="pickle-two"><a href="#pickle-two" class="headerlink" title="pickle two:"></a>pickle two:</h5><p>3 应用中会包含多个shoppingCart的Bean实例，注入setter方法的时候。使用任何一个具体的bean都不好</p>
+<h4 id="Spring给出的解决方案：proxyMode属性"><a href="#Spring给出的解决方案：proxyMode属性" class="headerlink" title="Spring给出的解决方案：proxyMode属性"></a>Spring给出的解决方案：proxyMode属性</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">原理：不装配&#x2F;注入某个具体的bean实例，而是注入一个bean的代理；</span><br><span class="line">特征：</span><br><span class="line">        1 客户端可以无差别地像使用目标对象一样使用代理</span><br><span class="line">        2 当调用shoppingCart的方法时，代理会对此调用进行懒加载</span><br><span class="line">        3 代理会把调用委托给会话作用域中真正的bean</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p>proxyMode语义说明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">proxyMode&#x3D;ScopedProxyMode.INTERFACES</span><br><span class="line">语义：声明代理需要实现xxx接口； 基于xxx接口的代理</span><br><span class="line">这里的xxx就是方法的返回值</span><br></pre></td></tr></table></figure>
+
+<p>如果方法的返回值不是接口类型，而是具体类型呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">手段：以生成目标类扩展的方式创建代理；</span><br><span class="line">具体方法：ScopedProxyMode.TARGET_CLASS</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>ProxyMode是如何解决上面的pickle one + two的？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pickle1：进行注入时，购物车的bean实例还不存在；</span><br><span class="line">解决手段：对方法调用进行懒解析，从而延迟注入的操作</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pickle2：注入bean时，不应该注入具体的bean。而应该注入当前会话中的bean实例</span><br><span class="line">解决手段：不是注入具体的bean实例，而是注入一个代理对象</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="XML的替换方案"><a href="#XML的替换方案" class="headerlink" title="XML的替换方案"></a>XML的替换方案</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">使用xml来配置会话作用域&#x2F;请求作用域的bean：</span><br><span class="line">1 配置bean为会话作用域；</span><br><span class="line">手段：bean元素的scope属性；</span><br><span class="line">2 如何设置代理模式呢？</span><br><span class="line">手段：Spring aop命名空间的&lt;aop:scoped-proxy&gt;元素</span><br><span class="line">作用：告诉Spring为bean创建一个作用域代理；</span><br><span class="line">特征：</span><br><span class="line">    1 默认情况下会使用CGLib来创建目标类的代理；</span><br><span class="line">    2 通过添加proxy-target-class&#x3D;false，可以指定Spring生成基于接口的代理；</span><br></pre></td></tr></table></figure>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E5%9B%9B%E8%B0%88/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%B8%89%E8%B0%88/" class="archive-article-date">
-  	<time datetime="2020-05-05T14:07:08.807Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%94%E8%B0%88/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          更高级的bean装配第五谈
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%B8%89%E8%B0%88/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">更高级的bean装配第三谈</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%B8%89%E8%B0%88/">更高级的bean装配第三谈</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84Bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%8C%E8%B0%88/" class="archive-article-date">
-  	<time datetime="2020-05-05T09:55:24.851Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84Bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%8C%E8%B0%88/">更高级的Bean装配第二谈</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E9%85%8D%E7%BD%AE%E7%AC%AC%E4%B8%80%E8%B0%88/" class="archive-article-date">
-  	<time datetime="2020-05-05T08:56:51.173Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E9%85%8D%E7%BD%AE%E7%AC%AC%E4%B8%80%E8%B0%88/">更高级的bean配置第一谈</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/Spring%E4%B8%ADbean%E7%9A%84%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D%EF%BC%88%E7%AC%AC%E4%B8%89%E8%B0%88%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2020-05-05T07:51:41.770Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/Spring%E4%B8%ADbean%E7%9A%84%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D%EF%BC%88%E7%AC%AC%E4%B8%89%E8%B0%88%EF%BC%89/">Spring中bean的创建&amp;装配（第三谈）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/Spring%E4%B8%ADBean%E7%9A%84%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D%EF%BC%88%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2020-05-05T07:36:37.320Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/Spring%E4%B8%ADBean%E7%9A%84%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D%EF%BC%88%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%89/">Spring中Bean的创建&amp;装配（第二谈）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/Spring%E4%B8%AD%E7%9A%84Bean%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D/" class="archive-article-date">
-  	<time datetime="2020-05-05T07:24:47.068Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/Spring%E4%B8%AD%E7%9A%84Bean%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D/">Spring中的Bean创建&amp;装配</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/" class="archive-article-date">
-  	<time datetime="2020-05-04T17:04:35.734Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/">Spring初体验</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/04/Spring%E7%9A%84%E7%89%B9%E5%BE%81%E2%80%94%E2%80%94%E9%9D%A2%E5%90%91%E5%88%87%E9%9D%A2/" class="archive-article-date">
-  	<time datetime="2020-05-04T08:13:46.847Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/04/Spring%E7%9A%84%E7%89%B9%E5%BE%81%E2%80%94%E2%80%94%E9%9D%A2%E5%90%91%E5%88%87%E9%9D%A2/">Spring的特征——面向切面</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/2020/05/page/2/">2</a><a class="extend next" rel="next" href="/archives/2020/05/page/2/">Next &amp;raquo;</a>
-    </nav>
   
 
 
@@ -462,8 +377,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
