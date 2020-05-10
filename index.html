@@ -152,6 +152,212 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Spring AOP第二谈（与AspectJ AOP的对比）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/11/Spring%20AOP%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%88%E4%B8%8EAspectJ%20AOP%E7%9A%84%E5%AF%B9%E6%AF%94%EF%BC%89/">Spring AOP第二谈（与AspectJ AOP的对比）</a>
+    </h1>
+  
+
+        
+        <a href="/2020/05/11/Spring%20AOP%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%88%E4%B8%8EAspectJ%20AOP%E7%9A%84%E5%AF%B9%E6%AF%94%EF%BC%89/" class="archive-article-date">
+  	<time datetime="2020-05-10T16:26:00.038Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Spring AOP第二谈（与AspectJ AOP的对比）</p>
+<hr>
+<h4 id="1-AOP的实现方案"><a href="#1-AOP的实现方案" class="headerlink" title="1.AOP的实现方案"></a>1.AOP的实现方案</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">方案1：Spring AOP；</span><br><span class="line">方案2：AspectJ；</span><br><span class="line">特征：AspectJ提供了很多其他的切点类型（Spring AOP只能提供方法调用的切点类型）</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h4 id="2-在创建对象时应用指定的通知"><a href="#2-在创建对象时应用指定的通知" class="headerlink" title="2. 在创建对象时应用指定的通知"></a>2. 在创建对象时应用指定的通知</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">需求：在创建对象时应用指定的通知；</span><br><span class="line">说明：创建对象需要调用Bean的构造器，但是Spring AOP无法指定这样的连接点&#x2F;切点类型</span><br><span class="line">为什么Spring AOP实现不了呢？</span><br><span class="line">答：因为它基于代理实现，只能做一些方法层面的操作；</span><br><span class="line">手段：使用AspectJ提供的AOP功能；</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h4 id="3-管理由AspectJ创建的切面bean所依赖的Spring组件"><a href="#3-管理由AspectJ创建的切面bean所依赖的Spring组件" class="headerlink" title="3. 管理由AspectJ创建的切面bean所依赖的Spring组件"></a>3. 管理由AspectJ创建的切面bean所依赖的Spring组件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">说明：一个通知方法可能需要依赖其他的类来实现功能。</span><br><span class="line">需求：管理通知方法所依赖的其他类</span><br><span class="line">手段：把通知方法所依赖的Bean注入到切面类中</span><br><span class="line"></span><br><span class="line">--</span><br><span class="line">需求：为演出创建一个评论员的角色；</span><br><span class="line">功能：观看演出，并在观看完成后提出一些批评意见</span><br><span class="line">参考：CriticAspect + CriticismEngine + CriticismEngineImpl + bean_declare_xmlconfig</span><br><span class="line">特征：</span><br><span class="line">    1 AspectJ切面不需要Spring就可以织入到我们的应用中;</span><br><span class="line">    2 但是如果想要使用Spring来管理AspectJ的一些个依赖，就需要把AspectJ切面来声明成一个Spring bean</span><br><span class="line">    参考：bean_declare_xmlconfig.xml</span><br><span class="line">    3 AspectJ切面bean不是Spring容器创建的，而是AspectJ在运行时创建的；</span><br><span class="line">    4 为了能够在Spring中获取到AspectJ切面的实例，需要调用切面类的aspectOf()方法————此方法返回切面类的一个单例</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="4-AOP小结"><a href="#4-AOP小结" class="headerlink" title="4.AOP小结"></a>4.AOP小结</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">------</span><br><span class="line">AOP：</span><br><span class="line">是：一种编程方式；</span><br><span class="line">作用：把分散在应用各处的行为集中在一个模块中（方便管理），并作为重用模块（方便引用）</span><br><span class="line">特征：</span><br><span class="line">    1 使程序员编写的类更加简洁、准确；</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">需求：支持AOP形式的编程风格；</span><br><span class="line">Spring提供的手段：Spring AOP；</span><br><span class="line">原理：</span><br><span class="line">    在程序员进行必要的操作后，Spring AOP会创建一个代理类，在代理类中把切面插入到目标方法执行的周围；</span><br><span class="line">必要的操作：</span><br><span class="line">    1 程序员通过自定义切面来声明预期插入到目标类&#x2F;方法中的功能；</span><br><span class="line">    2 程序员通过编写切点表达式来声明应用切面中的通知；</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">应用：</span><br><span class="line">    1 把通知织入&#x2F;应用前置、后置和环绕方法的调用中；</span><br><span class="line">    2 为异常处理添加自定义的行为————抛出异常时的通知方法；</span><br><span class="line">    3 与DI一起，支持程序员创建松散耦合的应用</span><br><span class="line">用法SOP:</span><br><span class="line">    1 声明切面类；</span><br><span class="line">    2 配置切面类中的通知方法（when + where + what）</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/11/Spring%20AOP%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%88%E4%B8%8EAspectJ%20AOP%E7%9A%84%E5%AF%B9%E6%AF%94%EF%BC%89/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-SpringAOP第一谈（术语 &amp; SOP）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/11/SpringAOP%E7%AC%AC%E4%B8%80%E8%B0%88%EF%BC%88%E6%9C%AF%E8%AF%AD%20&%20SOP%EF%BC%89/">SpringAOP第一谈（术语 &amp; SOP）</a>
+    </h1>
+  
+
+        
+        <a href="/2020/05/11/SpringAOP%E7%AC%AC%E4%B8%80%E8%B0%88%EF%BC%88%E6%9C%AF%E8%AF%AD%20&%20SOP%EF%BC%89/" class="archive-article-date">
+  	<time datetime="2020-05-10T16:04:41.870Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>面向切面编程AOP第一谈：术语 &amp; Java配置方式 &amp; XML配置方式</p>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">面向切面编程；</span><br><span class="line"></span><br><span class="line">是：一种编程方式；</span><br><span class="line"></span><br><span class="line">作用：</span><br><span class="line"></span><br><span class="line">​	1 分离应用程序中的业务逻辑点与横切关注点；</span><br><span class="line"></span><br><span class="line">​	2 使业务逻辑点的代码更加简洁清晰；</span><br><span class="line"></span><br><span class="line">​	3 使所有的横切关注点能够集中起来，方便管理；</span><br><span class="line"></span><br><span class="line">特征：</span><br><span class="line"></span><br><span class="line">​	1 通过声明的方式来引用切面中的通知方法到指定的目标方法；</span><br><span class="line"></span><br><span class="line">​	2 切面类是一个POJO类；</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<hr>
+<h4 id="1-切点"><a href="#1-切点" class="headerlink" title="1.切点"></a>1.切点</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">切点：</span><br><span class="line">作用：定义切面实际作用到的代码位置；</span><br><span class="line">原理：选择切点表达式所匹配到的连接点；</span><br><span class="line">手段：使用AspectJ的切点表达式定义切点；</span><br><span class="line">特征：</span><br><span class="line">    1 Spring仅仅支持AspectJ切点指示器的一个子集；</span><br><span class="line">    2 Spring所支持的指示器中：</span><br><span class="line">        只有execution指示器是用来执行匹配的；</span><br><span class="line">        其他的指示器都只是限制匹配的；</span><br><span class="line">    3 execution指示器是编写切点时，最常使用到的指示器；</span><br></pre></td></tr></table></figure>
+
+
+
+<p>1.1 定义切点</p>
+<p>手段：编写切点表达式；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">任务：编写切点表达式；</span><br><span class="line">前提：需要一个主题————应用切面的目标；</span><br><span class="line">参考：Performance.java</span><br><span class="line"></span><br><span class="line">--</span><br><span class="line">连接点：Performance接口中的perform()方法</span><br><span class="line">需求：当perform()被调用时，触发自定义的通知；</span><br><span class="line">手段：编写一个切点表达式；</span><br><span class="line">execution(* concert.Performance.perform(..))</span><br><span class="line">语义：在方法执行时触发 不关心方法的返回值类型 方法的全限定名(任意参数)</span><br><span class="line">作用：通过此切点表达式，选择了连接点为Performance的perform()方法</span><br><span class="line"></span><br><span class="line">--</span><br><span class="line">需求：通过切点表达式的多个规则来选择多个连接点</span><br><span class="line">手段：切点表达式A &amp;&amp; 切点表达式B</span><br><span class="line">具体表达式：execution(* concert.Performance.perform(..)) &amp;&amp; within(concert.*)</span><br><span class="line">within()指示器用来限制连接点匹配指定的类型</span><br><span class="line">&amp;&amp;&#x2F;and 表示连接点必须匹配所有的指示器</span><br><span class="line"></span><br><span class="line">--</span><br><span class="line">任务：在切点中选择指定的Bean</span><br><span class="line">原理：使用bean ID或bean名称来选择指定的bean</span><br><span class="line">需求：执行Performance的perform()方法时来应用通知，但是仅限于bean ID为woodstock的bean实例上的方法调用</span><br><span class="line">手段：bean()指示器</span><br><span class="line">切点表达式：</span><br><span class="line">    execution(* concert.Performance.perform(..)) and bean(&#39;woodstock&#39;)</span><br><span class="line"></span><br><span class="line">需求：限制bean ID不为woodstock的bean实例上，执行xxx方法时，应用通知；</span><br><span class="line">切点表达式：</span><br><span class="line">    execution(* concert.Performance.perform(..)) and !bean(&#39;woodstock&#39;)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="2-定义切面（通知-切点）"><a href="#2-定义切面（通知-切点）" class="headerlink" title="2.定义切面（通知 + 切点）"></a>2.定义切面（通知 + 切点）</h4><p>手段：编写切面类；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">任务：编写切面类；</span><br><span class="line">手段：编写POJO类，然后使用AspectJ5提供的注解声明它是一个切面类；</span><br><span class="line">默念：插入切面、应用&#x2F;织入通知、选择连接点、匹配切点</span><br><span class="line">应用：对于一场演出来说，观众就可以视为一个切面（可以单独分离出来的功能）；</span><br><span class="line">SOP:</span><br><span class="line">    Ⅰ 声明切面类及通知细节</span><br><span class="line">    1 通过@Aspect注解来声明一个作为切面的类；</span><br><span class="line">    2 在类中定义通知方法：功能实现 + 应用时机；</span><br><span class="line">    3 如果出现了同一个切点表达式被多次书写的情况，把切点表达式单独使用@Pointcut注解定义为一个方法————导出调用</span><br><span class="line">    参考：Audience.java</span><br><span class="line">    ---</span><br><span class="line">    Ⅱ 告诉Spring为定义为切面的类创建代理：</span><br><span class="line">    手段：启用自动代理功能；</span><br><span class="line">    具体方法1：如果使用java类来配置的话，注解@EnableAspectJAutoProxy</span><br><span class="line">        参考：ConcertConfig.java</span><br><span class="line">    具体方法2：使用xml文件配置，aop:aspectj-autoproxy标签</span><br><span class="line">        参考：aspect-audience-config.xml</span><br><span class="line">    作用：</span><br><span class="line">        1 AspectJ自动代理会给bean创建一个代理————这个代理会包围切点所匹配的bean，以提供切面的功能</span><br><span class="line">        2 Audience切面类中的通知方法会在切点所指定的连接点perform()方法调用的前后执行[this is the final propose]</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p>Spring对AOP的实现：Spring AOP</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">特征：</span><br><span class="line">    1 使用@AspectJ来声明切面类；</span><br><span class="line">    2 只能够对方法调用这样的操作进行通知；因为代理类就只能对方法的调用进行代理</span><br><span class="line">原理：为被通知的类创建一个代理类，在代理类中实现目标对象的增强（通知方法）</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="1-为目标方法创建一个环绕通知"><a href="#1-为目标方法创建一个环绕通知" class="headerlink" title="1.为目标方法创建一个环绕通知"></a>1.为目标方法创建一个环绕通知</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">创建环绕通知（round advice）</span><br><span class="line">作用：使用自定义的逻辑包围被通知的目标方法； aka 前置通知 + 后置通知</span><br><span class="line">应用参考：aop.Audience.watchPerformance()环绕通知方法</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="2-在通知方法中使用目标方法中的参数"><a href="#2-在通知方法中使用目标方法中的参数" class="headerlink" title="2.在通知方法中使用目标方法中的参数"></a>2.在通知方法中使用目标方法中的参数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">issue：当被通知的目标方法有参数时，通知方法要怎样才能使用这些参数呢？</span><br><span class="line">需求：记录光盘中某个磁道被播放的次数</span><br><span class="line">手段1：在playTrack()方法中添加一个计数器————每次playTrack()方法被调用后，都更新计数器的值；</span><br><span class="line">手段2：既然这个需求与播放磁道是不同的任务，把这个需求放在切面中来完成；</span><br><span class="line">参考：TrackCounter.java</span><br><span class="line">验证：</span><br><span class="line">	1 通过代码显式地播放某个磁道多次（playTrack()）;</span><br><span class="line">	2 然后调用计数器counter的getPlayCount()来判断记录的次数是否正确</span><br><span class="line">特征：getPlayCount()并没有在CD的方法中，但是同样获取到了方法的调用次数</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="3-为目标类添加新的方法"><a href="#3-为目标类添加新的方法" class="headerlink" title="3.为目标类添加新的方法"></a>3.为目标类添加新的方法</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">任务：为目标对象添加新的方法：</span><br><span class="line">实现手段：代理对象在实现目标类接口的同时，再实现新添加的接口； aka 为目标对象引入（introduce）新的接口方法</span><br><span class="line">原理：代理会把对目标对象的所有方法调用都委托到底层的具体实现；</span><br><span class="line">特征：</span><br><span class="line">    1 对客户端程序员来说，他只是在一个对象上调用方法（他用的其实是一个代理对象）；</span><br><span class="line">    2 在底层，其实把这一个bean实例的实现分散到了多个类中；</span><br><span class="line">应用：</span><br><span class="line">    在不改动类的原始代码的情况下，灵活地为现有类添加新方法</span><br><span class="line">SOP:</span><br><span class="line">    1 创建一个新的切面类；</span><br><span class="line">    参考：EncoreableIntroducer</span><br><span class="line">    2 在IoC容器中，把切面类声明为一个Spring Bean；</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h4 id="3-使用XML来实现上面的所有任务-需求"><a href="#3-使用XML来实现上面的所有任务-需求" class="headerlink" title="3.使用XML来实现上面的所有任务/需求"></a>3.使用XML来实现上面的所有任务/需求</h4><h5 id="3-1-声明一个类为切面；"><a href="#3-1-声明一个类为切面；" class="headerlink" title="3.1 声明一个类为切面；"></a>3.1 声明一个类为切面；</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">特征：</span><br><span class="line">    1 能够在没有组件源码的情况下（比如说使用的第三方组件），能够对组件进行插入切面的操作；</span><br><span class="line">    2 相比于“java配置类”的手段，使用XML配置没有侵入性。也就是说，这种方式不要求你对原始代码做出任何的改动 </span><br><span class="line">实现手段：Spring的aop命名空间下的多个元素；</span><br><span class="line">    例：</span><br><span class="line">        aop:aspectj-autoproxy</span><br><span class="line">        作用：自动创建代理对象————代理由@AspectJ所注解的通知类</span><br><span class="line">SOP:</span><br><span class="line">    1 去掉添加在切面类上的所有AspectJ提供的注解：@AspectJ、@Before、@After、@Around</span><br><span class="line">    现在有的只是一个单纯的POJO类</span><br><span class="line"></span><br><span class="line">    2 在XML中声明这个类为一个通知类（通知 + 切点 &#x3D; 切面）</span><br><span class="line">    通知是一个类、切点是一个表达式、切面是一个概念（when、where、what）</span><br><span class="line">    参考：announce-audience-via-xmlconfig.xml</span><br><span class="line">    使用切点方法对切点表达式的usage进行简化</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-2-在XML声明环绕通知"><a href="#3-2-在XML声明环绕通知" class="headerlink" title="3.2 在XML声明环绕通知"></a>3.2 在XML声明环绕通知</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">环绕通知：</span><br><span class="line">原理：通知方法会包装目标方法，然后在目标方法调用前后添加一些功能；</span><br><span class="line">特征：</span><br><span class="line">    1 等同于前置通知方法 + 后置通知方法；</span><br><span class="line">    2 能够省去前置通知方法 与 后置通知方法中的通信问题（多线程时，方法之间使用成员变量进行通信会有线程安全的问题）</span><br><span class="line">环绕通知方法：watchPerformance()</span><br><span class="line">手段：aop命名空间中的aop:around元素</span><br><span class="line">参考：announce-audience-via-xmlconfig.xml</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="3-3-在通知方法中使用目标方法中的参数"><a href="#3-3-在通知方法中使用目标方法中的参数" class="headerlink" title="3.3 在通知方法中使用目标方法中的参数"></a>3.3 在通知方法中使用目标方法中的参数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">手段：为“通知方法”传递参数;</span><br><span class="line">特征：为通知方法所传递的参数应该是目标方法中的参数</span><br><span class="line">SOP:</span><br><span class="line">    1 去掉切面类上添加的@AspectJ注解</span><br><span class="line">    参考：TrackCounterWithoutAnnotation</span><br><span class="line">    2 通过XML配置的方式把TrackCounter声明为一个切面类</span><br><span class="line">    参考：announce-trackcounter-as-aspect-via-xmlconfig.xml</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="3-4-为目标类添加-引入新的方法"><a href="#3-4-为目标类添加-引入新的方法" class="headerlink" title="3.4 为目标类添加/引入新的方法"></a>3.4 为目标类添加/引入新的方法</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">手段：Spring aop命名空间中的&lt;aop:declare-parents&gt;元素；</span><br><span class="line">参考：add_new_methods_into_target_via_xmlconfig.xml</span><br><span class="line">SOP:</span><br><span class="line">    1 在aop:config中声明一个切面类的配置</span><br><span class="line">    2 指定预期会被通知的Bean</span><br><span class="line">    3 指定预期会为Bean的父类结构所添加的新接口</span><br><span class="line">    4 指定为添加的新接口所编写的具体实现</span><br><span class="line">that&#39;a all.</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/11/SpringAOP%E7%AC%AC%E4%B8%80%E8%B0%88%EF%BC%88%E6%9C%AF%E8%AF%AD%20&%20SOP%EF%BC%89/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-更高级的bean装配第五谈" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -808,234 +1014,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/05/05/Spring%E4%B8%AD%E7%9A%84Bean%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Spring初体验" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/05/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/">Spring初体验</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/05/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/" class="archive-article-date">
-  	<time datetime="2020-05-04T17:04:35.734Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="Spring初体验"><a href="#Spring初体验" class="headerlink" title="Spring初体验"></a>Spring初体验</h3><hr>
-<p>降低bean之间的耦合程度：DI</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1 在配置文件中装配&#x2F;声明bean之间的关系：</span><br><span class="line">    定义应用的多个组件之间的依赖关系&#x2F;协作关系；</span><br><span class="line">Spring中实现装配的方式：</span><br><span class="line">    1 使用XML配置文件；</span><br><span class="line">    参考：knight.xml</span><br><span class="line">    2 使用java类来描述配置；</span><br><span class="line">    参考：KnightConfig.java</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">2 装载XML配置文件到Spring容器&#x2F;上下文，然后启动应用</span><br><span class="line">任务：装载bean的定义到Spring容器并把多个bean按照指定关系组装起来；</span><br><span class="line">Spring提供的手段：应用上下文（Application Context）；</span><br><span class="line">说明：Spring提供了多种应用上下文的具体实现————这些实现对应于不同的配置方式;</span><br><span class="line">参考：KnightMain.java</span><br><span class="line">    Ⅰ 加载配置文件到应用上下文实例中</span><br><span class="line">    Ⅱ 从应用上下文实例中获取到配置的指定bean</span><br><span class="line">    Ⅲ 调用bean的方法</span><br><span class="line">    Ⅳ 关闭上下文对象</span><br><span class="line"></span><br><span class="line">装配的过程是使用DI实现的——DI能够使各个组件保持松散耦合</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">3 专注于业务逻辑————分离出横切关注点（面向切面编程）</span><br><span class="line">常见的横切关注点（aka 大家都会用到的功能，最好能够单独提取出来。被所有方法复用）：</span><br><span class="line">    1 日志；</span><br><span class="line">    2 事务管理；</span><br><span class="line">    3 安全；</span><br><span class="line">手段：AOP；</span><br><span class="line">用法：</span><br><span class="line">    1 实现横切关注点；</span><br><span class="line">    2 以声明的方式添加关注点&#x2F;切面到指定连接点处；</span><br><span class="line">特征：</span><br><span class="line">    1 业务代码更加专注————代码中完全不需要处理任何的横切关注点；</span><br><span class="line">    2 横切关注点可以添加在多个方法&#x2F;连接点上；</span><br><span class="line">参考：</span><br><span class="line">    Minstrel 吟游诗人（一个POJO类）</span><br><span class="line">    BraveKnight 游侠骑士</span><br><span class="line">SOP:</span><br><span class="line">    1 把minstrel声明为一个切面；</span><br><span class="line">    参考：minstrel.xml</span><br><span class="line">        添加aop:aspect命名空间</span><br><span class="line">        添加bean到Spring管理</span><br><span class="line">        添加bean的切面相关信息：</span><br><span class="line">            切点（多个连接点）、前置通知、后置通知</span><br><span class="line">    特征：</span><br><span class="line">        1 Minstrel仍旧是一个POJO类；</span><br><span class="line">        2 在XML配置后，这个POJO类就成了Spring中的一个切面；</span><br><span class="line">        3 Minstrel与Knight之间没有任何相互调用的代码 aka 没有直接耦合</span><br><span class="line">        由于配置文件的存在，Knight与Minstrel组件之间被解除耦合了</span><br></pre></td></tr></table></figure>
-
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Spring简化java开发第4弹————消除样板(boilerplate)代码；</span><br><span class="line">手段：Spring内置的模板</span><br><span class="line">说明：尽管java APIs提供了统一的编程规范，但是它同样也产生了大量重复的boilerplate代码</span><br><span class="line">参考：使用java JDBC原生提供的APIs编写代码操作数据库 VS. 使用Spring提供的模板来操作数据库</span><br><span class="line">注：一般在项目中会直接集成第三方的框架（MyBatis等）</span><br></pre></td></tr></table></figure>
-
-<hr>
-<blockquote>
-<p> Spring容器</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Spring中的大管家：Spring容器</span><br><span class="line">作用：管理Spring中所有的bean对象（CRUD and more~）</span><br><span class="line">特征：</span><br><span class="line">    1 Spring容器借助DI管理bean之间的关系；</span><br><span class="line">    2 Spring提供的容器实现有两种大类：beanFactory（基础容器） VS. ApplicationContext（更高级的容器）</span><br></pre></td></tr></table></figure>
-
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Spring中应用上下文的具体实现：</span><br><span class="line">    说明：这些实现类的不同在于————加载应用上下文的方式不同</span><br><span class="line">    1 AnnotationConfigApplicationContext;   加载应用上下文的方式：java配置类</span><br><span class="line">    2 AnnotationConfigWebApplicationContext;    加载Web应用上下文？？？</span><br><span class="line">    3 ClassPathXmlApplicationContext;       加载应用上下文的方式：类路径中的xml配置文件</span><br><span class="line">    4 FileSystemXmlApplicationContext;      加载应用上下文的方式：文件系统中的xml配置文件</span><br><span class="line">    5 XmlWebApplicationContext;     加载应用上下文的方式：Web应用中的xml配置文件</span><br></pre></td></tr></table></figure>
-
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">获取到应用上下文实例之后，如何使用这个容器来管理bean的声明周期呢？</span><br><span class="line">Spring容器管理下bean生命周期（比较费劲）：</span><br><span class="line">    1 实例化；</span><br><span class="line">    2 填充属性&#x2F;初始化；</span><br><span class="line">    3 调用BeanNameAware的setBeanName()方法；</span><br><span class="line">    4 调用BeanFactoryAware的setBeanFactory()方法；</span><br><span class="line">    5 调用ApplicationContextAware的setApplicationContext()方法；</span><br><span class="line">    ---</span><br><span class="line">    6 调用BeanPostProcessor的预初始化方法；</span><br><span class="line">    7 调用InitializingBean的afterPropertiesSet()方法；</span><br><span class="line">    8 调用自定义的初始化方法；</span><br><span class="line">    9 调用BeanPostProcessor的后初始化方法；</span><br><span class="line">    --- bean能够正常使用了</span><br><span class="line">    10 容器关闭时，调用DisposableBean的destroy()方法</span><br><span class="line">    11 调用自定义的销毁方法</span><br><span class="line">    注：程序员还可以根据自己需要再添加新的生命阶段</span><br></pre></td></tr></table></figure>
-
-
-
-<p>源码备注：<a href="https://www.manning.com/books/spring-in-action-fourth-edition" target="_blank" rel="noopener">https://www.manning.com/books/spring-in-action-fourth-edition</a></p>
-<p>注：使用Gradle工具构建的项目，可能会踩一些莫名其妙的坑。这时候你需要了解一下Gradle的用法</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/05/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Spring的特征——面向切面" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/04/Spring%E7%9A%84%E7%89%B9%E5%BE%81%E2%80%94%E2%80%94%E9%9D%A2%E5%90%91%E5%88%87%E9%9D%A2/">Spring的特征——面向切面</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/04/Spring%E7%9A%84%E7%89%B9%E5%BE%81%E2%80%94%E2%80%94%E9%9D%A2%E5%90%91%E5%88%87%E9%9D%A2/" class="archive-article-date">
-  	<time datetime="2020-05-04T08:13:46.847Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="Spring的特征——面向切面"><a href="#Spring的特征——面向切面" class="headerlink" title="Spring的特征——面向切面"></a>Spring的特征——面向切面</h3><hr>
-<p>编程过程中的横切关注点：多个方法的公共需求</p>
-<p>任务：在业务代码/方法上，添加横切关注点所代表的功能；</p>
-<p>手段1：继承；</p>
-<p>手段2：委托；</p>
-<p>手段3：把公共的功能（横切关注点）处理成为一个切面类；</p>
-<hr>
-<p>用法SOP：</p>
-<ol>
-<li><p>定义通用的功能；</p>
-</li>
-<li><p>在某个地方声明此功能会被添加到什么地方；</p>
-<p>特征：</p>
-</li>
-</ol>
-<p>特征：</p>
-<pre><code>1. 多个横切关注点/通用功能能够放在一起管理——这会极大地节省程序员维护代码所用的时间；
- 2. 通用功能的代码不会混在逻辑代码中——这样逻辑代码会更易读；</code></pre><hr>
-<p>AOP相关的术语：</p>
-<p>通知（advice）：切面/横切关注点所表示的功能 &amp; 使用切面的时机；</p>
-<p>通知有好几种类型，这个请查词典</p>
-<p>连接点（Join point）：切面可以插入的代码位置 aka 程序运行的特定时刻；</p>
-<p>切点（PointCut）：指定通知所添加到的连接点的规则——通知会作用到哪一些连接点；</p>
-<p>切面（Aspect）：描述横切关注点的功能 &amp; 此功能发挥作用的时机 &amp; 应用此功能的地方； 切面 = 通知（what when） + 切点(where)</p>
-<p>引入（introduction）：向现有类添加新方法或属性的行为；</p>
-<p>织入（weaving）：把切面应用到目标对象，并创建新的代理对象的过程；</p>
-<p>切面类在指定的连接点被织入目标对象中；</p>
-<hr>
-<p>编译期：切面在目标类编译时就被织入。</p>
-<p>特征：这需要特殊的编译器。</p>
-<p>类加载期： 切面在目标类加载到JVM时被织入；</p>
-<p>特征：这需要特殊的类加载器；</p>
-<p>运行期：切面在应用运行的某个时刻被织入；</p>
-<p>特征：Spring AOP就是采用运行期织入的方式；</p>
-<hr>
-<p>Spring 对AOP的几种实现：</p>
-<p>1 POJO切面；</p>
-<p>把一个自定义的POJO类指定为切面类；</p>
-<p>特征：</p>
-<pre><code>1. POJO类只是定义了满足切点条件时会被调用的方法
- 2. 需要使用XML进行一些需要的配置；</code></pre><p>2 注解驱动的AOP；</p>
-<p>特征：这种方式不需要使用XML配置文件；</p>
-<hr>
-<p>关于Spring AOP框架的一些东西：</p>
-<p>1 Spring通知（what &amp; when）</p>
-<p>1.1 Spring框架创建的通知都是使用java类编写的；</p>
-<p>SO?</p>
-<pre><code>1. 可以像开发Java类一样来开发切面（开发AspectJ则需要学习新的内容）</code></pre><p>1.2 定义通知所应用到的切点（where）；</p>
-<p>手段1：使用注解；</p>
-<p>手段2：在Spring配置文件中使用XML编写；</p>
-<p>2 Spring是在运行时把切面织入到目标对象中的；</p>
-<p>原理：</p>
-<p>​    2.1 Spring会给目标对象创建一个代理对象——这个代理</p>
-<p>对象会使用切面包裹目标类（增强）</p>
-<p>​    2.2 当程序员调用目标类的方法时，代理类会对此方法的调用</p>
-<p>进行拦截，在真正执行目标对象的方法之前，先执行切面逻辑；</p>
-<p>3 Spring只支持方法级别的连接点 aka 在方法调用时，可以织入</p>
-<p>切面的方法增强</p>
-<p>原因：Spring是基于动态代理来实现的AOP，因此只能对方法调用进行拦截；</p>
-<hr>
-<p>定义切点：指定应用切面的位置（where） aka 那些个匹配切点规则的连接点</p>
-<p>手段：使用AspectJ的切点表达式；</p>
-<p>特征：Spring支持的AspectJ切点有限，只是xxx的一个子集；</p>
-<hr>
-<p>编写切点：</p>
-<p>该死，这一章既然没有源码…</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建一个用于织入切面的主题（主题上的各种方法操作都可以作为连接点）</span></span><br><span class="line"><span class="comment">// 表演类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Performance</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">perform</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">任务：在perform()方法被调用时，自动调用指定的通知（advice）</span><br><span class="line">手段：自定义一个切点表达式来声明规则；</span><br><span class="line">	execution(* concert.Performance.perform(..))</span><br><span class="line">    语法：AspectJ指示器(返回类型 方法所属的类.方法(连接点方法所使用的参数))</span><br><span class="line">    execution()指示器用来[what &amp; when]:匹配作为连接点的方法的执行操作；</span><br><span class="line">    * 表示不关心方法的返回值是啥</span><br><span class="line">    类全限定名.方法名(..) ..表示匹配任意入参的perform()方法</span><br></pre></td></tr></table></figure>
-
-
-
-<p>this is for now,这种复杂的规则不是用来记忆的，而是用来查询的。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/04/Spring%E7%9A%84%E7%89%B9%E5%BE%81%E2%80%94%E2%80%94%E9%9D%A2%E5%90%91%E5%88%87%E9%9D%A2/">展开全文 >></a>
         </p>
       
 

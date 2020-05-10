@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Hexo</title>
+  <title>Spring AOP第二谈（与AspectJ AOP的对比） | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/page/2/index.html">
+  <meta name="description" content="Spring AOP第二谈（与AspectJ AOP的对比）  1.AOP的实现方案123方案1：Spring AOP；方案2：AspectJ；特征：AspectJ提供了很多其他的切点类型（Spring AOP只能提供方法调用的切点类型）     2. 在创建对象时应用指定的通知12345需求：在创建对象时应用指定的通知；说明：创建对象需要调用Bean的构造器，但是Spring AOP无法指定这样">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring AOP第二谈（与AspectJ AOP的对比）">
+<meta property="og:url" content="http://yoursite.com/2020/05/11/Spring%20AOP%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%88%E4%B8%8EAspectJ%20AOP%E7%9A%84%E5%AF%B9%E6%AF%94%EF%BC%89/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Spring AOP第二谈（与AspectJ AOP的对比）  1.AOP的实现方案123方案1：Spring AOP；方案2：AspectJ；特征：AspectJ提供了很多其他的切点类型（Spring AOP只能提供方法调用的切点类型）     2. 在创建对象时应用指定的通知12345需求：在创建对象时应用指定的通知；说明：创建对象需要调用Bean的构造器，但是Spring AOP无法指定这样">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-10T16:26:00.038Z">
+<meta property="article:modified_time" content="2020-05-10T16:30:32.492Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -150,187 +154,178 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Spring AOP第二谈（与AspectJ AOP的对比）" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Spring AOP第二谈（与AspectJ AOP的对比）
+    </h1>
+  
+
+        
+        <a href="/2020/05/11/Spring%20AOP%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%88%E4%B8%8EAspectJ%20AOP%E7%9A%84%E5%AF%B9%E6%AF%94%EF%BC%89/" class="archive-article-date">
+  	<time datetime="2020-05-10T16:26:00.038Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-11</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Spring AOP第二谈（与AspectJ AOP的对比）</p>
+<hr>
+<h4 id="1-AOP的实现方案"><a href="#1-AOP的实现方案" class="headerlink" title="1.AOP的实现方案"></a>1.AOP的实现方案</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">方案1：Spring AOP；</span><br><span class="line">方案2：AspectJ；</span><br><span class="line">特征：AspectJ提供了很多其他的切点类型（Spring AOP只能提供方法调用的切点类型）</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h4 id="2-在创建对象时应用指定的通知"><a href="#2-在创建对象时应用指定的通知" class="headerlink" title="2. 在创建对象时应用指定的通知"></a>2. 在创建对象时应用指定的通知</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">需求：在创建对象时应用指定的通知；</span><br><span class="line">说明：创建对象需要调用Bean的构造器，但是Spring AOP无法指定这样的连接点&#x2F;切点类型</span><br><span class="line">为什么Spring AOP实现不了呢？</span><br><span class="line">答：因为它基于代理实现，只能做一些方法层面的操作；</span><br><span class="line">手段：使用AspectJ提供的AOP功能；</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h4 id="3-管理由AspectJ创建的切面bean所依赖的Spring组件"><a href="#3-管理由AspectJ创建的切面bean所依赖的Spring组件" class="headerlink" title="3. 管理由AspectJ创建的切面bean所依赖的Spring组件"></a>3. 管理由AspectJ创建的切面bean所依赖的Spring组件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">说明：一个通知方法可能需要依赖其他的类来实现功能。</span><br><span class="line">需求：管理通知方法所依赖的其他类</span><br><span class="line">手段：把通知方法所依赖的Bean注入到切面类中</span><br><span class="line"></span><br><span class="line">--</span><br><span class="line">需求：为演出创建一个评论员的角色；</span><br><span class="line">功能：观看演出，并在观看完成后提出一些批评意见</span><br><span class="line">参考：CriticAspect + CriticismEngine + CriticismEngineImpl + bean_declare_xmlconfig</span><br><span class="line">特征：</span><br><span class="line">    1 AspectJ切面不需要Spring就可以织入到我们的应用中;</span><br><span class="line">    2 但是如果想要使用Spring来管理AspectJ的一些个依赖，就需要把AspectJ切面来声明成一个Spring bean</span><br><span class="line">    参考：bean_declare_xmlconfig.xml</span><br><span class="line">    3 AspectJ切面bean不是Spring容器创建的，而是AspectJ在运行时创建的；</span><br><span class="line">    4 为了能够在Spring中获取到AspectJ切面的实例，需要调用切面类的aspectOf()方法————此方法返回切面类的一个单例</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="4-AOP小结"><a href="#4-AOP小结" class="headerlink" title="4.AOP小结"></a>4.AOP小结</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">------</span><br><span class="line">AOP：</span><br><span class="line">是：一种编程方式；</span><br><span class="line">作用：把分散在应用各处的行为集中在一个模块中（方便管理），并作为重用模块（方便引用）</span><br><span class="line">特征：</span><br><span class="line">    1 使程序员编写的类更加简洁、准确；</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">需求：支持AOP形式的编程风格；</span><br><span class="line">Spring提供的手段：Spring AOP；</span><br><span class="line">原理：</span><br><span class="line">    在程序员进行必要的操作后，Spring AOP会创建一个代理类，在代理类中把切面插入到目标方法执行的周围；</span><br><span class="line">必要的操作：</span><br><span class="line">    1 程序员通过自定义切面来声明预期插入到目标类&#x2F;方法中的功能；</span><br><span class="line">    2 程序员通过编写切点表达式来声明应用切面中的通知；</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">应用：</span><br><span class="line">    1 把通知织入&#x2F;应用前置、后置和环绕方法的调用中；</span><br><span class="line">    2 为异常处理添加自定义的行为————抛出异常时的通知方法；</span><br><span class="line">    3 与DI一起，支持程序员创建松散耦合的应用</span><br><span class="line">用法SOP:</span><br><span class="line">    1 声明切面类；</span><br><span class="line">    2 配置切面类中的通知方法（when + where + what）</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/" class="archive-article-date">
-  	<time datetime="2020-05-04T17:04:35.734Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/">Spring初体验</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/11/Spring%20AOP%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%88%E4%B8%8EAspectJ%20AOP%E7%9A%84%E5%AF%B9%E6%AF%94%EF%BC%89/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/04/Spring%E7%9A%84%E7%89%B9%E5%BE%81%E2%80%94%E2%80%94%E9%9D%A2%E5%90%91%E5%88%87%E9%9D%A2/" class="archive-article-date">
-  	<time datetime="2020-05-04T08:13:46.847Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-04</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/05/11/SpringAOP%E7%AC%AC%E4%B8%80%E8%B0%88%EF%BC%88%E6%9C%AF%E8%AF%AD%20&%20SOP%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">SpringAOP第一谈（术语 &amp; SOP）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/04/Spring%E7%9A%84%E7%89%B9%E5%BE%81%E2%80%94%E2%80%94%E9%9D%A2%E5%90%91%E5%88%87%E9%9D%A2/">Spring的特征——面向切面</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/04/drill01/" class="archive-article-date">
-  	<time datetime="2020-05-04T00:59:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/04/drill01/">drill01</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/03/%E6%88%91%E7%9A%84%E7%AC%AC%E4%BA%8C%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-05-03T14:59:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/03/%E6%88%91%E7%9A%84%E7%AC%AC%E4%BA%8C%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/">我的第二篇博客文章</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/12/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-04-12T13:03:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/12/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/">我的第一篇博客文章</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/12/hello-world/" class="archive-article-date">
-  	<time datetime="2020-04-12T12:54:03.360Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/12/hello-world/">Hello World</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/">&amp;laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
-    </nav>
   
 
 
@@ -354,8 +349,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
