@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2020 | Hexo</title>
+  <title>Spring Web应用第一谈（请求处理的中枢DispatcherServlet） | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/2020/page/2/index.html">
+  <meta name="description" content="Spring Web应用第一谈（请求处理的中枢DispatcherServlet）  1234567Web应用？是：一个能够提供CURD功能的程序；作用：为用户提供服务；特征：	1 用户通过浏览器来访问应用中的功能；	2 程序需要运行在一个Web容器中（这样它才能被用户访问到）；	3 用户不需要安装任何东西，他只需要一个能够访问网络的浏览器；    1.SpringMVC框架对一个URL请求的处理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Web应用第一谈（请求处理的中枢DispatcherServlet）">
+<meta property="og:url" content="http://yoursite.com/2020/05/17/Spring%20Web%E5%BA%94%E7%94%A8%E7%AC%AC%E4%B8%80%E8%B0%88%EF%BC%88%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E7%9A%84%E4%B8%AD%E6%9E%A2DispatcherServlet%EF%BC%89/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Spring Web应用第一谈（请求处理的中枢DispatcherServlet）  1234567Web应用？是：一个能够提供CURD功能的程序；作用：为用户提供服务；特征：	1 用户通过浏览器来访问应用中的功能；	2 程序需要运行在一个Web容器中（这样它才能被用户访问到）；	3 用户不需要安装任何东西，他只需要一个能够访问网络的浏览器；    1.SpringMVC框架对一个URL请求的处理">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-17T15:29:34.973Z">
+<meta property="article:modified_time" content="2020-05-17T16:08:21.398Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -150,214 +154,218 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Spring Web应用第一谈（请求处理的中枢DispatcherServlet）" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Spring Web应用第一谈（请求处理的中枢DispatcherServlet）
+    </h1>
+  
+
+        
+        <a href="/2020/05/17/Spring%20Web%E5%BA%94%E7%94%A8%E7%AC%AC%E4%B8%80%E8%B0%88%EF%BC%88%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E7%9A%84%E4%B8%AD%E6%9E%A2DispatcherServlet%EF%BC%89/" class="archive-article-date">
+  	<time datetime="2020-05-17T15:29:34.973Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-17</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Spring Web应用第一谈（请求处理的中枢DispatcherServlet）</p>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Web应用？</span><br><span class="line">是：一个能够提供CURD功能的程序；</span><br><span class="line">作用：为用户提供服务；</span><br><span class="line">特征：</span><br><span class="line">	1 用户通过浏览器来访问应用中的功能；</span><br><span class="line">	2 程序需要运行在一个Web容器中（这样它才能被用户访问到）；</span><br><span class="line">	3 用户不需要安装任何东西，他只需要一个能够访问网络的浏览器；</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="1-SpringMVC框架对一个URL请求的处理流程"><a href="#1-SpringMVC框架对一个URL请求的处理流程" class="headerlink" title="1.SpringMVC框架对一个URL请求的处理流程"></a>1.SpringMVC框架对一个URL请求的处理流程</h4><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">SpringMVC处理URL请求的流程：</span><br><span class="line">1 请求发送给DispatcherServlet；</span><br><span class="line">	作用：DS作为一个前端控制器，把请求委托给应用程序的其他组件</span><br><span class="line">2 DispatcherServlet查询处理器映射（Handler Mapping）来确定把请求发送给哪一个映射器(Hanlder)进行处理；</span><br><span class="line">	</span><br><span class="line">3 根据查询的结果，DS把请求发送给指定的映射器(Handler)</span><br><span class="line"></span><br><span class="line">4 控制器把处理后的model数据与视图名称(View)发送给DS；</span><br><span class="line"></span><br><span class="line">5 DispatcherServlet使用视图解析器（ViewResolver）来通过视图名称找到对应的视图文件；</span><br><span class="line"></span><br><span class="line">6 DS把model渲染到视图文件中，并最终返回到用户浏览器上;</span><br></pre></td></tr></table></figure>
+
+<h5 id="Q1-不就是处理个请求吗？不应该最多两步吗？SpringMVC怎么一下搞了这么多有的没的，设计者是咋想的？-○´･д･-ﾉ"><a href="#Q1-不就是处理个请求吗？不应该最多两步吗？SpringMVC怎么一下搞了这么多有的没的，设计者是咋想的？-○´･д･-ﾉ" class="headerlink" title="#Q1 不就是处理个请求吗？不应该最多两步吗？SpringMVC怎么一下搞了这么多有的没的，设计者是咋想的？(○´･д･)ﾉ"></a>#Q1 不就是处理个请求吗？不应该最多两步吗？SpringMVC怎么一下搞了这么多有的没的，设计者是咋想的？(○´･д･)ﾉ</h5><h5 id="A1-DS其实在这个过程中，相当于是一个前端控制器。作用就是委托请求，有点子想Nginx"><a href="#A1-DS其实在这个过程中，相当于是一个前端控制器。作用就是委托请求，有点子想Nginx" class="headerlink" title="#A1 DS其实在这个过程中，相当于是一个前端控制器。作用就是委托请求，有点子想Nginx"></a>#A1 DS其实在这个过程中，相当于是一个前端控制器。作用就是委托请求，有点子想Nginx</h5><p>配张图，描述整个过程：</p>
+<p>​    Web 请求 —&gt; DispatcherServlet - (!@#$%^)</p>
+<hr>
+<h4 id="2-创建SpringMVC的请求处理系统"><a href="#2-创建SpringMVC的请求处理系统" class="headerlink" title="2.创建SpringMVC的请求处理系统"></a>2.创建SpringMVC的请求处理系统</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">--</span><br><span class="line">1 配置DispatcherServlet；</span><br><span class="line">作用：把URL请求路由到具体的Spring组件中；</span><br><span class="line">手段1：在web.xml中对DS进行配置</span><br><span class="line">手段2：使用java类对DS进行配置（aka 在Servlet容器中声明前端控制器）</span><br><span class="line">参考：HelloWorldInitializer.java</span><br><span class="line"></span><br><span class="line">--</span><br><span class="line">2 启用SpringMVC,并添加视图解析器的配置</span><br><span class="line">手段：添加注解@EnableWebMvc</span><br><span class="line">参考：WebConfig.java</span><br><span class="line"></span><br><span class="line">3 创建管理其他非Web组件的上下文contextLoaderListener</span><br><span class="line">参考：RootConfig.java</span><br><span class="line"></span><br><span class="line">注：RootConfig先于WebConfig执行，所以：</span><br><span class="line">	1 预期交给WebConfig管理的组件需要在RootConfig中过滤掉；</span><br><span class="line">	2 WebConfig中的Bean所依赖的组件可以在RootConfig中先行声明；</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">说明：直接导入书上的源码到IDEA中运行会各种报错（百度无果的报错）；</span><br><span class="line">最终按照外网上的一个教程，搭建Web项目运行成功。</span><br><span class="line">参考链接：http:&#x2F;&#x2F;websystique.com&#x2F;springmvc&#x2F;spring-4-mvc-helloworld-tutorial-annotation-javaconfig-full-example&#x2F;</span><br><span class="line"></span><br><span class="line">然后按照Spring实战书上的代码对项目进行更新，发现书上的代码是可以工作的。</span><br><span class="line">踩坑报错：xxx</span><br><span class="line">原因：一般测试某种手段是否可行时，我都会把原有文件拷贝一份，命名为xxx_backup.java。这样才测试方案不可行时能够快速恢复到初始状态。</span><br><span class="line">但是对Controller类来说，这种做法会导致URL的歧义性</span><br><span class="line">参考:Servlet规范_05(本地文件 如何引用？)</span><br><span class="line">引用：既然应用的上下文路径决定了Web应用中内容的URL命名空间，Web容器必须要拒绝web应用定义一个在此URL命名空间中可能导致冲突的上下文路径</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="2-1-按照控制器的方式来对控制器进行测试"><a href="#2-1-按照控制器的方式来对控制器进行测试" class="headerlink" title="2.1 按照控制器的方式来对控制器进行测试"></a>2.1 按照控制器的方式来对控制器进行测试</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">需求：按照控制器的方式来测试控制器：</span><br><span class="line">SOP：</span><br><span class="line">    1 创建控制器对象；</span><br><span class="line">    手段：new</span><br><span class="line">    2 创建SpringMvc mock对象；</span><br><span class="line">    手段：standaloneSetup(xxx).build()		这是Spring框架test模块中的一个静态方法</span><br><span class="line">    3 使用mock对象发起请求并验证响应结果；</span><br><span class="line">    手段：perform()方法[执行] + andExcept()方法[断言预期结果]		同样是test框架提供的方法</span><br><span class="line">特征：不需要启动Tomcat就能能够对控制器进行测试；</span><br><span class="line">参考：HomeControllerTest.java</span><br><span class="line">结果：报错“java.lang.NoSuchMethodError: org.springframework.util.StreamUtils.emptyInput()Ljava&#x2F;io&#x2F;InputStream;”</span><br><span class="line">解决参考：https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_30487317&#x2F;article&#x2F;details&#x2F;95601425</span><br><span class="line">原因：test的版本与spring-mvc版本不一致</span><br><span class="line">解决手段：test的版本参考spring-mvc的版本</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="2-2-把模型数据传递到视图中"><a href="#2-2-把模型数据传递到视图中" class="headerlink" title="2.2 把模型数据传递到视图中"></a>2.2 把模型数据传递到视图中</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">需求：把模型数据传递到视图中</span><br><span class="line">SOP:</span><br><span class="line">    1 定义用来与数据库交互的接口SpittleRepository；</span><br><span class="line">    2 定义域数据表对应的实体类Spittle；</span><br><span class="line">    3 编写针对于新的Controller控制器的测试类；</span><br><span class="line">    参考：SpittleControllerTest.java</span><br><span class="line">    4 编写新的控制器Controller</span><br><span class="line">为什么先编写测试类，后编写控制器？？？😳</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">编写完成后，重启Tomcat时，项目启动失败；</span><br><span class="line">报错：找不到指定的bean；</span><br><span class="line">原因：</span><br><span class="line">    原理：</span><br><span class="line">    Spring对不同类型的组件，创建的时机会不一样；</span><br><span class="line">        1 对于Web相关的组件（aka 控制器对象），由DispatcherServlet所创建的上下文(WebConfig)管理；</span><br><span class="line">        2 其他类型的组件（比如dao层的对象），由ContextLoaderListener所创建的上下文（RootConfig）进行管理；</span><br><span class="line">        3 RootConfig先于WebConfig执行，它服务于整个项目；</span><br><span class="line">    具体原因：</span><br><span class="line">        在RootConfig扫描的时候就扫描到controller中的类：</span><br><span class="line">            1 bean初始化就要找自动装填的 实现SpitterRepository接口的对象(A)，</span><br><span class="line">            2 但我把A放在WebConfig里了，环境中找不到这个Bean，于是报错。</span><br><span class="line">        所以我在RootConfig中的ComponentScan里添加了过滤，不扫描spittr.web，这样controller中的bean就不会在NoSuchBean的情况下提前初始化了，启动成功。</span><br><span class="line">    同样的原因，SpittleRepository的声明应该放在RootConfig中，否则控制器初始化时也会找不到依赖Bean而报错</span><br><span class="line">参考：https:&#x2F;&#x2F;blog.csdn.net&#x2F;q5738415&#x2F;article&#x2F;details&#x2F;78197508</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">这里虽然有dao层的执行方法，但是却并没有配置数据库。它是怎么实现的呢？</span><br><span class="line">... to be continue ...</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="2-3-向控制器方法发送请求时携带参数"><a href="#2-3-向控制器方法发送请求时携带参数" class="headerlink" title="2.3 向控制器方法发送请求时携带参数"></a>2.3 向控制器方法发送请求时携带参数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">需求：向控制器发送请求时携带参数；</span><br><span class="line">参数类型（按功能分类）：</span><br><span class="line">    1 查询参数；</span><br><span class="line">    2 表单参数；</span><br><span class="line">    3 路径变量；</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">--</span><br><span class="line">1 控制器接收查询参数： &#x2F;spittles&#x2F;show?spittle_id&#x3D;12345</span><br><span class="line">需求：分页列表展示xxx</span><br><span class="line">手段：调用控制器方法时，传入两个参数————页面中第一个xxx的ID + 页面中xxx的总条数；</span><br><span class="line">    before参数：当前页面xxx列表的左边界；</span><br><span class="line">    count参数：当前页面中要包含的xxx数量</span><br><span class="line">实现方法： com.websystique.springmvc.controller.SpittleController.spittles()方法</span><br><span class="line">测试:shouldShowPagedSpittles()</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">--</span><br><span class="line">2 控制器接收路径参数：&#x2F;spittles&#x2F;12345</span><br><span class="line">特征：</span><br><span class="line">    1 这种描述方式更加面向资源：12345就是要查询的资源</span><br><span class="line">    2 查询参数的描述方式表示：这是一个带有参数的操作；（通过HTTP发起的RPC）</span><br><span class="line">-</span><br><span class="line">先编写测试方法：</span><br><span class="line">参考：testSpittle()</span><br><span class="line">测试方法fail？？？</span><br><span class="line"></span><br><span class="line">项目访问URL：失败400</span><br><span class="line">这都是因为热部署延迟 😳</span><br><span class="line"></span><br><span class="line">-</span><br><span class="line">进入方法后，跳转视图页面时。报错404...</span><br><span class="line">&#x2F;spring_mvc&#x2F;spittles&#x2F;WEB-INF&#x2F;views&#x2F;spittle.jsp</span><br><span class="line">在其他的控制器方法中都可以正常跳转，为什么这个方法就不行？</span><br><span class="line">原因：在配置视图解析器时，没有添加前缀&#x2F;</span><br><span class="line">参考：https:&#x2F;&#x2F;blog.csdn.net&#x2F;xujin_chen&#x2F;article&#x2F;details&#x2F;53557463</span><br><span class="line">原理：不晓得😵[又是半夜无眠]</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="2-4-向控制器方法发送请求时携带表单参数"><a href="#2-4-向控制器方法发送请求时携带表单参数" class="headerlink" title="2.4 向控制器方法发送请求时携带表单参数"></a>2.4 向控制器方法发送请求时携带表单参数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">需求：向控制器发送请求时携带表单数据；</span><br><span class="line">实现手段：</span><br><span class="line">    1 处理用户通过表单提交的数据；</span><br><span class="line">    参考：showRegistrationForm()方法</span><br><span class="line">    完整流程SOP:</span><br><span class="line">        1 编写控制器方法的测试方法：SpitterController.showRegistrationForm()</span><br><span class="line">        2 编写视图文件；registerForm.jsp</span><br><span class="line">        3 编写表单提交到的控制器方法 aka 保存表单的控制器方法；SpitterController.processRegistration</span><br><span class="line">        4 编写保存表单的方法的测试方法：shouldProcessRegistration()</span><br><span class="line">        5 编写保存表单后所跳转到的控制器方法；  showSpitterProfile()</span><br><span class="line">        6 编写控制器方法跳转到的对应页面：profile.jsp</span><br><span class="line">访问链接：http:&#x2F;&#x2F;localhost:8088&#x2F;spring_mvc&#x2F;spitter&#x2F;jbauer</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="2-5-对表单中的字段值进行校验"><a href="#2-5-对表单中的字段值进行校验" class="headerlink" title="2.5 对表单中的字段值进行校验"></a>2.5 对表单中的字段值进行校验</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">需求：对表单中的字段值进行校验；</span><br><span class="line">校验类型：</span><br><span class="line">    1 字段值不能为空；</span><br><span class="line">    2 字段值的长度不能超过指定边界；</span><br><span class="line">手段1：在控制方法中对用户提交的表单字段进行逐一验证；</span><br><span class="line">手段2：java校验API接口（SpringMVC框架支持此接口）；</span><br><span class="line">具体方法SOP：</span><br><span class="line">    1 在类路径下包含Java校验API接口的具体实现（比如Hibernate Validator）：</span><br><span class="line">        手段：引用jar包</span><br><span class="line">    2 在java类的属性上添加所需要的注解；</span><br><span class="line">        手段：@NotNull、@Size</span><br><span class="line">    3 在控制器方法中启用校验功能；</span><br><span class="line">        手段：为方法的POJO类型参数添加 @Valid 注解————通知Spring对此参数进行校验；</span><br><span class="line">    4 在控制器方法中处理校验未通过的错误</span><br><span class="line">        手段：使用Errors对象来获取到校验失败的具体信息；</span><br><span class="line">特征：</span><br><span class="line">    1 即便校验没有通过，用户仍旧能够提交表单。aka 控制器方法仍旧会被调用</span><br><span class="line">    2 为了使Errors对象能够获取到校验失败的信息，需要让Errors参数紧跟在@Valid注解的参数后面</span><br><span class="line">    3 在控制器方法中，第一步就应该查看是否出现校验错误————如果校验有错，后面的逻辑就不用再执行了</span><br><span class="line">参考：SpitterController.processRegistration()</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="2-6-java校验API"><a href="#2-6-java校验API" class="headerlink" title="2.6 java校验API"></a>2.6 java校验API</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Java校验API：</span><br><span class="line">作用：对Java类的属性进行校验；</span><br><span class="line">手段：提供多个用于特定校验规则的注解；</span><br><span class="line">用法：把特定的注解放到属性上，就能够限制属性的值。</span><br><span class="line">特征：所有的这些个注解都在javax.validation.constraints包中提供；</span><br><span class="line">常用的校验注解：</span><br><span class="line">    @NotNull：限制被注解的属性的值不能为null</span><br><span class="line">    @Size：限制被注解的属性的值必须是String、数组或者集合，并且长度要符合给定的范围；</span><br><span class="line">参考：Spitter类 （这是Spittr应用的用户）</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="3-额外收获"><a href="#3-额外收获" class="headerlink" title="3.额外收获"></a>3.额外收获</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">有趣的点：</span><br><span class="line">    1 SpitterRepository接口的实现类是在WebConfig中配置Bean的时候实现的：</span><br><span class="line">        如果没提供这个实现类。创建Controller时注入依赖就会失败</span><br><span class="line">    2 这里的save()方法并没有把值存储到数据库中，而是添加到一个map对象中。</span><br><span class="line">        尽管对象会在每次重启JVM时消失，但是作为一个容器，它是可以当成临时数据库来使用的</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">小结：</span><br><span class="line">大需求：编写应用程序的Web部分；</span><br><span class="line">手段：使用SpringMVC框架（这是Spring框架的一个模块）；</span><br><span class="line">特征：</span><br><span class="line">    1 这种开发方式几乎就是在写POJO类；</span><br><span class="line">    2 编写控制器方法与编写普通java方法无异，唯一的区别在于————你要想办法让方法能够接收到页面发来的参数</span><br><span class="line">    3 SpringMVC编写的控制器非常容易测试；</span><br><span class="line">    手段：Mockito框架 + Spring test模块</span><br><span class="line">NexT？</span><br><span class="line">Spring视图相关的一堆东西</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/Spring%E4%B8%AD%E7%9A%84Bean%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D/" class="archive-article-date">
-  	<time datetime="2020-05-05T07:24:47.068Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/Spring%E4%B8%AD%E7%9A%84Bean%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D/">Spring中的Bean创建&amp;装配</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/17/Spring%20Web%E5%BA%94%E7%94%A8%E7%AC%AC%E4%B8%80%E8%B0%88%EF%BC%88%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E7%9A%84%E4%B8%AD%E6%9E%A2DispatcherServlet%EF%BC%89/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/" class="archive-article-date">
-  	<time datetime="2020-05-04T17:04:35.734Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/05/11/Spring%20AOP%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%88%E4%B8%8EAspectJ%20AOP%E7%9A%84%E5%AF%B9%E6%AF%94%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Spring AOP第二谈（与AspectJ AOP的对比）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/">Spring初体验</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/04/Spring%E7%9A%84%E7%89%B9%E5%BE%81%E2%80%94%E2%80%94%E9%9D%A2%E5%90%91%E5%88%87%E9%9D%A2/" class="archive-article-date">
-  	<time datetime="2020-05-04T08:13:46.847Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/04/Spring%E7%9A%84%E7%89%B9%E5%BE%81%E2%80%94%E2%80%94%E9%9D%A2%E5%90%91%E5%88%87%E9%9D%A2/">Spring的特征——面向切面</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/04/drill01/" class="archive-article-date">
-  	<time datetime="2020-05-04T00:59:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/04/drill01/">drill01</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/03/%E6%88%91%E7%9A%84%E7%AC%AC%E4%BA%8C%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-05-03T14:59:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/03/%E6%88%91%E7%9A%84%E7%AC%AC%E4%BA%8C%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/">我的第二篇博客文章</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/12/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-04-12T13:03:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/12/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/">我的第一篇博客文章</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/12/hello-world/" class="archive-article-date">
-  	<time datetime="2020-04-12T12:54:03.360Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/12/hello-world/">Hello World</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2020/">&amp;laquo; Prev</a><a class="page-number" href="/archives/2020/">1</a><span class="page-number current">2</span>
-    </nav>
   
 
 
@@ -381,8 +389,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
