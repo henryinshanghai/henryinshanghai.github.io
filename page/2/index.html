@@ -152,6 +152,194 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-更高级的bean装配第四谈" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E5%9B%9B%E8%B0%88/">更高级的bean装配第四谈</a>
+    </h1>
+  
+
+        
+        <a href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E5%9B%9B%E8%B0%88/" class="archive-article-date">
+  	<time datetime="2020-05-05T14:19:28.147Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>更高级的bean装配第四谈</p>
+<hr>
+<h4 id="Spring中bean实例的作用域"><a href="#Spring中bean实例的作用域" class="headerlink" title="Spring中bean实例的作用域"></a>Spring中bean实例的作用域</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">说明：Spring应用上下文中的bean默认都是单例的；</span><br><span class="line">单例：一个类就只会创建一个bean实例；</span><br><span class="line">特征：</span><br><span class="line">    1 bean实例没有状态，对所有的其他bean都是一样的；</span><br><span class="line">    2 能够在应用中反复使用；</span><br></pre></td></tr></table></figure>
+
+<p>pickle：如果对象需要保持自己的状态，这时候再反复重用就行不通了（单例作用域也就不适用了）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">解决手段：</span><br><span class="line">Spring为bean实例提供了多种作用域；</span><br><span class="line">    1 单例：整个应用中，就只有一个bean实例；[这是默认的作用域]</span><br><span class="line">    2 原型：</span><br><span class="line">        01 每次注入&#x2F;装配时，</span><br><span class="line">        02 每次通过Spring容器获取时，都会创建一个新的bean实例</span><br><span class="line">    3 会话：</span><br><span class="line">        为web应用中的每一个会话创建一个bean实例；</span><br><span class="line">        特征：适用于购物车需求</span><br><span class="line">    4 请求：</span><br><span class="line">        在Web应用中，为每个请求创建一个bean实例；</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">需求：在配置Bean时，手动指定bean实例的作用域；</span><br><span class="line">手段：使用@Scope注解声明bean实例的作用域</span><br><span class="line">参见：Notepad.java</span><br><span class="line">    &#x2F;&#x2F; 获取可配置的bean工厂的静态常量xxx作为注解的参数</span><br><span class="line">    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE) &#x2F;&#x2F; 手动指定bean实例的作用域</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">需求：Web应用中的购物车；</span><br><span class="line">参考：ShoppingCart.java</span><br><span class="line">作用：每个会话中，只会有一个购物车实例；</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">需求：把会话&#x2F;请求作用域的bean注入到单例bean中；</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 单例Bean</span><br><span class="line">	... &#x2F;&#x2F; 装配&#x2F;注入一个会话域的bean作为参数</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 会话作用域的Bean</span><br><span class="line">@Scope(value&#x3D;WebApplicationContext.SCOPE_SESSION, proxyMode&#x3D;ScopedProxyMode.INTERFACES)</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h5 id="pickle-one"><a href="#pickle-one" class="headerlink" title="pickle one:"></a>pickle one:</h5><p>1 storeService是一个单例的bean实例——它会在Spring应用上下文被加载的时候创建；<br>2 在创建1中的bean实例时，Spring会尝试把ShoppingCart bean实例注入到方法中。但是此时shoppingCart bean实例还不存在<br>说明：会话作用域的bean实例在用户登录系统创建了会话之后才会创建；</p>
+<hr>
+<h5 id="pickle-two"><a href="#pickle-two" class="headerlink" title="pickle two:"></a>pickle two:</h5><p>3 应用中会包含多个shoppingCart的Bean实例，注入setter方法的时候。使用任何一个具体的bean都不好</p>
+<h4 id="Spring给出的解决方案：proxyMode属性"><a href="#Spring给出的解决方案：proxyMode属性" class="headerlink" title="Spring给出的解决方案：proxyMode属性"></a>Spring给出的解决方案：proxyMode属性</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">原理：不装配&#x2F;注入某个具体的bean实例，而是注入一个bean的代理；</span><br><span class="line">特征：</span><br><span class="line">        1 客户端可以无差别地像使用目标对象一样使用代理</span><br><span class="line">        2 当调用shoppingCart的方法时，代理会对此调用进行懒加载</span><br><span class="line">        3 代理会把调用委托给会话作用域中真正的bean</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p>proxyMode语义说明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">proxyMode&#x3D;ScopedProxyMode.INTERFACES</span><br><span class="line">语义：声明代理需要实现xxx接口； 基于xxx接口的代理</span><br><span class="line">这里的xxx就是方法的返回值</span><br></pre></td></tr></table></figure>
+
+<p>如果方法的返回值不是接口类型，而是具体类型呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">手段：以生成目标类扩展的方式创建代理；</span><br><span class="line">具体方法：ScopedProxyMode.TARGET_CLASS</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>ProxyMode是如何解决上面的pickle one + two的？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pickle1：进行注入时，购物车的bean实例还不存在；</span><br><span class="line">解决手段：对方法调用进行懒解析，从而延迟注入的操作</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pickle2：注入bean时，不应该注入具体的bean。而应该注入当前会话中的bean实例</span><br><span class="line">解决手段：不是注入具体的bean实例，而是注入一个代理对象</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="XML的替换方案"><a href="#XML的替换方案" class="headerlink" title="XML的替换方案"></a>XML的替换方案</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">使用xml来配置会话作用域&#x2F;请求作用域的bean：</span><br><span class="line">1 配置bean为会话作用域；</span><br><span class="line">手段：bean元素的scope属性；</span><br><span class="line">2 如何设置代理模式呢？</span><br><span class="line">手段：Spring aop命名空间的&lt;aop:scoped-proxy&gt;元素</span><br><span class="line">作用：告诉Spring为bean创建一个作用域代理；</span><br><span class="line">特征：</span><br><span class="line">    1 默认情况下会使用CGLib来创建目标类的代理；</span><br><span class="line">    2 通过添加proxy-target-class&#x3D;false，可以指定Spring生成基于接口的代理；</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E5%9B%9B%E8%B0%88/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-更高级的bean装配第三谈" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%B8%89%E8%B0%88/">更高级的bean装配第三谈</a>
+    </h1>
+  
+
+        
+        <a href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%B8%89%E8%B0%88/" class="archive-article-date">
+  	<time datetime="2020-05-05T14:07:08.807Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>更高级的bean装配第三谈</p>
+<hr>
+<p>自动装配面临的问题：进行装配时，如果有多个bean实例满足需求，装配进来哪一个呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">场景：</span><br><span class="line">自动装配一个setter()方法，装配进一个接口类型的参数；</span><br><span class="line">该接口类型有多个实现类；</span><br><span class="line">所有的实现类都添加了@Component注解；</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">说明：注入Bean时出现歧义的情况是非常罕见的；</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="当出现多个满足需求的bean实例时，可以有下面这些个解决方案："><a href="#当出现多个满足需求的bean实例时，可以有下面这些个解决方案：" class="headerlink" title="当出现多个满足需求的bean实例时，可以有下面这些个解决方案："></a>当出现多个满足需求的bean实例时，可以有下面这些个解决方案：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">手段1 标志出首选的bean</span><br><span class="line">具体方法：使用@Primary注解标识一个指定的bean</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">手段2：使用Spring提供的限定符@Qualifier(&quot;bean id&quot;)</span><br><span class="line">特征：</span><br><span class="line">    1 能够把满足条件的bean限定到只有一个</span><br><span class="line">    2 依赖于String类型的参数，所以无法应对Bean的类名被重构的情况</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">手段3：创建并使用自定义的限定符注解</span><br><span class="line">特征：</span><br><span class="line">    1 在注入依赖的位置，可以使用多个自定义的限定符————把目标Bean的可选范围缩小到1个</span><br><span class="line">    2 不再显式指定依赖关系，而是使用自定义的特性限定符来指定；</span><br><span class="line">    3 setter()方法与具体的Dessert实现进行解耦；</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%B8%89%E8%B0%88/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-更高级的Bean装配第二谈" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -850,138 +1038,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/05/04/drill01/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-我的第二篇博客文章" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/03/%E6%88%91%E7%9A%84%E7%AC%AC%E4%BA%8C%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/">我的第二篇博客文章</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/03/%E6%88%91%E7%9A%84%E7%AC%AC%E4%BA%8C%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-05-03T14:59:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="第一章"><a href="#第一章" class="headerlink" title="第一章"></a>第一章</h2><p>内容</p>
-<hr>
-<h2 id="第二章"><a href="#第二章" class="headerlink" title="第二章"></a>第二章</h2><p>内容</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/03/%E6%88%91%E7%9A%84%E7%AC%AC%E4%BA%8C%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-我的第一篇博客文章" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/12/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/">我的第一篇博客文章</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/12/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-04-12T13:03:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="第一章"><a href="#第一章" class="headerlink" title="第一章"></a>第一章</h2><p>内容</p>
-<hr>
-<h2 id="第二章"><a href="#第二章" class="headerlink" title="第二章"></a>第二章</h2><p>内容</p>
-<hr>
-<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="http://www.codepig.cn" target="_blank" rel="noopener">www.codepig.cn</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/12/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/">展开全文 >></a>
         </p>
       
 
