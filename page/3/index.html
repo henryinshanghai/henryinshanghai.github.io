@@ -6,22 +6,15 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>算法/链表/对链表进行翻转_02 | Hexo</title>
+  <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="对链表进行翻转    分析:  节点翻转示意图 1 既然是要翻转链表，那每个节点的连接方向都会发生变化； 2 每个节点都只能有一个连接。当它指向自己的前一个节点时，它就不能再指向自己的下一个节点； 3 需要处理链表中的每一个节点，但是根据2可知，节点连接方向改变后，无法再沿着链表获取到下一个节点； 解决手段：在改变节点的连接方向之前，使用一个临时变量保存当前节点的下一个节点；  实现SOP  1">
-<meta property="og:type" content="article">
-<meta property="og:title" content="算法&#x2F;链表&#x2F;对链表进行翻转_02">
-<meta property="og:url" content="http://yoursite.com/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%AF%B9%E9%93%BE%E8%A1%A8%E8%BF%9B%E8%A1%8C%E7%BF%BB%E8%BD%AC_02/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/page/3/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="对链表进行翻转    分析:  节点翻转示意图 1 既然是要翻转链表，那每个节点的连接方向都会发生变化； 2 每个节点都只能有一个连接。当它指向自己的前一个节点时，它就不能再指向自己的下一个节点； 3 需要处理链表中的每一个节点，但是根据2可知，节点连接方向改变后，无法再沿着链表获取到下一个节点； 解决手段：在改变节点的连接方向之前，使用一个临时变量保存当前节点的下一个节点；  实现SOP  1">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://s1.ax1x.com/2020/08/11/aLKOne.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/08/11/aL1MgP.md.jpg">
-<meta property="article:published_time" content="2020-08-11T03:58:36.230Z">
-<meta property="article:modified_time" content="2020-08-11T03:58:36.230Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s1.ax1x.com/2020/08/11/aLKOne.png">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -157,113 +150,44 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-算法/链表/对链表进行翻转_02" class="article article-type-post " itemscope itemprop="blogPost">
+            
+  
+    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 class="article-title" itemprop="name">
-      算法/链表/对链表进行翻转_02
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/12/hello-world/">Hello World</a>
     </h1>
   
 
         
-        <a href="/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%AF%B9%E9%93%BE%E8%A1%A8%E8%BF%9B%E8%A1%8C%E7%BF%BB%E8%BD%AC_02/" class="archive-article-date">
-  	<time datetime="2020-08-11T03:58:36.230Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-11</time>
+        <a href="/2020/04/12/hello-world/" class="archive-article-date">
+  	<time datetime="2020-04-12T12:54:03.360Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-12</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="对链表进行翻转"><a href="#对链表进行翻转" class="headerlink" title="对链表进行翻转"></a>对链表进行翻转</h3><hr>
-<p><img src="https://s1.ax1x.com/2020/08/11/aLKOne.png" alt="翻转链表"></p>
-<hr>
-<blockquote>
-<p>分析:</p>
-</blockquote>
-<h4 id="节点翻转示意图"><a href="#节点翻转示意图" class="headerlink" title="节点翻转示意图"></a>节点翻转示意图</h4><p><img src="https://s1.ax1x.com/2020/08/11/aL1MgP.md.jpg" alt="节点翻转示意图"></p>
-<p>1 既然是要翻转链表，那每个节点的连接方向都会发生变化；</p>
-<p>2 每个节点都只能有一个连接。当它指向自己的前一个节点时，它就不能再指向自己的下一个节点；</p>
-<p>3 需要处理链表中的每一个节点，但是根据2可知，节点连接方向改变后，无法再沿着链表获取到下一个节点；</p>
-<p>解决手段：在改变节点的连接方向之前，使用一个临时变量保存当前节点的下一个节点；</p>
-<blockquote>
-<p>实现SOP</p>
-</blockquote>
-<p>1 为了能够遍历链表，我们需要一个指针；</p>
-<p>2 为了能够改变节点的连接方向，我们需要另一个指针来指向当前节点的前一个节点；</p>
-<hr>
-<blockquote>
-<p>完整代码(不包含测试用例，可以自己编写main()函数作为测试用例)</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 链表/节点的类定义</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val; <span class="comment">// 节点中存储的值</span></span><br><span class="line">    ListNode next; <span class="comment">// 节点连接到的下一个节点</span></span><br><span class="line">    ListNode(<span class="keyword">int</span> x) &#123;val = x;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 0 作用：翻转指定的链表，并返回链表</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">reverseList</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 迭代的方式</span></span><br><span class="line">        ListNode prev = <span class="keyword">null</span>; </span><br><span class="line">        ListNode curr = head; <span class="comment">// 翻转链表需要前后两个指针：一个用于更新头节点，一个用于创建链表的连接</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(curr != <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="comment">// 记录原始的下一个节点 防止链表断掉</span></span><br><span class="line">            ListNode temp = curr.next;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 建立链表的连接</span></span><br><span class="line">            curr.next = prev;</span><br><span class="line">            <span class="comment">// 更新两个指针</span></span><br><span class="line">            prev = curr;</span><br><span class="line">            curr = temp;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> prev;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
 
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
 
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
 
-<hr>
-<blockquote>
-<p>实现过程</p>
-</blockquote>
-<p>step1 定义两个指针，用来遍历和翻转链表；</p>
-<p>问题：如何初始化这两个指针？/这两个指针最开始应该指向什么位置？</p>
-<p>答：参考上面的 [链表翻转示意图](#### 节点翻转示意图)</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ListNode prev = <span class="keyword">null</span>; <span class="comment">// 初始化指向一个null节点</span></span><br><span class="line">ListNode curr = head; <span class="comment">// 初始化指向链表的头节点（head与curr一样，都是头节点的一个指针）</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 
-
-
-<p>step2 遍历链表中的节点，并进行节点间的翻转；（每次翻转两个节点的连接）</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="keyword">true</span>)&#123; <span class="comment">// 循环终止条件一般是比较容易出错的地方，所以放在最后再完成</span></span><br><span class="line">	<span class="comment">// 1 保存当前节点的下一个节点		作用：这样在遍历时才能直到下一个节点是哪一个</span></span><br><span class="line">    Node temp = curr.next;</span><br><span class="line">    <span class="comment">// 2 把当前节点连接到当前节点的前一个节点		说明：这个相邻节点的关系需要手动维护</span></span><br><span class="line">    curr.next = prev;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 3 维护相邻节点的关系	作用：支持2</span></span><br><span class="line">    prev = curr;</span><br><span class="line">    <span class="comment">// 4 更新当前节点为当前节点的下一个节点		作用：实现遍历链表操作</span></span><br><span class="line">    curr = curr.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>step3 确定循环终止条件</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">分析极端情况：</span></span><br><span class="line"><span class="comment">	1 当前节点指针指向链表的尾节点（非null）时，还需要一次循环来翻转last与其上一个节点之间的连接方向；</span></span><br><span class="line"><span class="comment">	2 当前节点指针指向null时，所有翻转都已经完成，循环结束；</span></span><br><span class="line"><span class="comment">	所以循环终止条件为：curr == null;		相应地，(表达式)就应该为curr != null</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">while</span>(curr != <span class="keyword">null</span>)&#123;...&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>step4 确定返回值</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 原则：总是应该返回预期链表的头节点</span></span><br><span class="line"><span class="comment">// 手段：查看循环终止时，各个指针的指向情况		翻转后链表的头节点应该是prev</span></span><br><span class="line"><span class="keyword">return</span> prev;</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<blockquote>
-<p>代码重现</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> val;</span><br><span class="line">    ListNode next;</span><br><span class="line">    </span><br><span class="line">    ListNode(<span class="keyword">int</span> x)&#123; <span class="keyword">this</span>.val = x&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> <span class="title">Solution</span>(<span class="title">ListNode</span> <span class="title">head</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 定义两个指针并初始化	作用：用于连接与遍历</span></span><br><span class="line">    ListNode prev = <span class="keyword">null</span>;</span><br><span class="line">    ListNode curr = head;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 开始遍历，并在遍历的过程中进行节点连接的翻转</span></span><br><span class="line">    <span class="keyword">while</span>(curr != <span class="keyword">null</span>)&#123; <span class="comment">// 循环执行条件</span></span><br><span class="line">        <span class="comment">// 记录当前节点（开始时是头节点）的下一个节点	作用：实现遍历</span></span><br><span class="line">        ListNode temp = curr.next;</span><br><span class="line">        <span class="comment">// 更新当前节点的连接</span></span><br><span class="line">        curr.next = prev; <span class="comment">// 连接到前一个节点	说明：需要维护这种节点的相邻关系</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 维护节点的相邻关系 &amp; 实现遍历</span></span><br><span class="line">        prev = curr; <span class="comment">// 1 把prev指向curr所指向的节点</span></span><br><span class="line">        curr = temp; <span class="comment">// 2 更新curr到链表的下一个节点	由于节点的连接方向已经变化，所以不能使用curr.next 使用预先存储的节点temp</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 返回链表的头节点</span></span><br><span class="line">    <span class="keyword">return</span> prev;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<blockquote>
-<p>启示</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">知道为什么这么写后，才能把思路翻译成代码。不然就是在背代码了</span><br></pre></td></tr></table></figure>
-
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
 
       
 
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -272,84 +196,16 @@
       
 
       
-
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/04/12/hello-world/">展开全文 >></a>
+        </p>
       
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
-        </div>
-      </div>
-    </span>
-  </div>
-</div>
 
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%AF%B9%E9%93%BE%E8%A1%A8%E8%BF%9B%E8%A1%8C%E7%BF%BB%E8%BD%AC_02/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%AF%B9%E9%93%BE%E8%A1%A8%E8%BF%9B%E8%A1%8C%E7%BF%BB%E8%BD%AC/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          算法/链表/对链表进行翻转
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2020/08/10/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E6%B1%82%E4%B8%A4%E4%B8%AA%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E4%BA%A4%E7%82%B9_01/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">算法/链表/求两个相交链表的交点_01</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -369,14 +225,12 @@
 
 
 
-  
-  
-  
 
   
-
   
-
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    </nav>
   
 
 
@@ -399,8 +253,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: false,
-		isPost: true,
+		isHome: true,
+		isPost: false,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

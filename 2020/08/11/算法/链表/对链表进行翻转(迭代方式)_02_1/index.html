@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Hexo</title>
+  <title>算法/链表/对链表进行翻转(迭代方式)_02_1 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="对链表进行翻转（使用迭代的方式）   分析:👇👇👇节点翻转示意图 1 既然是要翻转链表，那每个节点的连接方向都会发生变化； 2 每个节点都只能有一个连接。当它指向自己的前一个节点时，它就不能再指向自己的下一个节点； 3 需要处理链表中的每一个节点，但是根据2可知，节点连接方向改变后，无法再沿着链表获取到下一个节点； 解决手段：在改变节点的连接方向之前，使用一个临时变量保存当前节点的下一个节点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法&#x2F;链表&#x2F;对链表进行翻转(迭代方式)_02_1">
+<meta property="og:url" content="http://yoursite.com/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%AF%B9%E9%93%BE%E8%A1%A8%E8%BF%9B%E8%A1%8C%E7%BF%BB%E8%BD%AC(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_02_1/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="对链表进行翻转（使用迭代的方式）   分析:👇👇👇节点翻转示意图 1 既然是要翻转链表，那每个节点的连接方向都会发生变化； 2 每个节点都只能有一个连接。当它指向自己的前一个节点时，它就不能再指向自己的下一个节点； 3 需要处理链表中的每一个节点，但是根据2可知，节点连接方向改变后，无法再沿着链表获取到下一个节点； 解决手段：在改变节点的连接方向之前，使用一个临时变量保存当前节点的下一个节点">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/11/aLKOne.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/11/aL1MgP.md.jpg">
+<meta property="article:published_time" content="2020-08-11T04:16:18.757Z">
+<meta property="article:modified_time" content="2020-08-11T10:13:53.522Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/08/11/aLKOne.png">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -150,276 +157,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-算法/链表/链表翻转之递归解法_02_2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-算法/链表/对链表进行翻转(迭代方式)_02_1" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E7%BF%BB%E8%BD%AC%E4%B9%8B%E9%80%92%E5%BD%92%E8%A7%A3%E6%B3%95_02_2/">算法/链表/链表翻转之递归解法_02_2</a>
-    </h1>
-  
-
-        
-        <a href="/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E7%BF%BB%E8%BD%AC%E4%B9%8B%E9%80%92%E5%BD%92%E8%A7%A3%E6%B3%95_02_2/" class="archive-article-date">
-  	<time datetime="2020-08-11T10:13:03.754Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="链表翻转之递归解法"><a href="#链表翻转之递归解法" class="headerlink" title="链表翻转之递归解法"></a>链表翻转之递归解法</h3><hr>
-<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>并不是所有的情况都能使用递归解决，能用递归解决的问题需要有两个特征：</p>
-<ul>
-<li>1 能够通过某种方式把问题的规模变小；</li>
-<li>2 对于1中更小规模的问题，可以使用同样的操作去处理它；</li>
-</ul>
-<p>现在先看看“翻转链表”这样的操作是不是符合上面的两个特征：</p>
-<h5 id="能够通过某种方式把问题的规模变小"><a href="#能够通过某种方式把问题的规模变小" class="headerlink" title="能够通过某种方式把问题的规模变小"></a>能够通过某种方式把问题的规模变小</h5><p>由于链表本身就是递归的结构，所以总是可以把链表分为：头节点head + 剩余节点所组成的链表rest；</p>
-<h5 id="对于更小规模的问题，可以使用同样的操作去处理它"><a href="#对于更小规模的问题，可以使用同样的操作去处理它" class="headerlink" title="对于更小规模的问题，可以使用同样的操作去处理它"></a>对于更小规模的问题，可以使用同样的操作去处理它</h5><p>在对rest做翻转操作后，我们就能得到一个已经翻转了的链表。接下来就只要想办法把头节点head连接进来即可</p>
-<hr>
-<h4 id="使用递归的三部曲"><a href="#使用递归的三部曲" class="headerlink" title="使用递归的三部曲"></a>使用递归的三部曲</h4><ul>
-<li><p>1 明确方法的作用与返回值；</p>
-</li>
-<li><p>2 找到递归的终结条件——这个条件会停止递归，并开始弹出调用栈；</p>
-</li>
-<li><p>3 确定本级递归需要完成的工作；（这时候要假设已经有了功能可用的API给自己调用）</p>
-</li>
-</ul>
-<p>注：一般而言，递归方法可以按照这3步来编写。但不尽然，有些递归方法的实现可能会surprise us</p>
-<hr>
-<h4 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * public class ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 0 作用：翻转指定的链表，并返回链表</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">reverseList</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 1 递归的终结条件</span></span><br><span class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span> || head.next == <span class="keyword">null</span>) <span class="keyword">return</span> head;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2 本级递归需要做的事情</span></span><br><span class="line">        <span class="comment">// ① 把链表视为：头节点 + 剩下节点组成的链表rest</span></span><br><span class="line">        <span class="comment">// ② 对rest中的节点执行翻转操作————翻转后，rest指向新链表的头节点</span></span><br><span class="line">        ListNode rest = reverseList(head.next);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// ③ 把原始的头节点连接到新链表的尾节点</span></span><br><span class="line">        head.next.next = head;</span><br><span class="line">        head.next = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> rest;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<h4 id="代码重现"><a href="#代码重现" class="headerlink" title="代码重现"></a>代码重现</h4><blockquote>
-<p>step0 画个图，理清思路；需要什么东西，应该做怎样的操作；</p>
-</blockquote>
-<p><img src="https://s1.ax1x.com/2020/08/11/aOaGT0.md.jpg" alt="递归下的链表"></p>
-<blockquote>
-<p>step1 确定方法的作用与返回值；</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 方法作用：翻转链表，并返回翻转后的链表；</span></span><br></pre></td></tr></table></figure>
-
-
-
-<blockquote>
-<p>step2 编写递归终结条件；</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 实现翻转链表的最简情况是什么？ 答：空链表或者只有一个节点的链表</span></span><br><span class="line"><span class="keyword">if</span>(head == <span class="keyword">null</span> || head.next == <span class="keyword">null</span>) <span class="keyword">return</span> head; <span class="comment">// 这两种情况可以分开写，一起写只是为了让代码简洁一些</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>step3 本级递归需要做的事情；</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">	① 把链表拆分为：头节点head + 剩下的节点所组成的链表rest;</span></span><br><span class="line"><span class="comment">	② 对rest链表执行“翻转”操作————翻转后的链表头节点为旧链表的尾节点；</span></span><br><span class="line"><span class="comment">	③ 处理head节点与rest链表，使得整个链表中的所有节点都被翻转；</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="comment">// 对rest链表执行“翻转”操作</span></span><br><span class="line">ListNode rest = reverseList(head.next);</span><br><span class="line"><span class="comment">// 把head节点添加到rest链表的末尾</span></span><br><span class="line">head.next.next = head;</span><br><span class="line"><span class="comment">// 为head连接一个null——表示链表结束</span></span><br><span class="line">head.next = <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
-
-<h4 id="测试用例（检查代码功能与代码的健壮性）"><a href="#测试用例（检查代码功能与代码的健壮性）" class="headerlink" title="测试用例（检查代码功能与代码的健壮性）"></a>测试用例（检查代码功能与代码的健壮性）</h4><ul>
-<li>极端情况下，功能是否正常工作； 传入的链表为空/只有一个节点</li>
-</ul>
-<h4 id="启示"><a href="#启示" class="headerlink" title="启示"></a>启示</h4><p>链表节点之间的关系，最好画张图比较容易弄清楚。</p>
-<p>比如“把head连接到rest链表的末尾”这一步，刚开始我是想沿着链表找到rest的尾节点，然后再连接到head</p>
-<p>但如果画图就能看出来，获取rest链表尾节点可以用head.next；</p>
-<p>拆解一下head.next.next = head;</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取到rest的尾节点</span></span><br><span class="line">ListNode lastOfRest = head.next;</span><br><span class="line"><span class="comment">// 把获取到的尾节点连接到head上</span></span><br><span class="line">lastOfRest.next = head;</span><br><span class="line"><span class="comment">// 把head连接到一个null	这一步必须有，否则head与lastOfRest节点之间就会有环出现 这会导致报错</span></span><br><span class="line">head.next = <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
-
-
-
-<blockquote>
-<p>until next time 😄</p>
-</blockquote>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E7%BF%BB%E8%BD%AC%E4%B9%8B%E9%80%92%E5%BD%92%E8%A7%A3%E6%B3%95_02_2/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-求两个相交链表的交点" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/11/%E6%B1%82%E4%B8%A4%E4%B8%AA%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E4%BA%A4%E7%82%B9/">求两个相交链表的交点</a>
-    </h1>
-  
-
-        
-        <a href="/2020/08/11/%E6%B1%82%E4%B8%A4%E4%B8%AA%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E4%BA%A4%E7%82%B9/" class="archive-article-date">
-  	<time datetime="2020-08-11T04:22:34.979Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="求两个相交链表的交点"><a href="#求两个相交链表的交点" class="headerlink" title="求两个相交链表的交点"></a>求两个相交链表的交点</h3><hr>
-<p><img src="https://s1.ax1x.com/2020/08/11/aLZ7UP.png" alt="图片无法显示"></p>
-<p><strong>要求</strong></p>
-<ul>
-<li>如果两个链表没有交点，返回null</li>
-<li>返回结果后，两个链表必须仍保持原有的结构；</li>
-<li>默认链表中不存在环；</li>
-<li>尽量满足O(n)的时间复杂度与O(1)的空间复杂度。</li>
-</ul>
-<hr>
-<p>思路：</p>
-<p>既然两个链表有长度差异，计算出差出来的长度，想办法消除这个多余长度的影响。就可以一一比较节点了</p>
-<p>手段SOP：</p>
-<p>1 为两个链表的头节点分别添加一个指针；</p>
-<p>2 计算出链表之间的长度差异，然后让较长的那个链表的游标向后移动等长的节点；</p>
-<p>3.再让两个游标同步移动，并比较所指向节点是否相等。直到找到相等/相交的节点或者到达链表的末端</p>
-<hr>
-<p>把上述SOP翻译成代码：</p>
-<ol>
-<li>先定义表示链表的类型；</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 可以直接作为一个内部类与Solution类定义在同一个文件中</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    ListNode next;</span><br><span class="line">    ListNode(<span class="keyword">int</span> x)&#123;</span><br><span class="line">        val = x;</span><br><span class="line">        next = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<ol start="2">
-<li>实现上述SOP（完整实现 + 分解动作）</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">getIntersectionNode</span><span class="params">(ListNode headA, ListNode headB)</span> </span>&#123; <span class="comment">// 两个链表结构</span></span><br><span class="line">        <span class="comment">// 最优解法（目前）：1 先计算出两个链表直接的长度差距； 2 再使用两个前后指针解决问题</span></span><br><span class="line">        <span class="comment">// 原理：1 起点相同的两个人，沿同一个方向以相同的速度移动。每时每刻，两个人都在同一个位置上；</span></span><br><span class="line">        <span class="comment">// 2 当两个链表相遇时，节点就重合了</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 鲁棒性代码</span></span><br><span class="line">        <span class="keyword">if</span>(headA == <span class="keyword">null</span> || headB == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ListNode cursorA = headA;</span><br><span class="line">        ListNode cursorB = headB;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 计算headA与headB的长度</span></span><br><span class="line">        <span class="keyword">int</span> lengthA = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(cursorA!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            lengthA++;</span><br><span class="line">            cursorA = cursorA.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> lengthB = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(cursorB!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            lengthB++;</span><br><span class="line">            cursorB = cursorB.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 计算出两个链表之间的距离差————这个就是哨兵指针需要前进的节点数</span></span><br><span class="line">        <span class="keyword">int</span> diff = lengthA - lengthB; </span><br><span class="line"></span><br><span class="line">        <span class="comment">// 这里问题来了，我们需要确定一个信息：哪个链表更长？（这样才能正确地设置指针）</span></span><br><span class="line">        <span class="comment">// 手段：先假设A更长，然后根据真实情况进行更新</span></span><br><span class="line">        ListNode fronter = headA;</span><br><span class="line">        ListNode follower = headB;</span><br><span class="line">        <span class="keyword">if</span>(diff &lt; <span class="number">0</span>)&#123;</span><br><span class="line">            fronter = headB;</span><br><span class="line">            follower = headA;</span><br><span class="line"></span><br><span class="line">            diff = lengthB - lengthA;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 让fronter指针先向前走diff个节点</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; diff; i++)&#123;</span><br><span class="line">            fronter = fronter.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 让fronter和follwer同时沿着节点先前移动，并比较节点是否为同一个节点</span></span><br><span class="line">        ListNode firstCommon = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">while</span>(follower != <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(fronter == follower)&#123;</span><br><span class="line">                firstCommon = fronter;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            fronter = fronter.next;</span><br><span class="line">            follower = follower.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> firstCommon;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<ol start="3">
-<li>分解实现过程</li>
-</ol>
-<p>step1 定义两个指针，分别指向两个链表的头节点；</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ListNode cursorA = headA;</span><br><span class="line">ListNode cursorB = headB;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>step2 计算headA链表与headB链表的长度；</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> lengthA = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>(cursorA != <span class="keyword">null</span>)&#123;</span><br><span class="line">	lengthA++;</span><br><span class="line">	cursorA = cursorA.next;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> lengthB = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>(cursorB != <span class="keyword">null</span>)&#123;</span><br><span class="line">	lengthB++;</span><br><span class="line">	cursorB = cursorB.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>step3 计算两个链表之间的节点数量差;这个值就是长链表的指针需要前进的距离</p>
-<blockquote>
-<p>问题来了，怎么知道哪个链表更长呢？为了向前移动指针，一定需要一个正数；</p>
-<p>手段：先绑定值，再通过判断来更新值；（其实就是if/else）</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> diff = lengthA - lengthB;</span><br><span class="line"></span><br><span class="line">ListNode fronter = headA;</span><br><span class="line">ListNode follower = headB;</span><br><span class="line"><span class="keyword">if</span>(diff &lt; <span class="number">0</span>)&#123;</span><br><span class="line">	fronter = headB;</span><br><span class="line">	follower = headA;</span><br><span class="line">	</span><br><span class="line">	diff = lengthB - lengthA;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>step4 把长链表的指针沿着链表向前移动diff个节点；</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 让fronter指针先向前走diff个节点</span></span><br><span class="line">   <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; diff; i++)&#123;</span><br><span class="line">   	fronter = fronter.next;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>step5 同时移动长链表的指针fronter与短链表的指针follower，并比较指针指向的节点是否是同一个节点；</p>
-<p>直到（这个循环终止的条件）：1 找到了两个链表的第一个交点； 2 迭代到了链表的尾部，没有任何交点；</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ListNode firstCommon = <span class="keyword">null</span>; <span class="comment">// 用于存储找到的第一个节点</span></span><br><span class="line"><span class="keyword">while</span>(fronter != <span class="keyword">null</span>)&#123;</span><br><span class="line">	<span class="keyword">if</span>(fronter == follower)&#123;</span><br><span class="line">		firstCommon = fronter;</span><br><span class="line">		<span class="keyword">break</span>; <span class="comment">// 找到了第一个交点</span></span><br><span class="line">	&#125;</span><br><span class="line">	fronter = fronter.next;</span><br><span class="line">	follower = follower.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>step6 把找到的交点节点返回；（如果没有交点，firstCommon的值不会被更新，也就是为null）</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> firstCommon;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>step7 检查所有的变量名拼写；（在编辑器没有智能提示的情况下，拼写很容易出错）</p>
-<p>step8 添加鲁棒性代码，增强代码的健壮性；最常见的就是参数判空</p>
-<blockquote>
-<p>启示：虽然把所有的成员变量写在一起看上去很规整，但是看代码的时候却不能重现写代码时的思路；</p>
-<p>所以最好在需要变量的时候才添加这些变量，并且写在需要的地方。这会增加可读性</p>
-</blockquote>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/11/%E6%B1%82%E4%B8%A4%E4%B8%AA%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E4%BA%A4%E7%82%B9/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-算法/链表/对链表进行翻转(迭代方式)_02_1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%AF%B9%E9%93%BE%E8%A1%A8%E8%BF%9B%E8%A1%8C%E7%BF%BB%E8%BD%AC(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_02_1/">算法/链表/对链表进行翻转(迭代方式)_02_1</a>
+    <h1 class="article-title" itemprop="name">
+      算法/链表/对链表进行翻转(迭代方式)_02_1
     </h1>
   
 
@@ -483,6 +228,27 @@
       
 
       
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
     </div>
     <div class="article-info article-info-index">
       
@@ -490,16 +256,84 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%AF%B9%E9%93%BE%E8%A1%A8%E8%BF%9B%E8%A1%8C%E7%BF%BB%E8%BD%AC(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_02_1/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%AF%B9%E9%93%BE%E8%A1%A8%E8%BF%9B%E8%A1%8C%E7%BF%BB%E8%BD%AC(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_02_1/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2020/08/11/%E6%B1%82%E4%B8%A4%E4%B8%AA%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E4%BA%A4%E7%82%B9/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          求两个相交链表的交点
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/08/10/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E6%B1%82%E4%B8%A4%E4%B8%AA%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E4%BA%A4%E7%82%B9_01/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">算法/链表/求两个相交链表的交点_01</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -519,747 +353,14 @@
 
 
 
-
-  
-    <article id="post-算法/链表/求两个相交链表的交点_01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/10/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E6%B1%82%E4%B8%A4%E4%B8%AA%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E4%BA%A4%E7%82%B9_01/">算法/链表/求两个相交链表的交点_01</a>
-    </h1>
-  
-
-        
-        <a href="/2020/08/10/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E6%B1%82%E4%B8%A4%E4%B8%AA%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E4%BA%A4%E7%82%B9_01/" class="archive-article-date">
-  	<time datetime="2020-08-10T15:41:29.280Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="求两个相交链表的交点"><a href="#求两个相交链表的交点" class="headerlink" title="求两个相交链表的交点"></a>求两个相交链表的交点</h3><hr>
-<p><img src="https://s1.ax1x.com/2020/08/11/aLZ7UP.png" alt="图片无法显示"></p>
-<p><strong>要求</strong></p>
-<ul>
-<li>如果两个链表没有交点，返回null</li>
-<li>返回结果后，两个链表必须仍保持原有的结构；</li>
-<li>默认链表中不存在环；</li>
-<li>尽量满足O(n)的时间复杂度与O(1)的空间复杂度。</li>
-</ul>
-<hr>
-<p>思路：</p>
-<p>既然两个链表有长度差异，计算出差出来的长度，想办法消除这个多余长度的影响。就可以一一比较节点了</p>
-<p>手段SOP：</p>
-<p>1 为两个链表的头节点分别添加一个指针；</p>
-<p>2 计算出链表之间的长度差异，然后让较长的那个链表的游标向后移动等长的节点；</p>
-<p>3.再让两个游标同步移动，并比较所指向节点是否相等。直到找到相等/相交的节点或者到达链表的末端</p>
-<hr>
-<p>把上述SOP翻译成代码：</p>
-<ol>
-<li>先定义表示链表的类型；</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 可以直接作为一个内部类与Solution类定义在同一个文件中</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    ListNode next;</span><br><span class="line">    ListNode(<span class="keyword">int</span> x)&#123;</span><br><span class="line">        val = x;</span><br><span class="line">        next = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<ol start="2">
-<li>实现上述SOP（完整实现 + 分解动作）</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">getIntersectionNode</span><span class="params">(ListNode headA, ListNode headB)</span> </span>&#123; <span class="comment">// 两个链表结构</span></span><br><span class="line">        <span class="comment">// 最优解法（目前）：1 先计算出两个链表直接的长度差距； 2 再使用两个前后指针解决问题</span></span><br><span class="line">        <span class="comment">// 原理：1 起点相同的两个人，沿同一个方向以相同的速度移动。每时每刻，两个人都在同一个位置上；</span></span><br><span class="line">        <span class="comment">// 2 当两个链表相遇时，节点就重合了</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 鲁棒性代码</span></span><br><span class="line">        <span class="keyword">if</span>(headA == <span class="keyword">null</span> || headB == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ListNode cursorA = headA;</span><br><span class="line">        ListNode cursorB = headB;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 计算headA与headB的长度</span></span><br><span class="line">        <span class="keyword">int</span> lengthA = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(cursorA!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            lengthA++;</span><br><span class="line">            cursorA = cursorA.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> lengthB = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(cursorB!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            lengthB++;</span><br><span class="line">            cursorB = cursorB.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 计算出两个链表之间的距离差————这个就是哨兵指针需要前进的节点数</span></span><br><span class="line">        <span class="keyword">int</span> diff = lengthA - lengthB; </span><br><span class="line"></span><br><span class="line">        <span class="comment">// 这里问题来了，我们需要确定一个信息：哪个链表更长？（这样才能正确地设置指针）</span></span><br><span class="line">        <span class="comment">// 手段：先假设A更长，然后根据真实情况进行更新</span></span><br><span class="line">        ListNode fronter = headA;</span><br><span class="line">        ListNode follower = headB;</span><br><span class="line">        <span class="keyword">if</span>(diff &lt; <span class="number">0</span>)&#123;</span><br><span class="line">            fronter = headB;</span><br><span class="line">            follower = headA;</span><br><span class="line"></span><br><span class="line">            diff = lengthB - lengthA;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 让fronter指针先向前走diff个节点</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; diff; i++)&#123;</span><br><span class="line">            fronter = fronter.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 让fronter和follwer同时沿着节点先前移动，并比较节点是否为同一个节点</span></span><br><span class="line">        ListNode firstCommon = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">while</span>(follower != <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(fronter == follower)&#123;</span><br><span class="line">                firstCommon = fronter;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            fronter = fronter.next;</span><br><span class="line">            follower = follower.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> firstCommon;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<ol start="3">
-<li>分解实现过程</li>
-</ol>
-<p>step1 定义两个指针，分别指向两个链表的头节点；</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ListNode cursorA = headA;</span><br><span class="line">ListNode cursorB = headB;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>step2 计算headA链表与headB链表的长度；</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> lengthA = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>(cursorA != <span class="keyword">null</span>)&#123;</span><br><span class="line">	lengthA++;</span><br><span class="line">	cursorA = cursorA.next;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> lengthB = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>(cursorB != <span class="keyword">null</span>)&#123;</span><br><span class="line">	lengthB++;</span><br><span class="line">	cursorB = cursorB.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>step3 计算两个链表之间的节点数量差;这个值就是长链表的指针需要前进的距离</p>
-<blockquote>
-<p>问题来了，怎么知道哪个链表更长呢？为了向前移动指针，一定需要一个正数；</p>
-<p>手段：先绑定值，再通过判断来更新值；（其实就是if/else）</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> diff = lengthA - lengthB;</span><br><span class="line"></span><br><span class="line">ListNode fronter = headA;</span><br><span class="line">ListNode follower = headB;</span><br><span class="line"><span class="keyword">if</span>(diff &lt; <span class="number">0</span>)&#123;</span><br><span class="line">	fronter = headB;</span><br><span class="line">	follower = headA;</span><br><span class="line">	</span><br><span class="line">	diff = lengthB - lengthA;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>step4 把长链表的指针沿着链表向前移动diff个节点；</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 让fronter指针先向前走diff个节点</span></span><br><span class="line">   <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; diff; i++)&#123;</span><br><span class="line">   	fronter = fronter.next;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>step5 同时移动长链表的指针fronter与短链表的指针follower，并比较指针指向的节点是否是同一个节点；</p>
-<p>直到（这个循环终止的条件）：1 找到了两个链表的第一个交点； 2 迭代到了链表的尾部，没有任何交点；</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ListNode firstCommon = <span class="keyword">null</span>; <span class="comment">// 用于存储找到的第一个节点</span></span><br><span class="line"><span class="keyword">while</span>(fronter != <span class="keyword">null</span>)&#123;</span><br><span class="line">	<span class="keyword">if</span>(fronter == follower)&#123;</span><br><span class="line">		firstCommon = fronter;</span><br><span class="line">		<span class="keyword">break</span>; <span class="comment">// 找到了第一个交点</span></span><br><span class="line">	&#125;</span><br><span class="line">	fronter = fronter.next;</span><br><span class="line">	follower = follower.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>step6 把找到的交点节点返回；（如果没有交点，firstCommon的值不会被更新，也就是为null）</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> firstCommon;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>step7 检查所有的变量名拼写；（在编辑器没有智能提示的情况下，拼写很容易出错）</p>
-<p>step8 添加鲁棒性代码，增强代码的健壮性；最常见的就是参数判空</p>
-<blockquote>
-<p>启示：虽然把所有的成员变量写在一起看上去很规整，但是看代码的时候却不能重现写代码时的思路；</p>
-<p>所以最好在需要变量的时候才添加这些变量，并且写在需要的地方。这会增加可读性</p>
-</blockquote>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/10/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E6%B1%82%E4%B8%A4%E4%B8%AA%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E4%BA%A4%E7%82%B9_01/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Spring Web应用第一谈（请求处理的中枢DispatcherServlet）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/17/Spring%20Web%E5%BA%94%E7%94%A8%E7%AC%AC%E4%B8%80%E8%B0%88%EF%BC%88%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E7%9A%84%E4%B8%AD%E6%9E%A2DispatcherServlet%EF%BC%89/">Spring Web应用第一谈（请求处理的中枢DispatcherServlet）</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/17/Spring%20Web%E5%BA%94%E7%94%A8%E7%AC%AC%E4%B8%80%E8%B0%88%EF%BC%88%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E7%9A%84%E4%B8%AD%E6%9E%A2DispatcherServlet%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2020-05-17T15:29:34.973Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Spring Web应用第一谈（请求处理的中枢DispatcherServlet）</p>
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Web应用？</span><br><span class="line">是：一个能够提供CURD功能的程序；</span><br><span class="line">作用：为用户提供服务；</span><br><span class="line">特征：</span><br><span class="line">	1 用户通过浏览器来访问应用中的功能；</span><br><span class="line">	2 程序需要运行在一个Web容器中（这样它才能被用户访问到）；</span><br><span class="line">	3 用户不需要安装任何东西，他只需要一个能够访问网络的浏览器；</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="1-SpringMVC框架对一个URL请求的处理流程"><a href="#1-SpringMVC框架对一个URL请求的处理流程" class="headerlink" title="1.SpringMVC框架对一个URL请求的处理流程"></a>1.SpringMVC框架对一个URL请求的处理流程</h4><hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">SpringMVC处理URL请求的流程：</span><br><span class="line">1 请求发送给DispatcherServlet；</span><br><span class="line">	作用：DS作为一个前端控制器，把请求委托给应用程序的其他组件</span><br><span class="line">2 DispatcherServlet查询处理器映射（Handler Mapping）来确定把请求发送给哪一个映射器(Hanlder)进行处理；</span><br><span class="line">	</span><br><span class="line">3 根据查询的结果，DS把请求发送给指定的映射器(Handler)</span><br><span class="line"></span><br><span class="line">4 控制器把处理后的model数据与视图名称(View)发送给DS；</span><br><span class="line"></span><br><span class="line">5 DispatcherServlet使用视图解析器（ViewResolver）来通过视图名称找到对应的视图文件；</span><br><span class="line"></span><br><span class="line">6 DS把model渲染到视图文件中，并最终返回到用户浏览器上;</span><br></pre></td></tr></table></figure>
-
-<h5 id="Q1-不就是处理个请求吗？不应该最多两步吗？SpringMVC怎么一下搞了这么多有的没的，设计者是咋想的？-○´･д･-ﾉ"><a href="#Q1-不就是处理个请求吗？不应该最多两步吗？SpringMVC怎么一下搞了这么多有的没的，设计者是咋想的？-○´･д･-ﾉ" class="headerlink" title="#Q1 不就是处理个请求吗？不应该最多两步吗？SpringMVC怎么一下搞了这么多有的没的，设计者是咋想的？(○´･д･)ﾉ"></a>#Q1 不就是处理个请求吗？不应该最多两步吗？SpringMVC怎么一下搞了这么多有的没的，设计者是咋想的？(○´･д･)ﾉ</h5><h5 id="A1-DS其实在这个过程中，相当于是一个前端控制器。作用就是委托请求，有点子想Nginx"><a href="#A1-DS其实在这个过程中，相当于是一个前端控制器。作用就是委托请求，有点子想Nginx" class="headerlink" title="#A1 DS其实在这个过程中，相当于是一个前端控制器。作用就是委托请求，有点子想Nginx"></a>#A1 DS其实在这个过程中，相当于是一个前端控制器。作用就是委托请求，有点子想Nginx</h5><p>配张图，描述整个过程：</p>
-<p>​    Web 请求 —&gt; DispatcherServlet - (!@#$%^)</p>
-<hr>
-<h4 id="2-创建SpringMVC的请求处理系统"><a href="#2-创建SpringMVC的请求处理系统" class="headerlink" title="2.创建SpringMVC的请求处理系统"></a>2.创建SpringMVC的请求处理系统</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">--</span><br><span class="line">1 配置DispatcherServlet；</span><br><span class="line">作用：把URL请求路由到具体的Spring组件中；</span><br><span class="line">手段1：在web.xml中对DS进行配置</span><br><span class="line">手段2：使用java类对DS进行配置（aka 在Servlet容器中声明前端控制器）</span><br><span class="line">参考：HelloWorldInitializer.java</span><br><span class="line"></span><br><span class="line">--</span><br><span class="line">2 启用SpringMVC,并添加视图解析器的配置</span><br><span class="line">手段：添加注解@EnableWebMvc</span><br><span class="line">参考：WebConfig.java</span><br><span class="line"></span><br><span class="line">3 创建管理其他非Web组件的上下文contextLoaderListener</span><br><span class="line">参考：RootConfig.java</span><br><span class="line"></span><br><span class="line">注：RootConfig先于WebConfig执行，所以：</span><br><span class="line">	1 预期交给WebConfig管理的组件需要在RootConfig中过滤掉；</span><br><span class="line">	2 WebConfig中的Bean所依赖的组件可以在RootConfig中先行声明；</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">说明：直接导入书上的源码到IDEA中运行会各种报错（百度无果的报错）；</span><br><span class="line">最终按照外网上的一个教程，搭建Web项目运行成功。</span><br><span class="line">参考链接：http:&#x2F;&#x2F;websystique.com&#x2F;springmvc&#x2F;spring-4-mvc-helloworld-tutorial-annotation-javaconfig-full-example&#x2F;</span><br><span class="line"></span><br><span class="line">然后按照Spring实战书上的代码对项目进行更新，发现书上的代码是可以工作的。</span><br><span class="line">踩坑报错：xxx</span><br><span class="line">原因：一般测试某种手段是否可行时，我都会把原有文件拷贝一份，命名为xxx_backup.java。这样才测试方案不可行时能够快速恢复到初始状态。</span><br><span class="line">但是对Controller类来说，这种做法会导致URL的歧义性</span><br><span class="line">参考:Servlet规范_05(本地文件 如何引用？)</span><br><span class="line">引用：既然应用的上下文路径决定了Web应用中内容的URL命名空间，Web容器必须要拒绝web应用定义一个在此URL命名空间中可能导致冲突的上下文路径</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h5 id="2-1-按照控制器的方式来对控制器进行测试"><a href="#2-1-按照控制器的方式来对控制器进行测试" class="headerlink" title="2.1 按照控制器的方式来对控制器进行测试"></a>2.1 按照控制器的方式来对控制器进行测试</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">需求：按照控制器的方式来测试控制器：</span><br><span class="line">SOP：</span><br><span class="line">    1 创建控制器对象；</span><br><span class="line">    手段：new</span><br><span class="line">    2 创建SpringMvc mock对象；</span><br><span class="line">    手段：standaloneSetup(xxx).build()		这是Spring框架test模块中的一个静态方法</span><br><span class="line">    3 使用mock对象发起请求并验证响应结果；</span><br><span class="line">    手段：perform()方法[执行] + andExcept()方法[断言预期结果]		同样是test框架提供的方法</span><br><span class="line">特征：不需要启动Tomcat就能能够对控制器进行测试；</span><br><span class="line">参考：HomeControllerTest.java</span><br><span class="line">结果：报错“java.lang.NoSuchMethodError: org.springframework.util.StreamUtils.emptyInput()Ljava&#x2F;io&#x2F;InputStream;”</span><br><span class="line">解决参考：https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_30487317&#x2F;article&#x2F;details&#x2F;95601425</span><br><span class="line">原因：test的版本与spring-mvc版本不一致</span><br><span class="line">解决手段：test的版本参考spring-mvc的版本</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h5 id="2-2-把模型数据传递到视图中"><a href="#2-2-把模型数据传递到视图中" class="headerlink" title="2.2 把模型数据传递到视图中"></a>2.2 把模型数据传递到视图中</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">需求：把模型数据传递到视图中</span><br><span class="line">SOP:</span><br><span class="line">    1 定义用来与数据库交互的接口SpittleRepository；</span><br><span class="line">    2 定义域数据表对应的实体类Spittle；</span><br><span class="line">    3 编写针对于新的Controller控制器的测试类；</span><br><span class="line">    参考：SpittleControllerTest.java</span><br><span class="line">    4 编写新的控制器Controller</span><br><span class="line">为什么先编写测试类，后编写控制器？？？😳</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">编写完成后，重启Tomcat时，项目启动失败；</span><br><span class="line">报错：找不到指定的bean；</span><br><span class="line">原因：</span><br><span class="line">    原理：</span><br><span class="line">    Spring对不同类型的组件，创建的时机会不一样；</span><br><span class="line">        1 对于Web相关的组件（aka 控制器对象），由DispatcherServlet所创建的上下文(WebConfig)管理；</span><br><span class="line">        2 其他类型的组件（比如dao层的对象），由ContextLoaderListener所创建的上下文（RootConfig）进行管理；</span><br><span class="line">        3 RootConfig先于WebConfig执行，它服务于整个项目；</span><br><span class="line">    具体原因：</span><br><span class="line">        在RootConfig扫描的时候就扫描到controller中的类：</span><br><span class="line">            1 bean初始化就要找自动装填的 实现SpitterRepository接口的对象(A)，</span><br><span class="line">            2 但我把A放在WebConfig里了，环境中找不到这个Bean，于是报错。</span><br><span class="line">        所以我在RootConfig中的ComponentScan里添加了过滤，不扫描spittr.web，这样controller中的bean就不会在NoSuchBean的情况下提前初始化了，启动成功。</span><br><span class="line">    同样的原因，SpittleRepository的声明应该放在RootConfig中，否则控制器初始化时也会找不到依赖Bean而报错</span><br><span class="line">参考：https:&#x2F;&#x2F;blog.csdn.net&#x2F;q5738415&#x2F;article&#x2F;details&#x2F;78197508</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">这里虽然有dao层的执行方法，但是却并没有配置数据库。它是怎么实现的呢？</span><br><span class="line">... to be continue ...</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h5 id="2-3-向控制器方法发送请求时携带参数"><a href="#2-3-向控制器方法发送请求时携带参数" class="headerlink" title="2.3 向控制器方法发送请求时携带参数"></a>2.3 向控制器方法发送请求时携带参数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">需求：向控制器发送请求时携带参数；</span><br><span class="line">参数类型（按功能分类）：</span><br><span class="line">    1 查询参数；</span><br><span class="line">    2 表单参数；</span><br><span class="line">    3 路径变量；</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">--</span><br><span class="line">1 控制器接收查询参数： &#x2F;spittles&#x2F;show?spittle_id&#x3D;12345</span><br><span class="line">需求：分页列表展示xxx</span><br><span class="line">手段：调用控制器方法时，传入两个参数————页面中第一个xxx的ID + 页面中xxx的总条数；</span><br><span class="line">    before参数：当前页面xxx列表的左边界；</span><br><span class="line">    count参数：当前页面中要包含的xxx数量</span><br><span class="line">实现方法： com.websystique.springmvc.controller.SpittleController.spittles()方法</span><br><span class="line">测试:shouldShowPagedSpittles()</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">--</span><br><span class="line">2 控制器接收路径参数：&#x2F;spittles&#x2F;12345</span><br><span class="line">特征：</span><br><span class="line">    1 这种描述方式更加面向资源：12345就是要查询的资源</span><br><span class="line">    2 查询参数的描述方式表示：这是一个带有参数的操作；（通过HTTP发起的RPC）</span><br><span class="line">-</span><br><span class="line">先编写测试方法：</span><br><span class="line">参考：testSpittle()</span><br><span class="line">测试方法fail？？？</span><br><span class="line"></span><br><span class="line">项目访问URL：失败400</span><br><span class="line">这都是因为热部署延迟 😳</span><br><span class="line"></span><br><span class="line">-</span><br><span class="line">进入方法后，跳转视图页面时。报错404...</span><br><span class="line">&#x2F;spring_mvc&#x2F;spittles&#x2F;WEB-INF&#x2F;views&#x2F;spittle.jsp</span><br><span class="line">在其他的控制器方法中都可以正常跳转，为什么这个方法就不行？</span><br><span class="line">原因：在配置视图解析器时，没有添加前缀&#x2F;</span><br><span class="line">参考：https:&#x2F;&#x2F;blog.csdn.net&#x2F;xujin_chen&#x2F;article&#x2F;details&#x2F;53557463</span><br><span class="line">原理：不晓得😵[又是半夜无眠]</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h5 id="2-4-向控制器方法发送请求时携带表单参数"><a href="#2-4-向控制器方法发送请求时携带表单参数" class="headerlink" title="2.4 向控制器方法发送请求时携带表单参数"></a>2.4 向控制器方法发送请求时携带表单参数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">需求：向控制器发送请求时携带表单数据；</span><br><span class="line">实现手段：</span><br><span class="line">    1 处理用户通过表单提交的数据；</span><br><span class="line">    参考：showRegistrationForm()方法</span><br><span class="line">    完整流程SOP:</span><br><span class="line">        1 编写控制器方法的测试方法：SpitterController.showRegistrationForm()</span><br><span class="line">        2 编写视图文件；registerForm.jsp</span><br><span class="line">        3 编写表单提交到的控制器方法 aka 保存表单的控制器方法；SpitterController.processRegistration</span><br><span class="line">        4 编写保存表单的方法的测试方法：shouldProcessRegistration()</span><br><span class="line">        5 编写保存表单后所跳转到的控制器方法；  showSpitterProfile()</span><br><span class="line">        6 编写控制器方法跳转到的对应页面：profile.jsp</span><br><span class="line">访问链接：http:&#x2F;&#x2F;localhost:8088&#x2F;spring_mvc&#x2F;spitter&#x2F;jbauer</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h5 id="2-5-对表单中的字段值进行校验"><a href="#2-5-对表单中的字段值进行校验" class="headerlink" title="2.5 对表单中的字段值进行校验"></a>2.5 对表单中的字段值进行校验</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">需求：对表单中的字段值进行校验；</span><br><span class="line">校验类型：</span><br><span class="line">    1 字段值不能为空；</span><br><span class="line">    2 字段值的长度不能超过指定边界；</span><br><span class="line">手段1：在控制方法中对用户提交的表单字段进行逐一验证；</span><br><span class="line">手段2：java校验API接口（SpringMVC框架支持此接口）；</span><br><span class="line">具体方法SOP：</span><br><span class="line">    1 在类路径下包含Java校验API接口的具体实现（比如Hibernate Validator）：</span><br><span class="line">        手段：引用jar包</span><br><span class="line">    2 在java类的属性上添加所需要的注解；</span><br><span class="line">        手段：@NotNull、@Size</span><br><span class="line">    3 在控制器方法中启用校验功能；</span><br><span class="line">        手段：为方法的POJO类型参数添加 @Valid 注解————通知Spring对此参数进行校验；</span><br><span class="line">    4 在控制器方法中处理校验未通过的错误</span><br><span class="line">        手段：使用Errors对象来获取到校验失败的具体信息；</span><br><span class="line">特征：</span><br><span class="line">    1 即便校验没有通过，用户仍旧能够提交表单。aka 控制器方法仍旧会被调用</span><br><span class="line">    2 为了使Errors对象能够获取到校验失败的信息，需要让Errors参数紧跟在@Valid注解的参数后面</span><br><span class="line">    3 在控制器方法中，第一步就应该查看是否出现校验错误————如果校验有错，后面的逻辑就不用再执行了</span><br><span class="line">参考：SpitterController.processRegistration()</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h5 id="2-6-java校验API"><a href="#2-6-java校验API" class="headerlink" title="2.6 java校验API"></a>2.6 java校验API</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Java校验API：</span><br><span class="line">作用：对Java类的属性进行校验；</span><br><span class="line">手段：提供多个用于特定校验规则的注解；</span><br><span class="line">用法：把特定的注解放到属性上，就能够限制属性的值。</span><br><span class="line">特征：所有的这些个注解都在javax.validation.constraints包中提供；</span><br><span class="line">常用的校验注解：</span><br><span class="line">    @NotNull：限制被注解的属性的值不能为null</span><br><span class="line">    @Size：限制被注解的属性的值必须是String、数组或者集合，并且长度要符合给定的范围；</span><br><span class="line">参考：Spitter类 （这是Spittr应用的用户）</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h4 id="3-额外收获"><a href="#3-额外收获" class="headerlink" title="3.额外收获"></a>3.额外收获</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">有趣的点：</span><br><span class="line">    1 SpitterRepository接口的实现类是在WebConfig中配置Bean的时候实现的：</span><br><span class="line">        如果没提供这个实现类。创建Controller时注入依赖就会失败</span><br><span class="line">    2 这里的save()方法并没有把值存储到数据库中，而是添加到一个map对象中。</span><br><span class="line">        尽管对象会在每次重启JVM时消失，但是作为一个容器，它是可以当成临时数据库来使用的</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">小结：</span><br><span class="line">大需求：编写应用程序的Web部分；</span><br><span class="line">手段：使用SpringMVC框架（这是Spring框架的一个模块）；</span><br><span class="line">特征：</span><br><span class="line">    1 这种开发方式几乎就是在写POJO类；</span><br><span class="line">    2 编写控制器方法与编写普通java方法无异，唯一的区别在于————你要想办法让方法能够接收到页面发来的参数</span><br><span class="line">    3 SpringMVC编写的控制器非常容易测试；</span><br><span class="line">    手段：Mockito框架 + Spring test模块</span><br><span class="line">NexT？</span><br><span class="line">Spring视图相关的一堆东西</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/17/Spring%20Web%E5%BA%94%E7%94%A8%E7%AC%AC%E4%B8%80%E8%B0%88%EF%BC%88%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E7%9A%84%E4%B8%AD%E6%9E%A2DispatcherServlet%EF%BC%89/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Spring AOP第二谈（与AspectJ AOP的对比）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/11/Spring%20AOP%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%88%E4%B8%8EAspectJ%20AOP%E7%9A%84%E5%AF%B9%E6%AF%94%EF%BC%89/">Spring AOP第二谈（与AspectJ AOP的对比）</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/11/Spring%20AOP%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%88%E4%B8%8EAspectJ%20AOP%E7%9A%84%E5%AF%B9%E6%AF%94%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2020-05-10T16:26:00.038Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Spring AOP第二谈（与AspectJ AOP的对比）</p>
-<hr>
-<h4 id="1-AOP的实现方案"><a href="#1-AOP的实现方案" class="headerlink" title="1.AOP的实现方案"></a>1.AOP的实现方案</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">方案1：Spring AOP；</span><br><span class="line">方案2：AspectJ；</span><br><span class="line">特征：AspectJ提供了很多其他的切点类型（Spring AOP只能提供方法调用的切点类型）</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<h4 id="2-在创建对象时应用指定的通知"><a href="#2-在创建对象时应用指定的通知" class="headerlink" title="2. 在创建对象时应用指定的通知"></a>2. 在创建对象时应用指定的通知</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">需求：在创建对象时应用指定的通知；</span><br><span class="line">说明：创建对象需要调用Bean的构造器，但是Spring AOP无法指定这样的连接点&#x2F;切点类型</span><br><span class="line">为什么Spring AOP实现不了呢？</span><br><span class="line">答：因为它基于代理实现，只能做一些方法层面的操作；</span><br><span class="line">手段：使用AspectJ提供的AOP功能；</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<h4 id="3-管理由AspectJ创建的切面bean所依赖的Spring组件"><a href="#3-管理由AspectJ创建的切面bean所依赖的Spring组件" class="headerlink" title="3. 管理由AspectJ创建的切面bean所依赖的Spring组件"></a>3. 管理由AspectJ创建的切面bean所依赖的Spring组件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">说明：一个通知方法可能需要依赖其他的类来实现功能。</span><br><span class="line">需求：管理通知方法所依赖的其他类</span><br><span class="line">手段：把通知方法所依赖的Bean注入到切面类中</span><br><span class="line"></span><br><span class="line">--</span><br><span class="line">需求：为演出创建一个评论员的角色；</span><br><span class="line">功能：观看演出，并在观看完成后提出一些批评意见</span><br><span class="line">参考：CriticAspect + CriticismEngine + CriticismEngineImpl + bean_declare_xmlconfig</span><br><span class="line">特征：</span><br><span class="line">    1 AspectJ切面不需要Spring就可以织入到我们的应用中;</span><br><span class="line">    2 但是如果想要使用Spring来管理AspectJ的一些个依赖，就需要把AspectJ切面来声明成一个Spring bean</span><br><span class="line">    参考：bean_declare_xmlconfig.xml</span><br><span class="line">    3 AspectJ切面bean不是Spring容器创建的，而是AspectJ在运行时创建的；</span><br><span class="line">    4 为了能够在Spring中获取到AspectJ切面的实例，需要调用切面类的aspectOf()方法————此方法返回切面类的一个单例</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="4-AOP小结"><a href="#4-AOP小结" class="headerlink" title="4.AOP小结"></a>4.AOP小结</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">------</span><br><span class="line">AOP：</span><br><span class="line">是：一种编程方式；</span><br><span class="line">作用：把分散在应用各处的行为集中在一个模块中（方便管理），并作为重用模块（方便引用）</span><br><span class="line">特征：</span><br><span class="line">    1 使程序员编写的类更加简洁、准确；</span><br></pre></td></tr></table></figure>
-
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">需求：支持AOP形式的编程风格；</span><br><span class="line">Spring提供的手段：Spring AOP；</span><br><span class="line">原理：</span><br><span class="line">    在程序员进行必要的操作后，Spring AOP会创建一个代理类，在代理类中把切面插入到目标方法执行的周围；</span><br><span class="line">必要的操作：</span><br><span class="line">    1 程序员通过自定义切面来声明预期插入到目标类&#x2F;方法中的功能；</span><br><span class="line">    2 程序员通过编写切点表达式来声明应用切面中的通知；</span><br></pre></td></tr></table></figure>
-
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">应用：</span><br><span class="line">    1 把通知织入&#x2F;应用前置、后置和环绕方法的调用中；</span><br><span class="line">    2 为异常处理添加自定义的行为————抛出异常时的通知方法；</span><br><span class="line">    3 与DI一起，支持程序员创建松散耦合的应用</span><br><span class="line">用法SOP:</span><br><span class="line">    1 声明切面类；</span><br><span class="line">    2 配置切面类中的通知方法（when + where + what）</span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/11/Spring%20AOP%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%88%E4%B8%8EAspectJ%20AOP%E7%9A%84%E5%AF%B9%E6%AF%94%EF%BC%89/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-SpringAOP第一谈（术语 &amp; SOP）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/11/SpringAOP%E7%AC%AC%E4%B8%80%E8%B0%88%EF%BC%88%E6%9C%AF%E8%AF%AD%20&%20SOP%EF%BC%89/">SpringAOP第一谈（术语 &amp; SOP）</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/11/SpringAOP%E7%AC%AC%E4%B8%80%E8%B0%88%EF%BC%88%E6%9C%AF%E8%AF%AD%20&%20SOP%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2020-05-10T16:04:41.870Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>面向切面编程AOP第一谈：术语 &amp; Java配置方式 &amp; XML配置方式</p>
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">面向切面编程；</span><br><span class="line"></span><br><span class="line">是：一种编程方式；</span><br><span class="line"></span><br><span class="line">作用：</span><br><span class="line"></span><br><span class="line">​	1 分离应用程序中的业务逻辑点与横切关注点；</span><br><span class="line"></span><br><span class="line">​	2 使业务逻辑点的代码更加简洁清晰；</span><br><span class="line"></span><br><span class="line">​	3 使所有的横切关注点能够集中起来，方便管理；</span><br><span class="line"></span><br><span class="line">特征：</span><br><span class="line"></span><br><span class="line">​	1 通过声明的方式来引用切面中的通知方法到指定的目标方法；</span><br><span class="line"></span><br><span class="line">​	2 切面类是一个POJO类；</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<hr>
-<h4 id="1-切点"><a href="#1-切点" class="headerlink" title="1.切点"></a>1.切点</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">切点：</span><br><span class="line">作用：定义切面实际作用到的代码位置；</span><br><span class="line">原理：选择切点表达式所匹配到的连接点；</span><br><span class="line">手段：使用AspectJ的切点表达式定义切点；</span><br><span class="line">特征：</span><br><span class="line">    1 Spring仅仅支持AspectJ切点指示器的一个子集；</span><br><span class="line">    2 Spring所支持的指示器中：</span><br><span class="line">        只有execution指示器是用来执行匹配的；</span><br><span class="line">        其他的指示器都只是限制匹配的；</span><br><span class="line">    3 execution指示器是编写切点时，最常使用到的指示器；</span><br></pre></td></tr></table></figure>
-
-
-
-<p>1.1 定义切点</p>
-<p>手段：编写切点表达式；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">任务：编写切点表达式；</span><br><span class="line">前提：需要一个主题————应用切面的目标；</span><br><span class="line">参考：Performance.java</span><br><span class="line"></span><br><span class="line">--</span><br><span class="line">连接点：Performance接口中的perform()方法</span><br><span class="line">需求：当perform()被调用时，触发自定义的通知；</span><br><span class="line">手段：编写一个切点表达式；</span><br><span class="line">execution(* concert.Performance.perform(..))</span><br><span class="line">语义：在方法执行时触发 不关心方法的返回值类型 方法的全限定名(任意参数)</span><br><span class="line">作用：通过此切点表达式，选择了连接点为Performance的perform()方法</span><br><span class="line"></span><br><span class="line">--</span><br><span class="line">需求：通过切点表达式的多个规则来选择多个连接点</span><br><span class="line">手段：切点表达式A &amp;&amp; 切点表达式B</span><br><span class="line">具体表达式：execution(* concert.Performance.perform(..)) &amp;&amp; within(concert.*)</span><br><span class="line">within()指示器用来限制连接点匹配指定的类型</span><br><span class="line">&amp;&amp;&#x2F;and 表示连接点必须匹配所有的指示器</span><br><span class="line"></span><br><span class="line">--</span><br><span class="line">任务：在切点中选择指定的Bean</span><br><span class="line">原理：使用bean ID或bean名称来选择指定的bean</span><br><span class="line">需求：执行Performance的perform()方法时来应用通知，但是仅限于bean ID为woodstock的bean实例上的方法调用</span><br><span class="line">手段：bean()指示器</span><br><span class="line">切点表达式：</span><br><span class="line">    execution(* concert.Performance.perform(..)) and bean(&#39;woodstock&#39;)</span><br><span class="line"></span><br><span class="line">需求：限制bean ID不为woodstock的bean实例上，执行xxx方法时，应用通知；</span><br><span class="line">切点表达式：</span><br><span class="line">    execution(* concert.Performance.perform(..)) and !bean(&#39;woodstock&#39;)</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h4 id="2-定义切面（通知-切点）"><a href="#2-定义切面（通知-切点）" class="headerlink" title="2.定义切面（通知 + 切点）"></a>2.定义切面（通知 + 切点）</h4><p>手段：编写切面类；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">任务：编写切面类；</span><br><span class="line">手段：编写POJO类，然后使用AspectJ5提供的注解声明它是一个切面类；</span><br><span class="line">默念：插入切面、应用&#x2F;织入通知、选择连接点、匹配切点</span><br><span class="line">应用：对于一场演出来说，观众就可以视为一个切面（可以单独分离出来的功能）；</span><br><span class="line">SOP:</span><br><span class="line">    Ⅰ 声明切面类及通知细节</span><br><span class="line">    1 通过@Aspect注解来声明一个作为切面的类；</span><br><span class="line">    2 在类中定义通知方法：功能实现 + 应用时机；</span><br><span class="line">    3 如果出现了同一个切点表达式被多次书写的情况，把切点表达式单独使用@Pointcut注解定义为一个方法————导出调用</span><br><span class="line">    参考：Audience.java</span><br><span class="line">    ---</span><br><span class="line">    Ⅱ 告诉Spring为定义为切面的类创建代理：</span><br><span class="line">    手段：启用自动代理功能；</span><br><span class="line">    具体方法1：如果使用java类来配置的话，注解@EnableAspectJAutoProxy</span><br><span class="line">        参考：ConcertConfig.java</span><br><span class="line">    具体方法2：使用xml文件配置，aop:aspectj-autoproxy标签</span><br><span class="line">        参考：aspect-audience-config.xml</span><br><span class="line">    作用：</span><br><span class="line">        1 AspectJ自动代理会给bean创建一个代理————这个代理会包围切点所匹配的bean，以提供切面的功能</span><br><span class="line">        2 Audience切面类中的通知方法会在切点所指定的连接点perform()方法调用的前后执行[this is the final propose]</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<p>Spring对AOP的实现：Spring AOP</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">特征：</span><br><span class="line">    1 使用@AspectJ来声明切面类；</span><br><span class="line">    2 只能够对方法调用这样的操作进行通知；因为代理类就只能对方法的调用进行代理</span><br><span class="line">原理：为被通知的类创建一个代理类，在代理类中实现目标对象的增强（通知方法）</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="1-为目标方法创建一个环绕通知"><a href="#1-为目标方法创建一个环绕通知" class="headerlink" title="1.为目标方法创建一个环绕通知"></a>1.为目标方法创建一个环绕通知</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">创建环绕通知（round advice）</span><br><span class="line">作用：使用自定义的逻辑包围被通知的目标方法； aka 前置通知 + 后置通知</span><br><span class="line">应用参考：aop.Audience.watchPerformance()环绕通知方法</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="2-在通知方法中使用目标方法中的参数"><a href="#2-在通知方法中使用目标方法中的参数" class="headerlink" title="2.在通知方法中使用目标方法中的参数"></a>2.在通知方法中使用目标方法中的参数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">issue：当被通知的目标方法有参数时，通知方法要怎样才能使用这些参数呢？</span><br><span class="line">需求：记录光盘中某个磁道被播放的次数</span><br><span class="line">手段1：在playTrack()方法中添加一个计数器————每次playTrack()方法被调用后，都更新计数器的值；</span><br><span class="line">手段2：既然这个需求与播放磁道是不同的任务，把这个需求放在切面中来完成；</span><br><span class="line">参考：TrackCounter.java</span><br><span class="line">验证：</span><br><span class="line">	1 通过代码显式地播放某个磁道多次（playTrack()）;</span><br><span class="line">	2 然后调用计数器counter的getPlayCount()来判断记录的次数是否正确</span><br><span class="line">特征：getPlayCount()并没有在CD的方法中，但是同样获取到了方法的调用次数</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="3-为目标类添加新的方法"><a href="#3-为目标类添加新的方法" class="headerlink" title="3.为目标类添加新的方法"></a>3.为目标类添加新的方法</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">任务：为目标对象添加新的方法：</span><br><span class="line">实现手段：代理对象在实现目标类接口的同时，再实现新添加的接口； aka 为目标对象引入（introduce）新的接口方法</span><br><span class="line">原理：代理会把对目标对象的所有方法调用都委托到底层的具体实现；</span><br><span class="line">特征：</span><br><span class="line">    1 对客户端程序员来说，他只是在一个对象上调用方法（他用的其实是一个代理对象）；</span><br><span class="line">    2 在底层，其实把这一个bean实例的实现分散到了多个类中；</span><br><span class="line">应用：</span><br><span class="line">    在不改动类的原始代码的情况下，灵活地为现有类添加新方法</span><br><span class="line">SOP:</span><br><span class="line">    1 创建一个新的切面类；</span><br><span class="line">    参考：EncoreableIntroducer</span><br><span class="line">    2 在IoC容器中，把切面类声明为一个Spring Bean；</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<h4 id="3-使用XML来实现上面的所有任务-需求"><a href="#3-使用XML来实现上面的所有任务-需求" class="headerlink" title="3.使用XML来实现上面的所有任务/需求"></a>3.使用XML来实现上面的所有任务/需求</h4><h5 id="3-1-声明一个类为切面；"><a href="#3-1-声明一个类为切面；" class="headerlink" title="3.1 声明一个类为切面；"></a>3.1 声明一个类为切面；</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">特征：</span><br><span class="line">    1 能够在没有组件源码的情况下（比如说使用的第三方组件），能够对组件进行插入切面的操作；</span><br><span class="line">    2 相比于“java配置类”的手段，使用XML配置没有侵入性。也就是说，这种方式不要求你对原始代码做出任何的改动 </span><br><span class="line">实现手段：Spring的aop命名空间下的多个元素；</span><br><span class="line">    例：</span><br><span class="line">        aop:aspectj-autoproxy</span><br><span class="line">        作用：自动创建代理对象————代理由@AspectJ所注解的通知类</span><br><span class="line">SOP:</span><br><span class="line">    1 去掉添加在切面类上的所有AspectJ提供的注解：@AspectJ、@Before、@After、@Around</span><br><span class="line">    现在有的只是一个单纯的POJO类</span><br><span class="line"></span><br><span class="line">    2 在XML中声明这个类为一个通知类（通知 + 切点 &#x3D; 切面）</span><br><span class="line">    通知是一个类、切点是一个表达式、切面是一个概念（when、where、what）</span><br><span class="line">    参考：announce-audience-via-xmlconfig.xml</span><br><span class="line">    使用切点方法对切点表达式的usage进行简化</span><br></pre></td></tr></table></figure>
-
-<h5 id="3-2-在XML声明环绕通知"><a href="#3-2-在XML声明环绕通知" class="headerlink" title="3.2 在XML声明环绕通知"></a>3.2 在XML声明环绕通知</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">环绕通知：</span><br><span class="line">原理：通知方法会包装目标方法，然后在目标方法调用前后添加一些功能；</span><br><span class="line">特征：</span><br><span class="line">    1 等同于前置通知方法 + 后置通知方法；</span><br><span class="line">    2 能够省去前置通知方法 与 后置通知方法中的通信问题（多线程时，方法之间使用成员变量进行通信会有线程安全的问题）</span><br><span class="line">环绕通知方法：watchPerformance()</span><br><span class="line">手段：aop命名空间中的aop:around元素</span><br><span class="line">参考：announce-audience-via-xmlconfig.xml</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="3-3-在通知方法中使用目标方法中的参数"><a href="#3-3-在通知方法中使用目标方法中的参数" class="headerlink" title="3.3 在通知方法中使用目标方法中的参数"></a>3.3 在通知方法中使用目标方法中的参数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">手段：为“通知方法”传递参数;</span><br><span class="line">特征：为通知方法所传递的参数应该是目标方法中的参数</span><br><span class="line">SOP:</span><br><span class="line">    1 去掉切面类上添加的@AspectJ注解</span><br><span class="line">    参考：TrackCounterWithoutAnnotation</span><br><span class="line">    2 通过XML配置的方式把TrackCounter声明为一个切面类</span><br><span class="line">    参考：announce-trackcounter-as-aspect-via-xmlconfig.xml</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="3-4-为目标类添加-引入新的方法"><a href="#3-4-为目标类添加-引入新的方法" class="headerlink" title="3.4 为目标类添加/引入新的方法"></a>3.4 为目标类添加/引入新的方法</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">手段：Spring aop命名空间中的&lt;aop:declare-parents&gt;元素；</span><br><span class="line">参考：add_new_methods_into_target_via_xmlconfig.xml</span><br><span class="line">SOP:</span><br><span class="line">    1 在aop:config中声明一个切面类的配置</span><br><span class="line">    2 指定预期会被通知的Bean</span><br><span class="line">    3 指定预期会为Bean的父类结构所添加的新接口</span><br><span class="line">    4 指定为添加的新接口所编写的具体实现</span><br><span class="line">that&#39;a all.</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/11/SpringAOP%E7%AC%AC%E4%B8%80%E8%B0%88%EF%BC%88%E6%9C%AF%E8%AF%AD%20&%20SOP%EF%BC%89/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-更高级的bean装配第五谈" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%94%E8%B0%88/">更高级的bean装配第五谈</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%94%E8%B0%88/" class="archive-article-date">
-  	<time datetime="2020-05-05T14:33:48.477Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>更高级的bean装配第五谈</p>
-<hr>
-<h4 id="在运行时向方法中装配-注入值"><a href="#在运行时向方法中装配-注入值" class="headerlink" title="在运行时向方法中装配/注入值"></a>在运行时向方法中装配/注入值</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">需求：避免在声明bean时使用硬编码；</span><br><span class="line">手段：使原来硬编码的值推迟到运行时再确定；</span><br><span class="line">具体方法：Spring提供的再运行时求值的方式</span><br><span class="line">    1 属性占位符（Property placeholder）</span><br><span class="line">    2 Spring表达式语言（SpEL）</span><br></pre></td></tr></table></figure>
-
-<h5 id="使用属性表达式来动态注入值"><a href="#使用属性表达式来动态注入值" class="headerlink" title="使用属性表达式来动态注入值"></a>使用属性表达式来动态注入值</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">手段SOP：</span><br><span class="line">    1 把属性单独定义到一个properties文件中（外部文件）</span><br><span class="line">    2 在java配置类中加载属性文件到Spring的Environment中</span><br><span class="line">    3 在java代码中从Environment中获取到属性值————用于替换占位符所占的位置</span><br><span class="line">参考：EnvironmentConfig</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>Spring中的Environment实例：getProperty()方法的各种重载</p>
-<hr>
-<h6 id="在xml配置文件中使用属性占位符"><a href="#在xml配置文件中使用属性占位符" class="headerlink" title="在xml配置文件中使用属性占位符"></a>在xml配置文件中使用属性占位符</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SOP:</span><br><span class="line">	1 在java配置类中声明PropertySourcesPlaceholderConfigurer这个bean；</span><br><span class="line">    或者在xml配置文件中，使用context命名空间中的property-placeholder元素</span><br><span class="line">	2 在需要属性值的地方使用属性占位符</span><br><span class="line">作用：用于解析占位符；</span><br><span class="line">特征：</span><br><span class="line">    1 把值得注入操作推迟到运行时；</span><br><span class="line">    2 属性表达式需要放在$&#123;xxx&#125;中</span><br><span class="line">原理：根据名称来解析来自于Spring Environment和属性源中的属性值</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h6 id="使用SpEL表达式来动态注入值"><a href="#使用SpEL表达式来动态注入值" class="headerlink" title="使用SpEL表达式来动态注入值"></a>使用SpEL表达式来动态注入值</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">作用：把一个变量装配到bean的方法中</span><br><span class="line">特征：变量的值在运行时才会计算出来</span><br><span class="line">用法：</span><br><span class="line">    1 SpEL表达式要放在#&#123;xxx&#125;中</span><br><span class="line">    2 引用字面量的值</span><br><span class="line">    3 引用bean、属性以及方法</span><br><span class="line">    4 访问类作用域的方法与常量：T()运算符   语法：T(java类型)</span><br><span class="line">    5 使用运算符来创建复杂的表达式</span><br><span class="line">        使用三目运算符来检查null值</span><br><span class="line">    6 匹配正则表达式的模式</span><br><span class="line">    7 计算集合</span><br><span class="line">太强不记 有点子像正则表达式哈</span><br></pre></td></tr></table></figure>
-
-<p>it’s running late,call it a day~</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%94%E8%B0%88/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-更高级的bean装配第四谈" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E5%9B%9B%E8%B0%88/">更高级的bean装配第四谈</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E5%9B%9B%E8%B0%88/" class="archive-article-date">
-  	<time datetime="2020-05-05T14:19:28.147Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>更高级的bean装配第四谈</p>
-<hr>
-<h4 id="Spring中bean实例的作用域"><a href="#Spring中bean实例的作用域" class="headerlink" title="Spring中bean实例的作用域"></a>Spring中bean实例的作用域</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">说明：Spring应用上下文中的bean默认都是单例的；</span><br><span class="line">单例：一个类就只会创建一个bean实例；</span><br><span class="line">特征：</span><br><span class="line">    1 bean实例没有状态，对所有的其他bean都是一样的；</span><br><span class="line">    2 能够在应用中反复使用；</span><br></pre></td></tr></table></figure>
-
-<p>pickle：如果对象需要保持自己的状态，这时候再反复重用就行不通了（单例作用域也就不适用了）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">解决手段：</span><br><span class="line">Spring为bean实例提供了多种作用域；</span><br><span class="line">    1 单例：整个应用中，就只有一个bean实例；[这是默认的作用域]</span><br><span class="line">    2 原型：</span><br><span class="line">        01 每次注入&#x2F;装配时，</span><br><span class="line">        02 每次通过Spring容器获取时，都会创建一个新的bean实例</span><br><span class="line">    3 会话：</span><br><span class="line">        为web应用中的每一个会话创建一个bean实例；</span><br><span class="line">        特征：适用于购物车需求</span><br><span class="line">    4 请求：</span><br><span class="line">        在Web应用中，为每个请求创建一个bean实例；</span><br></pre></td></tr></table></figure>
-
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">需求：在配置Bean时，手动指定bean实例的作用域；</span><br><span class="line">手段：使用@Scope注解声明bean实例的作用域</span><br><span class="line">参见：Notepad.java</span><br><span class="line">    &#x2F;&#x2F; 获取可配置的bean工厂的静态常量xxx作为注解的参数</span><br><span class="line">    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE) &#x2F;&#x2F; 手动指定bean实例的作用域</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">需求：Web应用中的购物车；</span><br><span class="line">参考：ShoppingCart.java</span><br><span class="line">作用：每个会话中，只会有一个购物车实例；</span><br></pre></td></tr></table></figure>
-
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">需求：把会话&#x2F;请求作用域的bean注入到单例bean中；</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 单例Bean</span><br><span class="line">	... &#x2F;&#x2F; 装配&#x2F;注入一个会话域的bean作为参数</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 会话作用域的Bean</span><br><span class="line">@Scope(value&#x3D;WebApplicationContext.SCOPE_SESSION, proxyMode&#x3D;ScopedProxyMode.INTERFACES)</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-
-<h5 id="pickle-one"><a href="#pickle-one" class="headerlink" title="pickle one:"></a>pickle one:</h5><p>1 storeService是一个单例的bean实例——它会在Spring应用上下文被加载的时候创建；<br>2 在创建1中的bean实例时，Spring会尝试把ShoppingCart bean实例注入到方法中。但是此时shoppingCart bean实例还不存在<br>说明：会话作用域的bean实例在用户登录系统创建了会话之后才会创建；</p>
-<hr>
-<h5 id="pickle-two"><a href="#pickle-two" class="headerlink" title="pickle two:"></a>pickle two:</h5><p>3 应用中会包含多个shoppingCart的Bean实例，注入setter方法的时候。使用任何一个具体的bean都不好</p>
-<h4 id="Spring给出的解决方案：proxyMode属性"><a href="#Spring给出的解决方案：proxyMode属性" class="headerlink" title="Spring给出的解决方案：proxyMode属性"></a>Spring给出的解决方案：proxyMode属性</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">原理：不装配&#x2F;注入某个具体的bean实例，而是注入一个bean的代理；</span><br><span class="line">特征：</span><br><span class="line">        1 客户端可以无差别地像使用目标对象一样使用代理</span><br><span class="line">        2 当调用shoppingCart的方法时，代理会对此调用进行懒加载</span><br><span class="line">        3 代理会把调用委托给会话作用域中真正的bean</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<p>proxyMode语义说明：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">proxyMode&#x3D;ScopedProxyMode.INTERFACES</span><br><span class="line">语义：声明代理需要实现xxx接口； 基于xxx接口的代理</span><br><span class="line">这里的xxx就是方法的返回值</span><br></pre></td></tr></table></figure>
-
-<p>如果方法的返回值不是接口类型，而是具体类型呢？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">手段：以生成目标类扩展的方式创建代理；</span><br><span class="line">具体方法：ScopedProxyMode.TARGET_CLASS</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>ProxyMode是如何解决上面的pickle one + two的？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pickle1：进行注入时，购物车的bean实例还不存在；</span><br><span class="line">解决手段：对方法调用进行懒解析，从而延迟注入的操作</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pickle2：注入bean时，不应该注入具体的bean。而应该注入当前会话中的bean实例</span><br><span class="line">解决手段：不是注入具体的bean实例，而是注入一个代理对象</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="XML的替换方案"><a href="#XML的替换方案" class="headerlink" title="XML的替换方案"></a>XML的替换方案</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">使用xml来配置会话作用域&#x2F;请求作用域的bean：</span><br><span class="line">1 配置bean为会话作用域；</span><br><span class="line">手段：bean元素的scope属性；</span><br><span class="line">2 如何设置代理模式呢？</span><br><span class="line">手段：Spring aop命名空间的&lt;aop:scoped-proxy&gt;元素</span><br><span class="line">作用：告诉Spring为bean创建一个作用域代理；</span><br><span class="line">特征：</span><br><span class="line">    1 默认情况下会使用CGLib来创建目标类的代理；</span><br><span class="line">    2 通过添加proxy-target-class&#x3D;false，可以指定Spring生成基于接口的代理；</span><br></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E5%9B%9B%E8%B0%88/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-更高级的bean装配第三谈" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%B8%89%E8%B0%88/">更高级的bean装配第三谈</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%B8%89%E8%B0%88/" class="archive-article-date">
-  	<time datetime="2020-05-05T14:07:08.807Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>更高级的bean装配第三谈</p>
-<hr>
-<p>自动装配面临的问题：进行装配时，如果有多个bean实例满足需求，装配进来哪一个呢？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">场景：</span><br><span class="line">自动装配一个setter()方法，装配进一个接口类型的参数；</span><br><span class="line">该接口类型有多个实现类；</span><br><span class="line">所有的实现类都添加了@Component注解；</span><br></pre></td></tr></table></figure>
-
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">说明：注入Bean时出现歧义的情况是非常罕见的；</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h5 id="当出现多个满足需求的bean实例时，可以有下面这些个解决方案："><a href="#当出现多个满足需求的bean实例时，可以有下面这些个解决方案：" class="headerlink" title="当出现多个满足需求的bean实例时，可以有下面这些个解决方案："></a>当出现多个满足需求的bean实例时，可以有下面这些个解决方案：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">手段1 标志出首选的bean</span><br><span class="line">具体方法：使用@Primary注解标识一个指定的bean</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">手段2：使用Spring提供的限定符@Qualifier(&quot;bean id&quot;)</span><br><span class="line">特征：</span><br><span class="line">    1 能够把满足条件的bean限定到只有一个</span><br><span class="line">    2 依赖于String类型的参数，所以无法应对Bean的类名被重构的情况</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">手段3：创建并使用自定义的限定符注解</span><br><span class="line">特征：</span><br><span class="line">    1 在注入依赖的位置，可以使用多个自定义的限定符————把目标Bean的可选范围缩小到1个</span><br><span class="line">    2 不再显式指定依赖关系，而是使用自定义的特性限定符来指定；</span><br><span class="line">    3 setter()方法与具体的Dessert实现进行解耦；</span><br></pre></td></tr></table></figure>
-
-
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%B8%89%E8%B0%88/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -1282,8 +383,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
