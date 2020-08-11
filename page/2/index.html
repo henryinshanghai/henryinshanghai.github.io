@@ -152,6 +152,183 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-更高级的bean配置第一谈" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E9%85%8D%E7%BD%AE%E7%AC%AC%E4%B8%80%E8%B0%88/">更高级的bean配置第一谈</a>
+    </h1>
+  
+
+        
+        <a href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E9%85%8D%E7%BD%AE%E7%AC%AC%E4%B8%80%E8%B0%88/" class="archive-article-date">
+  	<time datetime="2020-05-05T08:56:51.173Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>更高级的bean配置第一谈</p>
+<hr>
+<p>应用：根据那个激活的profile来决定是否要创建某个bean；</p>
+<p>说明：同一个项目，在不同的阶段，某个bean实例的获取方式可能是不一样的；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">开发时的常见操作（表示没用过）：</span><br><span class="line">    使用嵌入式数据库；</span><br><span class="line">    作用：快速获取到一个dataSource，并预先加载测试数据；</span><br><span class="line">    参考：EmbeddedDatabaseBuilder</span><br><span class="line"></span><br><span class="line">生产环境中的常见操作：</span><br><span class="line">    使用JNDI从容器中获取一个DataSource；</span><br><span class="line">    作用：由容器决定如何创建这个DataSource；</span><br><span class="line">    特征：</span><br><span class="line">        有一定的复杂性</span><br><span class="line"></span><br><span class="line">QA环境中的常见操作：</span><br><span class="line">    其他获取dataSource的方式</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h4 id="Problem-amp-Solution"><a href="#Problem-amp-Solution" class="headerlink" title="Problem &amp; Solution"></a>Problem &amp; Solution</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">现象说明：不同环境中的某一个bean实例可能会有所不同。</span><br><span class="line">解决思路：通过某种技术，使得dataSource能够在不同的环境下选择对应的配置；</span><br><span class="line">实现手段1：单独配置每一种bean实例，然后在构建时决定把哪一个bean实例的配置编译到可部署的应用中</span><br><span class="line">特征：</span><br><span class="line">    需要重复地构建应用</span><br><span class="line"></span><br><span class="line">实现手段2：Spring提供的profile bean；</span><br><span class="line">作用：根据环境来决定该创建哪一个bean；</span><br><span class="line">特征：</span><br><span class="line">    1 在运行时才确定使用哪一个bean的配置；</span><br><span class="line">    2 这使得同一个部署包适用于所有的环境，部署时不需要重新进行构建；</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p>Spring提供的profile bean用法SOP：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">用法SOP:</span><br><span class="line">    1 把所有的bean定义添加到&#x2F;绑定到一个profile中；</span><br><span class="line">    手段：在配置类&#x2F;方法上添加@Profile(&quot;dev&quot;)注解；</span><br><span class="line">    作用：告诉Spring，当前配置类中的bean&#x2F;方法所绑定的bean[使用@Bean声明]只有在dev profile激活时才会创建</span><br><span class="line">    参考：DataSourceConfig.java</span><br><span class="line">    特征：</span><br><span class="line">        1 对于添加了@Profile的bean：当指定的profile被激活时，它修饰的bean才会被创建</span><br><span class="line">        2 没有添加@Profile的bean：总是会被创建</span><br><span class="line">        3 通过XML配置文件能完成同样的功能（略）</span><br><span class="line"></span><br><span class="line">    2 在把应用部署到指定环境时，确保该环境对应的profile处于激活状态</span><br><span class="line">    手段：设置 spring.profiles.active &#x2F; spring.profile.default 这个属性的值；</span><br><span class="line">    如何设置这两个属性的值呢？</span><br><span class="line">    推荐方式：使用DispatcherServlet的参数来把spring.profile.default设置为开发环境的profile</span><br><span class="line">    具体方法1：在servlet上下文（web.xml）中进行设置</span><br><span class="line">        参考：web.xml</span><br><span class="line">            &lt;servlet&gt;</span><br><span class="line">                &lt;init-param&gt;</span><br><span class="line">                    &lt;param-name&gt;xxx&lt;&#x2F;param-name&gt;</span><br><span class="line">                ...</span><br><span class="line">            ...</span><br><span class="line">        特征：</span><br><span class="line">            1 项目中的所有成员拉取代码后，都能使用开发环境的设置来运行代码。不需要任何额外的配置</span><br><span class="line">            2 在部署项目到其他环境时，部署人员可以再对应设置spring.profiles.active属性的值</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>启示：xml文件可以在项目上直接进行改动。不需要对项目进行重新构建</p>
+<hr>
+<p>功能测试： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">测试说明：</span><br><span class="line">在我指定激活了某个profile后：</span><br><span class="line">	1 绑定到此profile上的bean是否被正常创建；</span><br><span class="line">	2 绑定到其他profile上的bean是否符合预期——没有被创建；</span><br><span class="line">	3 没有绑定任何profile的bean是否仍旧正常创建；</span><br></pre></td></tr></table></figure>
+
+
+
+<p>需求：在运行测试代码时，指定要激活的某个profile；</p>
+<p>手段：Spring提供的<strong>@ActiveProfiles(“dev”)</strong>注解</p>
+<hr>
+<p>see this in a higher view</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">任务：根据&quot;那个激活的profile&quot;来决定是否要创建某个bean；</span><br><span class="line">手段：1 把bean添加到某个profile中； 2 在web.xml中声明被激活的profile；</span><br><span class="line"></span><br><span class="line">任务扩展：根据&quot;指定的条件&quot;来决定是否要创建某个bean；</span><br><span class="line">手段：条件化的bean</span><br></pre></td></tr></table></figure>
+
+
+
+<p>emoji: 😄</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E9%85%8D%E7%BD%AE%E7%AC%AC%E4%B8%80%E8%B0%88/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Spring中bean的创建&amp;装配（第三谈）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/05/Spring%E4%B8%ADbean%E7%9A%84%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D%EF%BC%88%E7%AC%AC%E4%B8%89%E8%B0%88%EF%BC%89/">Spring中bean的创建&amp;装配（第三谈）</a>
+    </h1>
+  
+
+        
+        <a href="/2020/05/05/Spring%E4%B8%ADbean%E7%9A%84%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D%EF%BC%88%E7%AC%AC%E4%B8%89%E8%B0%88%EF%BC%89/" class="archive-article-date">
+  	<time datetime="2020-05-05T07:51:41.770Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Spring中bean的创建&amp;装配（第三谈）</p>
+<hr>
+<h4 id="方式3：使用xml文件进行配置"><a href="#方式3：使用xml文件进行配置" class="headerlink" title="方式3：使用xml文件进行配置"></a>方式3：使用xml文件进行配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SOP:</span><br><span class="line">    1 创建一个xml文件；</span><br><span class="line">    2 在文件顶部声明多个XML模式文件（XSD）————这些文件指定了在xml文件中的可用标签</span><br><span class="line">    3 在spring-bean模式下添加beans元素————作为所有bean配置的根元素；</span><br><span class="line">    4 在beans中声明所有需要Spring bean实例的配置</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="实现手段1：构造器方式注入-装配-DI"><a href="#实现手段1：构造器方式注入-装配-DI" class="headerlink" title="实现手段1：构造器方式注入/装配/DI"></a>实现手段1：构造器方式注入/装配/DI</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">声明构造器方式的DI（注入引用）</span><br><span class="line">    ref属性</span><br><span class="line">    ConstructorArgReferenceTest-context.xml</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">使用c命名空间声明构造器DI(注入引用)</span><br><span class="line">    c:xx-ref&#x3D;&quot;bean id&quot;</span><br><span class="line">    CNamespaceReferenceTest-context.xml</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">声明构造器方式的DI(注入字面量值)：</span><br><span class="line">    value&#x3D;&quot;xxx&quot;</span><br><span class="line">说明：c命名空间会有另一套规则</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">构造器方式的DI(装配字面量集合):</span><br><span class="line">    &lt;constructor-arg&gt;</span><br><span class="line">        &lt;list&gt;</span><br><span class="line">            &lt;value&gt;...&lt;&#x2F;value&gt;</span><br><span class="line">            ...</span><br><span class="line">        &lt;&#x2F;list&gt;</span><br><span class="line">    &lt;...&gt;</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">构造器方式的DI(装配引用集合)</span><br><span class="line">    ...</span><br><span class="line">        ...</span><br><span class="line">            &lt;ref&gt;...&lt;&#x2F;ref&gt;</span><br><span class="line">说明：在装配集合时，constructor-arg原生元素比c命名空间更好用</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h5 id="实现手段2：属性设置方式的注入-装配-DI"><a href="#实现手段2：属性设置方式的注入-装配-DI" class="headerlink" title="实现手段2：属性设置方式的注入/装配/DI"></a>实现手段2：属性设置方式的注入/装配/DI</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">通过setter方法注入依赖</span><br><span class="line">原则：对强依赖使用构造器注入，对可选性的依赖使用setter注入；</span><br><span class="line">用法：</span><br><span class="line">    &lt;property name&#x3D;&quot;属性名&quot; ref&#x3D;&quot;bean id&quot;&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">setter注入的替换方案：p-命名空间</span><br><span class="line">又是一套烦人的语法</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p>多种配置方式的共用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-----------</span><br><span class="line">多种装配方式的混用mix</span><br><span class="line">说明：显式的xml配置总是必不可少，因为自动扫描+装配的方式需要先启动注解扫描context:component-sacn；</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/05/Spring%E4%B8%ADbean%E7%9A%84%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D%EF%BC%88%E7%AC%AC%E4%B8%89%E8%B0%88%EF%BC%89/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Spring中Bean的创建&amp;装配（第二谈）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
