@@ -152,6 +152,83 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-更高级的bean装配第五谈" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%94%E8%B0%88/">更高级的bean装配第五谈</a>
+    </h1>
+  
+
+        
+        <a href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%94%E8%B0%88/" class="archive-article-date">
+  	<time datetime="2020-05-05T14:33:48.477Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>更高级的bean装配第五谈</p>
+<hr>
+<h4 id="在运行时向方法中装配-注入值"><a href="#在运行时向方法中装配-注入值" class="headerlink" title="在运行时向方法中装配/注入值"></a>在运行时向方法中装配/注入值</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">需求：避免在声明bean时使用硬编码；</span><br><span class="line">手段：使原来硬编码的值推迟到运行时再确定；</span><br><span class="line">具体方法：Spring提供的再运行时求值的方式</span><br><span class="line">    1 属性占位符（Property placeholder）</span><br><span class="line">    2 Spring表达式语言（SpEL）</span><br></pre></td></tr></table></figure>
+
+<h5 id="使用属性表达式来动态注入值"><a href="#使用属性表达式来动态注入值" class="headerlink" title="使用属性表达式来动态注入值"></a>使用属性表达式来动态注入值</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">手段SOP：</span><br><span class="line">    1 把属性单独定义到一个properties文件中（外部文件）</span><br><span class="line">    2 在java配置类中加载属性文件到Spring的Environment中</span><br><span class="line">    3 在java代码中从Environment中获取到属性值————用于替换占位符所占的位置</span><br><span class="line">参考：EnvironmentConfig</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>Spring中的Environment实例：getProperty()方法的各种重载</p>
+<hr>
+<h6 id="在xml配置文件中使用属性占位符"><a href="#在xml配置文件中使用属性占位符" class="headerlink" title="在xml配置文件中使用属性占位符"></a>在xml配置文件中使用属性占位符</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SOP:</span><br><span class="line">	1 在java配置类中声明PropertySourcesPlaceholderConfigurer这个bean；</span><br><span class="line">    或者在xml配置文件中，使用context命名空间中的property-placeholder元素</span><br><span class="line">	2 在需要属性值的地方使用属性占位符</span><br><span class="line">作用：用于解析占位符；</span><br><span class="line">特征：</span><br><span class="line">    1 把值得注入操作推迟到运行时；</span><br><span class="line">    2 属性表达式需要放在$&#123;xxx&#125;中</span><br><span class="line">原理：根据名称来解析来自于Spring Environment和属性源中的属性值</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h6 id="使用SpEL表达式来动态注入值"><a href="#使用SpEL表达式来动态注入值" class="headerlink" title="使用SpEL表达式来动态注入值"></a>使用SpEL表达式来动态注入值</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">作用：把一个变量装配到bean的方法中</span><br><span class="line">特征：变量的值在运行时才会计算出来</span><br><span class="line">用法：</span><br><span class="line">    1 SpEL表达式要放在#&#123;xxx&#125;中</span><br><span class="line">    2 引用字面量的值</span><br><span class="line">    3 引用bean、属性以及方法</span><br><span class="line">    4 访问类作用域的方法与常量：T()运算符   语法：T(java类型)</span><br><span class="line">    5 使用运算符来创建复杂的表达式</span><br><span class="line">        使用三目运算符来检查null值</span><br><span class="line">    6 匹配正则表达式的模式</span><br><span class="line">    7 计算集合</span><br><span class="line">太强不记 有点子像正则表达式哈</span><br></pre></td></tr></table></figure>
+
+<p>it’s running late,call it a day~</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%94%E8%B0%88/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-更高级的bean装配第四谈" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -959,85 +1036,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/05/04/Spring%E7%9A%84%E7%89%B9%E5%BE%81%E2%80%94%E2%80%94%E9%9D%A2%E5%90%91%E5%88%87%E9%9D%A2/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-drill01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/04/drill01/">drill01</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/04/drill01/" class="archive-article-date">
-  	<time datetime="2020-05-04T00:59:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="如何使用java代码在控制台打印出hello-world"><a href="#如何使用java代码在控制台打印出hello-world" class="headerlink" title="如何使用java代码在控制台打印出hello world!"></a>如何使用java代码在控制台打印出hello world!</h3><hr>
-<ol>
-<li><p>创建一个类（Test.java文件）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public class Test&#123;</span><br><span class="line">	public static void main(String[] args)&#123;</span><br><span class="line">		System.out.println(&quot;Hello World!&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ol>
-<hr>
-<ol start="2">
-<li><p>参考文献</p>
-<blockquote>
-<p>java编程思想</p>
-</blockquote>
-</li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/04/drill01/">展开全文 >></a>
         </p>
       
 
