@@ -152,6 +152,115 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-算法/链表/删除有序链表中的重复元素（递归方式）_04_2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/08/14/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A0%E9%99%A4%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0%EF%BC%88%E9%80%92%E5%BD%92%E6%96%B9%E5%BC%8F%EF%BC%89_04_2/">算法/链表/删除有序链表中的重复元素（递归方式）_04_2</a>
+    </h1>
+  
+
+        
+        <a href="/2020/08/14/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A0%E9%99%A4%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0%EF%BC%88%E9%80%92%E5%BD%92%E6%96%B9%E5%BC%8F%EF%BC%89_04_2/" class="archive-article-date">
+  	<time datetime="2020-08-14T07:25:26.291Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="删除有序链表中的重复元素（递归方式）"><a href="#删除有序链表中的重复元素（递归方式）" class="headerlink" title="删除有序链表中的重复元素（递归方式）"></a>删除有序链表中的重复元素（递归方式）</h3><h4 id="题目要求"><a href="#题目要求" class="headerlink" title="题目要求"></a>题目要求</h4><p><img src="https://s1.ax1x.com/2020/08/14/dCTVln.png" alt="题设与要求"></p>
+<h4 id="分析（确定思路）"><a href="#分析（确定思路）" class="headerlink" title="分析（确定思路）"></a>分析（确定思路）</h4><ul>
+<li><p>使用递归的可行性；</p>
+<ul>
+<li>问题能够被分解为规模更小的问题吗？</li>
+</ul>
+<p>答：可以。手段：把链表视为：头节点head + 剩余节点组成的链表rest;</p>
+<ul>
+<li>可以在更小的问题上应用当前操作，并用它的返回值来帮助解决大问题吗？</li>
+</ul>
+<p>答：可以。对递归调用的返回值做一些额外的处理，就能得到整个链表删除重复元素之后的结果。</p>
+</li>
+</ul>
+<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    ListNode next;</span><br><span class="line">    ListNode(<span class="keyword">int</span> val)&#123;</span><br><span class="line">        <span class="keyword">this</span>.val = val;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span></span>&#123;</span><br><span class="line">    <span class="comment">// 1 递归方法的作用：删除链表中的重复元素并返回更新后的链表/头节点</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">deleteDuplicates</span><span class="params">(ListNode head)</span></span>&#123;</span><br><span class="line">        <span class="comment">// 2 递归终结条件 链表为空 OR 链表中就只有一个节点</span></span><br><span class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span> || head.next == <span class="keyword">null</span>) <span class="keyword">return</span> head;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 3 本级递归需要做的事情</span></span><br><span class="line">        <span class="comment">// ① 把链表视为：头节点head + 剩余节点构成的链表rest；</span></span><br><span class="line">        <span class="comment">// ② 对rest链表执行删除重复节点的操作（假设已经有一个功能可用的API）；</span></span><br><span class="line">        <span class="comment">// ③ 对返回值进行必要的处理</span></span><br><span class="line">        ListNode rest = deleteDuplicates(head.next); <span class="comment">// ② </span></span><br><span class="line">        <span class="keyword">if</span>(head.val == rest.val)&#123; <span class="comment">// 头节点的值与rest头节点的值相等... 重复了</span></span><br><span class="line">             <span class="comment">// 更新head指针</span></span><br><span class="line">             head = rest;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 把rest连接到head上</span></span><br><span class="line">            head.next = rest;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 返回新链表的头节点</span></span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="代码实现步骤SOP分解"><a href="#代码实现步骤SOP分解" class="headerlink" title="代码实现步骤SOP分解"></a>代码实现步骤SOP分解</h4><ul>
+<li>确定递归的可行性</li>
+<li>确定递归方法的作用与返回值</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1 递归方法的作用：删除链表中的重复元素并返回更新后的链表/头节点</span></span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>确定递归方法的终结条件</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2 递归终结条件 链表为空 OR 链表中就只有一个节点</span></span><br><span class="line"><span class="keyword">if</span>(head == <span class="keyword">null</span> || head.next == <span class="keyword">null</span>) <span class="keyword">return</span> head;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>确定本级递归需要完成的事情</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 3 本级递归需要做的事情</span></span><br><span class="line"><span class="comment">// ① 把链表视为：头节点head + 剩余节点构成的链表rest；</span></span><br><span class="line"><span class="comment">// ② 对rest链表执行删除重复节点的操作（假设已经有一个功能可用的API）；</span></span><br><span class="line"><span class="comment">// ③ 对返回值进行必要的处理</span></span><br><span class="line">ListNode rest = deleteDuplicates(head.next); <span class="comment">// ② </span></span><br><span class="line"><span class="keyword">if</span>(head.val == rest.val)&#123; <span class="comment">// 头节点的值与rest头节点的值相等... 重复了</span></span><br><span class="line">    <span class="comment">// 更新head指针</span></span><br><span class="line">    head = rest;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 把rest连接到head上</span></span><br><span class="line">    head.next = rest;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>返回正确链表的头指针（最好画图确认）</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 返回新链表的头节点</span></span><br><span class="line"><span class="keyword">return</span> head;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="启示"><a href="#启示" class="headerlink" title="启示"></a>启示</h4><p>在分析递归可行的情况下，对递归调用的返回值还需要进一步处理。</p>
+<p>基本的原则是：使用递归调用的返回值来解决本级递归所需要解决的问题；</p>
+<blockquote>
+<p>until next time 😄</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/08/14/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A0%E9%99%A4%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0%EF%BC%88%E9%80%92%E5%BD%92%E6%96%B9%E5%BC%8F%EF%BC%89_04_2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-算法/链表/删除排序链表中的重复元素(迭代方式)_04" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1200,92 +1309,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/05/17/Spring%20Web%E5%BA%94%E7%94%A8%E7%AC%AC%E4%B8%80%E8%B0%88%EF%BC%88%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E7%9A%84%E4%B8%AD%E6%9E%A2DispatcherServlet%EF%BC%89/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Spring AOP第二谈（与AspectJ AOP的对比）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/11/Spring%20AOP%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%88%E4%B8%8EAspectJ%20AOP%E7%9A%84%E5%AF%B9%E6%AF%94%EF%BC%89/">Spring AOP第二谈（与AspectJ AOP的对比）</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/11/Spring%20AOP%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%88%E4%B8%8EAspectJ%20AOP%E7%9A%84%E5%AF%B9%E6%AF%94%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2020-05-10T16:26:00.038Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Spring AOP第二谈（与AspectJ AOP的对比）</p>
-<hr>
-<h4 id="1-AOP的实现方案"><a href="#1-AOP的实现方案" class="headerlink" title="1.AOP的实现方案"></a>1.AOP的实现方案</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">方案1：Spring AOP；</span><br><span class="line">方案2：AspectJ；</span><br><span class="line">特征：AspectJ提供了很多其他的切点类型（Spring AOP只能提供方法调用的切点类型）</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<h4 id="2-在创建对象时应用指定的通知"><a href="#2-在创建对象时应用指定的通知" class="headerlink" title="2. 在创建对象时应用指定的通知"></a>2. 在创建对象时应用指定的通知</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">需求：在创建对象时应用指定的通知；</span><br><span class="line">说明：创建对象需要调用Bean的构造器，但是Spring AOP无法指定这样的连接点&#x2F;切点类型</span><br><span class="line">为什么Spring AOP实现不了呢？</span><br><span class="line">答：因为它基于代理实现，只能做一些方法层面的操作；</span><br><span class="line">手段：使用AspectJ提供的AOP功能；</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<h4 id="3-管理由AspectJ创建的切面bean所依赖的Spring组件"><a href="#3-管理由AspectJ创建的切面bean所依赖的Spring组件" class="headerlink" title="3. 管理由AspectJ创建的切面bean所依赖的Spring组件"></a>3. 管理由AspectJ创建的切面bean所依赖的Spring组件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">说明：一个通知方法可能需要依赖其他的类来实现功能。</span><br><span class="line">需求：管理通知方法所依赖的其他类</span><br><span class="line">手段：把通知方法所依赖的Bean注入到切面类中</span><br><span class="line"></span><br><span class="line">--</span><br><span class="line">需求：为演出创建一个评论员的角色；</span><br><span class="line">功能：观看演出，并在观看完成后提出一些批评意见</span><br><span class="line">参考：CriticAspect + CriticismEngine + CriticismEngineImpl + bean_declare_xmlconfig</span><br><span class="line">特征：</span><br><span class="line">    1 AspectJ切面不需要Spring就可以织入到我们的应用中;</span><br><span class="line">    2 但是如果想要使用Spring来管理AspectJ的一些个依赖，就需要把AspectJ切面来声明成一个Spring bean</span><br><span class="line">    参考：bean_declare_xmlconfig.xml</span><br><span class="line">    3 AspectJ切面bean不是Spring容器创建的，而是AspectJ在运行时创建的；</span><br><span class="line">    4 为了能够在Spring中获取到AspectJ切面的实例，需要调用切面类的aspectOf()方法————此方法返回切面类的一个单例</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="4-AOP小结"><a href="#4-AOP小结" class="headerlink" title="4.AOP小结"></a>4.AOP小结</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">------</span><br><span class="line">AOP：</span><br><span class="line">是：一种编程方式；</span><br><span class="line">作用：把分散在应用各处的行为集中在一个模块中（方便管理），并作为重用模块（方便引用）</span><br><span class="line">特征：</span><br><span class="line">    1 使程序员编写的类更加简洁、准确；</span><br></pre></td></tr></table></figure>
-
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">需求：支持AOP形式的编程风格；</span><br><span class="line">Spring提供的手段：Spring AOP；</span><br><span class="line">原理：</span><br><span class="line">    在程序员进行必要的操作后，Spring AOP会创建一个代理类，在代理类中把切面插入到目标方法执行的周围；</span><br><span class="line">必要的操作：</span><br><span class="line">    1 程序员通过自定义切面来声明预期插入到目标类&#x2F;方法中的功能；</span><br><span class="line">    2 程序员通过编写切点表达式来声明应用切面中的通知；</span><br></pre></td></tr></table></figure>
-
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">应用：</span><br><span class="line">    1 把通知织入&#x2F;应用前置、后置和环绕方法的调用中；</span><br><span class="line">    2 为异常处理添加自定义的行为————抛出异常时的通知方法；</span><br><span class="line">    3 与DI一起，支持程序员创建松散耦合的应用</span><br><span class="line">用法SOP:</span><br><span class="line">    1 声明切面类；</span><br><span class="line">    2 配置切面类中的通知方法（when + where + what）</span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/11/Spring%20AOP%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%88%E4%B8%8EAspectJ%20AOP%E7%9A%84%E5%AF%B9%E6%AF%94%EF%BC%89/">展开全文 >></a>
         </p>
       
 

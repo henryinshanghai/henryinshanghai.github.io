@@ -152,6 +152,101 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Spring初体验" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/05/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/">Spring初体验</a>
+    </h1>
+  
+
+        
+        <a href="/2020/05/05/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/" class="archive-article-date">
+  	<time datetime="2020-05-04T17:04:35.734Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Spring初体验"><a href="#Spring初体验" class="headerlink" title="Spring初体验"></a>Spring初体验</h3><hr>
+<p>降低bean之间的耦合程度：DI</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1 在配置文件中装配&#x2F;声明bean之间的关系：</span><br><span class="line">    定义应用的多个组件之间的依赖关系&#x2F;协作关系；</span><br><span class="line">Spring中实现装配的方式：</span><br><span class="line">    1 使用XML配置文件；</span><br><span class="line">    参考：knight.xml</span><br><span class="line">    2 使用java类来描述配置；</span><br><span class="line">    参考：KnightConfig.java</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">2 装载XML配置文件到Spring容器&#x2F;上下文，然后启动应用</span><br><span class="line">任务：装载bean的定义到Spring容器并把多个bean按照指定关系组装起来；</span><br><span class="line">Spring提供的手段：应用上下文（Application Context）；</span><br><span class="line">说明：Spring提供了多种应用上下文的具体实现————这些实现对应于不同的配置方式;</span><br><span class="line">参考：KnightMain.java</span><br><span class="line">    Ⅰ 加载配置文件到应用上下文实例中</span><br><span class="line">    Ⅱ 从应用上下文实例中获取到配置的指定bean</span><br><span class="line">    Ⅲ 调用bean的方法</span><br><span class="line">    Ⅳ 关闭上下文对象</span><br><span class="line"></span><br><span class="line">装配的过程是使用DI实现的——DI能够使各个组件保持松散耦合</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">3 专注于业务逻辑————分离出横切关注点（面向切面编程）</span><br><span class="line">常见的横切关注点（aka 大家都会用到的功能，最好能够单独提取出来。被所有方法复用）：</span><br><span class="line">    1 日志；</span><br><span class="line">    2 事务管理；</span><br><span class="line">    3 安全；</span><br><span class="line">手段：AOP；</span><br><span class="line">用法：</span><br><span class="line">    1 实现横切关注点；</span><br><span class="line">    2 以声明的方式添加关注点&#x2F;切面到指定连接点处；</span><br><span class="line">特征：</span><br><span class="line">    1 业务代码更加专注————代码中完全不需要处理任何的横切关注点；</span><br><span class="line">    2 横切关注点可以添加在多个方法&#x2F;连接点上；</span><br><span class="line">参考：</span><br><span class="line">    Minstrel 吟游诗人（一个POJO类）</span><br><span class="line">    BraveKnight 游侠骑士</span><br><span class="line">SOP:</span><br><span class="line">    1 把minstrel声明为一个切面；</span><br><span class="line">    参考：minstrel.xml</span><br><span class="line">        添加aop:aspect命名空间</span><br><span class="line">        添加bean到Spring管理</span><br><span class="line">        添加bean的切面相关信息：</span><br><span class="line">            切点（多个连接点）、前置通知、后置通知</span><br><span class="line">    特征：</span><br><span class="line">        1 Minstrel仍旧是一个POJO类；</span><br><span class="line">        2 在XML配置后，这个POJO类就成了Spring中的一个切面；</span><br><span class="line">        3 Minstrel与Knight之间没有任何相互调用的代码 aka 没有直接耦合</span><br><span class="line">        由于配置文件的存在，Knight与Minstrel组件之间被解除耦合了</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Spring简化java开发第4弹————消除样板(boilerplate)代码；</span><br><span class="line">手段：Spring内置的模板</span><br><span class="line">说明：尽管java APIs提供了统一的编程规范，但是它同样也产生了大量重复的boilerplate代码</span><br><span class="line">参考：使用java JDBC原生提供的APIs编写代码操作数据库 VS. 使用Spring提供的模板来操作数据库</span><br><span class="line">注：一般在项目中会直接集成第三方的框架（MyBatis等）</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p> Spring容器</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Spring中的大管家：Spring容器</span><br><span class="line">作用：管理Spring中所有的bean对象（CRUD and more~）</span><br><span class="line">特征：</span><br><span class="line">    1 Spring容器借助DI管理bean之间的关系；</span><br><span class="line">    2 Spring提供的容器实现有两种大类：beanFactory（基础容器） VS. ApplicationContext（更高级的容器）</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Spring中应用上下文的具体实现：</span><br><span class="line">    说明：这些实现类的不同在于————加载应用上下文的方式不同</span><br><span class="line">    1 AnnotationConfigApplicationContext;   加载应用上下文的方式：java配置类</span><br><span class="line">    2 AnnotationConfigWebApplicationContext;    加载Web应用上下文？？？</span><br><span class="line">    3 ClassPathXmlApplicationContext;       加载应用上下文的方式：类路径中的xml配置文件</span><br><span class="line">    4 FileSystemXmlApplicationContext;      加载应用上下文的方式：文件系统中的xml配置文件</span><br><span class="line">    5 XmlWebApplicationContext;     加载应用上下文的方式：Web应用中的xml配置文件</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">获取到应用上下文实例之后，如何使用这个容器来管理bean的声明周期呢？</span><br><span class="line">Spring容器管理下bean生命周期（比较费劲）：</span><br><span class="line">    1 实例化；</span><br><span class="line">    2 填充属性&#x2F;初始化；</span><br><span class="line">    3 调用BeanNameAware的setBeanName()方法；</span><br><span class="line">    4 调用BeanFactoryAware的setBeanFactory()方法；</span><br><span class="line">    5 调用ApplicationContextAware的setApplicationContext()方法；</span><br><span class="line">    ---</span><br><span class="line">    6 调用BeanPostProcessor的预初始化方法；</span><br><span class="line">    7 调用InitializingBean的afterPropertiesSet()方法；</span><br><span class="line">    8 调用自定义的初始化方法；</span><br><span class="line">    9 调用BeanPostProcessor的后初始化方法；</span><br><span class="line">    --- bean能够正常使用了</span><br><span class="line">    10 容器关闭时，调用DisposableBean的destroy()方法</span><br><span class="line">    11 调用自定义的销毁方法</span><br><span class="line">    注：程序员还可以根据自己需要再添加新的生命阶段</span><br></pre></td></tr></table></figure>
+
+
+
+<p>源码备注：<a href="https://www.manning.com/books/spring-in-action-fourth-edition" target="_blank" rel="noopener">https://www.manning.com/books/spring-in-action-fourth-edition</a></p>
+<p>注：使用Gradle工具构建的项目，可能会踩一些莫名其妙的坑。这时候你需要了解一下Gradle的用法</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/05/Spring%E5%88%9D%E4%BD%93%E9%AA%8C/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Spring的特征——面向切面" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
