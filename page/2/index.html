@@ -152,6 +152,128 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-算法/链表/链表翻转之递归解法_02_2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E7%BF%BB%E8%BD%AC%E4%B9%8B%E9%80%92%E5%BD%92%E8%A7%A3%E6%B3%95_02_2/">算法/链表/链表翻转之递归解法_02_2</a>
+    </h1>
+  
+
+        
+        <a href="/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E7%BF%BB%E8%BD%AC%E4%B9%8B%E9%80%92%E5%BD%92%E8%A7%A3%E6%B3%95_02_2/" class="archive-article-date">
+  	<time datetime="2020-08-11T10:13:03.754Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="链表翻转之递归解法"><a href="#链表翻转之递归解法" class="headerlink" title="链表翻转之递归解法"></a>链表翻转之递归解法</h3><hr>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>并不是所有的情况都能使用递归解决，能用递归解决的问题需要有两个特征：</p>
+<ul>
+<li>1 能够通过某种方式把问题的规模变小；</li>
+<li>2 对于1中更小规模的问题，可以使用同样的操作去处理它；</li>
+</ul>
+<p>现在先看看“翻转链表”这样的操作是不是符合上面的两个特征：</p>
+<h5 id="能够通过某种方式把问题的规模变小"><a href="#能够通过某种方式把问题的规模变小" class="headerlink" title="能够通过某种方式把问题的规模变小"></a>能够通过某种方式把问题的规模变小</h5><p>由于链表本身就是递归的结构，所以总是可以把链表分为：头节点head + 剩余节点所组成的链表rest；</p>
+<h5 id="对于更小规模的问题，可以使用同样的操作去处理它"><a href="#对于更小规模的问题，可以使用同样的操作去处理它" class="headerlink" title="对于更小规模的问题，可以使用同样的操作去处理它"></a>对于更小规模的问题，可以使用同样的操作去处理它</h5><p>在对rest做翻转操作后，我们就能得到一个已经翻转了的链表。接下来就只要想办法把头节点head连接进来即可</p>
+<hr>
+<h4 id="使用递归的三部曲"><a href="#使用递归的三部曲" class="headerlink" title="使用递归的三部曲"></a>使用递归的三部曲</h4><ul>
+<li><p>1 明确方法的作用与返回值；</p>
+</li>
+<li><p>2 找到递归的终结条件——这个条件会停止递归，并开始弹出调用栈；</p>
+</li>
+<li><p>3 确定本级递归需要完成的工作；（这时候要假设已经有了功能可用的API给自己调用）</p>
+</li>
+</ul>
+<p>注：一般而言，递归方法可以按照这3步来编写。但不尽然，有些递归方法的实现可能会surprise us</p>
+<hr>
+<h4 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * public class ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 0 作用：翻转指定的链表，并返回链表</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">reverseList</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 1 递归的终结条件</span></span><br><span class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span> || head.next == <span class="keyword">null</span>) <span class="keyword">return</span> head;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2 本级递归需要做的事情</span></span><br><span class="line">        <span class="comment">// ① 把链表视为：头节点 + 剩下节点组成的链表rest</span></span><br><span class="line">        <span class="comment">// ② 对rest中的节点执行翻转操作————翻转后，rest指向新链表的头节点</span></span><br><span class="line">        ListNode rest = reverseList(head.next);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// ③ 把原始的头节点连接到新链表的尾节点</span></span><br><span class="line">        head.next.next = head;</span><br><span class="line">        head.next = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> rest;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h4 id="代码重现"><a href="#代码重现" class="headerlink" title="代码重现"></a>代码重现</h4><blockquote>
+<p>step0 画个图，理清思路；需要什么东西，应该做怎样的操作；</p>
+</blockquote>
+<p><img src="https://s1.ax1x.com/2020/08/11/aOaGT0.md.jpg" alt="递归下的链表"></p>
+<blockquote>
+<p>step1 确定方法的作用与返回值；</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 方法作用：翻转链表，并返回翻转后的链表；</span></span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>step2 编写递归终结条件；</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 实现翻转链表的最简情况是什么？ 答：空链表或者只有一个节点的链表</span></span><br><span class="line"><span class="keyword">if</span>(head == <span class="keyword">null</span> || head.next == <span class="keyword">null</span>) <span class="keyword">return</span> head; <span class="comment">// 这两种情况可以分开写，一起写只是为了让代码简洁一些</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>step3 本级递归需要做的事情；</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">	① 把链表拆分为：头节点head + 剩下的节点所组成的链表rest;</span></span><br><span class="line"><span class="comment">	② 对rest链表执行“翻转”操作————翻转后的链表头节点为旧链表的尾节点；</span></span><br><span class="line"><span class="comment">	③ 处理head节点与rest链表，使得整个链表中的所有节点都被翻转；</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="comment">// 对rest链表执行“翻转”操作</span></span><br><span class="line">ListNode rest = reverseList(head.next);</span><br><span class="line"><span class="comment">// 把head节点添加到rest链表的末尾</span></span><br><span class="line">head.next.next = head;</span><br><span class="line"><span class="comment">// 为head连接一个null——表示链表结束</span></span><br><span class="line">head.next = <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="测试用例（检查代码功能与代码的健壮性）"><a href="#测试用例（检查代码功能与代码的健壮性）" class="headerlink" title="测试用例（检查代码功能与代码的健壮性）"></a>测试用例（检查代码功能与代码的健壮性）</h4><ul>
+<li>极端情况下，功能是否正常工作； 传入的链表为空/只有一个节点</li>
+</ul>
+<h4 id="启示"><a href="#启示" class="headerlink" title="启示"></a>启示</h4><p>链表节点之间的关系，最好画张图比较容易弄清楚。</p>
+<p>比如“把head连接到rest链表的末尾”这一步，刚开始我是想沿着链表找到rest的尾节点，然后再连接到head</p>
+<p>但如果画图就能看出来，获取rest链表尾节点可以用head.next；</p>
+<p>拆解一下head.next.next = head;</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取到rest的尾节点</span></span><br><span class="line">ListNode lastOfRest = head.next;</span><br><span class="line"><span class="comment">// 把获取到的尾节点连接到head上</span></span><br><span class="line">lastOfRest.next = head;</span><br><span class="line"><span class="comment">// 把head连接到一个null	这一步必须有，否则head与lastOfRest节点之间就会有环出现 这会导致报错</span></span><br><span class="line">head.next = <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>until next time 😄</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E7%BF%BB%E8%BD%AC%E4%B9%8B%E9%80%92%E5%BD%92%E8%A7%A3%E6%B3%95_02_2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-求两个相交链表的交点" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1134,88 +1256,9 @@
 
 
   
-    <article id="post-更高级的Bean装配第二谈" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84Bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%8C%E8%B0%88/">更高级的Bean装配第二谈</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84Bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%8C%E8%B0%88/" class="archive-article-date">
-  	<time datetime="2020-05-05T09:55:24.851Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>更高级的Bean装配第二谈</p>
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">对Bean进行条件化地管理</span><br><span class="line">根据指定条件是否成立来决定是否创建某个bean实例；</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">什么叫条件化地管理？</span><br><span class="line">    只有在满足特定条件后，才会创建对应的bean</span><br><span class="line">常见的条件：</span><br><span class="line">    1 应用类路径下包含特定的库；</span><br><span class="line">    2 另一个相关bean被声明为Spring组件；</span><br><span class="line">    3 某个特定的环境变量绑定了值；</span><br><span class="line">    ...</span><br><span class="line">实现手段：@Conditional(xxx)</span><br><span class="line"></span><br><span class="line">应用案例：对于MagicBean类，只有当magic环境属性绑定值后，才创建它的bean实例；否则不创建bean实例</span><br><span class="line">参考：MagicConfig.java</span><br></pre></td></tr></table></figure>
-
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@Conditional(xxx)的参数说明:</span><br><span class="line">    1 xxx是实现了Condition接口的一个具体实现类的Class对象；</span><br><span class="line">    2 Condition接口中，只有一个抽象方法boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata);</span><br><span class="line">    3 从context参数中就能得到所有期望的条件参数...</span><br><span class="line">    太多不看</span><br><span class="line">注：使用IDEA能够快捷地追踪源码,但源码一般比较抽象。能看出大概是在做什么就可以了</span><br></pre></td></tr></table></figure>
-
-<p><img src="C:%5CUsers%5CHenryInSH%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200505175236602.png" alt="image-20200505175236602"></p>
-<p><img src="C:%5CUsers%5CHenryInSH%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200505175305356.png" alt="image-20200505175305356"></p>
-<p><img src="C:%5CUsers%5CHenryInSH%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200505175341452.png" alt="image-20200505175341452"></p>
-<p><img src="C:%5CUsers%5CHenryInSH%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200505175452986.png" alt="image-20200505175452986"></p>
-<hr>
-<p>extra bonus</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">Spring4中,@Profile()注解是使用@Conditional()注解来实现的</span><br></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84Bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%8C%E8%B0%88/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &amp;raquo;</a>
     </nav>
   
 

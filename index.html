@@ -152,6 +152,138 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-算法/链表/链表表示的两个数相加(迭代方式)_07" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/08/15/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E8%A1%A8%E7%A4%BA%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%9B%B8%E5%8A%A0(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_07/">算法/链表/链表表示的两个数相加(迭代方式)_07</a>
+    </h1>
+  
+
+        
+        <a href="/2020/08/15/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E8%A1%A8%E7%A4%BA%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%9B%B8%E5%8A%A0(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_07/" class="archive-article-date">
+  	<time datetime="2020-08-14T16:01:02.686Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="链表表示的两个数相加"><a href="#链表表示的两个数相加" class="headerlink" title="链表表示的两个数相加"></a>链表表示的两个数相加</h3><h4 id="题设与要求"><a href="#题设与要求" class="headerlink" title="题设与要求"></a>题设与要求</h4><p><img src="https://s1.ax1x.com/2020/08/14/diKVtx.md.png" alt="题目条件与要求"></p>
+<h4 id="分析（面临的核心问题）"><a href="#分析（面临的核心问题）" class="headerlink" title="分析（面临的核心问题）"></a>分析（面临的核心问题）</h4><p>两个数的加法算法，主要的特征：</p>
+<ul>
+<li>从低位到高位计算（个十百千…）;</li>
+<li>计算除了个位以外的位数上的数字时，都需要加上来自后一位的进位（如果没有进位数，默认为0）</li>
+<li>位数上的数字 = （第一个数 + 第二个数 + 进位数）% 10；</li>
+<li>当前位向高位数提供的进位数 = (第一个数 + 第二个数 + 进位数) / 10；</li>
+<li>如果最高位计算时，有进位数。则直接把这个进位数作为加和结果的最高位；</li>
+</ul>
+<p>问题1：我们需要从低位向高位计算，对于链表来说，就是从链表尾节点到头节点计算。BUT，访问链表中的节点只能从头节点到尾节点。</p>
+<p>怎么办？</p>
+<p>解决手段：使用栈来存储链表各个节点中的值；</p>
+<p>原理：链表这种数据容器的存储特征是“先进后出”——这样在从栈中取出数值时，获取到的其实就是链表尾部节点中的数值；</p>
+<p>问题2：两个链表的长度可能不一样，如果在同一个循环中通过pop()来取值的话，肯定会有一个栈调用pop()时会抛出”栈为空”的异常；</p>
+<p>解决手段：在调用isEmpty()结果为true时（表示栈已经空了），手动为操作数绑定0；</p>
+<p>问题3：如果使用循环，在短链表中的节点用完后，如何保证循环继续进行（继续计算加和）？</p>
+<p>手段：循环条件 = （链表A节点 != null || 链表B节点 != null);</p>
+<p>问题4：即便使用长链表的节点数来控制循环次数（循环中执行操作数的计算），但是最高位在得到进位后，可能会再产生一个进位。这个进位要怎么处理？</p>
+<p>手段：把进位carry !=0 添加到循环执行表达式中。这样上述情况下，循环会再执行一次(0 + 0 + 进位1) 的计算。计算后carry==0，循环退出，进位数也被作为最高位添加到链表中</p>
+<h4 id="思路SOP"><a href="#思路SOP" class="headerlink" title="思路SOP"></a>思路SOP</h4><p>1 使用两个栈分别存储两个链表中的所有节点；</p>
+<p>2 定义一个循环：</p>
+<ul>
+<li>从栈中弹出值进行计算。得到数位上的数与进位数；</li>
+<li>把位数上的数封装到一个节点，并添加到链表中(使用头插法，即最新的节点总是头节点)； head - xxx - null</li>
+</ul>
+<p>3 循环结束后，循环中创建的链表就是加和结果；</p>
+<h4 id="根据思路SOP来进行编码"><a href="#根据思路SOP来进行编码" class="headerlink" title="根据思路SOP来进行编码"></a>根据思路SOP来进行编码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ListNode类型的定义省略</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> ListNode <span class="title">addTwoNumbers</span><span class="params">(ListNode l1, ListNode l2)</span></span>&#123;</span><br><span class="line">        <span class="comment">// 鲁棒性代码</span></span><br><span class="line">        <span class="keyword">if</span>(l1 == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> l2;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(l2 == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> l1;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 定义两个栈</span></span><br><span class="line">        Stack&lt;Integer&gt; stack_l1 = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">        Stack&lt;Integer&gt; stack_l2 = <span class="keyword">new</span> Stack&lt;&gt;(); <span class="comment">// 作用：用于分别存储各个链表中的节点</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 使用栈来存储对应链表中的节点</span></span><br><span class="line">        <span class="keyword">while</span>(l1 != <span class="keyword">null</span>)&#123;</span><br><span class="line">            stack_l1.push(l1.val);</span><br><span class="line">            l1 = l1.next;</span><br><span class="line">        &#125; </span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(l2 != <span class="keyword">null</span>)&#123;</span><br><span class="line">            stack_l2.push(l2.val);</span><br><span class="line">            l2 = l2.next;</span><br><span class="line">        &#125; </span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 定义一个循环 循环中：1 得到位数上的数字； 2 使用1中的数字创建节点，并添加到新链表中</span></span><br><span class="line">        ListNode first = <span class="keyword">null</span>; </span><br><span class="line">        <span class="keyword">int</span> carry = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(!stack_l1.isEmpty() || !stack_l2.isEmpty() || carry != <span class="number">0</span>)&#123; <span class="comment">// 循环执行条件:</span></span><br><span class="line">            <span class="comment">// 1 获取到操作数</span></span><br><span class="line">            <span class="keyword">int</span> num1 = stack_l1.isEmpty() ? <span class="number">0</span> : stack_l1.pop();</span><br><span class="line">            <span class="keyword">int</span> num2 = stack_l2.isEmpty() ? <span class="number">0</span> : stack_l2.pop();</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 2 进行计算，得到数位上的数值remainder 与 进位数字carry</span></span><br><span class="line">            <span class="keyword">int</span> remainder = (num1 + num2 + carry) % <span class="number">10</span>;</span><br><span class="line">            carry = (num1 + num2 + carry) / <span class="number">10</span>;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 3 使用数位上的数值来创建一个新的节点，并添加到first链表中</span></span><br><span class="line">            ListNode curr = <span class="keyword">new</span> ListNode(remainder);</span><br><span class="line">            curr.next = first;</span><br><span class="line">            first = curr;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 返回创建的新链表的头节点first</span></span><br><span class="line">        <span class="keyword">return</span> first;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="编码步骤分解"><a href="#编码步骤分解" class="headerlink" title="编码步骤分解"></a>编码步骤分解</h4><ul>
+<li>定义两个栈，并把链表中节点的值添加到对应的栈中</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Stack&lt;Integer&gt; stack_l1 = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">Stack&lt;Integer&gt; stack_l2 = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 把链表节点中的值添加到栈中</span></span><br><span class="line"><span class="keyword">while</span>(l1 != <span class="keyword">null</span>)&#123;</span><br><span class="line">    stack_l1.push(l1.val);</span><br><span class="line">    l1 = l1.next;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>(l2 != <span class="keyword">null</span>)&#123;</span><br><span class="line">    stack_l2.push(l2.val);</span><br><span class="line">    l2 = l2.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>定义一个循环 循环中：1 得到位数上的数字；</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> carry = <span class="number">0</span>; <span class="comment">// 初始化进位数为0	作用：用于个位数的计算</span></span><br><span class="line"><span class="keyword">while</span>(<span class="keyword">true</span>)&#123;</span><br><span class="line">    <span class="comment">// 1 从栈中获取到当前的操作数</span></span><br><span class="line">    <span class="keyword">int</span> num1 = stack_l1.isEmpty() ? <span class="number">0</span> : stack_l1.pop();</span><br><span class="line">    <span class="keyword">int</span> num2 = stack_l2.isEmpty() ? <span class="number">0</span> : stack_l2.pop();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 2 计算操作数，得到位数上的数字</span></span><br><span class="line">    <span class="keyword">int</span> remainder = (num1 + num2 + carry) % <span class="number">10</span>;</span><br><span class="line">    carry = (num1 + num2 + carry) / <span class="number">10</span>; <span class="comment">// 这里需要计算出新的进位数，这样下次遍历时计算结果才能正确</span></span><br><span class="line">    </span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>2 使用1中的数字创建节点，并添加到新链表中</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> carry = <span class="number">0</span>;</span><br><span class="line">ListNode first = <span class="keyword">null</span>; <span class="comment">// 一个头节点	作用：作为计算结果的链表容器；	特征：头插法</span></span><br><span class="line"><span class="keyword">while</span>(<span class="keyword">true</span>)&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">        </span><br><span class="line">    <span class="comment">// 头插法</span></span><br><span class="line">    <span class="comment">// 1 创建新节点</span></span><br><span class="line">    ListNode curr = <span class="keyword">new</span> ListNode(remainder);</span><br><span class="line">    <span class="comment">// 2 连接到first指针所指向的节点</span></span><br><span class="line">    curr.next = first;</span><br><span class="line">    <span class="comment">// 3 更新first指针</span></span><br><span class="line">    first = curr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>确定循环执行的表达式</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 由于栈中的每个数字都需要参与计算，所以最终两个栈要都为空</span></span><br><span class="line"><span class="comment">// 对应于表达式: !satck_l1.isEmpty() || !stack_l2.isEmpty()</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 最高位计算后，可能会有一个进位————这就要求循环体再执行一次，以便把新的进位添加到链表中。</span></span><br><span class="line"><span class="comment">// 进位添加到链表中后，需要对进位进行更新，以便终止循环</span></span><br><span class="line"><span class="comment">// 更新手段：现有代码 carry = (num1 + num2 + carry) / 10; // 这里需要计算出新的进位数，这样下次遍历时计算结果才能正确</span></span><br><span class="line"><span class="comment">// 此时，由于栈都已经空了。所以num1 = 0、num2 = 0、carry = 1（最高位的进位只会为1）</span></span><br><span class="line"><span class="comment">// 更新后carry的值 = 1 / 10; carry = 0</span></span><br><span class="line"><span class="comment">// 从而应该添加新的条件：carry != 0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 综上有：循环执行表达式(!stack_l1.isEmpty() || !stack_l2.isEmpty() || carry != 0)</span></span><br><span class="line"><span class="keyword">while</span>(!stack_l1.isEmpty() || !stack_l2.isEmpty() || carry != <span class="number">0</span>)&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>返回循环中创建的链表的头节点</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> first;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>添加鲁棒性代码（或者叫防御性编程代码）</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 鲁棒性代码</span></span><br><span class="line"><span class="keyword">if</span>(l1 == <span class="keyword">null</span>)&#123;</span><br><span class="line"><span class="keyword">return</span> l2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(l2 == <span class="keyword">null</span>)&#123;</span><br><span class="line"><span class="keyword">return</span> l1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用设计的测试用例进行功能测试 &amp; 非法输出测试</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 作用：</span></span><br><span class="line"><span class="comment">// 1 保证代码涵对所有可能的合法输入都有效；</span></span><br><span class="line"><span class="comment">// 2 保证对那些个非法输入，代码都做了合适的处理————不会导致程序崩溃；</span></span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p> this is whole loads of thing. until next time 😄</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/08/15/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E8%A1%A8%E7%A4%BA%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%9B%B8%E5%8A%A0(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_07/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-算法/链表/两两交换链表中的节点（递归方式）_06_2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1103,131 +1235,9 @@
 
 
   
-    <article id="post-算法/链表/链表翻转之递归解法_02_2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E7%BF%BB%E8%BD%AC%E4%B9%8B%E9%80%92%E5%BD%92%E8%A7%A3%E6%B3%95_02_2/">算法/链表/链表翻转之递归解法_02_2</a>
-    </h1>
-  
-
-        
-        <a href="/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E7%BF%BB%E8%BD%AC%E4%B9%8B%E9%80%92%E5%BD%92%E8%A7%A3%E6%B3%95_02_2/" class="archive-article-date">
-  	<time datetime="2020-08-11T10:13:03.754Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="链表翻转之递归解法"><a href="#链表翻转之递归解法" class="headerlink" title="链表翻转之递归解法"></a>链表翻转之递归解法</h3><hr>
-<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>并不是所有的情况都能使用递归解决，能用递归解决的问题需要有两个特征：</p>
-<ul>
-<li>1 能够通过某种方式把问题的规模变小；</li>
-<li>2 对于1中更小规模的问题，可以使用同样的操作去处理它；</li>
-</ul>
-<p>现在先看看“翻转链表”这样的操作是不是符合上面的两个特征：</p>
-<h5 id="能够通过某种方式把问题的规模变小"><a href="#能够通过某种方式把问题的规模变小" class="headerlink" title="能够通过某种方式把问题的规模变小"></a>能够通过某种方式把问题的规模变小</h5><p>由于链表本身就是递归的结构，所以总是可以把链表分为：头节点head + 剩余节点所组成的链表rest；</p>
-<h5 id="对于更小规模的问题，可以使用同样的操作去处理它"><a href="#对于更小规模的问题，可以使用同样的操作去处理它" class="headerlink" title="对于更小规模的问题，可以使用同样的操作去处理它"></a>对于更小规模的问题，可以使用同样的操作去处理它</h5><p>在对rest做翻转操作后，我们就能得到一个已经翻转了的链表。接下来就只要想办法把头节点head连接进来即可</p>
-<hr>
-<h4 id="使用递归的三部曲"><a href="#使用递归的三部曲" class="headerlink" title="使用递归的三部曲"></a>使用递归的三部曲</h4><ul>
-<li><p>1 明确方法的作用与返回值；</p>
-</li>
-<li><p>2 找到递归的终结条件——这个条件会停止递归，并开始弹出调用栈；</p>
-</li>
-<li><p>3 确定本级递归需要完成的工作；（这时候要假设已经有了功能可用的API给自己调用）</p>
-</li>
-</ul>
-<p>注：一般而言，递归方法可以按照这3步来编写。但不尽然，有些递归方法的实现可能会surprise us</p>
-<hr>
-<h4 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * public class ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 0 作用：翻转指定的链表，并返回链表</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">reverseList</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 1 递归的终结条件</span></span><br><span class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span> || head.next == <span class="keyword">null</span>) <span class="keyword">return</span> head;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2 本级递归需要做的事情</span></span><br><span class="line">        <span class="comment">// ① 把链表视为：头节点 + 剩下节点组成的链表rest</span></span><br><span class="line">        <span class="comment">// ② 对rest中的节点执行翻转操作————翻转后，rest指向新链表的头节点</span></span><br><span class="line">        ListNode rest = reverseList(head.next);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// ③ 把原始的头节点连接到新链表的尾节点</span></span><br><span class="line">        head.next.next = head;</span><br><span class="line">        head.next = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> rest;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<h4 id="代码重现"><a href="#代码重现" class="headerlink" title="代码重现"></a>代码重现</h4><blockquote>
-<p>step0 画个图，理清思路；需要什么东西，应该做怎样的操作；</p>
-</blockquote>
-<p><img src="https://s1.ax1x.com/2020/08/11/aOaGT0.md.jpg" alt="递归下的链表"></p>
-<blockquote>
-<p>step1 确定方法的作用与返回值；</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 方法作用：翻转链表，并返回翻转后的链表；</span></span><br></pre></td></tr></table></figure>
-
-
-
-<blockquote>
-<p>step2 编写递归终结条件；</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 实现翻转链表的最简情况是什么？ 答：空链表或者只有一个节点的链表</span></span><br><span class="line"><span class="keyword">if</span>(head == <span class="keyword">null</span> || head.next == <span class="keyword">null</span>) <span class="keyword">return</span> head; <span class="comment">// 这两种情况可以分开写，一起写只是为了让代码简洁一些</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>step3 本级递归需要做的事情；</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">	① 把链表拆分为：头节点head + 剩下的节点所组成的链表rest;</span></span><br><span class="line"><span class="comment">	② 对rest链表执行“翻转”操作————翻转后的链表头节点为旧链表的尾节点；</span></span><br><span class="line"><span class="comment">	③ 处理head节点与rest链表，使得整个链表中的所有节点都被翻转；</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="comment">// 对rest链表执行“翻转”操作</span></span><br><span class="line">ListNode rest = reverseList(head.next);</span><br><span class="line"><span class="comment">// 把head节点添加到rest链表的末尾</span></span><br><span class="line">head.next.next = head;</span><br><span class="line"><span class="comment">// 为head连接一个null——表示链表结束</span></span><br><span class="line">head.next = <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
-
-<h4 id="测试用例（检查代码功能与代码的健壮性）"><a href="#测试用例（检查代码功能与代码的健壮性）" class="headerlink" title="测试用例（检查代码功能与代码的健壮性）"></a>测试用例（检查代码功能与代码的健壮性）</h4><ul>
-<li>极端情况下，功能是否正常工作； 传入的链表为空/只有一个节点</li>
-</ul>
-<h4 id="启示"><a href="#启示" class="headerlink" title="启示"></a>启示</h4><p>链表节点之间的关系，最好画张图比较容易弄清楚。</p>
-<p>比如“把head连接到rest链表的末尾”这一步，刚开始我是想沿着链表找到rest的尾节点，然后再连接到head</p>
-<p>但如果画图就能看出来，获取rest链表尾节点可以用head.next；</p>
-<p>拆解一下head.next.next = head;</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取到rest的尾节点</span></span><br><span class="line">ListNode lastOfRest = head.next;</span><br><span class="line"><span class="comment">// 把获取到的尾节点连接到head上</span></span><br><span class="line">lastOfRest.next = head;</span><br><span class="line"><span class="comment">// 把head连接到一个null	这一步必须有，否则head与lastOfRest节点之间就会有环出现 这会导致报错</span></span><br><span class="line">head.next = <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
-
-
-
-<blockquote>
-<p>until next time 😄</p>
-</blockquote>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E7%BF%BB%E8%BD%AC%E4%B9%8B%E9%80%92%E5%BD%92%E8%A7%A3%E6%B3%95_02_2/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
     </nav>
   
 
