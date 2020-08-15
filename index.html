@@ -152,6 +152,253 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-算法/链表/判断一个链表是不是回文链表（迭代方式）_07_2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/08/15/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E9%93%BE%E8%A1%A8%E6%98%AF%E4%B8%8D%E6%98%AF%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8%EF%BC%88%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F%EF%BC%89_07_2/">算法/链表/判断一个链表是不是回文链表（迭代方式）_07_2</a>
+    </h1>
+  
+
+        
+        <a href="/2020/08/15/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E9%93%BE%E8%A1%A8%E6%98%AF%E4%B8%8D%E6%98%AF%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8%EF%BC%88%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F%EF%BC%89_07_2/" class="archive-article-date">
+  	<time datetime="2020-08-15T05:43:50.447Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="判断一个链表是不是回文链表（迭代方式）"><a href="#判断一个链表是不是回文链表（迭代方式）" class="headerlink" title="判断一个链表是不是回文链表（迭代方式）"></a>判断一个链表是不是回文链表（迭代方式）</h3><h4 id="题设与要求"><a href="#题设与要求" class="headerlink" title="题设与要求"></a>题设与要求</h4><p><img src="https://s1.ax1x.com/2020/08/15/diX5I1.png" alt="题设与要求"></p>
+<h4 id="分析（问题的难点）"><a href="#分析（问题的难点）" class="headerlink" title="分析（问题的难点）"></a>分析（问题的难点）</h4><ul>
+<li><p>这里不再考虑使用递归的方式，因为上一篇中已经实现了递归的代码；</p>
+</li>
+<li><p>为了判断链表是不是回文链表，肯定要对其左半边与右半边的节点进行比较；</p>
+<p><strong>难点1</strong>：如何确定链表的左半边与右半边？aka 链表的中间节点位置</p>
+</li>
+<li><p>假设现在已经找到了中间节点的位置，接下来要怎么逐个比较各个节点呢？</p>
+<p>方式1 从两边到中间，逐个比较节点的值；</p>
+<p>方式2 从中间到两边，逐个比较节点的值；</p>
+<p>说明：不管哪一种方式，都会面临一个问题——指针无法逆着链表节点移动；</p>
+<p><strong>难点2</strong>：如何能让指针逆着链表的方向移动？</p>
+</li>
+<li><p>如果上面两个难点都得到解决，接下来就只需要逐个比较节点的值，分分钟无障碍</p>
+</li>
+</ul>
+<h4 id="思路（难点的解决手段）"><a href="#思路（难点的解决手段）" class="headerlink" title="思路（难点的解决手段）"></a>思路（难点的解决手段）</h4><ul>
+<li><p>难点1 如何确定链表的中间节点位置？</p>
+<p>手段：快慢指针。</p>
+<p>具体方法：从head节点开始（具体需要画图确认最佳方案），快指针一次走两个节点，慢指针一次走一个节点。</p>
+<p>原理：当快指针指向链表尾节点时，慢指针应该刚好指向链表的中间节点。（或者前面一个节点）</p>
+</li>
+<li><p>难点2 如何能让指针逆着链表方向移动？</p>
+<p>说明：实现这个目标其实有多个手段，比如借助额外空间整一个新链表。但是题目要求O(1)的空间复杂度，so pass this</p>
+<p>手段：对链表的左半部分/右半部分进行翻转；</p>
+<p>具体方法：翻转链表所需要的3个指针——prev、curr、temp；</p>
+<p>原理：如果翻转左半部分，从中间节点到两边的节点进行比较；如果翻转右半部分，则是从两边的节点向中间节点进行比较；</p>
+<p>这里我们选择翻转左半部分</p>
+</li>
+</ul>
+<h4 id="把思路翻译成代码"><a href="#把思路翻译成代码" class="headerlink" title="把思路翻译成代码"></a>把思路翻译成代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 1 作用：判断一个链表是不是回文链表，并返回布尔值</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPalindrome</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 迭代方式</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 防止NPE的指针</span></span><br><span class="line">        ListNode dummy = <span class="keyword">new</span> ListNode(-<span class="number">1</span>);</span><br><span class="line">        dummy.next = head;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 用于翻转链表的指针</span></span><br><span class="line">        ListNode prev = dummy;</span><br><span class="line">        ListNode curr = head;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 用于定位到中点的指针</span></span><br><span class="line">        ListNode slow = head;</span><br><span class="line">        ListNode fast = head;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 一边定位，一边创建新的链表   翻转三部曲：1 记录当前节点的下一个节点； 2 改变当前节点的连接   3 更新指针prev与curr</span></span><br><span class="line">        <span class="keyword">while</span>(fast != <span class="keyword">null</span> &amp;&amp; fast.next != <span class="keyword">null</span>)&#123; <span class="comment">// slow与curr的位置关系还需要考察</span></span><br><span class="line">            <span class="comment">// 注： 当前节点的下一个节点总是slow,所以第1步省略</span></span><br><span class="line">            curr = slow; <span class="comment">// 3-2 更新指针curr</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// 更新快慢指针</span></span><br><span class="line">            slow = slow.next;</span><br><span class="line">            fast = fast.next.next;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 翻转链表</span></span><br><span class="line">            curr.next = prev; <span class="comment">// 2 改变连接</span></span><br><span class="line">            prev = curr; <span class="comment">// 3-1 更新指针prev</span></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 根据fast的特征判断slow的位置</span></span><br><span class="line">        <span class="keyword">if</span>(fast != <span class="keyword">null</span>)&#123;</span><br><span class="line">            slow = slow.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 通过逐个比较两个链表的节点来判断是否为回文链表</span></span><br><span class="line">        <span class="keyword">while</span>(slow != <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(curr.val != slow.val)&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            curr = curr.next;</span><br><span class="line">            slow = slow.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="代码步骤分解"><a href="#代码步骤分解" class="headerlink" title="代码步骤分解"></a>代码步骤分解</h4><ul>
+<li>定义需要的实例变量（包括指针变量）</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 方便定位链表头节点的指针</span></span><br><span class="line">      ListNode dummy = <span class="keyword">new</span> ListNode(-<span class="number">1</span>);</span><br><span class="line">      dummy.next = head;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 用于翻转链表的指针</span></span><br><span class="line">      ListNode prev = dummy;</span><br><span class="line">      ListNode curr = head;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 用于定位到中点的指针</span></span><br><span class="line">      ListNode slow = head;</span><br><span class="line">      ListNode fast = head;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>循环中需要做的事情：Ⅰ 定位链表的中间节点；    </li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="keyword">true</span>)&#123; <span class="comment">// 2 直到快指针指向链表的尾节点</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 手段SOP：1 不断更新快慢指针</span></span><br><span class="line">    slow = slow.next;</span><br><span class="line">    fast = fast.next.next;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Ⅱ 对左半部分链表进行翻转；</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="keyword">true</span>)&#123;</span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">    翻转三步曲	</span></span><br><span class="line"><span class="comment">    </span></span><br><span class="line"><span class="comment">    // 1 记录当前节点的下一个节点；</span></span><br><span class="line"><span class="comment">    ListNode temp = curr.next;</span></span><br><span class="line"><span class="comment">    // 2 改变当前节点的连接</span></span><br><span class="line"><span class="comment">    curr.next = prev;</span></span><br><span class="line"><span class="comment">    // 3 更新指针prev与curr	把prev更新到curr，把curr更新到temp</span></span><br><span class="line"><span class="comment">    prev = curr;</span></span><br><span class="line"><span class="comment">    curr = temp;</span></span><br><span class="line"><span class="comment">    </span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 问题来了：1 当前节点的下一个节点是什么呢？</span></span><br><span class="line">    <span class="comment">// 问题2：左半边的链表应该结束于哪一个节点呢？</span></span><br><span class="line">    <span class="comment">// 解决手段：为了准确定位左半部分链表的边界，把“当前节点的下一个节点”设置为slow指向的节点</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/* 知道了“当前节点的下一个节点为slow”后，套用上面的翻转三步曲 */</span></span><br><span class="line">    <span class="comment">// 1 记录当前节点的下一个节点 	手段：直接获取slow就可以了</span></span><br><span class="line">    <span class="comment">// 2 更新当前节点的连接为前一个节点</span></span><br><span class="line">    curr.next = prev; </span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 3 更新指针</span></span><br><span class="line">    prev = curr; </span><br><span class="line">    curr = slow; <span class="comment">// 更新当前指针</span></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s1.ax1x.com/2020/08/15/dFei4K.md.jpg" alt="翻转图示"></p>
+<ul>
+<li>确保curr总是落后于slow一个节点</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 手段：把更新curr的语句放在更新快慢指针的语句之前</span></span><br><span class="line"><span class="keyword">while</span>(<span class="keyword">true</span>)&#123;</span><br><span class="line">    curr = slow; <span class="comment">// 更新当前节点为temp</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 更新快慢指针</span></span><br><span class="line">    slow = slow.next;</span><br><span class="line">    fast = fast.next.next;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 翻转链表中的节点</span></span><br><span class="line">    curr.next = prev;</span><br><span class="line">    prev = curr;</span><br><span class="line">    <span class="comment">// 更新curr指针的代码在第一行</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>确定循环执行表达式</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 参考图示可知，fast应该停留在尾节点 或者 null节点上</span></span><br><span class="line"><span class="comment">// 原则：刚好形成可以一一对比其节点的左半部分链表（已翻转）</span></span><br><span class="line"><span class="keyword">while</span>(fast != <span class="keyword">null</span> || fast.next != <span class="keyword">null</span>)&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>根据情况来移动slow指针——因为这时候左右链表的节点数可能不一样</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 参考图示可知：当链表节点数为奇数个时，slow指在最中间节点的位置。这时候右半部分链表的节点多了一个</span></span><br><span class="line"><span class="keyword">if</span>(fast != <span class="keyword">null</span>)&#123; <span class="comment">// fast!=null是这种情况下的特征</span></span><br><span class="line">    slow = slow.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>逐个比较左右两个链表的节点，来判断总链表是不是回文链表</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="keyword">true</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(curr.val != slow.val)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    curr = curr.next;</span><br><span class="line">    slow = slow.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>确定循环执行表达式</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 由于左右两个链表的节点长度是一样的，所以只要任一一个链表到头，循环就结束</span></span><br><span class="line"><span class="keyword">while</span>(slow != <span class="keyword">null</span>)&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>鲁棒性代码</li>
+<li>测试用例</li>
+</ul>
+<h4 id="代码重现（拆解之后的组合）"><a href="#代码重现（拆解之后的组合）" class="headerlink" title="代码重现（拆解之后的组合）"></a>代码重现（拆解之后的组合）</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPalindrome</span><span class="params">(ListNode head)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span> || head.next == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 定义需要的指针</span></span><br><span class="line">        ListNode dummy = <span class="keyword">new</span> ListNode(-<span class="number">1</span>);</span><br><span class="line">        dummy.next = head;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 翻转所需要用到的指针</span></span><br><span class="line">        ListNode prev = dummy;</span><br><span class="line">        ListNode curr = head;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 寻找中间节点所需要用到的指针</span></span><br><span class="line">        ListNode slow = head;</span><br><span class="line">        ListNode fast = head;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(fast != <span class="keyword">null</span> &amp;&amp; fast.next != <span class="keyword">null</span>)&#123; <span class="comment">// 只要有一个为false，循环就会结束</span></span><br><span class="line">            <span class="comment">// 翻转节点 - 2 </span></span><br><span class="line">            curr = slow;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 更新快慢指针</span></span><br><span class="line">            slow = slow.next;</span><br><span class="line">            fast = fast.next.next;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 翻转节点 - 1</span></span><br><span class="line">            curr.next = prev;</span><br><span class="line">            prev = curr;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 如果需要，更新slow指针的位置</span></span><br><span class="line">        <span class="keyword">if</span>(fast != <span class="keyword">null</span>)&#123;</span><br><span class="line">            slow = slow.next;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 遍历左右链表的每个节点，逐一比较</span></span><br><span class="line">        <span class="keyword">while</span>(slow != <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(curr.val != slow.val)&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            curr = curr.next;</span><br><span class="line">            slow = slow.next;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>this is loads of code. until next time 😓</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/08/15/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E9%93%BE%E8%A1%A8%E6%98%AF%E4%B8%8D%E6%98%AF%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8%EF%BC%88%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F%EF%BC%89_07_2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-算法/链表/判断一个链表是否为回文链表(迭代方式)_07" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/08/15/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E9%93%BE%E8%A1%A8%E6%98%AF%E5%90%A6%E4%B8%BA%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_07/">算法/链表/判断一个链表是否为回文链表(迭代方式)_07</a>
+    </h1>
+  
+
+        
+        <a href="/2020/08/15/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E9%93%BE%E8%A1%A8%E6%98%AF%E5%90%A6%E4%B8%BA%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_07/" class="archive-article-date">
+  	<time datetime="2020-08-15T02:25:09.799Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="判断一个链表是否为回文链表"><a href="#判断一个链表是否为回文链表" class="headerlink" title="判断一个链表是否为回文链表"></a>判断一个链表是否为回文链表</h3><h4 id="题设与要求"><a href="#题设与要求" class="headerlink" title="题设与要求"></a>题设与要求</h4><p><img src="https://s1.ax1x.com/2020/08/15/diX5I1.png" alt="题设与要求"></p>
+<h4 id="分析（问题的难点）"><a href="#分析（问题的难点）" class="headerlink" title="分析（问题的难点）"></a>分析（问题的难点）</h4><p>1 回文链表的定义:左半边与右半边完全对称——这样从左边读起与从右边读起来，读到的内容是相同的。</p>
+<p>2 如果使用迭代的方式，比较直观的想法是：头尾节点各一个指针，然后指针向里走。指针每走一次，就要比较一次节点的值。</p>
+<ul>
+<li>难点：但是由于是单向链表，尾节点的指针没有办法直接向前走。所以在此之前需要把右半边的链表翻转，然后再进行迭代与比较操作。可以预见，需要确定诸多的细节：右半边链表的终点、循环终止条件等</li>
+</ul>
+<p>3 能不能使用递归的方式呢？</p>
+<ul>
+<li>把问题转换为更小规模的问题：head头节点 + 中间节点组成的链表 + tail尾节点；<ul>
+<li>中间节点组成的链表是不是回文链表，这就是一个更小规模的问题；</li>
+</ul>
+</li>
+<li>更小规模问题的处理结果，能用来解决问题本身吗？<ul>
+<li>如果中间节点组成的链表middle是一个回文链表，就只需要判断head.val == tail.val。如果相等，则整个链表就是一个回文链表</li>
+</ul>
+</li>
+</ul>
+<h4 id="思路（优先使用递归）"><a href="#思路（优先使用递归）" class="headerlink" title="思路（优先使用递归）"></a>思路（优先使用递归）</h4><p>1 把方法定义为一个递归方法，确定方法的作用与返回值；</p>
+<ul>
+<li>方法作用：判断一个链表是否为回文链表；    返回值：true/false；</li>
+</ul>
+<p>2 确定递归的终止条件；</p>
+<ul>
+<li>链表为null/链表中只有一个节点；    这时候可以认为链表是一个回文链表</li>
+</ul>
+<p>3 确定本级递归要完成的事情；</p>
+<ul>
+<li>编码时再具体说明</li>
+</ul>
+<h4 id="把思路翻译成代码"><a href="#把思路翻译成代码" class="headerlink" title="把思路翻译成代码"></a>把思路翻译成代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ListNode类型的定义省略</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 1 方法作用：判断一个链表是否为回文链表；	返回值：true/false；</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPalindrome</span><span class="params">(ListNode head)</span></span>&#123;</span><br><span class="line">        <span class="comment">// 2 递归终结条件</span></span><br><span class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span> || head.next == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 3 本级递归要做的事情</span></span><br><span class="line">        <span class="comment">// ① 把链表视为：链表头节点head + 中间节点组成的链表middle + 尾节点tail</span></span><br><span class="line">        <span class="comment">// ② 获取到head与tail，判断头节点与尾节点的值是否相等。如果不相等，返回false</span></span><br><span class="line">        <span class="comment">// ③ 如果相等，并且middle也是一个回文链表。则返回true，否则返回false</span></span><br><span class="line">        ListNode cursor = head;</span><br><span class="line">        <span class="keyword">while</span>(cursor.next != <span class="keyword">null</span>)&#123; <span class="comment">// 循环终止时，希望cursor指向尾节点，而不是null</span></span><br><span class="line">            cursor = cursor.next;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 判断头节点与尾节点的值是否相等</span></span><br><span class="line">        <span class="keyword">if</span>(head.val != cursor.val)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 获取到中间节点组成的链表middle</span></span><br><span class="line">            cursor = head.next;</span><br><span class="line">            ListNode middle = cursor;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 删除尾节点：这样其实破坏了原始的链表结构，需要和面试官确认</span></span><br><span class="line">            <span class="keyword">while</span>(cursor != <span class="keyword">null</span> &amp;&amp; cursor.next != <span class="keyword">null</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span>(cursor.next.next = <span class="keyword">null</span>)&#123;</span><br><span class="line">                    cursor.next = <span class="keyword">null</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    cursor = cursor.next;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 判断middle是不是一个回文链表</span></span><br><span class="line">            <span class="keyword">return</span> isPalindrome(middle);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注：这里获取到middle的过程还是差了点意思。</p>
+<h4 id="添加鲁棒性的代码"><a href="#添加鲁棒性的代码" class="headerlink" title="添加鲁棒性的代码"></a>添加鲁棒性的代码</h4><h4 id="使用不同的测试用例测试"><a href="#使用不同的测试用例测试" class="headerlink" title="使用不同的测试用例测试"></a>使用不同的测试用例测试</h4><ul>
+<li>功能性测试（各种极端情况下的有效输入）</li>
+<li>非法输入测试（对各种非法输入是否进行了合适的处理）</li>
+</ul>
+<blockquote>
+<p>until next time😄</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/08/15/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E9%93%BE%E8%A1%A8%E6%98%AF%E5%90%A6%E4%B8%BA%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_07/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-算法/链表/链表表示的两个数相加(迭代方式)_07" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -965,247 +1212,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8%EF%BC%88%E9%80%92%E5%BD%92%E6%96%B9%E5%BC%8F%EF%BC%89_03_2/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-算法/链表/合并两个有序链表-得到一个新的有序链表（迭代方式）_03" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8-%E5%BE%97%E5%88%B0%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8%EF%BC%88%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F%EF%BC%89_03/">算法/链表/合并两个有序链表-得到一个新的有序链表（迭代方式）_03</a>
-    </h1>
-  
-
-        
-        <a href="/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8-%E5%BE%97%E5%88%B0%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8%EF%BC%88%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F%EF%BC%89_03/" class="archive-article-date">
-  	<time datetime="2020-08-11T11:40:18.557Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="合并两个有序链表，得到一个新的有序链表（迭代方式）"><a href="#合并两个有序链表，得到一个新的有序链表（迭代方式）" class="headerlink" title="合并两个有序链表，得到一个新的有序链表（迭代方式）"></a>合并两个有序链表，得到一个新的有序链表（迭代方式）</h3><hr>
-<h4 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h4><p>1 创建一个链表就只需要想某个节点上不断连接其他节点就行了；</p>
-<p>2 对两个链表对应位置节点的值进行比较，把较小的节点先连接到链表中；</p>
-<p>3 如果出现某一个链表中的节点比较多（另一个链表中的节点已经用完了），直接把链表剩余的节点连接到正在创建的链表上就行了（因为剩余的这些节点都已经是有序的了，并且值也更大）</p>
-<hr>
-<h4 id="说明："><a href="#说明：" class="headerlink" title="说明："></a>说明：</h4><p>1 创建链表就只需要一个指针就可以；    </p>
-<p>创建链表的SOP:</p>
-<ul>
-<li>1 连接到下一个节点；</li>
-<li>2 更新当前指针到下一个节点；以便重复步骤1</li>
-</ul>
-<p>2 为了方便比较两个链表对应位置上的节点，这里需要添加一个假节点dummy；它总是指向链表的头节点</p>
-<hr>
-<h4 id="根据上面的分析尝试写代码"><a href="#根据上面的分析尝试写代码" class="headerlink" title="根据上面的分析尝试写代码"></a>根据上面的分析尝试写代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> val;</span><br><span class="line">    ListNode next;</span><br><span class="line">    ListNode(<span class="keyword">int</span> val)&#123; <span class="keyword">this</span>.val = val;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> ListNode <span class="title">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span></span>&#123;</span><br><span class="line">        <span class="comment">// 准备指针，用于生成链表</span></span><br><span class="line">        ListNode dummy = <span class="keyword">new</span> ListNode(-<span class="number">1</span>); <span class="comment">// 指向链表的头节点</span></span><br><span class="line">        ListNode cursor = dummy; <span class="comment">// 用于不管更新链表的指针</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 迭代并比较两个链表中节点的大小，并根据比较结果把节点连接到链表中</span></span><br><span class="line">        <span class="keyword">while</span>(l1 != <span class="keyword">null</span> &amp;&amp; l2 != <span class="keyword">null</span>)&#123; <span class="comment">// 循环执行条件：haed to describe</span></span><br><span class="line">            <span class="keyword">if</span>(l1.val &lt; l2.val)&#123;</span><br><span class="line">                <span class="comment">// 创建链表step1：连接到下一个节点</span></span><br><span class="line">                cursor.next = l1;</span><br><span class="line">                <span class="comment">// 更新l1链表的指针到下一个位置	作用：实现迭代</span></span><br><span class="line">                l1 = l1.next;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">// 作用同上</span></span><br><span class="line">                cursor.next = l2;</span><br><span class="line">                l2 = l2.next;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 创建链表step2：更新链表的指针	作用：方便连接到下一个节点</span></span><br><span class="line">            cursor = cursor.next;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// always safe to use this to refer the ListNode, cus it always point to the first node of the ListNode</span></span><br><span class="line">        <span class="keyword">return</span> dummy.next;</span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h4><p>step1 定义需要的指针</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ListNode dummy = <span class="keyword">new</span> ListNode(-<span class="number">1</span>); <span class="comment">// 方便新链表的创建</span></span><br><span class="line">ListNode cursor = dummy; <span class="comment">// cursor的意思是游标，我感觉比起指针更形象一些	用于创建新链表</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>step2 通过迭代的方式，遍历两个子链表中的指针，并连接到新链表中；</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="keyword">true</span>)&#123;</span><br><span class="line">	<span class="keyword">if</span>(l1.val &lt; l2.val)&#123;</span><br><span class="line">		<span class="comment">// 为新链表连接到下一个节点	扩展新链表</span></span><br><span class="line">		cursor.next = l1;</span><br><span class="line">		<span class="comment">// 找到原始链表中的下一个节点 用于比较两个原始链表之间的节点</span></span><br><span class="line">		l1 = l1.next;</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		cursor.next = l2;</span><br><span class="line">		l2 = l2.next;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 更新cursor指针	用于扩展链表</span></span><br><span class="line">	cursor = cursor.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>step3 确定循环执行条件的表达式</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1 当表达式的值为true时，循环执行；</span></span><br><span class="line"><span class="comment">// 2 循环的作用：为新链表连接一个新节点，并且做一些方便连接下一个节点的操作</span></span><br><span class="line"><span class="comment">// 3 当某个链表的节点用尽时，应该终止循环：因为这时候不再需要进行节点间的比较</span></span><br><span class="line"><span class="comment">// 4 链表节点用尽的情况：l1 == null、l2 == null</span></span><br><span class="line"><span class="comment">// 这两种情况之间的逻辑关系是什么？只要有一个成立，循环就应该终止。对应地，为了让循环执行，应该两者都不为null aka l1 != null &amp;&amp; l2 != null</span></span><br><span class="line"><span class="keyword">while</span>(l1 != <span class="keyword">null</span> &amp;&amp; l2 != <span class="keyword">null</span>)&#123; ... &#125;  <span class="comment">// this is truly a piece of work</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>step4 处理某个原始链表中没有添加进新链表的节点</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 为什么出现节点没有被添加的情况？ 因为另外一个链表中的节点已经用完了，它里面的节点值都比较小</span></span><br><span class="line"><span class="comment">// 如何确定是哪一个链表的节点没有被用完？ 没有被用完的链表指针不为null</span></span><br><span class="line"><span class="comment">// 如何处理没有被添加的节点？ 直接连接到新链表中即可 找对节点</span></span><br><span class="line"><span class="comment">// 这时候最好边看着操作图，边编写代码 	因为某些边界条件很容易弄错</span></span><br><span class="line"><span class="keyword">if</span>(l1 != <span class="keyword">null</span>)&#123;</span><br><span class="line">    cursor.next = l2;</span><br><span class="line">&#125; </span><br><span class="line"><span class="keyword">if</span>(l2 != <span class="keyword">null</span>)&#123;</span><br><span class="line">    cursor.next = l1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>step5 返回创建的新链表的头节点</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> dummy.next;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>step6 编写基础测试用例</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">main()&#123;</span><br><span class="line">	<span class="comment">// 测试用例代码</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>step7 添加鲁棒性代码</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span></span>&#123;</span><br><span class="line">    <span class="comment">// 鲁棒性代码一般添加在开始的地方，来对参数进行校验</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<blockquote>
-<p>until next time😄</p>
-</blockquote>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8-%E5%BE%97%E5%88%B0%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8%EF%BC%88%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F%EF%BC%89_03/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-算法/链表/链表翻转之递归解法_02_1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E7%BF%BB%E8%BD%AC%E4%B9%8B%E9%80%92%E5%BD%92%E8%A7%A3%E6%B3%95_02_1/">算法/链表/链表翻转之递归解法_02_1</a>
-    </h1>
-  
-
-        
-        <a href="/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E7%BF%BB%E8%BD%AC%E4%B9%8B%E9%80%92%E5%BD%92%E8%A7%A3%E6%B3%95_02_1/" class="archive-article-date">
-  	<time datetime="2020-08-11T10:45:20.685Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="链表翻转之递归解法"><a href="#链表翻转之递归解法" class="headerlink" title="链表翻转之递归解法"></a>链表翻转之递归解法</h3><hr>
-<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>并不是所有的情况都能使用递归解决，能用递归解决的问题需要有两个特征：</p>
-<ul>
-<li>1 能够通过某种方式把问题的规模变小；</li>
-<li>2 对于1中更小规模的问题，可以使用同样的操作去处理它；</li>
-</ul>
-<p>现在先看看“翻转链表”这样的操作是不是符合上面的两个特征：</p>
-<h5 id="能够通过某种方式把问题的规模变小"><a href="#能够通过某种方式把问题的规模变小" class="headerlink" title="能够通过某种方式把问题的规模变小"></a>能够通过某种方式把问题的规模变小</h5><p>由于链表本身就是递归的结构，所以总是可以把链表分为：头节点head + 剩余节点所组成的链表rest；</p>
-<h5 id="对于更小规模的问题，可以使用同样的操作去处理它"><a href="#对于更小规模的问题，可以使用同样的操作去处理它" class="headerlink" title="对于更小规模的问题，可以使用同样的操作去处理它"></a>对于更小规模的问题，可以使用同样的操作去处理它</h5><p>在对rest做翻转操作后，我们就能得到一个已经翻转了的链表。接下来就只要想办法把头节点head连接进来即可</p>
-<hr>
-<h4 id="使用递归的三部曲"><a href="#使用递归的三部曲" class="headerlink" title="使用递归的三部曲"></a>使用递归的三部曲</h4><ul>
-<li><p>1 明确方法的作用与返回值；</p>
-</li>
-<li><p>2 找到递归的终结条件——这个条件会停止递归，并开始弹出调用栈；</p>
-</li>
-<li><p>3 确定本级递归需要完成的工作；（这时候要假设已经有了功能可用的API给自己调用）</p>
-</li>
-</ul>
-<p>注：一般而言，递归方法可以按照这3步来编写。但不尽然，有些递归方法的实现可能会surprise us</p>
-<hr>
-<h4 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * public class ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 0 作用：翻转指定的链表，并返回链表</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">reverseList</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 1 递归的终结条件</span></span><br><span class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span> || head.next == <span class="keyword">null</span>) <span class="keyword">return</span> head;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2 本级递归需要做的事情</span></span><br><span class="line">        <span class="comment">// ① 把链表视为：头节点 + 剩下节点组成的链表rest</span></span><br><span class="line">        <span class="comment">// ② 对rest中的节点执行翻转操作————翻转后，rest指向新链表的头节点</span></span><br><span class="line">        ListNode rest = reverseList(head.next);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// ③ 把原始的头节点连接到新链表的尾节点</span></span><br><span class="line">        head.next.next = head;</span><br><span class="line">        head.next = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> rest;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<h4 id="代码重现"><a href="#代码重现" class="headerlink" title="代码重现"></a>代码重现</h4><blockquote>
-<p>step0 画个图，理清思路；需要什么东西，应该做怎样的操作；</p>
-</blockquote>
-<p><img src="https://s1.ax1x.com/2020/08/11/aOaGT0.md.jpg" alt="递归下的链表"></p>
-<blockquote>
-<p>step1 确定方法的作用与返回值；</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 方法作用：翻转链表，并返回翻转后的链表；</span></span><br></pre></td></tr></table></figure>
-
-
-
-<blockquote>
-<p>step2 编写递归终结条件；</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 实现翻转链表的最简情况是什么？ 答：空链表或者只有一个节点的链表</span></span><br><span class="line"><span class="keyword">if</span>(head == <span class="keyword">null</span> || head.next == <span class="keyword">null</span>) <span class="keyword">return</span> head; <span class="comment">// 这两种情况可以分开写，一起写只是为了让代码简洁一些</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>step3 本级递归需要做的事情；</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">	① 把链表拆分为：头节点head + 剩下的节点所组成的链表rest;</span></span><br><span class="line"><span class="comment">	② 对rest链表执行“翻转”操作————翻转后的链表头节点为旧链表的尾节点；</span></span><br><span class="line"><span class="comment">	③ 处理head节点与rest链表，使得整个链表中的所有节点都被翻转；</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="comment">// 对rest链表执行“翻转”操作</span></span><br><span class="line">ListNode rest = reverseList(head.next);</span><br><span class="line"><span class="comment">// 把head节点添加到rest链表的末尾</span></span><br><span class="line">head.next.next = head;</span><br><span class="line"><span class="comment">// 为head连接一个null——表示链表结束</span></span><br><span class="line">head.next = <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
-
-<h4 id="测试用例（检查代码功能与代码的健壮性）"><a href="#测试用例（检查代码功能与代码的健壮性）" class="headerlink" title="测试用例（检查代码功能与代码的健壮性）"></a>测试用例（检查代码功能与代码的健壮性）</h4><ul>
-<li>极端情况下，功能是否正常工作； 传入的链表为空/只有一个节点</li>
-</ul>
-<h4 id="启示"><a href="#启示" class="headerlink" title="启示"></a>启示</h4><p>链表节点之间的关系，最好画张图比较容易弄清楚。</p>
-<p>比如“把head连接到rest链表的末尾”这一步，刚开始我是想沿着链表找到rest的尾节点，然后再连接到head</p>
-<p>但如果画图就能看出来，获取rest链表尾节点可以用head.next；</p>
-<p>拆解一下head.next.next = head;</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取到rest的尾节点</span></span><br><span class="line">ListNode lastOfRest = head.next;</span><br><span class="line"><span class="comment">// 把获取到的尾节点连接到head上</span></span><br><span class="line">lastOfRest.next = head;</span><br><span class="line"><span class="comment">// 把head连接到一个null	这一步必须有，否则head与lastOfRest节点之间就会有环出现 这会导致报错</span></span><br><span class="line">head.next = <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
-
-
-
-<blockquote>
-<p>until next time 😄</p>
-</blockquote>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E7%BF%BB%E8%BD%AC%E4%B9%8B%E9%80%92%E5%BD%92%E8%A7%A3%E6%B3%95_02_1/">展开全文 >></a>
         </p>
       
 
