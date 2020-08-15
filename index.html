@@ -152,6 +152,258 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-算法/链表/奇偶链表（把奇数位置与偶数位置上的节点连在一起）_10" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/08/15/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%A5%87%E5%81%B6%E9%93%BE%E8%A1%A8%EF%BC%88%E6%8A%8A%E5%A5%87%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8E%E5%81%B6%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8A%E7%9A%84%E8%8A%82%E7%82%B9%E8%BF%9E%E5%9C%A8%E4%B8%80%E8%B5%B7%EF%BC%89_10/">算法/链表/奇偶链表（把奇数位置与偶数位置上的节点连在一起）_10</a>
+    </h1>
+  
+
+        
+        <a href="/2020/08/15/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%A5%87%E5%81%B6%E9%93%BE%E8%A1%A8%EF%BC%88%E6%8A%8A%E5%A5%87%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8E%E5%81%B6%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8A%E7%9A%84%E8%8A%82%E7%82%B9%E8%BF%9E%E5%9C%A8%E4%B8%80%E8%B5%B7%EF%BC%89_10/" class="archive-article-date">
+  	<time datetime="2020-08-15T12:17:41.558Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="把链表中的奇数位置节点与偶数位置节点放在一起"><a href="#把链表中的奇数位置节点与偶数位置节点放在一起" class="headerlink" title="把链表中的奇数位置节点与偶数位置节点放在一起"></a>把链表中的奇数位置节点与偶数位置节点放在一起</h4><h4 id="题设-与-要求"><a href="#题设-与-要求" class="headerlink" title="题设 与 要求"></a>题设 与 要求</h4><p><img src="https://s1.ax1x.com/2020/08/15/dklpjK.md.png" alt="题设与要求"></p>
+<h4 id="测试用例"><a href="#测试用例" class="headerlink" title="测试用例"></a>测试用例</h4><p><img src="https://s1.ax1x.com/2020/08/15/dkldDU.md.png" alt="测试用例"></p>
+<h4 id="附加说明"><a href="#附加说明" class="headerlink" title="附加说明"></a>附加说明</h4><p><img src="https://s1.ax1x.com/2020/08/15/dklLKf.md.png" alt="提示信息"></p>
+<h4 id="分析（问题的难点）"><a href="#分析（问题的难点）" class="headerlink" title="分析（问题的难点）"></a>分析（问题的难点）</h4><ul>
+<li>如何把奇数/偶数位置的节点都连接起来？</li>
+<li>如何把奇数位置节点的集合 与 偶数位置节点的集合连接起来？</li>
+</ul>
+<h4 id="思路（难点的解决方案）"><a href="#思路（难点的解决方案）" class="headerlink" title="思路（难点的解决方案）"></a>思路（难点的解决方案）</h4><ul>
+<li>如何把奇数位置/偶数位置的节点都连接起来？<ul>
+<li>答：使用两个指针odd、even，初始化指向第一个节点与第二个节点。然后去创建奇数位置节点链表与偶数位置节点链表；</li>
+</ul>
+</li>
+<li>如何把奇数位置节点集合与偶数位置节点集合连接起来？<ul>
+<li>答：只要把odd链表的尾节点连接到even链表的头节点就可以了</li>
+</ul>
+</li>
+</ul>
+<h4 id="根据思路进行编码（细节处理）"><a href="#根据思路进行编码（细节处理）" class="headerlink" title="根据思路进行编码（细节处理）"></a>根据思路进行编码（细节处理）</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">oddEvenList</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 鲁棒性代码</span></span><br><span class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span> || head.next == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 1 定义需要的实例变量</span></span><br><span class="line">        ListNode odd = head; <span class="comment">// 奇数位置节点的指针	作用：连接奇数位置的节点</span></span><br><span class="line">        ListNode even = head.next; <span class="comment">// 偶数位置节点的指针	作用：连接偶数位置的节点</span></span><br><span class="line">        ListNode evenHead = even; <span class="comment">// 作用：记录偶数节点链表的头节点</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2 遍历当前链表	在循环中：1 创建奇数位置节点链表； 2 创建偶数位置节点链表</span></span><br><span class="line">        <span class="keyword">while</span>(even != <span class="keyword">null</span> &amp;&amp; even.next != <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="comment">// 创建链表SOP： 1 建立连接； 2 更新指针；</span></span><br><span class="line">            odd.next = even.next;</span><br><span class="line">            odd = odd.next;</span><br><span class="line"></span><br><span class="line">            even.next = odd.next;</span><br><span class="line">            even = even.next; <span class="comment">// even会率先达到链表的尾部</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3 把偶数链表连接到奇数链表的尾节点上</span></span><br><span class="line">        odd.next = evenHead;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4 返回新链表的头节点（作图可知）</span></span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="代码分解SOP"><a href="#代码分解SOP" class="headerlink" title="代码分解SOP"></a>代码分解SOP</h4><ul>
+<li>定义需要的实例变量</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ListNode odd = head; <span class="comment">// 用于指向奇数位置的节点</span></span><br><span class="line">ListNode even = head.next; <span class="comment">// 用于指向偶数位置的节点</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>遍历当前链表中的所有节点    在循环中：1 创建奇数节点的链表； 2 创建偶数节点的链表</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(ture)&#123; <span class="comment">// 参考：画图</span></span><br><span class="line">    <span class="comment">// 创建连接</span></span><br><span class="line">    odd.next = even.next;</span><br><span class="line">    <span class="comment">// 更新指针</span></span><br><span class="line">    odd = odd.next;</span><br><span class="line">    </span><br><span class="line">    even.next = odd.next;</span><br><span class="line">    even = even.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s1.ax1x.com/2020/08/15/dkteIO.md.jpg" alt="遇事不决画个图"></p>
+<ul>
+<li>确定循环执行表达式</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 根据链表中的节点数的不同，循环终结会有两种情况</span></span><br><span class="line"><span class="comment">// 1 链表中的节点数目为偶数个	even.next == null</span></span><br><span class="line"><span class="comment">// 2 链表中的节点数目为奇数个	even == null</span></span><br><span class="line"><span class="comment">// 当这两种情况之一发生时，就要终止循环 所以</span></span><br><span class="line"><span class="keyword">while</span>(even == <span class="keyword">null</span> &amp;&amp; even.next != <span class="keyword">null</span>)&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>把偶数链表连接到奇数链表上</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">odd.next = evenHead; <span class="comment">// 连接到记录的最初的偶数链表的头节点</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Bingo! good morning,good afternoon,and good night 🌙</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/08/15/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%A5%87%E5%81%B6%E9%93%BE%E8%A1%A8%EF%BC%88%E6%8A%8A%E5%A5%87%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8E%E5%81%B6%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8A%E7%9A%84%E8%8A%82%E7%82%B9%E8%BF%9E%E5%9C%A8%E4%B8%80%E8%B5%B7%EF%BC%89_10/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-算法/链表/把链表分隔成k个子链表_09" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/08/15/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E6%8A%8A%E9%93%BE%E8%A1%A8%E5%88%86%E9%9A%94%E6%88%90k%E4%B8%AA%E5%AD%90%E9%93%BE%E8%A1%A8_09/">算法/链表/把链表分隔成k个子链表_09</a>
+    </h1>
+  
+
+        
+        <a href="/2020/08/15/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E6%8A%8A%E9%93%BE%E8%A1%A8%E5%88%86%E9%9A%94%E6%88%90k%E4%B8%AA%E5%AD%90%E9%93%BE%E8%A1%A8_09/" class="archive-article-date">
+  	<time datetime="2020-08-15T09:12:46.640Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="把链表分隔成k个子链表"><a href="#把链表分隔成k个子链表" class="headerlink" title="把链表分隔成k个子链表"></a>把链表分隔成k个子链表</h4><hr>
+<h4 id="题设与要求"><a href="#题设与要求" class="headerlink" title="题设与要求"></a>题设与要求</h4><p><img src="https://s1.ax1x.com/2020/08/15/dFWppn.md.png" alt="题设与要求"></p>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><p><img src="https://s1.ax1x.com/2020/08/15/dFICeP.md.png" alt="测试用例"></p>
+<h4 id="提示信息"><a href="#提示信息" class="headerlink" title="提示信息"></a>提示信息</h4><p><img src="https://s1.ax1x.com/2020/08/15/dFoZtO.png" alt="提示信息"></p>
+<h4 id="分析（题目中的难点）"><a href="#分析（题目中的难点）" class="headerlink" title="分析（题目中的难点）"></a>分析（题目中的难点）</h4><ul>
+<li>根据题设，就是要把链表中的节点均分为k份；<ul>
+<li>要如何处理(length % k)余下的这些个节点？</li>
+</ul>
+</li>
+<li>k个连续的部分，每个部分相差不超过1；<ul>
+<li>说明每个子链表中的节点数会有不一样。可以顺序的让靠前的子链表中多出一个节点，来消耗余下的节点</li>
+<li>如何确定到哪一个子链表时，余下的节点已经被消耗完了呢？</li>
+</ul>
+</li>
+<li>如果k &gt; length，缺少的部分补充null作为元素；</li>
+</ul>
+<h4 id="思路（对难点的解决方案）"><a href="#思路（对难点的解决方案）" class="headerlink" title="思路（对难点的解决方案）"></a>思路（对难点的解决方案）</h4><ul>
+<li>定义一个大小为k数组，数组中的第i个元素表示：第i个子链表中应该包含的节点数目；</li>
+<li>定义一个循环，每次循环都为数组中的一个元素绑定值<ul>
+<li>先求出余数；</li>
+<li>每次绑定值时，判断余数是否还大于0.如果是，就把要绑定的值+1； 同时余数-1</li>
+<li>每个子节点要绑定的基础数值为：(length / k)</li>
+</ul>
+</li>
+<li>定义一个子链表列表，用于存储分割后的子链表；</li>
+<li>定义一个循环，每次循环<ul>
+<li>从数组中取出当前子链表应该包含的节点数；</li>
+<li>根据上面的节点数目来创建一个子链表，并把子链表绑定到子链表列表的一个元素上；</li>
+<li>循环往复，直到链表中的所有节点都被安排了</li>
+</ul>
+</li>
+</ul>
+<h4 id="把思路翻译成代码（🙏）"><a href="#把思路翻译成代码（🙏）" class="headerlink" title="把思路翻译成代码（🙏）"></a>把思路翻译成代码（🙏）</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode[] splitListToParts(ListNode root, <span class="keyword">int</span> k) &#123;</span><br><span class="line">        <span class="comment">// 定义一个指针 作用：作为游标，计算链表的节点长度</span></span><br><span class="line">        ListNode cursor = root;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 定义一个链表列表 作用：存储分割后的多个子链表；</span></span><br><span class="line">        ListNode[] res = <span class="keyword">new</span> ListNode[k]; <span class="comment">// 默认每个元素绑定的都是一个null</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 鲁棒性代码</span></span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> res;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 计算链表长度</span></span><br><span class="line">        <span class="keyword">int</span> length = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(cursor != <span class="keyword">null</span>)&#123;</span><br><span class="line">            length++;</span><br><span class="line">            cursor = cursor.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 比较链表长度length 与 预期分割得到的子链表数目k</span></span><br><span class="line">        <span class="keyword">if</span>(k &gt;= length)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;length; i++)&#123; <span class="comment">// 使用root链表中的节点对res数组的元素进行重新初始化</span></span><br><span class="line">                res[i] = <span class="keyword">new</span> ListNode(root.val);</span><br><span class="line">                root = root.next;</span><br><span class="line">            &#125; <span class="comment">// 只初始化了length个元素。剩下的元素仍旧是null</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 计算出第N个子链表应该包含多少个节点</span></span><br><span class="line">            <span class="keyword">int</span> remainder = length % k;</span><br><span class="line">            <span class="keyword">int</span> part = length / k;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">int</span>[] counts = <span class="keyword">new</span> <span class="keyword">int</span>[k];</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; k; i++)&#123;</span><br><span class="line">                counts[i] = remainder &gt; <span class="number">0</span> ? part + <span class="number">1</span> : part;</span><br><span class="line">                remainder--;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 从原始链表中截取出k个子链表，并添加到链表数组中</span></span><br><span class="line">            ListNode p = root;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;k; i++)&#123;</span><br><span class="line"></span><br><span class="line">                res[i] = p;</span><br><span class="line">                <span class="comment">// 当前子链接中应该包含多少个节点</span></span><br><span class="line">                <span class="keyword">int</span> count = counts[i];</span><br><span class="line">                <span class="keyword">while</span>(--count &gt; <span class="number">0</span>)&#123;</span><br><span class="line">                    p = p.next;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 记录下一个节点</span></span><br><span class="line">                ListNode temp = p.next;</span><br><span class="line">                <span class="comment">// 为当前节点绑定null</span></span><br><span class="line">                p.next = <span class="keyword">null</span>;</span><br><span class="line">                <span class="comment">// 更新当前节点</span></span><br><span class="line">                p = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 返回得到的子链表列表</span></span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="代码分解步骤"><a href="#代码分解步骤" class="headerlink" title="代码分解步骤"></a>代码分解步骤</h4><ul>
+<li>定义需要的实例变量</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ListNode cursor = head; <span class="comment">// 用于在链表的节点上遍历</span></span><br><span class="line">ListNode[] res = <span class="keyword">new</span> ListNode[k]; <span class="comment">// 一个大小为k的ListNode类型的数组	用于存储分割后的子链表</span></span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>求出链表的长度</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> length = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>(cursor != <span class="keyword">null</span>)&#123;</span><br><span class="line">	length++;</span><br><span class="line">    cursor = cursor.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>比较链表长度length与预期分隔得到的子链表数目k</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(k &gt; length)&#123;</span><br><span class="line">	<span class="comment">// 子链表数目比链表本身的节点还要多		手段：不足的部分补上null</span></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 子链表数目小于等于链表本身的节点数目	手段：平均分配，盈余的话可能要多分一个</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>当子链表数目k比起链表本身的节点length还要多时</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化res数组中前面length个元素</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;length; i++)&#123;</span><br><span class="line">    <span class="comment">// 创建一个新的链表，并绑定到子链表中	为什么要新建链表？</span></span><br><span class="line">    res[i] = <span class="keyword">new</span> ListNode(root.val);</span><br><span class="line">    root = root.next;</span><br><span class="line">&#125; <span class="comment">// 没有绑定子链表的节点，值默认是null 符合题目要求</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>当子链表数目小于等于链表本身的节点length时<ul>
+<li>Ⅰ 计算出每个子链表应该包含的节点数量，并存储到一个数组中；</li>
+<li>Ⅱ 遍历原始链表：<ul>
+<li>从中取出正确数量的节点添加到子链表中；</li>
+<li>当前子链接添加完成后，截断子链表。并把指针移动到下一个子链表的起始处</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Ⅰ计算出每个子链表应该包含的节点数量，并存储到一个数组中；</span></span><br><span class="line"><span class="keyword">int</span>[] counts = <span class="keyword">new</span> <span class="keyword">int</span>[k];</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> perPart = length / k; <span class="comment">// 每个子链表的基础节点数目</span></span><br><span class="line"><span class="keyword">int</span> remainder = (length % k); <span class="comment">// 均分k份之后，余下的节点数量</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;k; i++)&#123;</span><br><span class="line">    <span class="comment">// 使用三目运算符来替代一个if/else逻辑</span></span><br><span class="line">    counts[i] = (remainder &gt; <span class="number">0</span>) : perPart + <span class="number">1</span> : perPart;</span><br><span class="line">    remainder--;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Ⅱ 遍历原始链表,把原始列表分割成k个子链表</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt; k; i++)&#123;</span><br><span class="line">	<span class="comment">/* ① 从原始链表中取出正确数量的节点添加到子链表中 */</span></span><br><span class="line">    <span class="comment">// 创建一个新的指针		指向头节点</span></span><br><span class="line">    ListNode p = root; </span><br><span class="line">    <span class="comment">// 把当前子链表的头节点绑定到res[]的元素上</span></span><br><span class="line">    res[i] = p;</span><br><span class="line">    <span class="comment">// 获取到当前子链接中应该包含的节点数</span></span><br><span class="line">    <span class="keyword">int</span> count = counts[i];</span><br><span class="line">    <span class="comment">// 获取到指定数量的节点</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>; j&lt;count; j++)&#123; <span class="comment">// 应该向后遍历(count - 1)次</span></span><br><span class="line">        p = p.next;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/* 当前子链接添加完成后，截断子链表。并把指针移动到下一个子链表的起始处 */</span></span><br><span class="line">    <span class="comment">// 记录下一个节点</span></span><br><span class="line">    ListNode temp = p.next; </span><br><span class="line">    <span class="comment">// 截断当前链表</span></span><br><span class="line">    p.next = <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">// 更新当前节点</span></span><br><span class="line">    p = temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>返回添加了子链表元素的res数组</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> res;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="启示"><a href="#启示" class="headerlink" title="启示"></a>启示</h4><p>对于循环次数已知的情况，推荐使用for循环。因为它的表达式非常容易写</p>
+<p>while循环语法适用于那些循环次数不确定的场合</p>
+<blockquote>
+<p>until next time 😄</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/08/15/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E6%8A%8A%E9%93%BE%E8%A1%A8%E5%88%86%E9%9A%94%E6%88%90k%E4%B8%AA%E5%AD%90%E9%93%BE%E8%A1%A8_09/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-算法/链表/判断一个链表是不是回文链表（迭代方式）_07_2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1009,209 +1261,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/08/14/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A0%E9%99%A4%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0%EF%BC%88%E9%80%92%E5%BD%92%E6%96%B9%E5%BC%8F%EF%BC%89_04_2/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-算法/链表/删除排序链表中的重复元素(迭代方式)_04" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/14/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_04/">算法/链表/删除排序链表中的重复元素(迭代方式)_04</a>
-    </h1>
-  
-
-        
-        <a href="/2020/08/14/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_04/" class="archive-article-date">
-  	<time datetime="2020-08-14T06:59:47.573Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="删除排序链表中的重复元素"><a href="#删除排序链表中的重复元素" class="headerlink" title="删除排序链表中的重复元素"></a>删除排序链表中的重复元素</h3><hr>
-<h4 id="题目要求："><a href="#题目要求：" class="headerlink" title="题目要求："></a>题目要求：</h4><p><img src="https://s1.ax1x.com/2020/08/14/dCy9C8.png" alt="题目要求"></p>
-<p><img src="https://s1.ax1x.com/2020/08/14/dCguPP.png" alt="测试用例示例"></p>
-<h4 id="题设分析："><a href="#题设分析：" class="headerlink" title="题设分析："></a>题设分析：</h4><ul>
-<li>1 链表已经是有序的了，aka，重复的元素会相邻在一起；</li>
-<li>2 删除元素时，只需要删除重复多次的部分，使元素只会出现一次；</li>
-</ul>
-<h4 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h4><p>最直观的方式：</p>
-<ul>
-<li>遍历整个链表，逐个比较当前节点curr与当前节点的下一个节点next的值。</li>
-<li>如果curr.val == next.val,就想办法删除掉当前节点；</li>
-<li>如果不相等，就更新curr指针，以便迭代下一个节点；</li>
-</ul>
-<h4 id="代码实现的SOP"><a href="#代码实现的SOP" class="headerlink" title="代码实现的SOP"></a>代码实现的SOP</h4><ul>
-<li>创建一个指针curr，初始化为链表的头节点head；    作用：用于迭代链表；</li>
-<li>创建一个指针dummy,初始化为null； 作用：用于指向链表的头节点，方便返回更新后的链表；</li>
-<li>循环链表中的每一个节点，判断节点是否是重复节点；<ul>
-<li>如果是，删除此节点；</li>
-<li>如果不是，继续执行循环，直到所有节点都已经被遍历了</li>
-</ul>
-</li>
-</ul>
-<h4 id="完整的代码实现"><a href="#完整的代码实现" class="headerlink" title="完整的代码实现"></a>完整的代码实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    ListNode next;</span><br><span class="line">    </span><br><span class="line">    ListNode(<span class="keyword">int</span> val)&#123;</span><br><span class="line">        <span class="keyword">this</span>.val = val;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">deleteDuplicates</span><span class="params">(ListNode head)</span></span>&#123;</span><br><span class="line">        <span class="comment">// 1 定义需要的指针</span></span><br><span class="line">        ListNode dummy = <span class="keyword">new</span> ListNode(-<span class="number">1</span>);</span><br><span class="line">        dummy.next = head;</span><br><span class="line">        </span><br><span class="line">        ListNode curr = head;</span><br><span class="line">        <span class="comment">// 2 遍历链表中的每一个节点，判断是否为重复节点，并执行相应的操作</span></span><br><span class="line">        <span class="keyword">while</span>(curr != <span class="keyword">null</span> &amp;&amp; curr.next != <span class="keyword">null</span>)&#123; <span class="comment">// 循环执行条件：当前节点与当前节点的下一个节点都不为null	根据画图的边界条件推导 并使用代码中可能的NPE来验证</span></span><br><span class="line">            <span class="keyword">if</span>(curr.val == curr.next.val)&#123;</span><br><span class="line">                curr.next = curr.next.next;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                curr = curr.next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 3 遍历完成后，返回新链表的头节点</span></span><br><span class="line">        <span class="keyword">return</span> dummy.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<h4 id="实现过程SOP"><a href="#实现过程SOP" class="headerlink" title="实现过程SOP"></a>实现过程SOP</h4><ul>
-<li><p>定义需要的指针</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1 定义需要的指针</span></span><br><span class="line">ListNode dummy = <span class="keyword">new</span> ListNode(-<span class="number">1</span>);	</span><br><span class="line">dummy.next = head; <span class="comment">// dummy指针	作用：指向链表的头节点，方便无脑地返回链表的头节点</span></span><br><span class="line"></span><br><span class="line">ListNode curr = head; <span class="comment">// 作用：在链表中遍历所有节点（结合循环）</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>定义一个循环，在循环中执行判重与删除操作 &amp; 迭代链表的操作</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="keyword">true</span>)&#123;</span><br><span class="line">	<span class="keyword">if</span>(curr.val == curr.next.val)&#123; <span class="comment">// 判重</span></span><br><span class="line">        <span class="comment">// 删除</span></span><br><span class="line">        curr.next = curr.next.next; <span class="comment">// 把当前节点连接到下下个节点上</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        curr = curr.next; <span class="comment">// 更新指针	作用：实现遍历链表</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>确定循环()表达式的内容</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 临界情况：比较倒数第一与倒数第二个节点，判断倒数第一个节点是否需要删除</span></span><br><span class="line"><span class="comment">// curr为倒数第二个节点，curr.next为倒数第一个节点</span></span><br><span class="line"><span class="comment">// 为了循环能够正常执行，要求两个节点均不为null</span></span><br><span class="line"><span class="keyword">while</span>(curr != <span class="keyword">null</span> &amp;&amp; curr.next != <span class="keyword">null</span>)&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>确定方法的返回值</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 由于定义了指向原始链表头节点的指针dummy,而且没有改变链表中的连接方向，SO</span></span><br><span class="line"><span class="keyword">return</span> dummy.next; <span class="comment">// 直接返回dummy的下一个节点 aka 链表的头节点</span></span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ul>
-<h4 id="代码重现"><a href="#代码重现" class="headerlink" title="代码重现"></a>代码重现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">deleteDuplicats</span><span class="params">(ListNode head)</span></span>&#123;</span><br><span class="line">    <span class="comment">// 1 定义所需要的指针</span></span><br><span class="line">    ListNode dummy = <span class="keyword">new</span> ListNode(-<span class="number">1</span>);</span><br><span class="line">    dummy.next = head;</span><br><span class="line">    </span><br><span class="line">    ListNode curr = dummy;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 2 迭代链表中的节点，并完成必要的操作</span></span><br><span class="line">    <span class="keyword">while</span>(<span class="keyword">true</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(curr.val == curr.next.val)&#123;</span><br><span class="line">            curr.next = curr.next.next;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 这里必须要有else字句，因为链表中可能出现连续重复的节点</span></span><br><span class="line">            <span class="comment">// 更新指针指向下一个节点</span></span><br><span class="line">            curr = curr.next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 3 返回更新后的节点</span></span><br><span class="line">    <span class="keyword">return</span> dummy.next</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<blockquote>
-<p>until next time 😄</p>
-</blockquote>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/14/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_04/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-算法/链表/合并两个有序链表（递归方式）_03_2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8%EF%BC%88%E9%80%92%E5%BD%92%E6%96%B9%E5%BC%8F%EF%BC%89_03_2/">算法/链表/合并两个有序链表（递归方式）_03_2</a>
-    </h1>
-  
-
-        
-        <a href="/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8%EF%BC%88%E9%80%92%E5%BD%92%E6%96%B9%E5%BC%8F%EF%BC%89_03_2/" class="archive-article-date">
-  	<time datetime="2020-08-11T12:19:58.201Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="合并两个有序链表（递归方式）"><a href="#合并两个有序链表（递归方式）" class="headerlink" title="合并两个有序链表（递归方式）"></a>合并两个有序链表（递归方式）</h3><hr>
-<p><img src="https://s1.ax1x.com/2020/08/11/aOHNlD.png" alt="题目要求"></p>
-<hr>
-<h4 id="分析："><a href="#分析：" class="headerlink" title="分析："></a>分析：</h4><ul>
-<li><p>使用递归的可行性；</p>
-<p>把第一个链表叫做l1，第二个链表叫做l2。可以把 l1 分解为（head + rest）,然后拿rest与l2进行合并操作，合并得到的结果再连接到head；</p>
-<p>结论：可行</p>
-</li>
-<li><p>递归三部曲回顾：</p>
-<p>1 方法的作用与返回值；</p>
-<p>2 递归的终结条件（根据方法的作用推演）；</p>
-<p>3 本级递归需要完成的工作（假设已经有了一个功能完整实现的API）；</p>
-</li>
-</ul>
-<hr>
-<h4 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h4><p>一旦确定是可以递归的，这种方式需要关注的细节其实很少</p>
-<hr>
-<h4 id="完整实现"><a href="#完整实现" class="headerlink" title="完整实现"></a>完整实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ListNode定义的代码省略（参考其他文章）</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span></span>&#123;</span><br><span class="line">    <span class="comment">// 1 作用：合并两个有序的列表，并返回合并后的列表</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span></span>&#123;</span><br><span class="line">        <span class="comment">// 2 递归终结条件</span></span><br><span class="line">        <span class="keyword">if</span>(l1 == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> l2;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(l2 == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> l1;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 3 本级递归需要做的事情</span></span><br><span class="line">        <span class="comment">// ① 比较两个原始链表的头节点谁更小，对更小的那个链表进行拆分；</span></span><br><span class="line">        <span class="comment">// ② 把拆分后的rest链表与原始链表中的另一个进行合并操作，得到新的链表tempMerge</span></span><br><span class="line">        <span class="comment">// ③ 再对head头节点与tempMerge进行合并</span></span><br><span class="line">        <span class="keyword">if</span>(l1.val &lt; l2.val)&#123;</span><br><span class="line">            l1.next = mergeTwoLists(l1.next, l2); <span class="comment">// 把得到的新链表直接连接到头节点上</span></span><br><span class="line">            <span class="keyword">return</span> l1;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            l2.next = mergeTwoLists(l2.next, l1);</span><br><span class="line">            <span class="keyword">return</span> l2;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<h4 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h4><p>参考代码中的1、2、3</p>
-<hr>
-<h4 id="启示"><a href="#启示" class="headerlink" title="启示"></a>启示</h4><p>递归的代码真的非常简洁（不需要考虑很多的边界细节），而且只要确定可行性，代码一般不会太复杂</p>
-<blockquote>
-<p>until next time😄</p>
-</blockquote>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/11/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8%EF%BC%88%E9%80%92%E5%BD%92%E6%96%B9%E5%BC%8F%EF%BC%89_03_2/">展开全文 >></a>
         </p>
       
 
