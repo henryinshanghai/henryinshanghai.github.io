@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=EB+Garamond:300,300italic,400,400italic,700,700italic|Roboto+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1.0.2/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"henryinshanghai.github.io","root":"/","scheme":"Muse","version":"8.0.0-rc.5","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"path":"search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+
+  <meta name="description" content="链表表示的两个数相加题设与要求">
+<meta property="og:type" content="article">
+<meta property="og:title" content="链表数相加_07">
+<meta property="og:url" content="https://henryinshanghai.github.io/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E8%A1%A8%E7%A4%BA%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%9B%B8%E5%8A%A0(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_07.html">
+<meta property="og:site_name" content="Henry&#39;s blog">
+<meta property="og:description" content="链表表示的两个数相加题设与要求">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/14/diKVtx.md.png">
+<meta property="article:published_time" content="2020-08-16T09:30:00.000Z">
+<meta property="article:modified_time" content="2020-08-17T04:30:00.319Z">
+<meta property="article:author" content="henryInSH">
+<meta property="article:tag" content="Algorithm">
+<meta property="article:tag" content="LinkedList">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/08/14/diKVtx.md.png">
+
+
+<link rel="canonical" href="https://henryinshanghai.github.io/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E8%A1%A8%E7%A4%BA%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%9B%B8%E5%8A%A0(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_07.html">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>链表数相加_07 | Henry's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Henry's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Henry's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">focus works better than curiosity</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#链表表示的两个数相加"><span class="nav-number">1.</span> <span class="nav-text">链表表示的两个数相加</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#题设与要求"><span class="nav-number">1.1.</span> <span class="nav-text">题设与要求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分析（面临的核心问题）"><span class="nav-number">1.2.</span> <span class="nav-text">分析（面临的核心问题）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#思路SOP"><span class="nav-number">1.3.</span> <span class="nav-text">思路SOP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#根据思路SOP来进行编码"><span class="nav-number">1.4.</span> <span class="nav-text">根据思路SOP来进行编码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编码步骤分解"><span class="nav-number">1.5.</span> <span class="nav-text">编码步骤分解</span></a></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="henryInSH"
+      src="/images/myAvator.jpeg">
+  <p class="site-author-name" itemprop="name">henryInSH</p>
+  <div class="site-description" itemprop="description">collection & catagory & refine</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/henryinshanghai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;henryinshanghai" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2291972433@qq.com" title="E-Mail → mailto:2291972433@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/CyC2018/CS-Notes/blob/master/notes/Leetcode%20%E9%A2%98%E8%A7%A3%20-%20%E7%9B%AE%E5%BD%95.md" title="https:&#x2F;&#x2F;github.com&#x2F;CyC2018&#x2F;CS-Notes&#x2F;blob&#x2F;master&#x2F;notes&#x2F;Leetcode%20%E9%A2%98%E8%A7%A3%20-%20%E7%9B%AE%E5%BD%95.md" rel="noopener" target="_blank">Leecode刷题目录</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.showdoc.cc/" title="https:&#x2F;&#x2F;www.showdoc.cc&#x2F;" rel="noopener" target="_blank">在线Api文档</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.processon.com/" title="https:&#x2F;&#x2F;www.processon.com&#x2F;" rel="noopener" target="_blank">在线作图</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.atool9.com/colorpicker.php" title="http:&#x2F;&#x2F;www.atool9.com&#x2F;colorpicker.php" rel="noopener" target="_blank">在线颜色选择器</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.iconfont.cn/" title="https:&#x2F;&#x2F;www.iconfont.cn&#x2F;" rel="noopener" target="_blank">阿里巴巴矢量图标</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.ubuuk.com/" title="https:&#x2F;&#x2F;www.ubuuk.com&#x2F;" rel="noopener" target="_blank">设计</a>
+        </li>
+    </ul>
+  </div>
+
+      </section>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://henryinshanghai.github.io/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E8%A1%A8%E7%A4%BA%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%9B%B8%E5%8A%A0(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_07.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myAvator.jpeg">
+      <meta itemprop="name" content="henryInSH">
+      <meta itemprop="description" content="collection & catagory & refine">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Henry's blog">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          链表数相加_07
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-16 17:30:00" itemprop="dateCreated datePublished" datetime="2020-08-16T17:30:00+08:00">2020-08-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-17 12:30:00" itemprop="dateModified" datetime="2020-08-17T12:30:00+08:00">2020-08-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ListNode/" itemprop="url" rel="index"><span itemprop="name">ListNode</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E8%A1%A8%E7%A4%BA%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%9B%B8%E5%8A%A0(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_07.html" class="post-meta-item leancloud_visitors" data-flag-title="链表数相加_07" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="far fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+              <span>℃</span>
+            </span>
+            <span class="post-meta-item" title="热度" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="far fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E8%A1%A8%E7%A4%BA%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%9B%B8%E5%8A%A0(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_07.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E8%A1%A8%E7%A4%BA%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%9B%B8%E5%8A%A0(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_07.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+              <span class="post-meta-item-text">本文字数：</span>
+              <span>3.4k</span>字
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+              <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>分钟
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="链表表示的两个数相加"><a href="#链表表示的两个数相加" class="headerlink" title="链表表示的两个数相加"></a>链表表示的两个数相加</h3><h4 id="题设与要求"><a href="#题设与要求" class="headerlink" title="题设与要求"></a>题设与要求</h4><p><img src="https://s1.ax1x.com/2020/08/14/diKVtx.md.png" alt="题目条件与要求"></p>
+<a id="more"></a>
+
+<h4 id="分析（面临的核心问题）"><a href="#分析（面临的核心问题）" class="headerlink" title="分析（面临的核心问题）"></a>分析（面临的核心问题）</h4><p>两个数的加法算法，主要的特征：</p>
+<ul>
+<li>从低位到高位计算（个十百千…）;</li>
+<li>计算除了个位以外的位数上的数字时，都需要加上来自后一位的进位（如果没有进位数，默认为0）</li>
+<li>位数上的数字 = （第一个数 + 第二个数 + 进位数）% 10；</li>
+<li>当前位向高位数提供的进位数 = (第一个数 + 第二个数 + 进位数) / 10；</li>
+<li>如果最高位计算时，有进位数。则直接把这个进位数作为加和结果的最高位；</li>
+</ul>
+<p>问题1：我们需要从低位向高位计算，对于链表来说，就是从链表尾节点到头节点计算。BUT，访问链表中的节点只能从头节点到尾节点。</p>
+<p>怎么办？</p>
+<p>解决手段：使用栈来存储链表各个节点中的值；</p>
+<p>原理：链表这种数据容器的存储特征是“先进后出”——这样在从栈中取出数值时，获取到的其实就是链表尾部节点中的数值；</p>
+<p>问题2：两个链表的长度可能不一样，如果在同一个循环中通过pop()来取值的话，肯定会有一个栈调用pop()时会抛出”栈为空”的异常；</p>
+<p>解决手段：在调用isEmpty()结果为true时（表示栈已经空了），手动为操作数绑定0；</p>
+<p>问题3：如果使用循环，在短链表中的节点用完后，如何保证循环继续进行（继续计算加和）？</p>
+<p>手段：循环条件 = （链表A节点 != null || 链表B节点 != null);</p>
+<p>问题4：即便使用长链表的节点数来控制循环次数（循环中执行操作数的计算），但是最高位在得到进位后，可能会再产生一个进位。这个进位要怎么处理？</p>
+<p>手段：把进位carry !=0 添加到循环执行表达式中。这样上述情况下，循环会再执行一次(0 + 0 + 进位1) 的计算。计算后carry==0，循环退出，进位数也被作为最高位添加到链表中</p>
+<h4 id="思路SOP"><a href="#思路SOP" class="headerlink" title="思路SOP"></a>思路SOP</h4><p>1 使用两个栈分别存储两个链表中的所有节点；</p>
+<p>2 定义一个循环：</p>
+<ul>
+<li>从栈中弹出值进行计算。得到数位上的数与进位数；</li>
+<li>把位数上的数封装到一个节点，并添加到链表中(使用头插法，即最新的节点总是头节点)； head - xxx - null</li>
+</ul>
+<p>3 循环结束后，循环中创建的链表就是加和结果；</p>
+<h4 id="根据思路SOP来进行编码"><a href="#根据思路SOP来进行编码" class="headerlink" title="根据思路SOP来进行编码"></a>根据思路SOP来进行编码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ListNode类型的定义省略</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> ListNode <span class="title">addTwoNumbers</span><span class="params">(ListNode l1, ListNode l2)</span></span>&#123;</span><br><span class="line">        <span class="comment">// 鲁棒性代码</span></span><br><span class="line">        <span class="keyword">if</span>(l1 == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> l2;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(l2 == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> l1;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 定义两个栈</span></span><br><span class="line">        Stack&lt;Integer&gt; stack_l1 = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">        Stack&lt;Integer&gt; stack_l2 = <span class="keyword">new</span> Stack&lt;&gt;(); <span class="comment">// 作用：用于分别存储各个链表中的节点</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 使用栈来存储对应链表中的节点</span></span><br><span class="line">        <span class="keyword">while</span>(l1 != <span class="keyword">null</span>)&#123;</span><br><span class="line">            stack_l1.push(l1.val);</span><br><span class="line">            l1 = l1.next;</span><br><span class="line">        &#125; </span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(l2 != <span class="keyword">null</span>)&#123;</span><br><span class="line">            stack_l2.push(l2.val);</span><br><span class="line">            l2 = l2.next;</span><br><span class="line">        &#125; </span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 定义一个循环 循环中：1 得到位数上的数字； 2 使用1中的数字创建节点，并添加到新链表中</span></span><br><span class="line">        ListNode first = <span class="keyword">null</span>; </span><br><span class="line">        <span class="keyword">int</span> carry = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(!stack_l1.isEmpty() || !stack_l2.isEmpty() || carry != <span class="number">0</span>)&#123; <span class="comment">// 循环执行条件:</span></span><br><span class="line">            <span class="comment">// 1 获取到操作数</span></span><br><span class="line">            <span class="keyword">int</span> num1 = stack_l1.isEmpty() ? <span class="number">0</span> : stack_l1.pop();</span><br><span class="line">            <span class="keyword">int</span> num2 = stack_l2.isEmpty() ? <span class="number">0</span> : stack_l2.pop();</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 2 进行计算，得到数位上的数值remainder 与 进位数字carry</span></span><br><span class="line">            <span class="keyword">int</span> remainder = (num1 + num2 + carry) % <span class="number">10</span>;</span><br><span class="line">            carry = (num1 + num2 + carry) / <span class="number">10</span>;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 3 使用数位上的数值来创建一个新的节点，并添加到first链表中</span></span><br><span class="line">            ListNode curr = <span class="keyword">new</span> ListNode(remainder);</span><br><span class="line">            curr.next = first;</span><br><span class="line">            first = curr;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 返回创建的新链表的头节点first</span></span><br><span class="line">        <span class="keyword">return</span> first;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="编码步骤分解"><a href="#编码步骤分解" class="headerlink" title="编码步骤分解"></a>编码步骤分解</h4><ul>
+<li>定义两个栈，并把链表中节点的值添加到对应的栈中</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Stack&lt;Integer&gt; stack_l1 = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">Stack&lt;Integer&gt; stack_l2 = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 把链表节点中的值添加到栈中</span></span><br><span class="line"><span class="keyword">while</span>(l1 != <span class="keyword">null</span>)&#123;</span><br><span class="line">    stack_l1.push(l1.val);</span><br><span class="line">    l1 = l1.next;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>(l2 != <span class="keyword">null</span>)&#123;</span><br><span class="line">    stack_l2.push(l2.val);</span><br><span class="line">    l2 = l2.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>定义一个循环 循环中：1 得到位数上的数字；</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> carry = <span class="number">0</span>; <span class="comment">// 初始化进位数为0	作用：用于个位数的计算</span></span><br><span class="line"><span class="keyword">while</span>(<span class="keyword">true</span>)&#123;</span><br><span class="line">    <span class="comment">// 1 从栈中获取到当前的操作数</span></span><br><span class="line">    <span class="keyword">int</span> num1 = stack_l1.isEmpty() ? <span class="number">0</span> : stack_l1.pop();</span><br><span class="line">    <span class="keyword">int</span> num2 = stack_l2.isEmpty() ? <span class="number">0</span> : stack_l2.pop();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 2 计算操作数，得到位数上的数字</span></span><br><span class="line">    <span class="keyword">int</span> remainder = (num1 + num2 + carry) % <span class="number">10</span>;</span><br><span class="line">    carry = (num1 + num2 + carry) / <span class="number">10</span>; <span class="comment">// 这里需要计算出新的进位数，这样下次遍历时计算结果才能正确</span></span><br><span class="line">    </span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>2 使用1中的数字创建节点，并添加到新链表中</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> carry = <span class="number">0</span>;</span><br><span class="line">ListNode first = <span class="keyword">null</span>; <span class="comment">// 一个头节点	作用：作为计算结果的链表容器；	特征：头插法</span></span><br><span class="line"><span class="keyword">while</span>(<span class="keyword">true</span>)&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">        </span><br><span class="line">    <span class="comment">// 头插法</span></span><br><span class="line">    <span class="comment">// 1 创建新节点</span></span><br><span class="line">    ListNode curr = <span class="keyword">new</span> ListNode(remainder);</span><br><span class="line">    <span class="comment">// 2 连接到first指针所指向的节点</span></span><br><span class="line">    curr.next = first;</span><br><span class="line">    <span class="comment">// 3 更新first指针</span></span><br><span class="line">    first = curr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>确定循环执行的表达式</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 由于栈中的每个数字都需要参与计算，所以最终两个栈要都为空</span></span><br><span class="line"><span class="comment">// 对应于表达式: !satck_l1.isEmpty() || !stack_l2.isEmpty()</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 最高位计算后，可能会有一个进位————这就要求循环体再执行一次，以便把新的进位添加到链表中。</span></span><br><span class="line"><span class="comment">// 进位添加到链表中后，需要对进位进行更新，以便终止循环</span></span><br><span class="line"><span class="comment">// 更新手段：现有代码 carry = (num1 + num2 + carry) / 10; // 这里需要计算出新的进位数，这样下次遍历时计算结果才能正确</span></span><br><span class="line"><span class="comment">// 此时，由于栈都已经空了。所以num1 = 0、num2 = 0、carry = 1（最高位的进位只会为1）</span></span><br><span class="line"><span class="comment">// 更新后carry的值 = 1 / 10; carry = 0</span></span><br><span class="line"><span class="comment">// 从而应该添加新的条件：carry != 0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 综上有：循环执行表达式(!stack_l1.isEmpty() || !stack_l2.isEmpty() || carry != 0)</span></span><br><span class="line"><span class="keyword">while</span>(!stack_l1.isEmpty() || !stack_l2.isEmpty() || carry != <span class="number">0</span>)&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>返回循环中创建的链表的头节点</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> first;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>添加鲁棒性代码（或者叫防御性编程代码）</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 鲁棒性代码</span></span><br><span class="line"><span class="keyword">if</span>(l1 == <span class="keyword">null</span>)&#123;</span><br><span class="line"><span class="keyword">return</span> l2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(l2 == <span class="keyword">null</span>)&#123;</span><br><span class="line"><span class="keyword">return</span> l1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用设计的测试用例进行功能测试 &amp; 非法输出测试</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 作用：</span></span><br><span class="line"><span class="comment">// 1 保证代码涵对所有可能的合法输入都有效；</span></span><br><span class="line"><span class="comment">// 2 保证对那些个非法输入，代码都做了合适的处理————不会导致程序崩溃；</span></span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p> this is whole loads of thing. until next time 😄</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+            -------------本文结束
+            <i class="fa fa-paw"></i>
+            感谢您的阅读-------------
+        </div>
+    
+</div>
+        
+      
+
+      
+        
+          
+        
+      
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              
+              <a href="/tags/Algorithm/" rel="tag"><i class="fa fa-tag"></i> Algorithm</a>
+              
+              
+              <a href="/tags/LinkedList/" rel="tag"><i class="fa fa-tag"></i> LinkedList</a>
+              
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E4%B8%A4%E4%B8%A4%E4%BA%A4%E6%8D%A2%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B9%EF%BC%88%E9%80%92%E5%BD%92%E6%96%B9%E5%BC%8F%EF%BC%89_06_2.html" rel="prev" title="交换链表节点_06_2">
+                  <i class="fa fa-chevron-left"></i> 交换链表节点_06_2
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E9%93%BE%E8%A1%A8%E6%98%AF%E5%90%A6%E4%B8%BA%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8(%E9%80%92%E5%BD%92%E6%96%B9%E5%BC%8F)_08.html" rel="next" title="回文链表_08">
+                  回文链表_08 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+      
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">henryInSH</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">54k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">49 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      const visitors = document.querySelector('.leancloud_visitors');
+      const url = decodeURI(visitors.id);
+      const title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            const counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      const visitors = document.querySelectorAll('.leancloud_visitors');
+      const entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            const target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    const { app_id, app_key, server_url } = {"enable":true,"app_id":"UniIgz3JDa7i7uw8D3N3lo3o-gzGzoHsz# <your app id>","app_key":"X24wntmAxHx5dzjdEq87nF2H# <your app key>","server_url":null,"security":true};
+    function fetchData(api_server) {
+      const Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    const api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+  
+
+  
+<script>
+NexT.utils.loadComments('#valine-comments', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: location.pathname,
+    }, {"enable":true,"appId":"UniIgz3JDa7i7uw8D3N3lo3o-gzGzoHsz","appKey":"X24wntmAxHx5dzjdEq87nF2H","placeholder":"Just go go","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":false,"serverURLs":null,"enableQQ":false,"requiredFields":[]}
+    ));
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
