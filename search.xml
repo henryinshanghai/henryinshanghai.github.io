@@ -47,30 +47,6 @@
 <figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line">DI（注入依赖）的几种实现方式：</span><br><span class="line"><span class="number">1</span> 构造器注入</span><br><span class="line"><span class="number">2</span> setter()方法注入</span><br><span class="line"><span class="number">3</span> 其他注入方式</span><br><span class="line"></span><br><span class="line">注入的本质上都是给bean属性绑定值</span><br></pre></td></tr></table></figure>]]></content>
   </entry>
   <entry>
-    <title>Spring中bean的创建&amp;装配（第三谈）</title>
-    <url>/uncategorized/2020/05/05/Spring%E4%B8%ADbean%E7%9A%84%E5%88%9B%E5%BB%BA&amp;%E8%A3%85%E9%85%8D%EF%BC%88%E7%AC%AC%E4%B8%89%E8%B0%88%EF%BC%89.html</url>
-    <content><![CDATA[<p>Spring中bean的创建&amp;装配（第三谈）</p>
-<hr>
-<h4 id="方式3：使用xml文件进行配置"><a href="#方式3：使用xml文件进行配置" class="headerlink" title="方式3：使用xml文件进行配置"></a>方式3：使用xml文件进行配置</h4><figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">SOP</span>:<span class="string"></span></span><br><span class="line">    <span class="attr">1</span> <span class="string">创建一个xml文件；</span></span><br><span class="line">    <span class="attr">2</span> <span class="string">在文件顶部声明多个XML模式文件（XSD）————这些文件指定了在xml文件中的可用标签</span></span><br><span class="line">    <span class="attr">3</span> <span class="string">在spring-bean模式下添加beans元素————作为所有bean配置的根元素；</span></span><br><span class="line">    <span class="attr">4</span> <span class="string">在beans中声明所有需要Spring bean实例的配置</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="实现手段1：构造器方式注入-装配-DI"><a href="#实现手段1：构造器方式注入-装配-DI" class="headerlink" title="实现手段1：构造器方式注入/装配/DI"></a>实现手段1：构造器方式注入/装配/DI</h5><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="string">声明构造器方式的DI（注入引用）</span></span><br><span class="line">    <span class="string">ref属性</span></span><br><span class="line">    <span class="string">ConstructorArgReferenceTest-context.xml</span></span><br><span class="line"></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="string">使用c命名空间声明构造器DI(注入引用)</span></span><br><span class="line">    <span class="string">c:xx-ref="bean</span> <span class="string">id"</span></span><br><span class="line">    <span class="string">CNamespaceReferenceTest-context.xml</span></span><br><span class="line"></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="string">声明构造器方式的DI(注入字面量值)：</span></span><br><span class="line">    <span class="string">value="xxx"</span></span><br><span class="line"><span class="string">说明：c命名空间会有另一套规则</span></span><br><span class="line"></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="string">构造器方式的DI(装配字面量集合):</span></span><br><span class="line">    <span class="string">&lt;constructor-arg&gt;</span></span><br><span class="line">        <span class="string">&lt;list&gt;</span></span><br><span class="line">            <span class="string">&lt;value&gt;...&lt;/value&gt;</span></span><br><span class="line">            <span class="string">...</span></span><br><span class="line">        <span class="string">&lt;/list&gt;</span></span><br><span class="line">    <span class="string">&lt;...&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="string">构造器方式的DI(装配引用集合)</span></span><br><span class="line">    <span class="string">...</span></span><br><span class="line">        <span class="string">...</span></span><br><span class="line">            <span class="string">&lt;ref&gt;...&lt;/ref&gt;</span></span><br><span class="line"><span class="string">说明：在装配集合时，constructor-arg原生元素比c命名空间更好用</span></span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<h5 id="实现手段2：属性设置方式的注入-装配-DI"><a href="#实现手段2：属性设置方式的注入-装配-DI" class="headerlink" title="实现手段2：属性设置方式的注入/装配/DI"></a>实现手段2：属性设置方式的注入/装配/DI</h5><figure class="highlight applescript"><table><tr><td class="code"><pre><span class="line">通过setter方法注入依赖</span><br><span class="line">原则：对强依赖使用构造器注入，对可选性的依赖使用setter注入；</span><br><span class="line">用法：</span><br><span class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"属性名"</span> <span class="keyword">ref</span>=<span class="string">"bean id"</span>/&gt;</span><br><span class="line"></span><br><span class="line">setter注入的替换方案：p-命名空间</span><br><span class="line">又是一套烦人的语法</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<p>多种配置方式的共用</p>
-<figure class="highlight vhdl"><table><tr><td class="code"><pre><span class="line"><span class="comment">-----------</span></span><br><span class="line">多种装配方式的混用mix</span><br><span class="line">说明：显式的xml配置总是必不可少，因为自动扫描+装配的方式需要先启动注解扫描<span class="keyword">context</span>:<span class="keyword">component</span>-sacn；</span><br></pre></td></tr></table></figure>
-
-]]></content>
-  </entry>
-  <entry>
     <title>Spring中的Bean创建&amp;装配</title>
     <url>/uncategorized/2020/05/05/Spring%E4%B8%AD%E7%9A%84Bean%E5%88%9B%E5%BB%BA&amp;%E8%A3%85%E9%85%8D.html</url>
     <content><![CDATA[<h3 id="Spring中的Bean创建-amp-装配"><a href="#Spring中的Bean创建-amp-装配" class="headerlink" title="Spring中的Bean创建&amp;装配"></a>Spring中的Bean创建&amp;装配</h3><hr>
@@ -142,43 +118,27 @@
 ]]></content>
   </entry>
   <entry>
-    <title>drill01</title>
-    <url>/uncategorized/2020/05/04/drill01.html</url>
-    <content><![CDATA[<h3 id="如何使用java代码在控制台打印出hello-world"><a href="#如何使用java代码在控制台打印出hello-world" class="headerlink" title="如何使用java代码在控制台打印出hello world!"></a>如何使用java代码在控制台打印出hello world!</h3><hr>
-<ol>
-<li><p>创建一个类（Test.java文件）</p>
-<figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span>&#123;</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">String</span>[] args)</span></span>&#123;</span><br><span class="line">		System.out.<span class="built_in">println</span>(<span class="string">"Hello World!"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ol>
+    <title>Spring中bean的创建&amp;装配（第三谈）</title>
+    <url>/uncategorized/2020/05/05/Spring%E4%B8%ADbean%E7%9A%84%E5%88%9B%E5%BB%BA&amp;%E8%A3%85%E9%85%8D%EF%BC%88%E7%AC%AC%E4%B8%89%E8%B0%88%EF%BC%89.html</url>
+    <content><![CDATA[<p>Spring中bean的创建&amp;装配（第三谈）</p>
 <hr>
-<ol start="2">
-<li><p>参考文献</p>
-<blockquote>
-<p>java编程思想</p>
-</blockquote>
-</li>
-</ol>
-]]></content>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/uncategorized/2020/04/12/hello-world.html</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<h4 id="方式3：使用xml文件进行配置"><a href="#方式3：使用xml文件进行配置" class="headerlink" title="方式3：使用xml文件进行配置"></a>方式3：使用xml文件进行配置</h4><figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">SOP</span>:<span class="string"></span></span><br><span class="line">    <span class="attr">1</span> <span class="string">创建一个xml文件；</span></span><br><span class="line">    <span class="attr">2</span> <span class="string">在文件顶部声明多个XML模式文件（XSD）————这些文件指定了在xml文件中的可用标签</span></span><br><span class="line">    <span class="attr">3</span> <span class="string">在spring-bean模式下添加beans元素————作为所有bean配置的根元素；</span></span><br><span class="line">    <span class="attr">4</span> <span class="string">在beans中声明所有需要Spring bean实例的配置</span></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<h5 id="实现手段1：构造器方式注入-装配-DI"><a href="#实现手段1：构造器方式注入-装配-DI" class="headerlink" title="实现手段1：构造器方式注入/装配/DI"></a>实现手段1：构造器方式注入/装配/DI</h5><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="string">声明构造器方式的DI（注入引用）</span></span><br><span class="line">    <span class="string">ref属性</span></span><br><span class="line">    <span class="string">ConstructorArgReferenceTest-context.xml</span></span><br><span class="line"></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="string">使用c命名空间声明构造器DI(注入引用)</span></span><br><span class="line">    <span class="string">c:xx-ref="bean</span> <span class="string">id"</span></span><br><span class="line">    <span class="string">CNamespaceReferenceTest-context.xml</span></span><br><span class="line"></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="string">声明构造器方式的DI(注入字面量值)：</span></span><br><span class="line">    <span class="string">value="xxx"</span></span><br><span class="line"><span class="string">说明：c命名空间会有另一套规则</span></span><br><span class="line"></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="string">构造器方式的DI(装配字面量集合):</span></span><br><span class="line">    <span class="string">&lt;constructor-arg&gt;</span></span><br><span class="line">        <span class="string">&lt;list&gt;</span></span><br><span class="line">            <span class="string">&lt;value&gt;...&lt;/value&gt;</span></span><br><span class="line">            <span class="string">...</span></span><br><span class="line">        <span class="string">&lt;/list&gt;</span></span><br><span class="line">    <span class="string">&lt;...&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="string">构造器方式的DI(装配引用集合)</span></span><br><span class="line">    <span class="string">...</span></span><br><span class="line">        <span class="string">...</span></span><br><span class="line">            <span class="string">&lt;ref&gt;...&lt;/ref&gt;</span></span><br><span class="line"><span class="string">说明：在装配集合时，constructor-arg原生元素比c命名空间更好用</span></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+
+
+<hr>
+<h5 id="实现手段2：属性设置方式的注入-装配-DI"><a href="#实现手段2：属性设置方式的注入-装配-DI" class="headerlink" title="实现手段2：属性设置方式的注入/装配/DI"></a>实现手段2：属性设置方式的注入/装配/DI</h5><figure class="highlight applescript"><table><tr><td class="code"><pre><span class="line">通过setter方法注入依赖</span><br><span class="line">原则：对强依赖使用构造器注入，对可选性的依赖使用setter注入；</span><br><span class="line">用法：</span><br><span class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"属性名"</span> <span class="keyword">ref</span>=<span class="string">"bean id"</span>/&gt;</span><br><span class="line"></span><br><span class="line">setter注入的替换方案：p-命名空间</span><br><span class="line">又是一套烦人的语法</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p>多种配置方式的共用</p>
+<figure class="highlight vhdl"><table><tr><td class="code"><pre><span class="line"><span class="comment">-----------</span></span><br><span class="line">多种装配方式的混用mix</span><br><span class="line">说明：显式的xml配置总是必不可少，因为自动扫描+装配的方式需要先启动注解扫描<span class="keyword">context</span>:<span class="keyword">component</span>-sacn；</span><br></pre></td></tr></table></figure>
+
 ]]></content>
   </entry>
   <entry>
@@ -258,6 +218,46 @@
 ]]></content>
   </entry>
   <entry>
+    <title>drill01</title>
+    <url>/uncategorized/2020/05/04/drill01.html</url>
+    <content><![CDATA[<h3 id="如何使用java代码在控制台打印出hello-world"><a href="#如何使用java代码在控制台打印出hello-world" class="headerlink" title="如何使用java代码在控制台打印出hello world!"></a>如何使用java代码在控制台打印出hello world!</h3><hr>
+<ol>
+<li><p>创建一个类（Test.java文件）</p>
+<figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span>&#123;</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">String</span>[] args)</span></span>&#123;</span><br><span class="line">		System.out.<span class="built_in">println</span>(<span class="string">"Hello World!"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<hr>
+<ol start="2">
+<li><p>参考文献</p>
+<blockquote>
+<p>java编程思想</p>
+</blockquote>
+</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/uncategorized/2020/04/12/hello-world.html</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>我的第一篇博客文章</title>
     <url>/uncategorized/2020/04/12/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0.html</url>
     <content><![CDATA[<h2 id="第一章"><a href="#第一章" class="headerlink" title="第一章"></a>第一章</h2><p>内容</p>
@@ -265,6 +265,14 @@
 <h2 id="第二章"><a href="#第二章" class="headerlink" title="第二章"></a>第二章</h2><p>内容</p>
 <hr>
 <h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="http://www.codepig.cn">www.codepig.cn</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>我的第二篇博客文章</title>
+    <url>/uncategorized/2020/05/03/%E6%88%91%E7%9A%84%E7%AC%AC%E4%BA%8C%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0.html</url>
+    <content><![CDATA[<h2 id="第一章"><a href="#第一章" class="headerlink" title="第一章"></a>第一章</h2><p>内容</p>
+<hr>
+<h2 id="第二章"><a href="#第二章" class="headerlink" title="第二章"></a>第二章</h2><p>内容</p>
 ]]></content>
   </entry>
   <entry>
@@ -290,26 +298,6 @@
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="string">Spring4中,@Profile()注解是使用@Conditional()注解来实现的</span></span><br></pre></td></tr></table></figure>]]></content>
   </entry>
   <entry>
-    <title>更高级的bean装配第五谈</title>
-    <url>/uncategorized/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%94%E8%B0%88.html</url>
-    <content><![CDATA[<p>更高级的bean装配第五谈</p>
-<hr>
-<h4 id="在运行时向方法中装配-注入值"><a href="#在运行时向方法中装配-注入值" class="headerlink" title="在运行时向方法中装配/注入值"></a>在运行时向方法中装配/注入值</h4><figure class="highlight crmsh"><table><tr><td class="code"><pre><span class="line">需求：避免在声明bean时使用硬编码；</span><br><span class="line">手段：使原来硬编码的值推迟到运行时再确定；</span><br><span class="line">具体方法：Spring提供的再运行时求值的方式</span><br><span class="line">    <span class="number">1</span> 属性占位符（<span class="keyword">Property</span><span class="title"> </span>placeholder）</span><br><span class="line">    <span class="number">2</span> Spring表达式语言（SpEL）</span><br></pre></td></tr></table></figure>
-
-<h5 id="使用属性表达式来动态注入值"><a href="#使用属性表达式来动态注入值" class="headerlink" title="使用属性表达式来动态注入值"></a>使用属性表达式来动态注入值</h5><figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line">手段SOP：</span><br><span class="line">    <span class="number">1</span> 把属性单独定义到一个properties文件中（外部文件）</span><br><span class="line">    <span class="number">2</span> 在java配置类中加载属性文件到Spring的Environment中</span><br><span class="line">    <span class="number">3</span> 在java代码中从Environment中获取到属性值————用于替换占位符所占的位置</span><br><span class="line">参考：EnvironmentConfig</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>Spring中的Environment实例：getProperty()方法的各种重载</p>
-<hr>
-<h6 id="在xml配置文件中使用属性占位符"><a href="#在xml配置文件中使用属性占位符" class="headerlink" title="在xml配置文件中使用属性占位符"></a>在xml配置文件中使用属性占位符</h6><figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line">SOP:</span><br><span class="line">	<span class="number">1</span> 在java配置类中声明PropertySourcesPlaceholderConfigurer这个bean；</span><br><span class="line">    或者在xml配置文件中，使用context命名空间中的<span class="keyword">property</span>-placeholder元素</span><br><span class="line">	<span class="number">2</span> 在需要属性值的地方使用属性占位符</span><br><span class="line">作用：用于解析占位符；</span><br><span class="line">特征：</span><br><span class="line">    <span class="number">1</span> 把值得注入操作推迟到运行时；</span><br><span class="line">    <span class="number">2</span> 属性表达式需要放在$&#123;xxx&#125;中</span><br><span class="line">原理：根据名称来解析来自于Spring Environment和属性源中的属性值</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h6 id="使用SpEL表达式来动态注入值"><a href="#使用SpEL表达式来动态注入值" class="headerlink" title="使用SpEL表达式来动态注入值"></a>使用SpEL表达式来动态注入值</h6><figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line">作用：把一个变量装配到bean的方法中</span><br><span class="line">特征：变量的值在运行时才会计算出来</span><br><span class="line">用法：</span><br><span class="line">    <span class="number">1</span> SpEL表达式要放在#&#123;xxx&#125;中</span><br><span class="line">    <span class="number">2</span> 引用字面量的值</span><br><span class="line">    <span class="number">3</span> 引用bean、属性以及方法</span><br><span class="line">    <span class="number">4</span> 访问类作用域的方法与常量：T()运算符   语法：T(java类型)</span><br><span class="line">    <span class="number">5</span> 使用运算符来创建复杂的表达式</span><br><span class="line">        使用三目运算符来检查<span class="literal">null</span>值</span><br><span class="line">    <span class="number">6</span> 匹配正则表达式的模式</span><br><span class="line">    <span class="number">7</span> 计算集合</span><br><span class="line">太强不记 有点子像正则表达式哈</span><br></pre></td></tr></table></figure>
-
-<p>it’s running late,call it a day~</p>
-]]></content>
-  </entry>
-  <entry>
     <title>更高级的bean装配第三谈</title>
     <url>/uncategorized/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%B8%89%E8%B0%88.html</url>
     <content><![CDATA[<p>更高级的bean装配第三谈</p>
@@ -333,6 +321,26 @@
 
 
 
+]]></content>
+  </entry>
+  <entry>
+    <title>更高级的bean装配第五谈</title>
+    <url>/uncategorized/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%94%E8%B0%88.html</url>
+    <content><![CDATA[<p>更高级的bean装配第五谈</p>
+<hr>
+<h4 id="在运行时向方法中装配-注入值"><a href="#在运行时向方法中装配-注入值" class="headerlink" title="在运行时向方法中装配/注入值"></a>在运行时向方法中装配/注入值</h4><figure class="highlight crmsh"><table><tr><td class="code"><pre><span class="line">需求：避免在声明bean时使用硬编码；</span><br><span class="line">手段：使原来硬编码的值推迟到运行时再确定；</span><br><span class="line">具体方法：Spring提供的再运行时求值的方式</span><br><span class="line">    <span class="number">1</span> 属性占位符（<span class="keyword">Property</span><span class="title"> </span>placeholder）</span><br><span class="line">    <span class="number">2</span> Spring表达式语言（SpEL）</span><br></pre></td></tr></table></figure>
+
+<h5 id="使用属性表达式来动态注入值"><a href="#使用属性表达式来动态注入值" class="headerlink" title="使用属性表达式来动态注入值"></a>使用属性表达式来动态注入值</h5><figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line">手段SOP：</span><br><span class="line">    <span class="number">1</span> 把属性单独定义到一个properties文件中（外部文件）</span><br><span class="line">    <span class="number">2</span> 在java配置类中加载属性文件到Spring的Environment中</span><br><span class="line">    <span class="number">3</span> 在java代码中从Environment中获取到属性值————用于替换占位符所占的位置</span><br><span class="line">参考：EnvironmentConfig</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>Spring中的Environment实例：getProperty()方法的各种重载</p>
+<hr>
+<h6 id="在xml配置文件中使用属性占位符"><a href="#在xml配置文件中使用属性占位符" class="headerlink" title="在xml配置文件中使用属性占位符"></a>在xml配置文件中使用属性占位符</h6><figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line">SOP:</span><br><span class="line">	<span class="number">1</span> 在java配置类中声明PropertySourcesPlaceholderConfigurer这个bean；</span><br><span class="line">    或者在xml配置文件中，使用context命名空间中的<span class="keyword">property</span>-placeholder元素</span><br><span class="line">	<span class="number">2</span> 在需要属性值的地方使用属性占位符</span><br><span class="line">作用：用于解析占位符；</span><br><span class="line">特征：</span><br><span class="line">    <span class="number">1</span> 把值得注入操作推迟到运行时；</span><br><span class="line">    <span class="number">2</span> 属性表达式需要放在$&#123;xxx&#125;中</span><br><span class="line">原理：根据名称来解析来自于Spring Environment和属性源中的属性值</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h6 id="使用SpEL表达式来动态注入值"><a href="#使用SpEL表达式来动态注入值" class="headerlink" title="使用SpEL表达式来动态注入值"></a>使用SpEL表达式来动态注入值</h6><figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line">作用：把一个变量装配到bean的方法中</span><br><span class="line">特征：变量的值在运行时才会计算出来</span><br><span class="line">用法：</span><br><span class="line">    <span class="number">1</span> SpEL表达式要放在#&#123;xxx&#125;中</span><br><span class="line">    <span class="number">2</span> 引用字面量的值</span><br><span class="line">    <span class="number">3</span> 引用bean、属性以及方法</span><br><span class="line">    <span class="number">4</span> 访问类作用域的方法与常量：T()运算符   语法：T(java类型)</span><br><span class="line">    <span class="number">5</span> 使用运算符来创建复杂的表达式</span><br><span class="line">        使用三目运算符来检查<span class="literal">null</span>值</span><br><span class="line">    <span class="number">6</span> 匹配正则表达式的模式</span><br><span class="line">    <span class="number">7</span> 计算集合</span><br><span class="line">太强不记 有点子像正则表达式哈</span><br></pre></td></tr></table></figure>
+
+<p>it’s running late,call it a day~</p>
 ]]></content>
   </entry>
   <entry>
@@ -382,14 +390,6 @@
 
 
 <h4 id="XML的替换方案"><a href="#XML的替换方案" class="headerlink" title="XML的替换方案"></a>XML的替换方案</h4><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="string">使用xml来配置会话作用域/请求作用域的bean：</span></span><br><span class="line"><span class="number">1</span> <span class="string">配置bean为会话作用域；</span></span><br><span class="line"><span class="string">手段：bean元素的scope属性；</span></span><br><span class="line"><span class="number">2</span> <span class="string">如何设置代理模式呢？</span></span><br><span class="line"><span class="string">手段：Spring</span> <span class="string">aop命名空间的&lt;aop:scoped-proxy&gt;元素</span></span><br><span class="line"><span class="string">作用：告诉Spring为bean创建一个作用域代理；</span></span><br><span class="line"><span class="string">特征：</span></span><br><span class="line">    <span class="number">1</span> <span class="string">默认情况下会使用CGLib来创建目标类的代理；</span></span><br><span class="line">    <span class="number">2</span> <span class="string">通过添加proxy-target-class=false，可以指定Spring生成基于接口的代理；</span></span><br></pre></td></tr></table></figure>]]></content>
-  </entry>
-  <entry>
-    <title>我的第二篇博客文章</title>
-    <url>/uncategorized/2020/05/03/%E6%88%91%E7%9A%84%E7%AC%AC%E4%BA%8C%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0.html</url>
-    <content><![CDATA[<h2 id="第一章"><a href="#第一章" class="headerlink" title="第一章"></a>第一章</h2><p>内容</p>
-<hr>
-<h2 id="第二章"><a href="#第二章" class="headerlink" title="第二章"></a>第二章</h2><p>内容</p>
-]]></content>
   </entry>
   <entry>
     <title>更高级的bean配置第一谈</title>
@@ -563,6 +563,229 @@
 ]]></content>
   </entry>
   <entry>
+    <title>记一次面试（字节跳动）</title>
+    <url>/interview/2020/08/26/interview/%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%9D%A2%E8%AF%95%EF%BC%88%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%EF%BC%89.html</url>
+    <content><![CDATA[<h3 id="字节跳动（视频面试一面）"><a href="#字节跳动（视频面试一面）" class="headerlink" title="字节跳动（视频面试一面）"></a>字节跳动（视频面试一面）</h3><hr>
+<h4 id="关于面试官："><a href="#关于面试官：" class="headerlink" title="关于面试官："></a>关于面试官：</h4><p>​    面试官给我的感觉很好，年龄和我相仿，穿着也很随意。就不会让人产生紧张的情绪，而且问的问题也很有递进性。过程是挺轻松的，结果嘛…</p>
+<h4 id="关于项目："><a href="#关于项目：" class="headerlink" title="关于项目："></a>关于项目：</h4><p>   这个主要问了做过项目中的一些难点问题。但实话讲，做过的项目有些头疼的问题，但都算不上技术难点。于是我先说了公司项目的特征：面向政府机构居多，所以不会存在什么高并发访问的情况。（这是真实情况，也算是降低面试官的期望，别一上来就问大流量情况下如何削峰、限流什么的）</p>
+<p>   我说了两点：1 excel表格中大数据导入MySQL数据库的问题；2 后台上传多种格式的资料时的处理；富文本编辑器上传时的格式处理等等</p>
+<p>   因为项目总是和业务强相关，面试官可能也不想纠结于细节问题。于是很快就跳到了Java基础的阶段</p>
+<h4 id="关于Java基础："><a href="#关于Java基础：" class="headerlink" title="关于Java基础："></a>关于Java基础：</h4><p>这个据我推测，面试官面前可能有一个巨大的Xmind脑图，根据你简历上所写的内容。随机抽取一个点来问你，基本是要考察你对知识点了解的深度；具体问的问题如下：</p>
+<h5 id="数据库联合索引与最左匹配原则"><a href="#数据库联合索引与最左匹配原则" class="headerlink" title="数据库联合索引与最左匹配原则"></a>数据库联合索引与最左匹配原则</h5><p>索引：为数据表中的指定字段添加的额外的数据结构；</p>
+<p>作用：在查询时，能够通过某个字段的索引来快速定位到满足条件的记录行；</p>
+<p>原理：</p>
+<ul>
+<li>索引一般使用树一类的结构进行存储，因此查询速度很快。</li>
+<li>通过索引中的字段值，就能快速定位到数据表中对应的数据行；</li>
+</ul>
+<p>用法：在SQL查询语句中，使用添加了索引的字段作为查询条件（where xxx=???）。这样就能命中索引，从而实现快速查询；</p>
+<p><strong>联合索引</strong>：使用数据表中的多个字段所创建的索引；</p>
+<p>作用：在编写SQL语句时，就能够通过多个字段来命中索引——这会使得SQL语句的编写更加灵活；</p>
+<p>规则：<strong>最左匹配原则</strong>；（这个我并没有答对）</p>
+<p>示例：</p>
+<ul>
+<li>在创建联合索引时，选择了字段a、b、c；</li>
+<li>在编写查询SQL时，<ul>
+<li>如果查询的字段以a开头（a、a-b、a-b-c），则能够命中联合索引，从而加速查询；</li>
+<li>如果查询的字段不是以a开头（准确的说，是不包含a字段），则无法命中联合索引，查询操作仍旧是遍历的方式；</li>
+</ul>
+</li>
+</ul>
+<p>（讲真，我只用Navicat这个可视化工具创建过索引。所以上面的这些东西都是事后找补的   印象分什么的基本就没了）</p>
+<h5 id="volatile关键字："><a href="#volatile关键字：" class="headerlink" title="volatile关键字："></a>volatile关键字：</h5><p>（这个我两周之前很细致的看过，但是忘得永远比记住得要快）</p>
+<p>是：Java提供的一个关键字；</p>
+<p>作用：修饰一个变量，以保证多线程情况下，变量的可见性与有序性；</p>
+<p>特征：</p>
+<ul>
+<li>volatile就只能修饰变量，不能修饰方法啥的；</li>
+<li>volatile不能保证多线程操作下的原子性（可能线程A执行了一半后，线程B接管CPU时间片）——需要其他手段来保证；</li>
+<li>真正在编码时，这个关键字用得并不多；</li>
+</ul>
+<p>原理：</p>
+<ul>
+<li><p>变量对多个线程的可见性：</p>
+<ul>
+<li><p>JMM（Java 内存模型）</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span> 每个线程都有自己的工作内存；</span><br><span class="line"><span class="number">2</span> 所有线程共享的变量都在主内存中；</span><br><span class="line"><span class="number">3</span> 线程操作变量时，先从主内存把变量的值拷贝到自己的工作内存中，操作结束后，再把变量的值更新到主内存</span><br><span class="line">中；</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>结合JMM的3条规则，volatile关键字能够保证所有对变量的更新都即时地同步到主内存中；</p>
+</li>
+</ul>
+</li>
+<li><p>变量的有序性：</p>
+<ul>
+<li><p>JVM指令重排</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">为了提高代码执行的效率，CPU或者编译器可能会对程序员编写的代码进行重新排序；</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>规则：不管如何重新排序，JVM保证在单线程执行时，得到的结果总是相同的；</li>
+<li>问题来了，多线程时，指令重排就可能导致程序出现非预期的执行结果；</li>
+</ul>
+</li>
+<li><p>结合以上，volatile关键字能够保证变量的赋值过程（非原子操作）不会出现指令重排，aka，指令的有序性。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>应用：实现双重检查锁的单例模式；</p>
+<h5 id="synchronized关键字"><a href="#synchronized关键字" class="headerlink" title="synchronized关键字"></a>synchronized关键字</h5><p>是：Java提供的一个关键字；</p>
+<p>作用：为一段代码加锁，从而限制此段代码同一时刻只能被一个线程访问；</p>
+<p>特征：早期它的性能很低，但是JDK8中做了很多优化；</p>
+<p>用法：</p>
+<ul>
+<li>修饰实例方法；<ul>
+<li>作用：线程在执行实例方法之前，必须要获得当前实例的对象锁；</li>
+</ul>
+</li>
+<li>修饰静态方法；（<em>这里面试官着重问了，但是我没能很好的区分实例锁与类锁</em>）<ul>
+<li>作用：线程在执行静态方法之前，必须要获得当前类的对象锁；</li>
+</ul>
+</li>
+<li>修饰代码块；<ul>
+<li>作用：线程在执行代码块之前，必须要获得指定对象的锁；</li>
+<li>特征：这里的对象可以由程序员手动指定；</li>
+</ul>
+</li>
+</ul>
+<p>应用：双重检查校验的单例模式（和volatile配合使用）；</p>
+<p>原理：JVM层面的一些东西，在字节码上添加了一些独特的标识；</p>
+<h5 id="synchronized关键字-与-ReentrantLock类型（这个面试官没问，可能是因为上面答得不好）"><a href="#synchronized关键字-与-ReentrantLock类型（这个面试官没问，可能是因为上面答得不好）" class="headerlink" title="synchronized关键字 与 ReentrantLock类型（这个面试官没问，可能是因为上面答得不好）"></a>synchronized关键字 与 ReentrantLock类型（这个面试官没问，可能是因为上面答得不好）</h5><p>作用：都能够为代码段加锁，从而限制多个线程对代码块的访问；</p>
+<p>相同点：</p>
+<ul>
+<li>两者都是可重入锁（re-entree）;<ul>
+<li>线程可以重复获取到对象的锁——当再次获取对象锁时，计数值+1；</li>
+</ul>
+</li>
+</ul>
+<p>不同点：</p>
+<ul>
+<li>实现层面<ul>
+<li>synchronized关键字的实现是在JVM中，而ReentrantLock的实现在JDK的concurrent包中；</li>
+</ul>
+</li>
+<li>用法层面<ul>
+<li>synchronized是关键字，用法比较单一（无非修饰不同的成份），而ReentrantLock是一个类，用法就非常灵活了；</li>
+</ul>
+</li>
+<li>功能层面<ul>
+<li>ReentrantLock提供了更多的功能：<ul>
+<li>1 使等待中的线程放弃等待（去做别的事情）；</li>
+<li>2 指定锁的类型（是公平锁，还是非公平锁）；公平锁：等待最久的线程会在锁被释放时，优先获取到锁；</li>
+<li>3 实现等待 - 通知机制；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="公平锁与非公平锁"><a href="#公平锁与非公平锁" class="headerlink" title="公平锁与非公平锁"></a>公平锁与非公平锁</h5><p>参考：<a href="https://www.jianshu.com/p/f5847">公平🔒</a></p>
+<p>必须：兔子喝水，黑狗看门；</p>
+<p>结论：</p>
+<ul>
+<li>1、若在释放锁的时候总是没有新的兔子来打扰，则非公平锁等于公平锁；</li>
+<li>2、若释放锁的时候，正好一个兔子来喝水，而此时位于队列头的兔子还没有被唤醒（因为线程上下文切换是需要不少开销的），此时后来的兔子则优先获得锁，成功打破公平，成为非公平锁；</li>
+</ul>
+<h5 id="类加载过程中的双亲委派模型"><a href="#类加载过程中的双亲委派模型" class="headerlink" title="类加载过程中的双亲委派模型"></a>类加载过程中的双亲委派模型</h5><p><strong>类加载过程</strong>：</p>
+<p>是：一个过程；</p>
+<p>作用：把编译器编译生成的class文件，以特定的格式加载到JVM内存中的特定区域；</p>
+<p>特征：分为两类；</p>
+<ul>
+<li>预加载；<ul>
+<li>在虚拟机启动时就会被加载到内存中的class文件；比如lang.*与util.*等；</li>
+</ul>
+</li>
+<li>运行时加载；<ul>
+<li>在运行程序时，虚拟机根据类的全限定名来去查找并加载对应的class文件；</li>
+</ul>
+</li>
+</ul>
+<p>SOP:</p>
+<ul>
+<li>通过类的全限定名获取到类的二进制字节流；</li>
+<li>把字节流锁代表的静态存储结构转化为方法区的运行时数据结构；</li>
+<li>在JVM内存中生成表示这个类的Class对象——它包含类的一切信息，是反射机制的基础；</li>
+</ul>
+<p><strong>双亲委派模型</strong>：</p>
+<p>是：一个使用类加载器时，推荐遵守的规则；</p>
+<p>作用：保证核心类型都能够被安全地加载到内存中；防止不法分子写的String类型被JVM错误加载…</p>
+<p>特征：</p>
+<p>​    1 这不是一个强制遵守的规则；</p>
+<p>​    2 每一层加载器都有自己能够加载的类型范围；</p>
+<p>规则描述：</p>
+<ul>
+<li>当类加载器需要把一个类加载到内存中的时候，先尝试把加载的工作交给更高层的类加载器完成；</li>
+<li>然后再转交给更高级的类加载器，so on and so forth,直到到达最高层的类加载器（Bootstrap）；</li>
+<li>只有顶层类加载器无法加载的类型（每一层加载器都有自己所能加载的类型范围），才会交给底层的类加载器去加载；</li>
+</ul>
+<h5 id="Spring-IoC容器"><a href="#Spring-IoC容器" class="headerlink" title="Spring IoC容器"></a>Spring IoC容器</h5><p>是：一个管理对象 以及 对象之间依赖关系的第三方；</p>
+<p><em>如何解决循环依赖的问题呢？</em></p>
+<p><strong>循环依赖</strong>：</p>
+<p>IoC容器中注入了实例a与实例b，实例a依赖于实例b，同时实例b也依赖于实例a；</p>
+<p>issue：IoC容器在创建实例a时，需要先创建实例b。但是创建实例b时，又需要先创建实例a，狗咬尾巴</p>
+<p>参考：<a href="https://segmentfault.com/a/1190000015221968">Spring对循环依赖的解决</a></p>
+<p>解决方案：</p>
+<p>1 尝试创建实例a，发现实例a依赖于实例b；</p>
+<p>2 尝试创建实例b，发现实例b依赖于实例a；</p>
+<p>3 获取到实例a的一个<strong>早期引用</strong>（属性未进行初始化的引用）；</p>
+<p>4 把这个早期引用注入到实例b中，使得实例b完成初始化；</p>
+<p>5 然后实例a再去获取到实例b的引用，得到实例a的<strong>完全引用</strong>；</p>
+<h5 id="AOP（面向切面编程）"><a href="#AOP（面向切面编程）" class="headerlink" title="AOP（面向切面编程）"></a>AOP（面向切面编程）</h5><p>是：一种编程的方式；对标OOP</p>
+<p>作用：能够把应用中一些公共的功能（事务、安全等）抽取出来单独实现，然后以声明的方式编织到需要它们的代码中；</p>
+<p>特征：AOP是一种思想，不同框架对这种思想的实现会各有差异。比如Spring AOP与AspectJ；</p>
+<p>用法：这个步骤比较多，不宜作为面试部分；</p>
+<p>原理：Spring AOP的底层原理是动态代理+反射；</p>
+<ul>
+<li>代理类会封装目标类，并把用于增强的切面类添加到目标类的外围；</li>
+<li>动态代理这种方式确定了Spring AOP只能对方法做一些增强，而对字段等无能为力；</li>
+<li>Java中的动态代理：JDK动态代理（要求被代理的类实现接口） 与 CGLib动态代理（不要求…）；</li>
+</ul>
+<h5 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h5><p>注：这是一个多线程安全的类型，我在简历中有写看过它的源码，但其实只看了分析的文章。时隔两周，就只记得“分断锁”这三个字了 😭</p>
+<p>是：一个容器/集合；</p>
+<p>作用：存储键值对；</p>
+<p>特征：1 多线程安全；</p>
+<p><strong>多线程安全原理</strong>：</p>
+<p>​    JDK1.7的手段：</p>
+<ul>
+<li><p>把容器表示成多个数据段：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcurrentHashMap</span></span>&#123;</span><br><span class="line">    <span class="comment">// Segment数组	Segment类型本身继承了ReentrantLock，可以当作锁</span></span><br><span class="line">    Segment[];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>数据段中存储多个键值对：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Segment</span></span>&#123;</span><br><span class="line">    HashEntry[]; <span class="comment">// HashEntry就是一个封装了键值对的类型；</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<ul>
+<li>为每个数据段Segment添加一把锁，这样如果多个线程访问的是不同的数据段，就不会出现并发访问；而如果访问的是同一个数据段，仍旧是获取到锁的执行，没有获取到锁的等待</li>
+</ul>
+<p>​    JDK1.8使用的手段：</p>
+<ul>
+<li>synchronized关键字 + CAS乐观锁【细节讲不清楚】</li>
+<li>synchronized关键字只会锁住链表或红黑二叉树的头节点，如果多线程操作没有发生哈希冲突，就不会出现并发访问；如果操作到了同一个哈希位置，仍旧是…;</li>
+</ul>
+<p><strong>底层结构</strong>：</p>
+<p>​    JDK1.7 Segment[] + HashEntry[]；</p>
+<p>​    JDK1.8 Node[] + 链表 + 红黑树；</p>
+<p>用法：</p>
+<p>​    put()方法，前后有8步。</p>
+<p>​    get()方法，就是按图索骥的过程，与多线程关系不大（毕竟它只是一个访问操作）；</p>
+<blockquote>
+<p>in case I don’t see u again, good morning, good afternoon, and good evening!😄</p>
+</blockquote>
+<p>​    </p>
+]]></content>
+      <categories>
+        <category>interview</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>Java stuff</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>交换链表节点(迭代)_06</title>
     <url>/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E4%B8%A4%E4%B8%A4%E4%BA%A4%E6%8D%A2%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B9(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_06.html</url>
     <content><![CDATA[<h3 id="两两交换链表中的节点"><a href="#两两交换链表中的节点" class="headerlink" title="两两交换链表中的节点"></a>两两交换链表中的节点</h3><hr>
@@ -638,6 +861,106 @@
 
 
 
+<blockquote>
+<p>until next time 😄</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>ListNode</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>LinkedList</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>倒数第k个节点_05</title>
+    <url>/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%ACN%E4%B8%AA%E8%8A%82%E7%82%B9(%E4%B8%A4%E6%AC%A1%E9%81%8D%E5%8E%86)_05.html</url>
+    <content><![CDATA[<h3 id="删除链表中的倒数第N个节点"><a href="#删除链表中的倒数第N个节点" class="headerlink" title="删除链表中的倒数第N个节点"></a>删除链表中的倒数第N个节点</h3><h4 id="分析（找到问题的难点）："><a href="#分析（找到问题的难点）：" class="headerlink" title="分析（找到问题的难点）："></a>分析（找到问题的难点）：</h4><ul>
+<li>对于单向链表，只能从前往后地查找节点；</li>
+<li>删除链表节点的常用手段: curr.next = curr.next.next; // 这样就能把curr后面的一个节点从链表中删除掉</li>
+</ul>
+<a id="more"></a>
+
+<h4 id="思路（解决问题难点）："><a href="#思路（解决问题难点）：" class="headerlink" title="思路（解决问题难点）："></a>思路（解决问题难点）：</h4><p>如果链表的长度已知，就能通过公式（length - N）来求出待删除节点的正向位置。这样就可以执行删除操作了</p>
+<p>可能犯错的地方：找错了节点；</p>
+<p>根据分析的第二点，我们应该找到的是待删除节点的上一个节点（预期节点）；</p>
+<h4 id="实现SOP"><a href="#实现SOP" class="headerlink" title="实现SOP:"></a>实现SOP:</h4><ul>
+<li>1 先计算出链表中的节点的总长度；</li>
+<li>2 根据公式(length - N)计算出待删除节点的正向位置索引；</li>
+<li>3 找到预期节点，然后删除“待删除的节点”；</li>
+</ul>
+<h4 id="代码实现："><a href="#代码实现：" class="headerlink" title="代码实现："></a>代码实现：</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ListNode类型的定义省略</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">removeNthFromEnd</span><span class="params">(ListNode head, <span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">        <span class="comment">// 0 鲁棒性代码</span></span><br><span class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 1 定义需要的指针</span></span><br><span class="line">        ListNode dummy = <span class="keyword">new</span> ListNode(-<span class="number">1</span>); <span class="comment">// 备用</span></span><br><span class="line">        dummy.next = head;</span><br><span class="line">        </span><br><span class="line">        ListNode cursor = head;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 2 计算链表中节点的总长度</span></span><br><span class="line">        <span class="keyword">int</span> length = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(cursor != <span class="keyword">null</span>)&#123;</span><br><span class="line">            length++;</span><br><span class="line">            cursor = cursor.next;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 3 计算预期节点的位置</span></span><br><span class="line">        <span class="keyword">int</span> expect_postion = length - n;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 4 通过迭代的方式找到预期节点</span></span><br><span class="line">        cursor = head; <span class="comment">// 把游标拨回链表头节点</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i &lt; expect_position; i++)&#123;</span><br><span class="line">            cursor = cursor.next;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 5 找到预取节点后，对待删除节点执行删除操作</span></span><br><span class="line">        cursor.next = cursor.next.next; <span class="comment">// 由于题设已经保证n是有效的，所以这里不会出现NPE</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 6 返回删除节点后的链表</span></span><br><span class="line">        <span class="keyword">return</span> dummy.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="添加鲁棒性代码"><a href="#添加鲁棒性代码" class="headerlink" title="添加鲁棒性代码"></a>添加鲁棒性代码</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">参考 <span class="comment">// 0</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="算法特征"><a href="#算法特征" class="headerlink" title="算法特征"></a>算法特征</h4><p>1 需要两次遍历：第一次遍历用来计算链表中的节点总长度；第二次遍历用来找到“预期的节点”，以便执行删除</p>
+<h4 id="优化（只需要进行一次遍历）"><a href="#优化（只需要进行一次遍历）" class="headerlink" title="优化（只需要进行一次遍历）"></a>优化（只需要进行一次遍历）</h4><p>原理：通过前后指针来找到预期位置，而不是用（length - N）的方式。</p>
+<blockquote>
+<p>until NEXT time 😄</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>ListNode</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>LinkedList</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>链表去重_04_2</title>
+    <url>/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A0%E9%99%A4%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0%EF%BC%88%E9%80%92%E5%BD%92%E6%96%B9%E5%BC%8F%EF%BC%89_04_2.html</url>
+    <content><![CDATA[<h3 id="删除有序链表中的重复元素（递归方式）"><a href="#删除有序链表中的重复元素（递归方式）" class="headerlink" title="删除有序链表中的重复元素（递归方式）"></a>删除有序链表中的重复元素（递归方式）</h3><h4 id="题目要求"><a href="#题目要求" class="headerlink" title="题目要求"></a>题目要求</h4><p><img src="https://s1.ax1x.com/2020/08/14/dCTVln.png" alt="题设与要求"></p>
+<a id="more"></a>
+
+<h4 id="分析（确定思路）"><a href="#分析（确定思路）" class="headerlink" title="分析（确定思路）"></a>分析（确定思路）</h4><ul>
+<li><p>使用递归的可行性；</p>
+<ul>
+<li>问题能够被分解为规模更小的问题吗？</li>
+</ul>
+<p>答：可以。手段：把链表视为：头节点head + 剩余节点组成的链表rest;</p>
+<ul>
+<li>可以在更小的问题上应用当前操作，并用它的返回值来帮助解决大问题吗？</li>
+</ul>
+<p>答：可以。对递归调用的返回值做一些额外的处理，就能得到整个链表删除重复元素之后的结果。</p>
+</li>
+</ul>
+<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    ListNode next;</span><br><span class="line">    ListNode(<span class="keyword">int</span> val)&#123;</span><br><span class="line">        <span class="keyword">this</span>.val = val;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span></span>&#123;</span><br><span class="line">    <span class="comment">// 1 递归方法的作用：删除链表中的重复元素并返回更新后的链表/头节点</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">deleteDuplicates</span><span class="params">(ListNode head)</span></span>&#123;</span><br><span class="line">        <span class="comment">// 2 递归终结条件 链表为空 OR 链表中就只有一个节点</span></span><br><span class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span> || head.next == <span class="keyword">null</span>) <span class="keyword">return</span> head;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 3 本级递归需要做的事情</span></span><br><span class="line">        <span class="comment">// ① 把链表视为：头节点head + 剩余节点构成的链表rest；</span></span><br><span class="line">        <span class="comment">// ② 对rest链表执行删除重复节点的操作（假设已经有一个功能可用的API）；</span></span><br><span class="line">        <span class="comment">// ③ 对返回值进行必要的处理</span></span><br><span class="line">        ListNode rest = deleteDuplicates(head.next); <span class="comment">// ② </span></span><br><span class="line">        <span class="keyword">if</span>(head.val == rest.val)&#123; <span class="comment">// 头节点的值与rest头节点的值相等... 重复了</span></span><br><span class="line">             <span class="comment">// 更新head指针</span></span><br><span class="line">             head = rest;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 把rest连接到head上</span></span><br><span class="line">            head.next = rest;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 返回新链表的头节点</span></span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="代码实现步骤SOP分解"><a href="#代码实现步骤SOP分解" class="headerlink" title="代码实现步骤SOP分解"></a>代码实现步骤SOP分解</h4><ul>
+<li>确定递归的可行性</li>
+<li>确定递归方法的作用与返回值</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 1 递归方法的作用：删除链表中的重复元素并返回更新后的链表/头节点</span></span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>确定递归方法的终结条件</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 2 递归终结条件 链表为空 OR 链表中就只有一个节点</span></span><br><span class="line"><span class="keyword">if</span>(head == <span class="keyword">null</span> || head.next == <span class="keyword">null</span>) <span class="keyword">return</span> head;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>确定本级递归需要完成的事情</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 3 本级递归需要做的事情</span></span><br><span class="line"><span class="comment">// ① 把链表视为：头节点head + 剩余节点构成的链表rest；</span></span><br><span class="line"><span class="comment">// ② 对rest链表执行删除重复节点的操作（假设已经有一个功能可用的API）；</span></span><br><span class="line"><span class="comment">// ③ 对返回值进行必要的处理</span></span><br><span class="line">ListNode rest = deleteDuplicates(head.next); <span class="comment">// ② </span></span><br><span class="line"><span class="keyword">if</span>(head.val == rest.val)&#123; <span class="comment">// 头节点的值与rest头节点的值相等... 重复了</span></span><br><span class="line">    <span class="comment">// 更新head指针</span></span><br><span class="line">    head = rest;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 把rest连接到head上</span></span><br><span class="line">    head.next = rest;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>返回正确链表的头指针（最好画图确认）</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 返回新链表的头节点</span></span><br><span class="line"><span class="keyword">return</span> head;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="启示"><a href="#启示" class="headerlink" title="启示"></a>启示</h4><p>在分析递归可行的情况下，对递归调用的返回值还需要进一步处理。</p>
+<p>基本的原则是：使用递归调用的返回值来解决本级递归所需要解决的问题；</p>
 <blockquote>
 <p>until next time 😄</p>
 </blockquote>
@@ -795,106 +1118,6 @@
       </tags>
   </entry>
   <entry>
-    <title>倒数第k个节点_05</title>
-    <url>/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%ACN%E4%B8%AA%E8%8A%82%E7%82%B9(%E4%B8%A4%E6%AC%A1%E9%81%8D%E5%8E%86)_05.html</url>
-    <content><![CDATA[<h3 id="删除链表中的倒数第N个节点"><a href="#删除链表中的倒数第N个节点" class="headerlink" title="删除链表中的倒数第N个节点"></a>删除链表中的倒数第N个节点</h3><h4 id="分析（找到问题的难点）："><a href="#分析（找到问题的难点）：" class="headerlink" title="分析（找到问题的难点）："></a>分析（找到问题的难点）：</h4><ul>
-<li>对于单向链表，只能从前往后地查找节点；</li>
-<li>删除链表节点的常用手段: curr.next = curr.next.next; // 这样就能把curr后面的一个节点从链表中删除掉</li>
-</ul>
-<a id="more"></a>
-
-<h4 id="思路（解决问题难点）："><a href="#思路（解决问题难点）：" class="headerlink" title="思路（解决问题难点）："></a>思路（解决问题难点）：</h4><p>如果链表的长度已知，就能通过公式（length - N）来求出待删除节点的正向位置。这样就可以执行删除操作了</p>
-<p>可能犯错的地方：找错了节点；</p>
-<p>根据分析的第二点，我们应该找到的是待删除节点的上一个节点（预期节点）；</p>
-<h4 id="实现SOP"><a href="#实现SOP" class="headerlink" title="实现SOP:"></a>实现SOP:</h4><ul>
-<li>1 先计算出链表中的节点的总长度；</li>
-<li>2 根据公式(length - N)计算出待删除节点的正向位置索引；</li>
-<li>3 找到预期节点，然后删除“待删除的节点”；</li>
-</ul>
-<h4 id="代码实现："><a href="#代码实现：" class="headerlink" title="代码实现："></a>代码实现：</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ListNode类型的定义省略</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">removeNthFromEnd</span><span class="params">(ListNode head, <span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">        <span class="comment">// 0 鲁棒性代码</span></span><br><span class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 1 定义需要的指针</span></span><br><span class="line">        ListNode dummy = <span class="keyword">new</span> ListNode(-<span class="number">1</span>); <span class="comment">// 备用</span></span><br><span class="line">        dummy.next = head;</span><br><span class="line">        </span><br><span class="line">        ListNode cursor = head;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 2 计算链表中节点的总长度</span></span><br><span class="line">        <span class="keyword">int</span> length = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(cursor != <span class="keyword">null</span>)&#123;</span><br><span class="line">            length++;</span><br><span class="line">            cursor = cursor.next;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 3 计算预期节点的位置</span></span><br><span class="line">        <span class="keyword">int</span> expect_postion = length - n;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 4 通过迭代的方式找到预期节点</span></span><br><span class="line">        cursor = head; <span class="comment">// 把游标拨回链表头节点</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i &lt; expect_position; i++)&#123;</span><br><span class="line">            cursor = cursor.next;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 5 找到预取节点后，对待删除节点执行删除操作</span></span><br><span class="line">        cursor.next = cursor.next.next; <span class="comment">// 由于题设已经保证n是有效的，所以这里不会出现NPE</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 6 返回删除节点后的链表</span></span><br><span class="line">        <span class="keyword">return</span> dummy.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="添加鲁棒性代码"><a href="#添加鲁棒性代码" class="headerlink" title="添加鲁棒性代码"></a>添加鲁棒性代码</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">参考 <span class="comment">// 0</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="算法特征"><a href="#算法特征" class="headerlink" title="算法特征"></a>算法特征</h4><p>1 需要两次遍历：第一次遍历用来计算链表中的节点总长度；第二次遍历用来找到“预期的节点”，以便执行删除</p>
-<h4 id="优化（只需要进行一次遍历）"><a href="#优化（只需要进行一次遍历）" class="headerlink" title="优化（只需要进行一次遍历）"></a>优化（只需要进行一次遍历）</h4><p>原理：通过前后指针来找到预期位置，而不是用（length - N）的方式。</p>
-<blockquote>
-<p>until NEXT time 😄</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>ListNode</category>
-      </categories>
-      <tags>
-        <tag>Algorithm</tag>
-        <tag>LinkedList</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>链表去重_04_2</title>
-    <url>/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A0%E9%99%A4%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0%EF%BC%88%E9%80%92%E5%BD%92%E6%96%B9%E5%BC%8F%EF%BC%89_04_2.html</url>
-    <content><![CDATA[<h3 id="删除有序链表中的重复元素（递归方式）"><a href="#删除有序链表中的重复元素（递归方式）" class="headerlink" title="删除有序链表中的重复元素（递归方式）"></a>删除有序链表中的重复元素（递归方式）</h3><h4 id="题目要求"><a href="#题目要求" class="headerlink" title="题目要求"></a>题目要求</h4><p><img src="https://s1.ax1x.com/2020/08/14/dCTVln.png" alt="题设与要求"></p>
-<a id="more"></a>
-
-<h4 id="分析（确定思路）"><a href="#分析（确定思路）" class="headerlink" title="分析（确定思路）"></a>分析（确定思路）</h4><ul>
-<li><p>使用递归的可行性；</p>
-<ul>
-<li>问题能够被分解为规模更小的问题吗？</li>
-</ul>
-<p>答：可以。手段：把链表视为：头节点head + 剩余节点组成的链表rest;</p>
-<ul>
-<li>可以在更小的问题上应用当前操作，并用它的返回值来帮助解决大问题吗？</li>
-</ul>
-<p>答：可以。对递归调用的返回值做一些额外的处理，就能得到整个链表删除重复元素之后的结果。</p>
-</li>
-</ul>
-<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    ListNode next;</span><br><span class="line">    ListNode(<span class="keyword">int</span> val)&#123;</span><br><span class="line">        <span class="keyword">this</span>.val = val;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span></span>&#123;</span><br><span class="line">    <span class="comment">// 1 递归方法的作用：删除链表中的重复元素并返回更新后的链表/头节点</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">deleteDuplicates</span><span class="params">(ListNode head)</span></span>&#123;</span><br><span class="line">        <span class="comment">// 2 递归终结条件 链表为空 OR 链表中就只有一个节点</span></span><br><span class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span> || head.next == <span class="keyword">null</span>) <span class="keyword">return</span> head;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 3 本级递归需要做的事情</span></span><br><span class="line">        <span class="comment">// ① 把链表视为：头节点head + 剩余节点构成的链表rest；</span></span><br><span class="line">        <span class="comment">// ② 对rest链表执行删除重复节点的操作（假设已经有一个功能可用的API）；</span></span><br><span class="line">        <span class="comment">// ③ 对返回值进行必要的处理</span></span><br><span class="line">        ListNode rest = deleteDuplicates(head.next); <span class="comment">// ② </span></span><br><span class="line">        <span class="keyword">if</span>(head.val == rest.val)&#123; <span class="comment">// 头节点的值与rest头节点的值相等... 重复了</span></span><br><span class="line">             <span class="comment">// 更新head指针</span></span><br><span class="line">             head = rest;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 把rest连接到head上</span></span><br><span class="line">            head.next = rest;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 返回新链表的头节点</span></span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="代码实现步骤SOP分解"><a href="#代码实现步骤SOP分解" class="headerlink" title="代码实现步骤SOP分解"></a>代码实现步骤SOP分解</h4><ul>
-<li>确定递归的可行性</li>
-<li>确定递归方法的作用与返回值</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 1 递归方法的作用：删除链表中的重复元素并返回更新后的链表/头节点</span></span><br></pre></td></tr></table></figure>
-
-
-
-<ul>
-<li>确定递归方法的终结条件</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 2 递归终结条件 链表为空 OR 链表中就只有一个节点</span></span><br><span class="line"><span class="keyword">if</span>(head == <span class="keyword">null</span> || head.next == <span class="keyword">null</span>) <span class="keyword">return</span> head;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>确定本级递归需要完成的事情</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 3 本级递归需要做的事情</span></span><br><span class="line"><span class="comment">// ① 把链表视为：头节点head + 剩余节点构成的链表rest；</span></span><br><span class="line"><span class="comment">// ② 对rest链表执行删除重复节点的操作（假设已经有一个功能可用的API）；</span></span><br><span class="line"><span class="comment">// ③ 对返回值进行必要的处理</span></span><br><span class="line">ListNode rest = deleteDuplicates(head.next); <span class="comment">// ② </span></span><br><span class="line"><span class="keyword">if</span>(head.val == rest.val)&#123; <span class="comment">// 头节点的值与rest头节点的值相等... 重复了</span></span><br><span class="line">    <span class="comment">// 更新head指针</span></span><br><span class="line">    head = rest;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 把rest连接到head上</span></span><br><span class="line">    head.next = rest;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>返回正确链表的头指针（最好画图确认）</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 返回新链表的头节点</span></span><br><span class="line"><span class="keyword">return</span> head;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="启示"><a href="#启示" class="headerlink" title="启示"></a>启示</h4><p>在分析递归可行的情况下，对递归调用的返回值还需要进一步处理。</p>
-<p>基本的原则是：使用递归调用的返回值来解决本级递归所需要解决的问题；</p>
-<blockquote>
-<p>until next time 😄</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>ListNode</category>
-      </categories>
-      <tags>
-        <tag>Algorithm</tag>
-        <tag>LinkedList</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>回文链表_08</title>
     <url>/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E9%93%BE%E8%A1%A8%E6%98%AF%E5%90%A6%E4%B8%BA%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8(%E9%80%92%E5%BD%92%E6%96%B9%E5%BC%8F)_08.html</url>
     <content><![CDATA[<h3 id="判断一个链表是否为回文链表"><a href="#判断一个链表是否为回文链表" class="headerlink" title="判断一个链表是否为回文链表"></a>判断一个链表是否为回文链表</h3><h4 id="题设与要求"><a href="#题设与要求" class="headerlink" title="题设与要求"></a>题设与要求</h4><p><img src="https://s1.ax1x.com/2020/08/15/diX5I1.png" alt="题设与要求"></p>
@@ -1020,47 +1243,6 @@
       </tags>
   </entry>
   <entry>
-    <title>合并链表_03_2</title>
-    <url>/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8%EF%BC%88%E9%80%92%E5%BD%92%E6%96%B9%E5%BC%8F%EF%BC%89_03_2.html</url>
-    <content><![CDATA[<h3 id="合并两个有序链表（递归方式）"><a href="#合并两个有序链表（递归方式）" class="headerlink" title="合并两个有序链表（递归方式）"></a>合并两个有序链表（递归方式）</h3><hr>
-<p><img src="https://s1.ax1x.com/2020/08/11/aOHNlD.png" alt="题目要求"></p>
-<a id="more"></a>
-
-<h4 id="分析："><a href="#分析：" class="headerlink" title="分析："></a>分析：</h4><ul>
-<li><p>使用递归的可行性；</p>
-<p>把第一个链表叫做l1，第二个链表叫做l2。可以把 l1 分解为（head + rest）,然后拿rest与l2进行合并操作，合并得到的结果再连接到head；</p>
-<p>结论：可行</p>
-</li>
-<li><p>递归三部曲回顾：</p>
-<p>1 方法的作用与返回值；</p>
-<p>2 递归的终结条件（根据方法的作用推演）；</p>
-<p>3 本级递归需要完成的工作（假设已经有了一个功能完整实现的API）；</p>
-</li>
-</ul>
-<hr>
-<h4 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h4><p>一旦确定是可以递归的，这种方式需要关注的细节其实很少</p>
-<hr>
-<h4 id="完整实现"><a href="#完整实现" class="headerlink" title="完整实现"></a>完整实现</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ListNode定义的代码省略（参考其他文章）</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span></span>&#123;</span><br><span class="line">    <span class="comment">// 1 作用：合并两个有序的列表，并返回合并后的列表</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span></span>&#123;</span><br><span class="line">        <span class="comment">// 2 递归终结条件</span></span><br><span class="line">        <span class="keyword">if</span>(l1 == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> l2;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(l2 == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> l1;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 3 本级递归需要做的事情</span></span><br><span class="line">        <span class="comment">// ① 比较两个原始链表的头节点谁更小，对更小的那个链表进行拆分；</span></span><br><span class="line">        <span class="comment">// ② 把拆分后的rest链表与原始链表中的另一个进行合并操作，得到新的链表tempMerge</span></span><br><span class="line">        <span class="comment">// ③ 再对head头节点与tempMerge进行合并</span></span><br><span class="line">        <span class="keyword">if</span>(l1.val &lt; l2.val)&#123;</span><br><span class="line">            l1.next = mergeTwoLists(l1.next, l2); <span class="comment">// 把得到的新链表直接连接到头节点上</span></span><br><span class="line">            <span class="keyword">return</span> l1;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            l2.next = mergeTwoLists(l2.next, l1);</span><br><span class="line">            <span class="keyword">return</span> l2;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<h4 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h4><p>参考代码中的1、2、3</p>
-<hr>
-<h4 id="启示"><a href="#启示" class="headerlink" title="启示"></a>启示</h4><p>递归的代码真的非常简洁（不需要考虑很多的边界细节），而且只要确定可行性，代码一般不会太复杂</p>
-<blockquote>
-<p>until next time😄</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>ListNode</category>
-      </categories>
-      <tags>
-        <tag>Algorithm</tag>
-        <tag>LinkedList</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>奇偶链表_10</title>
     <url>/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%A5%87%E5%81%B6%E9%93%BE%E8%A1%A8%EF%BC%88%E6%8A%8A%E5%A5%87%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8E%E5%81%B6%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8A%E7%9A%84%E8%8A%82%E7%82%B9%E8%BF%9E%E5%9C%A8%E4%B8%80%E8%B5%B7%EF%BC%89_10.html</url>
     <content><![CDATA[<h4 id="把链表中的奇数位置节点与偶数位置节点放在一起"><a href="#把链表中的奇数位置节点与偶数位置节点放在一起" class="headerlink" title="把链表中的奇数位置节点与偶数位置节点放在一起"></a>把链表中的奇数位置节点与偶数位置节点放在一起</h4><h4 id="题设-与-要求"><a href="#题设-与-要求" class="headerlink" title="题设 与 要求"></a>题设 与 要求</h4><p><img src="https://s1.ax1x.com/2020/08/15/dklpjK.md.png" alt="题设与要求"></p>
@@ -1118,56 +1300,37 @@
       </tags>
   </entry>
   <entry>
-    <title>交换链表节点_02_1</title>
-    <url>/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%AF%B9%E9%93%BE%E8%A1%A8%E8%BF%9B%E8%A1%8C%E7%BF%BB%E8%BD%AC(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_02_1.html</url>
-    <content><![CDATA[<h3 id="对链表进行翻转（使用迭代的方式）"><a href="#对链表进行翻转（使用迭代的方式）" class="headerlink" title="对链表进行翻转（使用迭代的方式）"></a>对链表进行翻转（使用迭代的方式）</h3><hr>
-<p><img src="https://s1.ax1x.com/2020/08/11/aLKOne.png" alt="翻转链表"></p>
+    <title>合并链表_03_2</title>
+    <url>/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8%EF%BC%88%E9%80%92%E5%BD%92%E6%96%B9%E5%BC%8F%EF%BC%89_03_2.html</url>
+    <content><![CDATA[<h3 id="合并两个有序链表（递归方式）"><a href="#合并两个有序链表（递归方式）" class="headerlink" title="合并两个有序链表（递归方式）"></a>合并两个有序链表（递归方式）</h3><hr>
+<p><img src="https://s1.ax1x.com/2020/08/11/aOHNlD.png" alt="题目要求"></p>
 <a id="more"></a>
 
+<h4 id="分析："><a href="#分析：" class="headerlink" title="分析："></a>分析：</h4><ul>
+<li><p>使用递归的可行性；</p>
+<p>把第一个链表叫做l1，第二个链表叫做l2。可以把 l1 分解为（head + rest）,然后拿rest与l2进行合并操作，合并得到的结果再连接到head；</p>
+<p>结论：可行</p>
+</li>
+<li><p>递归三部曲回顾：</p>
+<p>1 方法的作用与返回值；</p>
+<p>2 递归的终结条件（根据方法的作用推演）；</p>
+<p>3 本级递归需要完成的工作（假设已经有了一个功能完整实现的API）；</p>
+</li>
+</ul>
 <hr>
-<h3 id="分析-👇👇👇"><a href="#分析-👇👇👇" class="headerlink" title="分析:👇👇👇"></a>分析:👇👇👇</h3><h4 id="节点翻转示意图"><a href="#节点翻转示意图" class="headerlink" title="节点翻转示意图"></a>节点翻转示意图</h4><p><img src="https://s1.ax1x.com/2020/08/11/aL1MgP.md.jpg" alt="节点翻转示意图"></p>
-<p>1 既然是要翻转链表，那每个节点的连接方向都会发生变化；</p>
-<p>2 每个节点都只能有一个连接。当它指向自己的前一个节点时，它就不能再指向自己的下一个节点；</p>
-<p>3 需要处理链表中的每一个节点，但是根据2可知，节点连接方向改变后，无法再沿着链表获取到下一个节点；</p>
-<p>解决手段：在改变节点的连接方向之前，使用一个临时变量保存当前节点的下一个节点；</p>
+<h4 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h4><p>一旦确定是可以递归的，这种方式需要关注的细节其实很少</p>
+<hr>
+<h4 id="完整实现"><a href="#完整实现" class="headerlink" title="完整实现"></a>完整实现</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ListNode定义的代码省略（参考其他文章）</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span></span>&#123;</span><br><span class="line">    <span class="comment">// 1 作用：合并两个有序的列表，并返回合并后的列表</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span></span>&#123;</span><br><span class="line">        <span class="comment">// 2 递归终结条件</span></span><br><span class="line">        <span class="keyword">if</span>(l1 == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> l2;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(l2 == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> l1;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 3 本级递归需要做的事情</span></span><br><span class="line">        <span class="comment">// ① 比较两个原始链表的头节点谁更小，对更小的那个链表进行拆分；</span></span><br><span class="line">        <span class="comment">// ② 把拆分后的rest链表与原始链表中的另一个进行合并操作，得到新的链表tempMerge</span></span><br><span class="line">        <span class="comment">// ③ 再对head头节点与tempMerge进行合并</span></span><br><span class="line">        <span class="keyword">if</span>(l1.val &lt; l2.val)&#123;</span><br><span class="line">            l1.next = mergeTwoLists(l1.next, l2); <span class="comment">// 把得到的新链表直接连接到头节点上</span></span><br><span class="line">            <span class="keyword">return</span> l1;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            l2.next = mergeTwoLists(l2.next, l1);</span><br><span class="line">            <span class="keyword">return</span> l2;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h4 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h4><p>参考代码中的1、2、3</p>
+<hr>
+<h4 id="启示"><a href="#启示" class="headerlink" title="启示"></a>启示</h4><p>递归的代码真的非常简洁（不需要考虑很多的边界细节），而且只要确定可行性，代码一般不会太复杂</p>
 <blockquote>
-<p>实现SOP</p>
+<p>until next time😄</p>
 </blockquote>
-<p>1 为了能够遍历链表，我们需要一个指针；</p>
-<p>2 为了能够改变节点的连接方向，我们需要另一个指针来指向当前节点的前一个节点；</p>
-<blockquote>
-<p>完整代码(不包含测试用例，可以自己编写main()函数作为测试用例)</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 链表/节点的类定义</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val; <span class="comment">// 节点中存储的值</span></span><br><span class="line">    ListNode next; <span class="comment">// 节点连接到的下一个节点</span></span><br><span class="line">    ListNode(<span class="keyword">int</span> x) &#123;val = x;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 0 作用：翻转指定的链表，并返回链表</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">reverseList</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 迭代的方式</span></span><br><span class="line">        ListNode prev = <span class="keyword">null</span>; </span><br><span class="line">        ListNode curr = head; <span class="comment">// 翻转链表需要前后两个指针：一个用于更新头节点，一个用于创建链表的连接</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(curr != <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="comment">// 记录原始的下一个节点 防止链表断掉</span></span><br><span class="line">            ListNode temp = curr.next;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 建立链表的连接</span></span><br><span class="line">            curr.next = prev;</span><br><span class="line">            <span class="comment">// 更新两个指针</span></span><br><span class="line">            prev = curr;</span><br><span class="line">            curr = temp;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> prev;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<h3 id="实现过程☕☕☕"><a href="#实现过程☕☕☕" class="headerlink" title="实现过程☕☕☕"></a>实现过程☕☕☕</h3><h4 id="step1-定义两个指针，用来遍历和翻转链表；"><a href="#step1-定义两个指针，用来遍历和翻转链表；" class="headerlink" title="step1 定义两个指针，用来遍历和翻转链表；"></a>step1 定义两个指针，用来遍历和翻转链表；</h4><p>问题：如何初始化这两个指针？/这两个指针最开始应该指向什么位置？</p>
-<p>答：参考上面的 [链表翻转示意图](#### 节点翻转示意图)</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ListNode prev = <span class="keyword">null</span>; <span class="comment">// 初始化指向一个null节点</span></span><br><span class="line">ListNode curr = head; <span class="comment">// 初始化指向链表的头节点（head与curr一样，都是头节点的一个指针）</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="step2-遍历链表中的节点，并进行节点间的翻转；（每次翻转两个节点的连接）"><a href="#step2-遍历链表中的节点，并进行节点间的翻转；（每次翻转两个节点的连接）" class="headerlink" title="step2 遍历链表中的节点，并进行节点间的翻转；（每次翻转两个节点的连接）"></a>step2 遍历链表中的节点，并进行节点间的翻转；（每次翻转两个节点的连接）</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="keyword">true</span>)&#123; <span class="comment">// 循环终止条件一般是比较容易出错的地方，所以放在最后再完成</span></span><br><span class="line">	<span class="comment">// 1 保存当前节点的下一个节点		作用：这样在遍历时才能直到下一个节点是哪一个</span></span><br><span class="line">    Node temp = curr.next;</span><br><span class="line">    <span class="comment">// 2 把当前节点连接到当前节点的前一个节点		说明：这个相邻节点的关系需要手动维护</span></span><br><span class="line">    curr.next = prev;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 3 维护相邻节点的关系	作用：支持2</span></span><br><span class="line">    prev = curr;</span><br><span class="line">    <span class="comment">// 4 更新当前节点为当前节点的下一个节点		作用：实现遍历链表操作</span></span><br><span class="line">    curr = curr.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="step3-确定循环终止条件"><a href="#step3-确定循环终止条件" class="headerlink" title="step3 确定循环终止条件"></a>step3 确定循环终止条件</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">分析极端情况：</span></span><br><span class="line"><span class="comment">	1 当前节点指针指向链表的尾节点（非null）时，还需要一次循环来翻转last与其上一个节点之间的连接方向；</span></span><br><span class="line"><span class="comment">	2 当前节点指针指向null时，所有翻转都已经完成，循环结束；</span></span><br><span class="line"><span class="comment">	所以循环终止条件为：curr == null;		相应地，(表达式)就应该为curr != null</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">while</span>(curr != <span class="keyword">null</span>)&#123;...&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="step4-确定返回值"><a href="#step4-确定返回值" class="headerlink" title="step4 确定返回值"></a>step4 确定返回值</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 原则：总是应该返回预期链表的头节点</span></span><br><span class="line"><span class="comment">// 手段：查看循环终止时，各个指针的指向情况		翻转后链表的头节点应该是prev</span></span><br><span class="line"><span class="keyword">return</span> prev;</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<h3 id="代码重现-🦇🦇🦇"><a href="#代码重现-🦇🦇🦇" class="headerlink" title="代码重现 🦇🦇🦇"></a>代码重现 🦇🦇🦇</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> val;</span><br><span class="line">    ListNode next;</span><br><span class="line">    </span><br><span class="line">    ListNode(<span class="keyword">int</span> x)&#123; <span class="keyword">this</span>.val = x&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> <span class="title">Solution</span>(<span class="title">ListNode</span> <span class="title">head</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 定义两个指针并初始化	作用：用于连接与遍历</span></span><br><span class="line">    ListNode prev = <span class="keyword">null</span>;</span><br><span class="line">    ListNode curr = head;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 开始遍历，并在遍历的过程中进行节点连接的翻转</span></span><br><span class="line">    <span class="keyword">while</span>(curr != <span class="keyword">null</span>)&#123; <span class="comment">// 循环执行条件</span></span><br><span class="line">        <span class="comment">// 记录当前节点（开始时是头节点）的下一个节点	作用：实现遍历</span></span><br><span class="line">        ListNode temp = curr.next;</span><br><span class="line">        <span class="comment">// 更新当前节点的连接</span></span><br><span class="line">        curr.next = prev; <span class="comment">// 连接到前一个节点	说明：需要维护这种节点的相邻关系</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 维护节点的相邻关系 &amp; 实现遍历</span></span><br><span class="line">        prev = curr; <span class="comment">// 1 把prev指向curr所指向的节点</span></span><br><span class="line">        curr = temp; <span class="comment">// 2 更新curr到链表的下一个节点	由于节点的连接方向已经变化，所以不能使用curr.next 使用预先存储的节点temp</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 返回链表的头节点</span></span><br><span class="line">    <span class="keyword">return</span> prev;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="启示"><a href="#启示" class="headerlink" title="启示"></a>启示</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">知道为什么这么写后，才能把思路翻译成代码。不然就是在背代码了</span><br></pre></td></tr></table></figure>
-
 ]]></content>
       <categories>
         <category>ListNode</category>
@@ -1267,6 +1430,66 @@
 <blockquote>
 <p>until next time 😄</p>
 </blockquote>
+]]></content>
+      <categories>
+        <category>ListNode</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>LinkedList</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>交换链表节点_02_1</title>
+    <url>/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%AF%B9%E9%93%BE%E8%A1%A8%E8%BF%9B%E8%A1%8C%E7%BF%BB%E8%BD%AC(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_02_1.html</url>
+    <content><![CDATA[<h3 id="对链表进行翻转（使用迭代的方式）"><a href="#对链表进行翻转（使用迭代的方式）" class="headerlink" title="对链表进行翻转（使用迭代的方式）"></a>对链表进行翻转（使用迭代的方式）</h3><hr>
+<p><img src="https://s1.ax1x.com/2020/08/11/aLKOne.png" alt="翻转链表"></p>
+<a id="more"></a>
+
+<hr>
+<h3 id="分析-👇👇👇"><a href="#分析-👇👇👇" class="headerlink" title="分析:👇👇👇"></a>分析:👇👇👇</h3><h4 id="节点翻转示意图"><a href="#节点翻转示意图" class="headerlink" title="节点翻转示意图"></a>节点翻转示意图</h4><p><img src="https://s1.ax1x.com/2020/08/11/aL1MgP.md.jpg" alt="节点翻转示意图"></p>
+<p>1 既然是要翻转链表，那每个节点的连接方向都会发生变化；</p>
+<p>2 每个节点都只能有一个连接。当它指向自己的前一个节点时，它就不能再指向自己的下一个节点；</p>
+<p>3 需要处理链表中的每一个节点，但是根据2可知，节点连接方向改变后，无法再沿着链表获取到下一个节点；</p>
+<p>解决手段：在改变节点的连接方向之前，使用一个临时变量保存当前节点的下一个节点；</p>
+<blockquote>
+<p>实现SOP</p>
+</blockquote>
+<p>1 为了能够遍历链表，我们需要一个指针；</p>
+<p>2 为了能够改变节点的连接方向，我们需要另一个指针来指向当前节点的前一个节点；</p>
+<blockquote>
+<p>完整代码(不包含测试用例，可以自己编写main()函数作为测试用例)</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 链表/节点的类定义</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val; <span class="comment">// 节点中存储的值</span></span><br><span class="line">    ListNode next; <span class="comment">// 节点连接到的下一个节点</span></span><br><span class="line">    ListNode(<span class="keyword">int</span> x) &#123;val = x;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 0 作用：翻转指定的链表，并返回链表</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">reverseList</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 迭代的方式</span></span><br><span class="line">        ListNode prev = <span class="keyword">null</span>; </span><br><span class="line">        ListNode curr = head; <span class="comment">// 翻转链表需要前后两个指针：一个用于更新头节点，一个用于创建链表的连接</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(curr != <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="comment">// 记录原始的下一个节点 防止链表断掉</span></span><br><span class="line">            ListNode temp = curr.next;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 建立链表的连接</span></span><br><span class="line">            curr.next = prev;</span><br><span class="line">            <span class="comment">// 更新两个指针</span></span><br><span class="line">            prev = curr;</span><br><span class="line">            curr = temp;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> prev;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h3 id="实现过程☕☕☕"><a href="#实现过程☕☕☕" class="headerlink" title="实现过程☕☕☕"></a>实现过程☕☕☕</h3><h4 id="step1-定义两个指针，用来遍历和翻转链表；"><a href="#step1-定义两个指针，用来遍历和翻转链表；" class="headerlink" title="step1 定义两个指针，用来遍历和翻转链表；"></a>step1 定义两个指针，用来遍历和翻转链表；</h4><p>问题：如何初始化这两个指针？/这两个指针最开始应该指向什么位置？</p>
+<p>答：参考上面的 [链表翻转示意图](#### 节点翻转示意图)</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ListNode prev = <span class="keyword">null</span>; <span class="comment">// 初始化指向一个null节点</span></span><br><span class="line">ListNode curr = head; <span class="comment">// 初始化指向链表的头节点（head与curr一样，都是头节点的一个指针）</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="step2-遍历链表中的节点，并进行节点间的翻转；（每次翻转两个节点的连接）"><a href="#step2-遍历链表中的节点，并进行节点间的翻转；（每次翻转两个节点的连接）" class="headerlink" title="step2 遍历链表中的节点，并进行节点间的翻转；（每次翻转两个节点的连接）"></a>step2 遍历链表中的节点，并进行节点间的翻转；（每次翻转两个节点的连接）</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="keyword">true</span>)&#123; <span class="comment">// 循环终止条件一般是比较容易出错的地方，所以放在最后再完成</span></span><br><span class="line">	<span class="comment">// 1 保存当前节点的下一个节点		作用：这样在遍历时才能直到下一个节点是哪一个</span></span><br><span class="line">    Node temp = curr.next;</span><br><span class="line">    <span class="comment">// 2 把当前节点连接到当前节点的前一个节点		说明：这个相邻节点的关系需要手动维护</span></span><br><span class="line">    curr.next = prev;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 3 维护相邻节点的关系	作用：支持2</span></span><br><span class="line">    prev = curr;</span><br><span class="line">    <span class="comment">// 4 更新当前节点为当前节点的下一个节点		作用：实现遍历链表操作</span></span><br><span class="line">    curr = curr.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="step3-确定循环终止条件"><a href="#step3-确定循环终止条件" class="headerlink" title="step3 确定循环终止条件"></a>step3 确定循环终止条件</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">分析极端情况：</span></span><br><span class="line"><span class="comment">	1 当前节点指针指向链表的尾节点（非null）时，还需要一次循环来翻转last与其上一个节点之间的连接方向；</span></span><br><span class="line"><span class="comment">	2 当前节点指针指向null时，所有翻转都已经完成，循环结束；</span></span><br><span class="line"><span class="comment">	所以循环终止条件为：curr == null;		相应地，(表达式)就应该为curr != null</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">while</span>(curr != <span class="keyword">null</span>)&#123;...&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="step4-确定返回值"><a href="#step4-确定返回值" class="headerlink" title="step4 确定返回值"></a>step4 确定返回值</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 原则：总是应该返回预期链表的头节点</span></span><br><span class="line"><span class="comment">// 手段：查看循环终止时，各个指针的指向情况		翻转后链表的头节点应该是prev</span></span><br><span class="line"><span class="keyword">return</span> prev;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h3 id="代码重现-🦇🦇🦇"><a href="#代码重现-🦇🦇🦇" class="headerlink" title="代码重现 🦇🦇🦇"></a>代码重现 🦇🦇🦇</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> val;</span><br><span class="line">    ListNode next;</span><br><span class="line">    </span><br><span class="line">    ListNode(<span class="keyword">int</span> x)&#123; <span class="keyword">this</span>.val = x&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> <span class="title">Solution</span>(<span class="title">ListNode</span> <span class="title">head</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 定义两个指针并初始化	作用：用于连接与遍历</span></span><br><span class="line">    ListNode prev = <span class="keyword">null</span>;</span><br><span class="line">    ListNode curr = head;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 开始遍历，并在遍历的过程中进行节点连接的翻转</span></span><br><span class="line">    <span class="keyword">while</span>(curr != <span class="keyword">null</span>)&#123; <span class="comment">// 循环执行条件</span></span><br><span class="line">        <span class="comment">// 记录当前节点（开始时是头节点）的下一个节点	作用：实现遍历</span></span><br><span class="line">        ListNode temp = curr.next;</span><br><span class="line">        <span class="comment">// 更新当前节点的连接</span></span><br><span class="line">        curr.next = prev; <span class="comment">// 连接到前一个节点	说明：需要维护这种节点的相邻关系</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 维护节点的相邻关系 &amp; 实现遍历</span></span><br><span class="line">        prev = curr; <span class="comment">// 1 把prev指向curr所指向的节点</span></span><br><span class="line">        curr = temp; <span class="comment">// 2 更新curr到链表的下一个节点	由于节点的连接方向已经变化，所以不能使用curr.next 使用预先存储的节点temp</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 返回链表的头节点</span></span><br><span class="line">    <span class="keyword">return</span> prev;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="启示"><a href="#启示" class="headerlink" title="启示"></a>启示</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">知道为什么这么写后，才能把思路翻译成代码。不然就是在背代码了</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>ListNode</category>

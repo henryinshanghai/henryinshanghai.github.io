@@ -220,20 +220,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-count">34</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -297,6 +297,125 @@
       
 
       
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://henryinshanghai.github.io/uncategorized/2020/05/11/Spring%20AOP%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%88%E4%B8%8EAspectJ%20AOP%E7%9A%84%E5%AF%B9%E6%AF%94%EF%BC%89.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myAvator.jpeg">
+      <meta itemprop="name" content="henryInSH">
+      <meta itemprop="description" content="collection & catagory & refine">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Henry's blog">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/uncategorized/2020/05/11/Spring%20AOP%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%88%E4%B8%8EAspectJ%20AOP%E7%9A%84%E5%AF%B9%E6%AF%94%EF%BC%89.html" class="post-title-link" itemprop="url">Spring AOP第二谈（与AspectJ AOP的对比）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-05-11 00:26:00 / 修改时间：00:30:32" itemprop="dateCreated datePublished" datetime="2020-05-11T00:26:00+08:00">2020-05-11</time>
+            </span>
+
+          
+            <span id="/uncategorized/2020/05/11/Spring%20AOP%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%88%E4%B8%8EAspectJ%20AOP%E7%9A%84%E5%AF%B9%E6%AF%94%EF%BC%89.html" class="post-meta-item leancloud_visitors" data-flag-title="Spring AOP第二谈（与AspectJ AOP的对比）" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="far fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+              <span>℃</span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/uncategorized/2020/05/11/Spring%20AOP%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%88%E4%B8%8EAspectJ%20AOP%E7%9A%84%E5%AF%B9%E6%AF%94%EF%BC%89.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/uncategorized/2020/05/11/Spring%20AOP%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%88%E4%B8%8EAspectJ%20AOP%E7%9A%84%E5%AF%B9%E6%AF%94%EF%BC%89.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+              <span class="post-meta-item-text">本文字数：</span>
+              <span>1.1k</span>字
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+              <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>分钟
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Spring AOP第二谈（与AspectJ AOP的对比）</p>
+<hr>
+<h4 id="1-AOP的实现方案"><a href="#1-AOP的实现方案" class="headerlink" title="1.AOP的实现方案"></a>1.AOP的实现方案</h4><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">方案<span class="number">1</span>：Spring AOP；</span><br><span class="line">方案<span class="number">2</span>：AspectJ；</span><br><span class="line">特征：AspectJ提供了很多其他的切点类型（Spring AOP只能提供方法调用的切点类型）</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h4 id="2-在创建对象时应用指定的通知"><a href="#2-在创建对象时应用指定的通知" class="headerlink" title="2. 在创建对象时应用指定的通知"></a>2. 在创建对象时应用指定的通知</h4><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">需求：在创建对象时应用指定的通知；</span><br><span class="line">说明：创建对象需要调用<span class="keyword">Bean的构造器，但是Spring </span>AOP无法指定这样的连接点/切点类型</span><br><span class="line">为什么Spring AOP实现不了呢？</span><br><span class="line">答：因为它基于代理实现，只能做一些方法层面的操作；</span><br><span class="line">手段：使用AspectJ提供的AOP功能；</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h4 id="3-管理由AspectJ创建的切面bean所依赖的Spring组件"><a href="#3-管理由AspectJ创建的切面bean所依赖的Spring组件" class="headerlink" title="3. 管理由AspectJ创建的切面bean所依赖的Spring组件"></a>3. 管理由AspectJ创建的切面bean所依赖的Spring组件</h4><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">说明：一个通知方法可能需要依赖其他的类来实现功能。</span><br><span class="line">需求：管理通知方法所依赖的其他类</span><br><span class="line">手段：把通知方法所依赖的<span class="keyword">Bean注入到切面类中</span></span><br><span class="line"><span class="keyword"></span></span><br><span class="line"><span class="keyword">--</span></span><br><span class="line"><span class="keyword">需求：为演出创建一个评论员的角色；</span></span><br><span class="line"><span class="keyword">功能：观看演出，并在观看完成后提出一些批评意见</span></span><br><span class="line"><span class="keyword">参考：CriticAspect </span>+ CriticismEngine + CriticismEngineImpl + <span class="keyword">bean_declare_xmlconfig</span></span><br><span class="line"><span class="keyword">特征：</span></span><br><span class="line"><span class="keyword"> </span>   <span class="number">1</span> AspectJ切面不需要Spring就可以织入到我们的应用中<span class="comment">;</span></span><br><span class="line">    <span class="number">2</span> 但是如果想要使用Spring来管理AspectJ的一些个依赖，就需要把AspectJ切面来声明成一个Spring <span class="keyword">bean</span></span><br><span class="line"><span class="keyword"> </span>   参考：<span class="keyword">bean_declare_xmlconfig.xml</span></span><br><span class="line"><span class="keyword"> </span>   <span class="number">3</span> AspectJ切面<span class="keyword">bean不是Spring容器创建的，而是AspectJ在运行时创建的；</span></span><br><span class="line"><span class="keyword"> </span>   <span class="number">4</span> 为了能够在Spring中获取到AspectJ切面的实例，需要调用切面类的aspectOf()方法————此方法返回切面类的一个单例</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="4-AOP小结"><a href="#4-AOP小结" class="headerlink" title="4.AOP小结"></a>4.AOP小结</h4><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">------</span></span><br><span class="line">AOP：</span><br><span class="line">是：一种编程方式；</span><br><span class="line">作用：把分散在应用各处的行为集中在一个模块中（方便管理），并作为重用模块（方便引用）</span><br><span class="line">特征：</span><br><span class="line">    <span class="number">1</span> 使程序员编写的类更加简洁、准确；</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">需求：支持AOP形式的编程风格；</span><br><span class="line">Spring提供的手段：Spring AOP；</span><br><span class="line">原理：</span><br><span class="line">    在程序员进行必要的操作后，Spring AOP会创建一个代理类，在代理类中把切面插入到目标方法执行的周围；</span><br><span class="line">必要的操作：</span><br><span class="line">    <span class="number">1</span> 程序员通过自定义切面来声明预期插入到目标类/方法中的功能；</span><br><span class="line">    <span class="number">2</span> 程序员通过编写切点表达式来声明应用切面中的通知；</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">应用：</span><br><span class="line">    <span class="number">1</span> 把通知织入/应用前置、后置和环绕方法的调用中；</span><br><span class="line">    <span class="number">2</span> 为异常处理添加自定义的行为————抛出异常时的通知方法；</span><br><span class="line">    <span class="number">3</span> 与DI一起，支持程序员创建松散耦合的应用</span><br><span class="line">用法SOP:</span><br><span class="line">    <span class="number">1</span> 声明切面类；</span><br><span class="line">    <span class="number">2</span> 配置切面类中的通知方法（when + where + what）</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -925,135 +1044,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://henryinshanghai.github.io/uncategorized/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E9%85%8D%E7%BD%AE%E7%AC%AC%E4%B8%80%E8%B0%88.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myAvator.jpeg">
-      <meta itemprop="name" content="henryInSH">
-      <meta itemprop="description" content="collection & catagory & refine">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Henry's blog">
-    </span>
-
-    
-    
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/uncategorized/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E9%85%8D%E7%BD%AE%E7%AC%AC%E4%B8%80%E8%B0%88.html" class="post-title-link" itemprop="url">更高级的bean配置第一谈</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-05-05 16:56:51 / 修改时间：17:14:50" itemprop="dateCreated datePublished" datetime="2020-05-05T16:56:51+08:00">2020-05-05</time>
-            </span>
-
-          
-            <span id="/uncategorized/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E9%85%8D%E7%BD%AE%E7%AC%AC%E4%B8%80%E8%B0%88.html" class="post-meta-item leancloud_visitors" data-flag-title="更高级的bean配置第一谈" title="热度">
-              <span class="post-meta-item-icon">
-                <i class="far fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">热度：</span>
-              <span class="leancloud-visitors-count"></span>
-              <span>℃</span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/uncategorized/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E9%85%8D%E7%BD%AE%E7%AC%AC%E4%B8%80%E8%B0%88.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/uncategorized/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E9%85%8D%E7%BD%AE%E7%AC%AC%E4%B8%80%E8%B0%88.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-              <span class="post-meta-item-text">本文字数：</span>
-              <span>1.6k</span>字
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-              <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>分钟
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>更高级的bean配置第一谈</p>
-<hr>
-<p>应用：根据那个激活的profile来决定是否要创建某个bean；</p>
-<p>说明：同一个项目，在不同的阶段，某个bean实例的获取方式可能是不一样的；</p>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">开发时的常见操作（表示没用过）：</span><br><span class="line">    使用嵌入式数据库；</span><br><span class="line">    作用：快速获取到一个dataSource，并预先加载测试数据；</span><br><span class="line">    参考：EmbeddedDatabaseBuilder</span><br><span class="line"></span><br><span class="line">生产环境中的常见操作：</span><br><span class="line">    使用<span class="keyword">JNDI从容器中获取一个DataSource；</span></span><br><span class="line"><span class="keyword"> </span>   作用：由容器决定如何创建这个DataSource；</span><br><span class="line">    特征：</span><br><span class="line">        有一定的复杂性</span><br><span class="line"></span><br><span class="line">QA环境中的常见操作：</span><br><span class="line">    其他获取dataSource的方式</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<h4 id="Problem-amp-Solution"><a href="#Problem-amp-Solution" class="headerlink" title="Problem &amp; Solution"></a>Problem &amp; Solution</h4><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">现象说明：不同环境中的某一个<span class="keyword">bean实例可能会有所不同。</span></span><br><span class="line"><span class="keyword">解决思路：通过某种技术，使得dataSource能够在不同的环境下选择对应的配置；</span></span><br><span class="line"><span class="keyword">实现手段1：单独配置每一种bean实例，然后在构建时决定把哪一个bean实例的配置编译到可部署的应用中</span></span><br><span class="line"><span class="keyword">特征：</span></span><br><span class="line"><span class="keyword"> </span>   需要重复地构建应用</span><br><span class="line"></span><br><span class="line">实现手段<span class="number">2</span>：Spring提供的profile <span class="keyword">bean；</span></span><br><span class="line"><span class="keyword">作用：根据环境来决定该创建哪一个bean；</span></span><br><span class="line"><span class="keyword">特征：</span></span><br><span class="line"><span class="keyword"> </span>   <span class="number">1</span> 在运行时才确定使用哪一个<span class="keyword">bean的配置；</span></span><br><span class="line"><span class="keyword"> </span>   <span class="number">2</span> 这使得同一个部署包适用于所有的环境，部署时不需要重新进行构建；</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<p>Spring提供的profile bean用法SOP：</p>
-<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">用法SOP:</span><br><span class="line">    <span class="number">1</span> 把所有的bean定义添加到/绑定到一个<span class="keyword">profile</span>中；</span><br><span class="line">    手段：在配置类/方法上添加@Profile(<span class="string">"dev"</span>)注解；</span><br><span class="line">    作用：告诉Spring，当前配置类中的bean/方法所绑定的bean[使用@Bean声明]只有在dev <span class="keyword">profile</span>激活时才会创建</span><br><span class="line">    参考：DataSourceConfig.java</span><br><span class="line">    特征：</span><br><span class="line">        <span class="number">1</span> 对于添加了@Profile的bean：当指定的<span class="keyword">profile</span>被激活时，它修饰的bean才会被创建</span><br><span class="line">        <span class="number">2</span> 没有添加@Profile的bean：总是会被创建</span><br><span class="line">        <span class="number">3</span> 通过XML配置文件能完成同样的功能（略）</span><br><span class="line"></span><br><span class="line">    <span class="number">2</span> 在把应用部署到指定环境时，确保该环境对应的<span class="keyword">profile</span>处于激活状态</span><br><span class="line">    手段：设置 spring.profiles.active / spring.<span class="keyword">profile</span>.<span class="keyword">default</span> 这个属性的值；</span><br><span class="line">    如何设置这两个属性的值呢？</span><br><span class="line">    推荐方式：使用DispatcherServlet的参数来把spring.<span class="keyword">profile</span>.<span class="keyword">default</span>设置为开发环境的<span class="keyword">profile</span></span><br><span class="line">    具体方法<span class="number">1</span>：在servlet上下文（web.xml）中进行设置</span><br><span class="line">        参考：web.xml</span><br><span class="line">            <span class="variable">&lt;servlet&gt;</span></span><br><span class="line">                <span class="variable">&lt;init-param&gt;</span></span><br><span class="line">                    <span class="variable">&lt;param-name&gt;</span>xxx&lt;/param-name&gt;</span><br><span class="line">                ...</span><br><span class="line">            ...</span><br><span class="line">        特征：</span><br><span class="line">            <span class="number">1</span> 项目中的所有成员拉取代码后，都能使用开发环境的设置来运行代码。不需要任何额外的配置</span><br><span class="line">            <span class="number">2</span> 在部署项目到其他环境时，部署人员可以再对应设置spring.profiles.active属性的值</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>启示：xml文件可以在项目上直接进行改动。不需要对项目进行重新构建</p>
-<hr>
-<p>功能测试： </p>
-<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">测试说明：</span><br><span class="line">在我指定激活了某个<span class="keyword">profile</span>后：</span><br><span class="line">	<span class="number">1</span> 绑定到此<span class="keyword">profile</span>上的bean是否被正常创建；</span><br><span class="line">	<span class="number">2</span> 绑定到其他<span class="keyword">profile</span>上的bean是否符合预期——没有被创建；</span><br><span class="line">	<span class="number">3</span> 没有绑定任何<span class="keyword">profile</span>的bean是否仍旧正常创建；</span><br></pre></td></tr></table></figure>
-
-
-
-<p>需求：在运行测试代码时，指定要激活的某个profile；</p>
-<p>手段：Spring提供的<strong>@ActiveProfiles(“dev”)</strong>注解</p>
-<hr>
-<p>see this in a higher view</p>
-<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">任务：根据<span class="string">"那个激活的profile"</span>来决定是否要创建某个<span class="keyword">bean；</span></span><br><span class="line"><span class="keyword">手段：1 </span>把<span class="keyword">bean添加到某个profile中； </span><span class="number">2</span> 在web.xml中声明被激活的profile；</span><br><span class="line"></span><br><span class="line">任务扩展：根据<span class="string">"指定的条件"</span>来决定是否要创建某个<span class="keyword">bean；</span></span><br><span class="line"><span class="keyword">手段：条件化的bean</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>emoji: 😄</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1109,13 +1099,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">54k</span>
+    <span title="站点总字数">58k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">49 分钟</span>
+    <span title="站点阅读时长">53 分钟</span>
   </span>
 </div>
 <div class="busuanzi-count">

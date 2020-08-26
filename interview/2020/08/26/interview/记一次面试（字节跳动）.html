@@ -24,31 +24,35 @@
     var CONFIG = {"hostname":"henryinshanghai.github.io","root":"/","scheme":"Muse","version":"8.0.0-rc.5","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"path":"search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
   </script>
 
-  <meta name="description" content="collection &amp; catagory &amp; refine">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Henry&#39;s blog">
-<meta property="og:url" content="https://henryinshanghai.github.io/index.html">
+  <meta name="description" content="字节跳动（视频面试一面） 关于面试官：​    面试官给我的感觉很好，年龄和我相仿，穿着也很随意。就不会让人产生紧张的情绪，而且问的问题也很有递进性。过程是挺轻松的，结果嘛… 关于项目：   这个主要问了做过项目中的一些难点问题。但实话讲，做过的项目有些头疼的问题，但都算不上技术难点。于是我先说了公司项目的特征：面向政府机构居多，所以不会存在什么高并发访问的情况。（这是真实情况，也算是降低面试官的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一次面试（字节跳动）">
+<meta property="og:url" content="https://henryinshanghai.github.io/interview/2020/08/26/interview/%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%9D%A2%E8%AF%95%EF%BC%88%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%EF%BC%89.html">
 <meta property="og:site_name" content="Henry&#39;s blog">
-<meta property="og:description" content="collection &amp; catagory &amp; refine">
+<meta property="og:description" content="字节跳动（视频面试一面） 关于面试官：​    面试官给我的感觉很好，年龄和我相仿，穿着也很随意。就不会让人产生紧张的情绪，而且问的问题也很有递进性。过程是挺轻松的，结果嘛… 关于项目：   这个主要问了做过项目中的一些难点问题。但实话讲，做过的项目有些头疼的问题，但都算不上技术难点。于是我先说了公司项目的特征：面向政府机构居多，所以不会存在什么高并发访问的情况。（这是真实情况，也算是降低面试官的">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-08-25T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-08-26T11:16:57.305Z">
 <meta property="article:author" content="henryInSH">
+<meta property="article:tag" content="Algorithm">
+<meta property="article:tag" content="Java stuff">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://henryinshanghai.github.io/">
+<link rel="canonical" href="https://henryinshanghai.github.io/interview/2020/08/26/interview/%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%9D%A2%E8%AF%95%EF%BC%88%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%EF%BC%89.html">
 
 
 <script class="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>Henry's blog</title>
+  <title>记一次面试（字节跳动） | Henry's blog</title>
   
 
 
@@ -193,7 +197,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -205,6 +209,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#字节跳动（视频面试一面）"><span class="nav-number">1.</span> <span class="nav-text">字节跳动（视频面试一面）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#关于面试官："><span class="nav-number">1.1.</span> <span class="nav-text">关于面试官：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于项目："><span class="nav-number">1.2.</span> <span class="nav-text">关于项目：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于Java基础："><span class="nav-number">1.3.</span> <span class="nav-text">关于Java基础：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#数据库联合索引与最左匹配原则"><span class="nav-number">1.3.1.</span> <span class="nav-text">数据库联合索引与最左匹配原则</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#volatile关键字："><span class="nav-number">1.3.2.</span> <span class="nav-text">volatile关键字：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#synchronized关键字"><span class="nav-number">1.3.3.</span> <span class="nav-text">synchronized关键字</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#synchronized关键字-与-ReentrantLock类型（这个面试官没问，可能是因为上面答得不好）"><span class="nav-number">1.3.4.</span> <span class="nav-text">synchronized关键字 与 ReentrantLock类型（这个面试官没问，可能是因为上面答得不好）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#公平锁与非公平锁"><span class="nav-number">1.3.5.</span> <span class="nav-text">公平锁与非公平锁</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#类加载过程中的双亲委派模型"><span class="nav-number">1.3.6.</span> <span class="nav-text">类加载过程中的双亲委派模型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Spring-IoC容器"><span class="nav-number">1.3.7.</span> <span class="nav-text">Spring IoC容器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AOP（面向切面编程）"><span class="nav-number">1.3.8.</span> <span class="nav-text">AOP（面向切面编程）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ConcurrentHashMap"><span class="nav-number">1.3.9.</span> <span class="nav-text">ConcurrentHashMap</span></a></li></ol></li></ol></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -293,11 +298,12 @@
 </noscript>
 
 
-    <div class="main-inner index posts-expand">
+    <div class="main-inner post posts-expand">
       
 
       
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -316,10 +322,9 @@
     
     
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/interview/2020/08/26/interview/%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%9D%A2%E8%AF%95%EF%BC%88%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%EF%BC%89.html" class="post-title-link" itemprop="url">记一次面试（字节跳动）</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          记一次面试（字节跳动）
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -349,6 +354,13 @@
               <span class="post-meta-item-text">热度：</span>
               <span class="leancloud-visitors-count"></span>
               <span>℃</span>
+            </span>
+            <span class="post-meta-item" title="热度" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="far fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span id="busuanzi_value_page_pv"></span>
             </span>
   
   <span class="post-meta-item">
@@ -386,7 +398,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h3 id="字节跳动（视频面试一面）"><a href="#字节跳动（视频面试一面）" class="headerlink" title="字节跳动（视频面试一面）"></a>字节跳动（视频面试一面）</h3><hr>
+        <h3 id="字节跳动（视频面试一面）"><a href="#字节跳动（视频面试一面）" class="headerlink" title="字节跳动（视频面试一面）"></a>字节跳动（视频面试一面）</h3><hr>
 <h4 id="关于面试官："><a href="#关于面试官：" class="headerlink" title="关于面试官："></a>关于面试官：</h4><p>​    面试官给我的感觉很好，年龄和我相仿，穿着也很随意。就不会让人产生紧张的情绪，而且问的问题也很有递进性。过程是挺轻松的，结果嘛…</p>
 <h4 id="关于项目："><a href="#关于项目：" class="headerlink" title="关于项目："></a>关于项目：</h4><p>   这个主要问了做过项目中的一些难点问题。但实话讲，做过的项目有些头疼的问题，但都算不上技术难点。于是我先说了公司项目的特征：面向政府机构居多，所以不会存在什么高并发访问的情况。（这是真实情况，也算是降低面试官的期望，别一上来就问大流量情况下如何削峰、限流什么的）</p>
 <p>   我说了两点：1 excel表格中大数据导入MySQL数据库的问题；2 后台上传多种格式的资料时的处理；富文本编辑器上传时的格式处理等等</p>
@@ -598,614 +610,64 @@
 </blockquote>
 <p>​    </p>
 
-      
     </div>
 
     
     
     
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://henryinshanghai.github.io/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%A5%87%E5%81%B6%E9%93%BE%E8%A1%A8%EF%BC%88%E6%8A%8A%E5%A5%87%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8E%E5%81%B6%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8A%E7%9A%84%E8%8A%82%E7%82%B9%E8%BF%9E%E5%9C%A8%E4%B8%80%E8%B5%B7%EF%BC%89_10.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myAvator.jpeg">
-      <meta itemprop="name" content="henryInSH">
-      <meta itemprop="description" content="collection & catagory & refine">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Henry's blog">
-    </span>
-
+        
+          <div>
     
-    
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%A5%87%E5%81%B6%E9%93%BE%E8%A1%A8%EF%BC%88%E6%8A%8A%E5%A5%87%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8E%E5%81%B6%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8A%E7%9A%84%E8%8A%82%E7%82%B9%E8%BF%9E%E5%9C%A8%E4%B8%80%E8%B5%B7%EF%BC%89_10.html" class="post-title-link" itemprop="url">奇偶链表_10</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-08-16 20:46:25" itemprop="dateCreated datePublished" datetime="2020-08-16T20:46:25+08:00">2020-08-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-17 16:40:31" itemprop="dateModified" datetime="2020-08-17T16:40:31+08:00">2020-08-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ListNode/" itemprop="url" rel="index"><span itemprop="name">ListNode</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%A5%87%E5%81%B6%E9%93%BE%E8%A1%A8%EF%BC%88%E6%8A%8A%E5%A5%87%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8E%E5%81%B6%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8A%E7%9A%84%E8%8A%82%E7%82%B9%E8%BF%9E%E5%9C%A8%E4%B8%80%E8%B5%B7%EF%BC%89_10.html" class="post-meta-item leancloud_visitors" data-flag-title="奇偶链表_10" title="热度">
-              <span class="post-meta-item-icon">
-                <i class="far fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">热度：</span>
-              <span class="leancloud-visitors-count"></span>
-              <span>℃</span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%A5%87%E5%81%B6%E9%93%BE%E8%A1%A8%EF%BC%88%E6%8A%8A%E5%A5%87%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8E%E5%81%B6%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8A%E7%9A%84%E8%8A%82%E7%82%B9%E8%BF%9E%E5%9C%A8%E4%B8%80%E8%B5%B7%EF%BC%89_10.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%A5%87%E5%81%B6%E9%93%BE%E8%A1%A8%EF%BC%88%E6%8A%8A%E5%A5%87%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8E%E5%81%B6%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8A%E7%9A%84%E8%8A%82%E7%82%B9%E8%BF%9E%E5%9C%A8%E4%B8%80%E8%B5%B7%EF%BC%89_10.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-              <span class="post-meta-item-text">本文字数：</span>
-              <span>1.3k</span>字
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-              <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>分钟
-            </span>
-
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+            -------------本文结束
+            <i class="fa fa-paw"></i>
+            感谢您的阅读-------------
         </div>
-      </header>
-
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="把链表中的奇数位置节点与偶数位置节点放在一起"><a href="#把链表中的奇数位置节点与偶数位置节点放在一起" class="headerlink" title="把链表中的奇数位置节点与偶数位置节点放在一起"></a>把链表中的奇数位置节点与偶数位置节点放在一起</h4><h4 id="题设-与-要求"><a href="#题设-与-要求" class="headerlink" title="题设 与 要求"></a>题设 与 要求</h4><p><img src="https://s1.ax1x.com/2020/08/15/dklpjK.md.png" alt="题设与要求"></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%A5%87%E5%81%B6%E9%93%BE%E8%A1%A8%EF%BC%88%E6%8A%8A%E5%A5%87%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8E%E5%81%B6%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8A%E7%9A%84%E8%8A%82%E7%82%B9%E8%BF%9E%E5%9C%A8%E4%B8%80%E8%B5%B7%EF%BC%89_10.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
+</div>
         
       
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://henryinshanghai.github.io/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E6%8A%8A%E9%93%BE%E8%A1%A8%E5%88%86%E9%9A%94%E6%88%90k%E4%B8%AA%E5%AD%90%E9%93%BE%E8%A1%A8_09.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myAvator.jpeg">
-      <meta itemprop="name" content="henryInSH">
-      <meta itemprop="description" content="collection & catagory & refine">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Henry's blog">
-    </span>
-
-    
-    
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
+        
           
-            <a href="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E6%8A%8A%E9%93%BE%E8%A1%A8%E5%88%86%E9%9A%94%E6%88%90k%E4%B8%AA%E5%AD%90%E9%93%BE%E8%A1%A8_09.html" class="post-title-link" itemprop="url">分隔链表得到子链表_09</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-08-16 19:00:00" itemprop="dateCreated datePublished" datetime="2020-08-16T19:00:00+08:00">2020-08-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-17 12:30:44" itemprop="dateModified" datetime="2020-08-17T12:30:44+08:00">2020-08-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ListNode/" itemprop="url" rel="index"><span itemprop="name">ListNode</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E6%8A%8A%E9%93%BE%E8%A1%A8%E5%88%86%E9%9A%94%E6%88%90k%E4%B8%AA%E5%AD%90%E9%93%BE%E8%A1%A8_09.html" class="post-meta-item leancloud_visitors" data-flag-title="分隔链表得到子链表_09" title="热度">
-              <span class="post-meta-item-icon">
-                <i class="far fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">热度：</span>
-              <span class="leancloud-visitors-count"></span>
-              <span>℃</span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E6%8A%8A%E9%93%BE%E8%A1%A8%E5%88%86%E9%9A%94%E6%88%90k%E4%B8%AA%E5%AD%90%E9%93%BE%E8%A1%A8_09.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E6%8A%8A%E9%93%BE%E8%A1%A8%E5%88%86%E9%9A%94%E6%88%90k%E4%B8%AA%E5%AD%90%E9%93%BE%E8%A1%A8_09.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-              <span class="post-meta-item-text">本文字数：</span>
-              <span>2.9k</span>字
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-              <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>分钟
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="把链表分隔成k个子链表"><a href="#把链表分隔成k个子链表" class="headerlink" title="把链表分隔成k个子链表"></a>把链表分隔成k个子链表</h4><hr>
-<h4 id="题设与要求"><a href="#题设与要求" class="headerlink" title="题设与要求"></a>题设与要求</h4><p><img src="https://s1.ax1x.com/2020/08/15/dFWppn.md.png" alt="题设与要求"></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E6%8A%8A%E9%93%BE%E8%A1%A8%E5%88%86%E9%9A%94%E6%88%90k%E4%B8%AA%E5%AD%90%E9%93%BE%E8%A1%A8_09.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
       
-    </div>
 
-    
-    
-    
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://henryinshanghai.github.io/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E9%93%BE%E8%A1%A8%E6%98%AF%E4%B8%8D%E6%98%AF%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8%EF%BC%88%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F%EF%BC%89_08_2.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myAvator.jpeg">
-      <meta itemprop="name" content="henryInSH">
-      <meta itemprop="description" content="collection & catagory & refine">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Henry's blog">
-    </span>
-
-    
-    
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E9%93%BE%E8%A1%A8%E6%98%AF%E4%B8%8D%E6%98%AF%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8%EF%BC%88%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F%EF%BC%89_08_2.html" class="post-title-link" itemprop="url">回文链表(迭代)_08_2</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-08-16 18:30:00" itemprop="dateCreated datePublished" datetime="2020-08-16T18:30:00+08:00">2020-08-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-17 12:28:26" itemprop="dateModified" datetime="2020-08-17T12:28:26+08:00">2020-08-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ListNode/" itemprop="url" rel="index"><span itemprop="name">ListNode</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E9%93%BE%E8%A1%A8%E6%98%AF%E4%B8%8D%E6%98%AF%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8%EF%BC%88%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F%EF%BC%89_08_2.html" class="post-meta-item leancloud_visitors" data-flag-title="回文链表(迭代)_08_2" title="热度">
-              <span class="post-meta-item-icon">
-                <i class="far fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">热度：</span>
-              <span class="leancloud-visitors-count"></span>
-              <span>℃</span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E9%93%BE%E8%A1%A8%E6%98%AF%E4%B8%8D%E6%98%AF%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8%EF%BC%88%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F%EF%BC%89_08_2.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E9%93%BE%E8%A1%A8%E6%98%AF%E4%B8%8D%E6%98%AF%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8%EF%BC%88%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F%EF%BC%89_08_2.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-              <span class="post-meta-item-text">本文字数：</span>
-              <span>3.7k</span>字
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-              <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>分钟
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="判断一个链表是不是回文链表（迭代方式）"><a href="#判断一个链表是不是回文链表（迭代方式）" class="headerlink" title="判断一个链表是不是回文链表（迭代方式）"></a>判断一个链表是不是回文链表（迭代方式）</h3><h4 id="题设与要求"><a href="#题设与要求" class="headerlink" title="题设与要求"></a>题设与要求</h4><p><img src="https://s1.ax1x.com/2020/08/15/diX5I1.png" alt="题设与要求"></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E9%93%BE%E8%A1%A8%E6%98%AF%E4%B8%8D%E6%98%AF%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8%EF%BC%88%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F%EF%BC%89_08_2.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://henryinshanghai.github.io/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E9%93%BE%E8%A1%A8%E6%98%AF%E5%90%A6%E4%B8%BA%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8(%E9%80%92%E5%BD%92%E6%96%B9%E5%BC%8F)_08.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myAvator.jpeg">
-      <meta itemprop="name" content="henryInSH">
-      <meta itemprop="description" content="collection & catagory & refine">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Henry's blog">
-    </span>
-
-    
-    
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E9%93%BE%E8%A1%A8%E6%98%AF%E5%90%A6%E4%B8%BA%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8(%E9%80%92%E5%BD%92%E6%96%B9%E5%BC%8F)_08.html" class="post-title-link" itemprop="url">回文链表_08</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
+          <div class="post-tags">
               
+              <a href="/tags/Algorithm/" rel="tag"><i class="fa fa-tag"></i> Algorithm</a>
+              
+              
+              <a href="/tags/Java-stuff/" rel="tag"><i class="fa fa-tag"></i> Java stuff</a>
+              
+          </div>
 
-              <time title="创建时间：2020-08-16 18:00:00 / 修改时间：18:28:28" itemprop="dateCreated datePublished" datetime="2020-08-16T18:00:00+08:00">2020-08-16</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ListNode/" itemprop="url" rel="index"><span itemprop="name">ListNode</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E9%93%BE%E8%A1%A8%E6%98%AF%E5%90%A6%E4%B8%BA%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8(%E9%80%92%E5%BD%92%E6%96%B9%E5%BC%8F)_08.html" class="post-meta-item leancloud_visitors" data-flag-title="回文链表_08" title="热度">
-              <span class="post-meta-item-icon">
-                <i class="far fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">热度：</span>
-              <span class="leancloud-visitors-count"></span>
-              <span>℃</span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E9%93%BE%E8%A1%A8%E6%98%AF%E5%90%A6%E4%B8%BA%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8(%E9%80%92%E5%BD%92%E6%96%B9%E5%BC%8F)_08.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E9%93%BE%E8%A1%A8%E6%98%AF%E5%90%A6%E4%B8%BA%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8(%E9%80%92%E5%BD%92%E6%96%B9%E5%BC%8F)_08.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-              <span class="post-meta-item-text">本文字数：</span>
-              <span>1.5k</span>字
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-              <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>分钟
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="判断一个链表是否为回文链表"><a href="#判断一个链表是否为回文链表" class="headerlink" title="判断一个链表是否为回文链表"></a>判断一个链表是否为回文链表</h3><h4 id="题设与要求"><a href="#题设与要求" class="headerlink" title="题设与要求"></a>题设与要求</h4><p><img src="https://s1.ax1x.com/2020/08/15/diX5I1.png" alt="题设与要求"></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E9%93%BE%E8%A1%A8%E6%98%AF%E5%90%A6%E4%B8%BA%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8(%E9%80%92%E5%BD%92%E6%96%B9%E5%BC%8F)_08.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://henryinshanghai.github.io/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E8%A1%A8%E7%A4%BA%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%9B%B8%E5%8A%A0(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_07.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myAvator.jpeg">
-      <meta itemprop="name" content="henryInSH">
-      <meta itemprop="description" content="collection & catagory & refine">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Henry's blog">
-    </span>
-
-    
-    
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E8%A1%A8%E7%A4%BA%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%9B%B8%E5%8A%A0(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_07.html" class="post-title-link" itemprop="url">链表数相加_07</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-08-16 17:30:00" itemprop="dateCreated datePublished" datetime="2020-08-16T17:30:00+08:00">2020-08-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-17 12:30:00" itemprop="dateModified" datetime="2020-08-17T12:30:00+08:00">2020-08-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ListNode/" itemprop="url" rel="index"><span itemprop="name">ListNode</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E8%A1%A8%E7%A4%BA%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%9B%B8%E5%8A%A0(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_07.html" class="post-meta-item leancloud_visitors" data-flag-title="链表数相加_07" title="热度">
-              <span class="post-meta-item-icon">
-                <i class="far fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">热度：</span>
-              <span class="leancloud-visitors-count"></span>
-              <span>℃</span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E8%A1%A8%E7%A4%BA%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%9B%B8%E5%8A%A0(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_07.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E8%A1%A8%E7%A4%BA%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%9B%B8%E5%8A%A0(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_07.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-              <span class="post-meta-item-text">本文字数：</span>
-              <span>3.4k</span>字
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-              <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>分钟
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="链表表示的两个数相加"><a href="#链表表示的两个数相加" class="headerlink" title="链表表示的两个数相加"></a>链表表示的两个数相加</h3><h4 id="题设与要求"><a href="#题设与要求" class="headerlink" title="题设与要求"></a>题设与要求</h4><p><img src="https://s1.ax1x.com/2020/08/14/diKVtx.md.png" alt="题目条件与要求"></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E9%93%BE%E8%A1%A8%E8%A1%A8%E7%A4%BA%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%9B%B8%E5%8A%A0(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_07.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%A5%87%E5%81%B6%E9%93%BE%E8%A1%A8%EF%BC%88%E6%8A%8A%E5%A5%87%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8E%E5%81%B6%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8A%E7%9A%84%E8%8A%82%E7%82%B9%E8%BF%9E%E5%9C%A8%E4%B8%80%E8%B5%B7%EF%BC%89_10.html" rel="prev" title="奇偶链表_10">
+                  <i class="fa fa-chevron-left"></i> 奇偶链表_10
+                </a>
             </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
+            <div class="post-nav-item">
+            </div>
+          </div>
       </footer>
+    
   </article>
   
   
   
 
 
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
-
-
 
       
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
