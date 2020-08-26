@@ -32,7 +32,7 @@
 <meta property="og:description" content="字节跳动（视频面试一面） 关于面试官：​    面试官给我的感觉很好，年龄和我相仿，穿着也很随意。就不会让人产生紧张的情绪，而且问的问题也很有递进性。过程是挺轻松的，结果嘛…">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-08-25T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-08-26T11:20:47.010Z">
+<meta property="article:modified_time" content="2020-08-26T11:37:00.340Z">
 <meta property="article:author" content="henryInSH">
 <meta property="article:tag" content="Algorithm">
 <meta property="article:tag" content="Java stuff">
@@ -334,7 +334,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-08-26 00:00:00 / 修改时间：19:20:47" itemprop="dateCreated datePublished" datetime="2020-08-26T00:00:00+08:00">2020-08-26</time>
+              <time title="创建时间：2020-08-26 00:00:00 / 修改时间：19:37:00" itemprop="dateCreated datePublished" datetime="2020-08-26T00:00:00+08:00">2020-08-26</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -381,7 +381,7 @@
                 <i class="far fa-file-word"></i>
               </span>
               <span class="post-meta-item-text">本文字数：</span>
-              <span>4k</span>字
+              <span>4.1k</span>字
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -512,7 +512,7 @@
 </ul>
 </li>
 </ul>
-<h5 id="公平锁与非公平锁"><a href="#公平锁与非公平锁" class="headerlink" title="公平锁与非公平锁"></a>公平锁与非公平锁</h5><p>参考：<a href="https://www.jianshu.com/p/f5847">公平🔒</a></p>
+<h5 id="公平锁与非公平锁"><a href="#公平锁与非公平锁" class="headerlink" title="公平锁与非公平锁"></a>公平锁与非公平锁</h5><p>参考：<a href="https://www.jianshu.com/p/f584799f1c77">公平🔒</a></p>
 <p>必须：兔子喝水，黑狗看门；</p>
 <p>结论：</p>
 <ul>
@@ -535,9 +535,9 @@
 </ul>
 <p>SOP:</p>
 <ul>
-<li>通过类的全限定名获取到类的二进制字节流；</li>
-<li>把字节流锁代表的静态存储结构转化为方法区的运行时数据结构；</li>
-<li>在JVM内存中生成表示这个类的Class对象——它包含类的一切信息，是反射机制的基础；</li>
+<li>通过类的全限定名获取到<em>类的二进制字节流</em>；</li>
+<li>把<em>字节流所代表的静态存储结构</em>转化为<em>方法区的运行时数据结构</em>；</li>
+<li>在JVM内存中生成<em>表示这个类的Class对象</em>——它包含类的一切信息，是反射机制的基础；</li>
 </ul>
 <p><strong>双亲委派模型</strong>：</p>
 <p>是：一个使用类加载器时，推荐遵守的规则；</p>
@@ -569,14 +569,14 @@
 <p>用法：这个步骤比较多，不宜作为面试部分；</p>
 <p>原理：Spring AOP的底层原理是动态代理+反射；</p>
 <ul>
-<li>代理类会封装目标类，并把用于增强的切面类添加到目标类的外围；</li>
-<li>动态代理这种方式确定了Spring AOP只能对方法做一些增强，而对字段等无能为力；</li>
+<li>代理类会封装目标类，并把<em>用于增强的切面类</em>添加到目标类的外围；</li>
+<li>动态代理这种方式绝定了Spring AOP<em>只能对方法做一些增强（因为动态代理使用反射实现目标）</em>，而对字段等无能为力；</li>
 <li>Java中的动态代理：JDK动态代理（要求被代理的类实现接口） 与 CGLib动态代理（不要求…）；</li>
 </ul>
-<h5 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h5><p>注：这是一个多线程安全的类型，我在简历中有写看过它的源码，但其实只看了分析的文章。时隔两周，就只记得“分断锁”这三个字了 😭</p>
+<h5 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h5><p>注：这是一个多线程安全的类型，我在简历中有写看过它的源码，但其实只看了分析的文章。时隔两周，就只记得“分段锁”这三个字了 😭</p>
 <p>是：一个容器/集合；</p>
 <p>作用：存储键值对；</p>
-<p>特征：1 多线程安全；</p>
+<p>特征：多线程安全；</p>
 <p><strong>多线程安全原理</strong>：</p>
 <p>​    JDK1.7的手段：</p>
 <ul>
@@ -598,7 +598,7 @@
 </ul>
 <p>​    JDK1.8使用的手段：</p>
 <ul>
-<li>synchronized关键字 + CAS乐观锁【细节讲不清楚】</li>
+<li>synchronized关键字 + CAS乐观锁【细节需要看源码】</li>
 <li>synchronized关键字只会锁住链表或红黑二叉树的头节点，如果多线程操作没有发生哈希冲突，就不会出现并发访问；如果操作到了同一个哈希位置，仍旧是…;</li>
 </ul>
 <p><strong>底层结构</strong>：</p>

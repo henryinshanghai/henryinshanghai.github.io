@@ -117,7 +117,7 @@
 </ul>
 </li>
 </ul>
-<h5 id="公平锁与非公平锁"><a href="#公平锁与非公平锁" class="headerlink" title="公平锁与非公平锁"></a>公平锁与非公平锁</h5><p>参考：<a href="https://www.jianshu.com/p/f5847">公平🔒</a></p>
+<h5 id="公平锁与非公平锁"><a href="#公平锁与非公平锁" class="headerlink" title="公平锁与非公平锁"></a>公平锁与非公平锁</h5><p>参考：<a href="https://www.jianshu.com/p/f584799f1c77">公平🔒</a></p>
 <p>必须：兔子喝水，黑狗看门；</p>
 <p>结论：</p>
 <ul>
@@ -140,9 +140,9 @@
 </ul>
 <p>SOP:</p>
 <ul>
-<li>通过类的全限定名获取到类的二进制字节流；</li>
-<li>把字节流锁代表的静态存储结构转化为方法区的运行时数据结构；</li>
-<li>在JVM内存中生成表示这个类的Class对象——它包含类的一切信息，是反射机制的基础；</li>
+<li>通过类的全限定名获取到<em>类的二进制字节流</em>；</li>
+<li>把<em>字节流所代表的静态存储结构</em>转化为<em>方法区的运行时数据结构</em>；</li>
+<li>在JVM内存中生成<em>表示这个类的Class对象</em>——它包含类的一切信息，是反射机制的基础；</li>
 </ul>
 <p><strong>双亲委派模型</strong>：</p>
 <p>是：一个使用类加载器时，推荐遵守的规则；</p>
@@ -174,14 +174,14 @@
 <p>用法：这个步骤比较多，不宜作为面试部分；</p>
 <p>原理：Spring AOP的底层原理是动态代理+反射；</p>
 <ul>
-<li>代理类会封装目标类，并把用于增强的切面类添加到目标类的外围；</li>
-<li>动态代理这种方式确定了Spring AOP只能对方法做一些增强，而对字段等无能为力；</li>
+<li>代理类会封装目标类，并把<em>用于增强的切面类</em>添加到目标类的外围；</li>
+<li>动态代理这种方式绝定了Spring AOP<em>只能对方法做一些增强（因为动态代理使用反射实现目标）</em>，而对字段等无能为力；</li>
 <li>Java中的动态代理：JDK动态代理（要求被代理的类实现接口） 与 CGLib动态代理（不要求…）；</li>
 </ul>
-<h5 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h5><p>注：这是一个多线程安全的类型，我在简历中有写看过它的源码，但其实只看了分析的文章。时隔两周，就只记得“分断锁”这三个字了 😭</p>
+<h5 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h5><p>注：这是一个多线程安全的类型，我在简历中有写看过它的源码，但其实只看了分析的文章。时隔两周，就只记得“分段锁”这三个字了 😭</p>
 <p>是：一个容器/集合；</p>
 <p>作用：存储键值对；</p>
-<p>特征：1 多线程安全；</p>
+<p>特征：多线程安全；</p>
 <p><strong>多线程安全原理</strong>：</p>
 <p>​    JDK1.7的手段：</p>
 <ul>
@@ -203,7 +203,7 @@
 </ul>
 <p>​    JDK1.8使用的手段：</p>
 <ul>
-<li>synchronized关键字 + CAS乐观锁【细节讲不清楚】</li>
+<li>synchronized关键字 + CAS乐观锁【细节需要看源码】</li>
 <li>synchronized关键字只会锁住链表或红黑二叉树的头节点，如果多线程操作没有发生哈希冲突，就不会出现并发访问；如果操作到了同一个哈希位置，仍旧是…;</li>
 </ul>
 <p><strong>底层结构</strong>：</p>
@@ -660,6 +660,42 @@
       </tags>
   </entry>
   <entry>
+    <title>倒数第k个节点_05_2</title>
+    <url>/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%ACn%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%88%E4%B8%80%E6%AC%A1%E9%81%8D%E5%8E%86%EF%BC%89_05_2.html</url>
+    <content><![CDATA[<h3 id="删除链表中的倒数第n个节点（一次遍历）"><a href="#删除链表中的倒数第n个节点（一次遍历）" class="headerlink" title="删除链表中的倒数第n个节点（一次遍历）"></a>删除链表中的倒数第n个节点（一次遍历）</h3><h4 id="题设-amp-要求"><a href="#题设-amp-要求" class="headerlink" title="题设 &amp; 要求"></a>题设 &amp; 要求</h4><p><img src="https://s1.ax1x.com/2020/08/14/dCLxyj.png" alt="题设 &amp; 要求"></p>
+<a id="more"></a>
+
+<h4 id="分析（难点）"><a href="#分析（难点）" class="headerlink" title="分析（难点）"></a>分析（难点）</h4><p>如何能找到倒数第N个节点（预期节点：此节点的上一个节点）？</p>
+<h4 id="思路2（难点的解决方案）"><a href="#思路2（难点的解决方案）" class="headerlink" title="思路2（难点的解决方案）"></a>思路2（难点的解决方案）</h4><ul>
+<li>定义两个指针front与back，设置两个指针之间的初始间距。</li>
+<li>然后把两个指针同时向后移动，直到front指针到达了链表的尾节点。</li>
+<li>这时候back指针就会指在某一个可以计算的位置——通过设置指针间的初始间距，就能确定back指针停下的具体位置。</li>
+</ul>
+<h4 id="实现SOP"><a href="#实现SOP" class="headerlink" title="实现SOP"></a>实现SOP</h4><ul>
+<li>1 定义所需要的指针front与back与dummy（并初始化）；    注：画图分析指针初始化的位置；    原则：方便编码；&amp; 避免NPE；</li>
+<li>2 画图分析，front指针与back指针之间的初始间距span与n的关系（span = n）；</li>
+<li>3 把front与back指针初始化指向dummy节点(这里引入dummy节点只是为了方便计算指针应该移动的距离)；</li>
+<li>4 把front指针向前移动n个节点；</li>
+<li>5 把front与back指针同时向后移动，直到front指针指向链表的尾节点；</li>
+<li>6 back指向预期节点后，对待删除节点进行删除；</li>
+</ul>
+<h4 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">removeNthFromEnd</span><span class="params">(ListNode head, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 实践证明：在删除的时候使用栈不是一个好主意</span></span><br><span class="line">        <span class="comment">// 鲁棒性代码</span></span><br><span class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1 需要的实例变量</span></span><br><span class="line">        ListNode dummy = <span class="keyword">new</span> ListNode(-<span class="number">1</span>);</span><br><span class="line">        dummy.next = head;</span><br><span class="line"></span><br><span class="line">        ListNode front = dummy;</span><br><span class="line">        ListNode back = dummy;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2 先让front向前走n个节点   如果只有一个节点，然后要删除倒数第一个节点</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;n; i++)&#123; <span class="comment">// 注：front的初始化值会决定循环执行的次数</span></span><br><span class="line">            front = front.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3 再让front与back一起先前移动，直到front到达尾节点</span></span><br><span class="line">        <span class="keyword">while</span>(front != <span class="keyword">null</span> &amp;&amp; front.next != <span class="keyword">null</span>)&#123;</span><br><span class="line">            front = front.next;</span><br><span class="line">            back = back.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4 这里得到的back就是预期删除的节点的前一个节点</span></span><br><span class="line">        <span class="comment">// 执行删除</span></span><br><span class="line">        back.next = back.next.next;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> dummy.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="启示"><a href="#启示" class="headerlink" title="启示"></a>启示</h4><p>1 代码的鲁棒性编码在实现了基本功能后，再进行添加；</p>
+<p>2 对于循环执行次数已知的情况，使用for语法来实现循环——这样能避免令人纠结的循环执行/终止条件；</p>
+<p>3 编写while循环执行表达式的参考：节点的最终状态； &amp;  避免代码中的NPE；</p>
+]]></content>
+      <categories>
+        <category>ListNode</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>LinkedList</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>交换链表节点(迭代)_06</title>
     <url>/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E4%B8%A4%E4%B8%A4%E4%BA%A4%E6%8D%A2%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B9(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_06.html</url>
     <content><![CDATA[<h3 id="两两交换链表中的节点"><a href="#两两交换链表中的节点" class="headerlink" title="两两交换链表中的节点"></a>两两交换链表中的节点</h3><hr>
@@ -738,42 +774,6 @@
 <blockquote>
 <p>until next time 😄</p>
 </blockquote>
-]]></content>
-      <categories>
-        <category>ListNode</category>
-      </categories>
-      <tags>
-        <tag>Algorithm</tag>
-        <tag>LinkedList</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>倒数第k个节点_05_2</title>
-    <url>/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%ACn%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%88%E4%B8%80%E6%AC%A1%E9%81%8D%E5%8E%86%EF%BC%89_05_2.html</url>
-    <content><![CDATA[<h3 id="删除链表中的倒数第n个节点（一次遍历）"><a href="#删除链表中的倒数第n个节点（一次遍历）" class="headerlink" title="删除链表中的倒数第n个节点（一次遍历）"></a>删除链表中的倒数第n个节点（一次遍历）</h3><h4 id="题设-amp-要求"><a href="#题设-amp-要求" class="headerlink" title="题设 &amp; 要求"></a>题设 &amp; 要求</h4><p><img src="https://s1.ax1x.com/2020/08/14/dCLxyj.png" alt="题设 &amp; 要求"></p>
-<a id="more"></a>
-
-<h4 id="分析（难点）"><a href="#分析（难点）" class="headerlink" title="分析（难点）"></a>分析（难点）</h4><p>如何能找到倒数第N个节点（预期节点：此节点的上一个节点）？</p>
-<h4 id="思路2（难点的解决方案）"><a href="#思路2（难点的解决方案）" class="headerlink" title="思路2（难点的解决方案）"></a>思路2（难点的解决方案）</h4><ul>
-<li>定义两个指针front与back，设置两个指针之间的初始间距。</li>
-<li>然后把两个指针同时向后移动，直到front指针到达了链表的尾节点。</li>
-<li>这时候back指针就会指在某一个可以计算的位置——通过设置指针间的初始间距，就能确定back指针停下的具体位置。</li>
-</ul>
-<h4 id="实现SOP"><a href="#实现SOP" class="headerlink" title="实现SOP"></a>实现SOP</h4><ul>
-<li>1 定义所需要的指针front与back与dummy（并初始化）；    注：画图分析指针初始化的位置；    原则：方便编码；&amp; 避免NPE；</li>
-<li>2 画图分析，front指针与back指针之间的初始间距span与n的关系（span = n）；</li>
-<li>3 把front与back指针初始化指向dummy节点(这里引入dummy节点只是为了方便计算指针应该移动的距离)；</li>
-<li>4 把front指针向前移动n个节点；</li>
-<li>5 把front与back指针同时向后移动，直到front指针指向链表的尾节点；</li>
-<li>6 back指向预期节点后，对待删除节点进行删除；</li>
-</ul>
-<h4 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">removeNthFromEnd</span><span class="params">(ListNode head, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 实践证明：在删除的时候使用栈不是一个好主意</span></span><br><span class="line">        <span class="comment">// 鲁棒性代码</span></span><br><span class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1 需要的实例变量</span></span><br><span class="line">        ListNode dummy = <span class="keyword">new</span> ListNode(-<span class="number">1</span>);</span><br><span class="line">        dummy.next = head;</span><br><span class="line"></span><br><span class="line">        ListNode front = dummy;</span><br><span class="line">        ListNode back = dummy;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2 先让front向前走n个节点   如果只有一个节点，然后要删除倒数第一个节点</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;n; i++)&#123; <span class="comment">// 注：front的初始化值会决定循环执行的次数</span></span><br><span class="line">            front = front.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3 再让front与back一起先前移动，直到front到达尾节点</span></span><br><span class="line">        <span class="keyword">while</span>(front != <span class="keyword">null</span> &amp;&amp; front.next != <span class="keyword">null</span>)&#123;</span><br><span class="line">            front = front.next;</span><br><span class="line">            back = back.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4 这里得到的back就是预期删除的节点的前一个节点</span></span><br><span class="line">        <span class="comment">// 执行删除</span></span><br><span class="line">        back.next = back.next.next;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> dummy.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="启示"><a href="#启示" class="headerlink" title="启示"></a>启示</h4><p>1 代码的鲁棒性编码在实现了基本功能后，再进行添加；</p>
-<p>2 对于循环执行次数已知的情况，使用for语法来实现循环——这样能避免令人纠结的循环执行/终止条件；</p>
-<p>3 编写while循环执行表达式的参考：节点的最终状态； &amp;  避免代码中的NPE；</p>
 ]]></content>
       <categories>
         <category>ListNode</category>
