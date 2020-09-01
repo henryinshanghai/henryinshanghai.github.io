@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=EB+Garamond:300,300italic,400,400italic,700,700italic|Roboto+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1.0.2/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"henryinshanghai.github.io","root":"/","scheme":"Muse","version":"8.0.0-rc.5","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"path":"search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+
+  <meta name="description" content="关于线程池的初印象由于接触到的项目都简单到只是CRUD，我并没有直接编码使用过线程池。所以感觉上非常生疏，甚至在被打击了一次之后，现在仍然觉得它就是个绣花枕头…">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一次面试（字节跳动）_java基础之线程池">
+<meta property="og:url" content="https://henryinshanghai.github.io/interview/2020/08/28/interview/20200826-%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%9D%A2%E8%AF%95%EF%BC%88%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%EF%BC%89_java%E5%9F%BA%E7%A1%80%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0.html">
+<meta property="og:site_name" content="Henry&#39;s blog">
+<meta property="og:description" content="关于线程池的初印象由于接触到的项目都简单到只是CRUD，我并没有直接编码使用过线程池。所以感觉上非常生疏，甚至在被打击了一次之后，现在仍然觉得它就是个绣花枕头…">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-08-28T02:30:00.000Z">
+<meta property="article:modified_time" content="2020-09-01T02:51:43.298Z">
+<meta property="article:author" content="henryInSH">
+<meta property="article:tag" content="Algorithm">
+<meta property="article:tag" content="Java stuff">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://henryinshanghai.github.io/interview/2020/08/28/interview/20200826-%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%9D%A2%E8%AF%95%EF%BC%88%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%EF%BC%89_java%E5%9F%BA%E7%A1%80%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0.html">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>记一次面试（字节跳动）_java基础之线程池 | Henry's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Henry's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Henry's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">focus works better than curiosity</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#关于线程池的初印象"><span class="nav-number">1.</span> <span class="nav-text">关于线程池的初印象</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#预备知识：池化技术"><span class="nav-number">1.1.</span> <span class="nav-text">预备知识：池化技术</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Java中的多线程与线程池"><span class="nav-number">1.2.</span> <span class="nav-text">Java中的多线程与线程池</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#创建线程类的三种手段"><span class="nav-number">1.2.1.</span> <span class="nav-text">创建线程类的三种手段</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#线程类的用法（启动）"><span class="nav-number">1.2.2.</span> <span class="nav-text">线程类的用法（启动）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#线程类的特征"><span class="nav-number">1.2.3.</span> <span class="nav-text">线程类的特征</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#线程的分类"><span class="nav-number">1.2.4.</span> <span class="nav-text">线程的分类</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#线程池的使用"><span class="nav-number">1.2.5.</span> <span class="nav-text">线程池的使用</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#自定义线程池"><span class="nav-number">1.2.6.</span> <span class="nav-text">自定义线程池</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#在SpringBoot中使用线程池"><span class="nav-number">1.2.7.</span> <span class="nav-text">在SpringBoot中使用线程池</span></a></li></ol></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="henryInSH"
+      src="/images/myAvator.jpeg">
+  <p class="site-author-name" itemprop="name">henryInSH</p>
+  <div class="site-description" itemprop="description">collection & catagory & refine</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/henryinshanghai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;henryinshanghai" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2291972433@qq.com" title="E-Mail → mailto:2291972433@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/CyC2018/CS-Notes/blob/master/notes/Leetcode%20%E9%A2%98%E8%A7%A3%20-%20%E7%9B%AE%E5%BD%95.md" title="https:&#x2F;&#x2F;github.com&#x2F;CyC2018&#x2F;CS-Notes&#x2F;blob&#x2F;master&#x2F;notes&#x2F;Leetcode%20%E9%A2%98%E8%A7%A3%20-%20%E7%9B%AE%E5%BD%95.md" rel="noopener" target="_blank">Leecode刷题目录</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.showdoc.cc/" title="https:&#x2F;&#x2F;www.showdoc.cc&#x2F;" rel="noopener" target="_blank">在线Api文档</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.processon.com/" title="https:&#x2F;&#x2F;www.processon.com&#x2F;" rel="noopener" target="_blank">在线作图</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.atool9.com/colorpicker.php" title="http:&#x2F;&#x2F;www.atool9.com&#x2F;colorpicker.php" rel="noopener" target="_blank">在线颜色选择器</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.iconfont.cn/" title="https:&#x2F;&#x2F;www.iconfont.cn&#x2F;" rel="noopener" target="_blank">阿里巴巴矢量图标</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.ubuuk.com/" title="https:&#x2F;&#x2F;www.ubuuk.com&#x2F;" rel="noopener" target="_blank">设计</a>
+        </li>
+    </ul>
+  </div>
+
+      </section>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://henryinshanghai.github.io/interview/2020/08/28/interview/20200826-%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%9D%A2%E8%AF%95%EF%BC%88%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%EF%BC%89_java%E5%9F%BA%E7%A1%80%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myAvator.jpeg">
+      <meta itemprop="name" content="henryInSH">
+      <meta itemprop="description" content="collection & catagory & refine">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Henry's blog">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          记一次面试（字节跳动）_java基础之线程池
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-28 10:30:00" itemprop="dateCreated datePublished" datetime="2020-08-28T10:30:00+08:00">2020-08-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-01 10:51:43" itemprop="dateModified" datetime="2020-09-01T10:51:43+08:00">2020-09-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/interview/" itemprop="url" rel="index"><span itemprop="name">interview</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/interview/2020/08/28/interview/20200826-%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%9D%A2%E8%AF%95%EF%BC%88%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%EF%BC%89_java%E5%9F%BA%E7%A1%80%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0.html" class="post-meta-item leancloud_visitors" data-flag-title="记一次面试（字节跳动）_java基础之线程池" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="far fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+              <span>℃</span>
+            </span>
+            <span class="post-meta-item" title="热度" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="far fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/interview/2020/08/28/interview/20200826-%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%9D%A2%E8%AF%95%EF%BC%88%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%EF%BC%89_java%E5%9F%BA%E7%A1%80%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/interview/2020/08/28/interview/20200826-%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%9D%A2%E8%AF%95%EF%BC%88%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%EF%BC%89_java%E5%9F%BA%E7%A1%80%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+              <span class="post-meta-item-text">本文字数：</span>
+              <span>4.9k</span>字
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+              <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>分钟
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="关于线程池的初印象"><a href="#关于线程池的初印象" class="headerlink" title="关于线程池的初印象"></a>关于线程池的初印象</h4><p>由于接触到的项目都简单到只是CRUD，我并没有直接编码使用过线程池。所以感觉上非常生疏，甚至在被打击了一次之后，现在仍然觉得它就是个绣花枕头…</p>
+<a id="more"></a>
+
+<h5 id="预备知识：池化技术"><a href="#预备知识：池化技术" class="headerlink" title="预备知识：池化技术"></a>预备知识：池化技术</h5><ul>
+<li>参考：<a href="https://mp.weixin.qq.com/s/_wP3w2sm0qzBaGC5O6heAg">能看得懂的文章</a></li>
+<li>是：一种通用的技术思想；</li>
+<li>作用：提前准备一些资源，以应对紧急的需求（紧急响应组）；</li>
+<li>特征：<ul>
+<li>提前准备资源（节省临时创建线程的开销）；</li>
+<li>这些资源可以重复使用；</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>知识卡：Java对象创建的过程；</p>
+<ul>
+<li>1 根据代码中<em>new关键字后面的参数</em>来在JVM常量池中找到<em>类的符号引用</em>；</li>
+<li>2 如果没有找到，就把类的class文件加载到JVM中；</li>
+<li>3 类加载完成后，JVM会执行一系列的操作：<ul>
+<li>在堆空间中分配内存空间；</li>
+<li>把分配的空间初始化为0[预初始化,尽量避免NPE]；</li>
+<li>建立对象头的描述结构[<strong>耗时操作，因为在更新堆内存的状态</strong>]；</li>
+</ul>
+</li>
+<li>4 调用对象的初始化方法，完成实例真正的初始化[<strong>耗时操作,因为有一系列的校验过程</strong>]；</li>
+</ul>
+<p>anyway, 创建一个类的实例对象是一个很耗时的过程；BUT,这和池化技术有什么关系呢？</p>
+</blockquote>
+<ul>
+<li><p>应用：</p>
+<ul>
+<li><p>线程池；</p>
+<p>原理：把线程池当作紧急响应组；</p>
+<ul>
+<li>池子中有多个沉睡的线程；</li>
+<li>如果客户端来了一个请求，则唤醒池子中的一个线程；</li>
+<li>线程对请求进行处理；</li>
+<li>处理完成后，线程回到池子里继续睡觉；</li>
+</ul>
+<p>作用：在高并发的场景中，避免所有的CPU资源都耗费在创建线程的工作上（线程才能真正地处理请求）。</p>
+</li>
+<li><p>内存池；</p>
+</li>
+<li><p>数据库连接池等</p>
+</li>
+</ul>
+</li>
+<li><p>验证：使用线程池比起临时创建线程更高效；</p>
+<ul>
+<li><p>手段：创建两个方法，方法1使用线程池执行任务A，方法2临时创建线程执行任务A。比较方法1与方法2的执行耗时；</p>
+</li>
+<li><p>线程的用法；</p>
+<ul>
+<li><p>创建线程对象，创建时传入任务对象（任务类本身也是一个线程）；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Thread td = <span class="keyword">new</span> Thread(<span class="keyword">new</span> PerformanceRunnable()); <span class="comment">// 把要执行的任务添加到线程中</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>- 启动线程;
+
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">td.start();</span><br></pre></td></tr></table></figure>
+
+
+
+- 等待线程执行完成；
+
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">td.join(); <span class="comment">// 确保线程执行完成</span></span><br></pre></td></tr></table></figure></code></pre><ul>
+<li><p>线程池的用法；</p>
+<ul>
+<li><p>创建线程池对象（构造方法有5个参数😄）；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ThreadPoolExecutor tp = <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">10</span>, <span class="number">10</span>, <span class="number">0</span>,</span><br><span class="line">                TimeUnit.SECONDS, <span class="keyword">new</span> LinkedBlockingDeque&lt;&gt;());</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用线程池对象来执行任务；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tp.execute(<span class="keyword">new</span> PerformanceRunnable());</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>关停线程池对象；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tp.shutdown(); <span class="comment">// 为什么任务还没有执行完，就要调用shutdown()?</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>等待线程池执行完成；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tp.awaitTermination(<span class="number">1</span>, TimeUnit.SECONDS);  <span class="comment">// 等待线程池执行完成</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>运行耗时结果；</p>
+<blockquote>
+<p>线程执行时长：418 毫秒.<br>线程池执行时长：38 毫秒.</p>
+</blockquote>
+</li>
+<li><p>结论：使用线程池能够大幅地提高程序性能；</p>
+</li>
+</ul>
+<hr>
+<h5 id="Java中的多线程与线程池"><a href="#Java中的多线程与线程池" class="headerlink" title="Java中的多线程与线程池"></a>Java中的多线程与线程池</h5><ul>
+<li>应用场景：为了提高性能往往会在主线程里面开启一个新线程去执行；</li>
+<li>事实：开启线程需要消耗很多资源；</li>
+<li>issue：如果用户量上涨，如果每次任务都创建一个新的线程。服务器表示压力很大…</li>
+<li>手段：使用线程池来预先创建线程，作为备用军团；</li>
+</ul>
+<h6 id="创建线程类的三种手段"><a href="#创建线程类的三种手段" class="headerlink" title="创建线程类的三种手段"></a>创建线程类的三种手段</h6><ul>
+<li>1 继承Thread类；</li>
+<li>2 实现Runnable接口；</li>
+<li>3 实现Callable接口；</li>
+</ul>
+<h6 id="线程类的用法（启动）"><a href="#线程类的用法（启动）" class="headerlink" title="线程类的用法（启动）"></a>线程类的用法（启动）</h6><ul>
+<li><p>如果是通过继承Thread类来创建的线程…</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  通过继承 thread 类</span></span><br><span class="line">Mytheard1 thread1 =  <span class="keyword">new</span> Mytheard1();</span><br><span class="line">thread1.start();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果是通过实现Runnable接口来创建的线程…</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  通过实现 runnable 接口</span></span><br><span class="line">Thread thread2 = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Mytheard2()); <span class="comment">// 把实例作为Thread构造器的参数</span></span><br><span class="line">thread2.start();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果是通过实现Callable接口来创建的线程…</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  通过实现 callable 接口</span></span><br><span class="line">Mytheard3 th = <span class="keyword">new</span> Mytheard3();</span><br><span class="line">FutureTask&lt;Integer&gt; result = <span class="keyword">new</span> FutureTask&lt;&gt;(th); <span class="comment">// 把实例作为FutureTask构造器的参数</span></span><br><span class="line"><span class="keyword">new</span> Thread(result).start(); <span class="comment">// 把task对象再作为Thread构造器的参数</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h6 id="线程类的特征"><a href="#线程类的特征" class="headerlink" title="线程类的特征"></a>线程类的特征</h6><ul>
+<li>1 不会直接调用自定义线程类中的run()方法；</li>
+<li>2 而是调用Thread类型对象的start()方法；<ul>
+<li>原理：Thread实例对象的start()方法，会调用本地系统方法，并最终导致自定义线程类的run()方法被调用；</li>
+</ul>
+</li>
+</ul>
+<h6 id="线程的分类"><a href="#线程的分类" class="headerlink" title="线程的分类"></a>线程的分类</h6><ul>
+<li><p>1 守护线程；</p>
+<ul>
+<li><p>任务：设置一个线程为守护线程；</p>
+</li>
+<li><p>手段：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">thread.setDaemon(<span class="keyword">true</span>)；</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>特征：</p>
+<ul>
+<li>1 必须在start()方法被调用之前完成set操作（否则会抛出异常）；</li>
+<li>2 在守护线程中开启的新线程也是守护线程；</li>
+</ul>
+</li>
+<li><p>作用：为所有的非守护进程提供守护服务；</p>
+</li>
+<li><p>应用：JVM中的垃圾回收(GC)线程；</p>
+</li>
+</ul>
+</li>
+<li><p>2 用户线程/非守护线程；</p>
+<ul>
+<li><p>特征：</p>
+<ul>
+<li>Java线程默认是非守护线程；</li>
+<li>主线程运行结束后，如果主线程中还有非守护线程，则JVM就不会退出；</li>
+<li>只有在所有的非守护线程执行完成后，JVM才会退出。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>JVM退出时，只会考虑非守护线程的状态；</p>
+</blockquote>
+<h6 id="线程池的使用"><a href="#线程池的使用" class="headerlink" title="线程池的使用"></a>线程池的使用</h6><ul>
+<li>场景：如果有多个并发同时访问主线程,而主线程中又创建了多个子线程。则创建线程的开销巨大;</li>
+<li>解决手段：使用线程池来提前预备线程，避免短时间大量创建线程的情形；</li>
+<li>作用：<ul>
+<li>1 减少在创建和销毁线程上所花的时间以及系统资源的开销;</li>
+<li>2 如不使用线程池，有可能造成系统创建大量线程而导致消耗完系统内存;</li>
+</ul>
+</li>
+</ul>
+<h6 id="自定义线程池"><a href="#自定义线程池" class="headerlink" title="自定义线程池"></a>自定义线程池</h6><ul>
+<li><p>手段：</p>
+<ul>
+<li><p>1 自定义类型中持有具体的线程池类型；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyPool</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> MyPool myPool = <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">//单例线程池中有两种具体的线程池</span></span><br><span class="line">    <span class="keyword">private</span> ThreadPoolExecutor threadPool = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">private</span> ScheduledThreadPoolExecutor scheduledPool = <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2 以实例变量的方式来设置线程池的各项参数的大小；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//设置线程池的各个参数的大小</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> corePoolSize = <span class="number">10</span>;<span class="comment">// 池中所保存的线程数，包括空闲线程。</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> maximumPoolSize = <span class="number">20</span>;<span class="comment">// 池中允许的最大线程数。</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> keepAliveTime = <span class="number">3</span>;<span class="comment">// 当线程数大于核心时，此为终止前多余的空闲线程等待新任务的最长时间。</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> scheduledPoolSize = <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3 在私有的构造方法中：</p>
+<ul>
+<li>实例化线程池；</li>
+<li>实例化“计划任务线程池”；</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="title">MyPool</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="comment">//实例化线程池，这里使用的 LinkedBlockingQueue 作为 workQueue ，使用 DiscardOldestPolicy 作为 handler</span></span><br><span class="line">	<span class="keyword">this</span>.threadPool = <span class="keyword">new</span> ThreadPoolExecutor(corePoolSize, maximumPoolSize,</span><br><span class="line">			keepAliveTime, TimeUnit.SECONDS,</span><br><span class="line">			<span class="keyword">new</span> LinkedBlockingQueue&lt;&gt;(),</span><br><span class="line">			<span class="keyword">new</span> ThreadPoolExecutor.CallerRunsPolicy());<span class="comment">//不在新线程中执行任务，而是由调用者所在的线程来执行</span></span><br><span class="line">	<span class="comment">//实例化计划任务线程池</span></span><br><span class="line">	<span class="keyword">this</span>.scheduledPool = <span class="keyword">new</span> ScheduledThreadPoolExecutor(scheduledPoolSize);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>4 定义静态方法，返回线程池对象：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> MyPool <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (myPool == <span class="keyword">null</span>)</span><br><span class="line">    create();</span><br><span class="line">    <span class="keyword">return</span> myPool;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>创建线程池时传入的参数说明：</p>
+<ul>
+<li>1 <code>corePoolSize（int）</code>：线程池中保持的线程数量，包括空闲线程在内。</li>
+<li>2 <code>maximumPoolSize（int）</code>: 线程池中能够容纳最大线程数量；</li>
+<li>3 <code>keepAliveTime(long)</code>：当线程池中线程数量大于 corePoolSize 的时候,空闲线程保持在线程池中的时间;</li>
+<li>4 <code>unit(TimeUnit枚举类)</code>: 上面参数时间的单位，可以是分钟，秒，毫秒等等;</li>
+<li>5 <code>workQueue（BlockingQueue）</code>: 任务队列；<ul>
+<li>作用：当线程任务提交到线程池以后…<ul>
+<li>1 首先放入队列中;</li>
+<li>2 然后线程池按照该任务队列依次执行相应的任务;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>6 <code>threadFactory(ThreadFactory类)</code>: 新线程产生工厂类;</li>
+<li>7 <code>handler（RejectedExecutionHandler类）</code>: 当提交线程拒绝执行、异常的时候，处理异常的类;<ul>
+<li>取值范围：<ul>
+<li>AbortPolicy：丢弃任务并抛出异常；</li>
+<li>DiscardPolicy：丢弃任务但是不抛出异常；</li>
+<li>DiscardOldestPolicy：丢弃队列最前面的任务，然后重新尝试执行任务；</li>
+<li>CallerRunsPolicy：由调用线程处理该任务（？？？）；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>用法：获取线程池，并向其中添加任务；</p>
+<ul>
+<li><p>1 获取到线程池对象；</p>
+<ul>
+<li><p>手段1：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ThreadPoolExecutor pool1 = (ThreadPoolExecutor) Executors.newCachedThreadPool(); <span class="comment">// 调用Executors类的newCachedThreadPool()方法</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>手段2：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ThreadPoolExecutor pool2 = MyPool.getInstance().getThreadPool(); <span class="comment">// 自定义类的静态方法</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>2 调用线程池对象的execute()方法执行指定的任务;</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">pool1.execute(() -&gt; System.out.println(<span class="string">"快捷线程池中的线程！"</span>));</span><br><span class="line"></span><br><span class="line">pool2.execute(() -&gt; &#123;</span><br><span class="line">            System.out.println(<span class="string">"pool2 普通线程池中的线程！"</span>);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Thread.sleep(<span class="number">30</span>*<span class="number">1000</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;); <span class="comment">// 使用lambda表达式来表示待执行的任务</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3 打印线程池的状态信息；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(<span class="string">"pool2 poolSize:"</span>+pool2.getPoolSize()); <span class="comment">// </span></span><br><span class="line">System.out.println(<span class="string">"pool2 corePoolSize:"</span>+pool2.getCorePoolSize()); <span class="comment">// 核心线程数</span></span><br><span class="line">System.out.println(<span class="string">"pool2 largestPoolSize:"</span>+pool2.getLargestPoolSize()); <span class="comment">// </span></span><br><span class="line">System.out.println(<span class="string">"pool2 maximumPoolSize:"</span>+pool2.getMaximumPoolSize()); <span class="comment">// ？？？</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>JDK中提供的几种常用线程池</p>
+<ul>
+<li><code>newFixedThreadPool</code> 创建固定大小数量线程池；</li>
+<li><code>newSingleThreadExecutor</code> 创建容量为1的线程池——所有的线程依次执行；</li>
+<li><code>newCachedThreadPool</code> 创建可缓存的线程池；<ul>
+<li>特征：<ul>
+<li>1 没有最大线程限制；</li>
+<li>2 如果空闲线程等待时间超过1分钟，就关闭此线程；</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>newScheduledThreadPool</code> 创建计划 (延迟) 任务线程池；<ul>
+<li>特征：可以设置线程池中线程的执行状态；<ul>
+<li>1 使线程在特定的延迟时间后执行；</li>
+<li>2 使线程周期性地执行；（作用等同于Timer）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="在SpringBoot中使用线程池"><a href="#在SpringBoot中使用线程池" class="headerlink" title="在SpringBoot中使用线程池"></a>在SpringBoot中使用线程池</h6><p>​    this is for further practice.</p>
+<blockquote>
+<p>全是文字，写着写着就没劲了。因为没有推理的过程，就只是照本宣科地陈列规则。<br>Plus,为什么一个构造方法需要有7个参数 OMG 🙃</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+            -------------本文结束
+            <i class="fa fa-paw"></i>
+            感谢您的阅读-------------
+        </div>
+    
+</div>
+        
+      
+
+      
+        
+          
+        
+      
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              
+              <a href="/tags/Algorithm/" rel="tag"><i class="fa fa-tag"></i> Algorithm</a>
+              
+              
+              <a href="/tags/Java-stuff/" rel="tag"><i class="fa fa-tag"></i> Java stuff</a>
+              
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/interview/2020/08/28/interview/%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%9D%A2%E8%AF%95%EF%BC%88%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%EF%BC%89_%E5%90%8E%E7%BB%AD.html" rel="prev" title="记一次面试（字节跳动）_后续">
+                  <i class="fa fa-chevron-left"></i> 记一次面试（字节跳动）_后续
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+      
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">henryInSH</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">66k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:01</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      const visitors = document.querySelector('.leancloud_visitors');
+      const url = decodeURI(visitors.id);
+      const title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            const counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      const visitors = document.querySelectorAll('.leancloud_visitors');
+      const entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            const target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    const { app_id, app_key, server_url } = {"enable":true,"app_id":"UniIgz3JDa7i7uw8D3N3lo3o-gzGzoHsz# <your app id>","app_key":"X24wntmAxHx5dzjdEq87nF2H# <your app key>","server_url":null,"security":true};
+    function fetchData(api_server) {
+      const Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    const api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+  
+
+  
+<script>
+NexT.utils.loadComments('#valine-comments', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: location.pathname,
+    }, {"enable":true,"appId":"UniIgz3JDa7i7uw8D3N3lo3o-gzGzoHsz","appKey":"X24wntmAxHx5dzjdEq87nF2H","placeholder":"Just go go","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":false,"serverURLs":null,"enableQQ":false,"requiredFields":[]}
+    ));
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

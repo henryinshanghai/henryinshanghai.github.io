@@ -220,7 +220,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-count">36</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -297,6 +297,134 @@
       
 
       
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://henryinshanghai.github.io/uncategorized/2020/05/05/Spring%E5%88%9D%E4%BD%93%E9%AA%8C.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myAvator.jpeg">
+      <meta itemprop="name" content="henryInSH">
+      <meta itemprop="description" content="collection & catagory & refine">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Henry's blog">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/uncategorized/2020/05/05/Spring%E5%88%9D%E4%BD%93%E9%AA%8C.html" class="post-title-link" itemprop="url">Spring初体验</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-05-05 01:04:35 / 修改时间：01:09:16" itemprop="dateCreated datePublished" datetime="2020-05-05T01:04:35+08:00">2020-05-05</time>
+            </span>
+
+          
+            <span id="/uncategorized/2020/05/05/Spring%E5%88%9D%E4%BD%93%E9%AA%8C.html" class="post-meta-item leancloud_visitors" data-flag-title="Spring初体验" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="far fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+              <span>℃</span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/uncategorized/2020/05/05/Spring%E5%88%9D%E4%BD%93%E9%AA%8C.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/uncategorized/2020/05/05/Spring%E5%88%9D%E4%BD%93%E9%AA%8C.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+              <span class="post-meta-item-text">本文字数：</span>
+              <span>2.1k</span>字
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+              <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>分钟
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="Spring初体验"><a href="#Spring初体验" class="headerlink" title="Spring初体验"></a>Spring初体验</h3><hr>
+<p>降低bean之间的耦合程度：DI</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> 在配置文件中装配/声明bean之间的关系：</span><br><span class="line">    定义应用的多个组件之间的依赖关系/协作关系；</span><br><span class="line">Spring中实现装配的方式：</span><br><span class="line">    <span class="number">1</span> 使用XML配置文件；</span><br><span class="line">    参考：knight.xml</span><br><span class="line">    <span class="number">2</span> 使用java类来描述配置；</span><br><span class="line">    参考：KnightConfig.java</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span> 装载XML配置文件到Spring容器/上下文，然后启动应用</span><br><span class="line">任务：装载<span class="keyword">bean的定义到Spring容器并把多个bean按照指定关系组装起来；</span></span><br><span class="line"><span class="keyword">Spring提供的手段：应用上下文（Application </span>Context）；</span><br><span class="line">说明：Spring提供了多种应用上下文的具体实现————这些实现对应于不同的配置方式<span class="comment">;</span></span><br><span class="line">参考：KnightMain.java</span><br><span class="line">    Ⅰ 加载配置文件到应用上下文实例中</span><br><span class="line">    Ⅱ 从应用上下文实例中获取到配置的指定<span class="keyword">bean</span></span><br><span class="line"><span class="keyword"> </span>   Ⅲ 调用<span class="keyword">bean的方法</span></span><br><span class="line"><span class="keyword"> </span>   Ⅳ 关闭上下文对象</span><br><span class="line"></span><br><span class="line">装配的过程是使用DI实现的——DI能够使各个组件保持松散耦合</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">3</span> <span class="string">专注于业务逻辑————分离出横切关注点（面向切面编程）</span></span><br><span class="line"><span class="meta">常见的横切关注点（aka</span> <span class="string">大家都会用到的功能，最好能够单独提取出来。被所有方法复用）：</span></span><br><span class="line">    <span class="attr">1</span> <span class="string">日志；</span></span><br><span class="line">    <span class="attr">2</span> <span class="string">事务管理；</span></span><br><span class="line">    <span class="attr">3</span> <span class="string">安全；</span></span><br><span class="line"><span class="attr">手段：AOP；</span></span><br><span class="line"><span class="attr">用法：</span></span><br><span class="line">    <span class="attr">1</span> <span class="string">实现横切关注点；</span></span><br><span class="line">    <span class="attr">2</span> <span class="string">以声明的方式添加关注点/切面到指定连接点处；</span></span><br><span class="line"><span class="attr">特征：</span></span><br><span class="line">    <span class="attr">1</span> <span class="string">业务代码更加专注————代码中完全不需要处理任何的横切关注点；</span></span><br><span class="line">    <span class="attr">2</span> <span class="string">横切关注点可以添加在多个方法/连接点上；</span></span><br><span class="line"><span class="attr">参考：</span></span><br><span class="line">    <span class="attr">Minstrel</span> <span class="string">吟游诗人（一个POJO类）</span></span><br><span class="line">    <span class="attr">BraveKnight</span> <span class="string">游侠骑士</span></span><br><span class="line"><span class="attr">SOP</span>:<span class="string"></span></span><br><span class="line">    <span class="attr">1</span> <span class="string">把minstrel声明为一个切面；</span></span><br><span class="line">    <span class="attr">参考：minstrel.xml</span></span><br><span class="line">        <span class="meta">添加aop</span>:<span class="string">aspect命名空间</span></span><br><span class="line">        <span class="attr">添加bean到Spring管理</span></span><br><span class="line">        <span class="attr">添加bean的切面相关信息：</span></span><br><span class="line">            <span class="attr">切点（多个连接点）、前置通知、后置通知</span></span><br><span class="line">    <span class="attr">特征：</span></span><br><span class="line">        <span class="attr">1</span> <span class="string">Minstrel仍旧是一个POJO类；</span></span><br><span class="line">        <span class="attr">2</span> <span class="string">在XML配置后，这个POJO类就成了Spring中的一个切面；</span></span><br><span class="line">        <span class="attr">3</span> <span class="string">Minstrel与Knight之间没有任何相互调用的代码 aka 没有直接耦合</span></span><br><span class="line">        <span class="attr">由于配置文件的存在，Knight与Minstrel组件之间被解除耦合了</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Spring简化<span class="keyword">java开发第4弹————消除样板(boilerplate)代码；</span></span><br><span class="line"><span class="keyword">手段：Spring内置的模板</span></span><br><span class="line"><span class="keyword">说明：尽管java </span>APIs提供了统一的编程规范，但是它同样也产生了大量重复的<span class="keyword">boilerplate代码</span></span><br><span class="line"><span class="keyword">参考：使用java </span><span class="keyword">JDBC原生提供的APIs编写代码操作数据库 </span>VS. 使用Spring提供的模板来操作数据库</span><br><span class="line">注：一般在项目中会直接集成第三方的框架（MyBatis等）</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p> Spring容器</p>
+</blockquote>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">Spring</span>中的大管家：Spring容器</span><br><span class="line">作用：管理Spring中所有的<span class="keyword">bean对象（CRUD </span><span class="keyword">and </span>more~）</span><br><span class="line">特征：</span><br><span class="line">    <span class="number">1</span> Spring容器借助DI管理<span class="keyword">bean之间的关系；</span></span><br><span class="line"><span class="keyword"> </span>   <span class="number">2</span> Spring提供的容器实现有两种大类：<span class="keyword">beanFactory（基础容器） </span>VS. ApplicationContext（更高级的容器）</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Spring中应用上下文的具体实现：</span><br><span class="line">    说明：这些实现类的不同在于————加载应用上下文的方式不同</span><br><span class="line">    <span class="number">1</span> AnnotationConfigApplicationContext<span class="comment">;   加载应用上下文的方式：java配置类</span></span><br><span class="line">    <span class="number">2</span> AnnotationConfigWebApplicationContext<span class="comment">;    加载Web应用上下文？？？</span></span><br><span class="line">    <span class="number">3</span> ClassPathXmlApplicationContext<span class="comment">;       加载应用上下文的方式：类路径中的xml配置文件</span></span><br><span class="line">    <span class="number">4</span> FileSystemXmlApplicationContext<span class="comment">;      加载应用上下文的方式：文件系统中的xml配置文件</span></span><br><span class="line">    <span class="number">5</span> XmlWebApplicationContext<span class="comment">;     加载应用上下文的方式：Web应用中的xml配置文件</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">获取到应用上下文实例之后，如何使用这个容器来管理bean的声明周期呢？</span><br><span class="line">Spring容器管理下bean生命周期（比较费劲）：</span><br><span class="line">    <span class="number">1</span> 实例化；</span><br><span class="line">    <span class="number">2</span> 填充属性/初始化；</span><br><span class="line">    <span class="number">3</span> 调用BeanNameAware的setBeanName()方法；</span><br><span class="line">    <span class="number">4</span> 调用BeanFactoryAware的setBeanFactory()方法；</span><br><span class="line">    <span class="number">5</span> 调用ApplicationContextAware的setApplicationContext()方法；</span><br><span class="line">    ---</span><br><span class="line">    <span class="number">6</span> 调用BeanPostProcessor的预初始化方法；</span><br><span class="line">    <span class="number">7</span> 调用InitializingBean的afterPropertiesSet()方法；</span><br><span class="line">    <span class="number">8</span> 调用自定义的初始化方法；</span><br><span class="line">    <span class="number">9</span> 调用BeanPostProcessor的后初始化方法；</span><br><span class="line">    --- bean能够正常使用了</span><br><span class="line">    <span class="number">10</span> 容器关闭时，调用DisposableBean的destroy()方法</span><br><span class="line">    <span class="number">11</span> 调用自定义的销毁方法</span><br><span class="line">    注：程序员还可以根据自己需要再添加新的生命阶段</span><br></pre></td></tr></table></figure>
+
+
+
+<p>源码备注：<a href="https://www.manning.com/books/spring-in-action-fourth-edition">https://www.manning.com/books/spring-in-action-fourth-edition</a></p>
+<p>注：使用Gradle工具构建的项目，可能会踩一些莫名其妙的坑。这时候你需要了解一下Gradle的用法</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -935,13 +1063,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">61k</span>
+    <span title="站点总字数">66k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">56 分钟</span>
+    <span title="站点阅读时长">1:01</span>
   </span>
 </div>
 <div class="busuanzi-count">
