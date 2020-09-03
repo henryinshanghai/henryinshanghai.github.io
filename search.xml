@@ -23,7 +23,7 @@
 <li>1 默认的初始容量为16；</li>
 <li>2 默认的装载因子为0.75;</li>
 <li>3 只有在链表中的节点数量 &gt; =8 并且 HashMap中的键值对数量 &gt; 64时，才会对链表进行树化；</li>
-<li>4 当树化与扩容冲突时，应该优先扩容。这样能够从更高层面解决问题</li>
+<li>4 当树化与扩容冲突时，应该优先扩容。这样能够从更高层面解决问题；</li>
 </ul>
 <h5 id="原理（存储键值对的过程）"><a href="#原理（存储键值对的过程）" class="headerlink" title="原理（存储键值对的过程）"></a>原理（存储键值对的过程）</h5><ul>
 <li>1 计算key-value中key的散列值；</li>
@@ -125,7 +125,7 @@
 </li>
 </ul>
 <p>三者之间的关系：threshold = initialCapacity * loadFactor;</p>
-<h5 id="核心APIs"><a href="#核心APIs" class="headerlink" title="核心APIs"></a>核心APIs</h5><h6 id="从键值对集合中查询；"><a href="#从键值对集合中查询；" class="headerlink" title="从键值对集合中查询；"></a>从键值对集合中查询；</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> V <span class="title">get</span><span class="params">(Object key)</span> </span>&#123;</span><br><span class="line">        Node&lt;K,V&gt; e;</span><br><span class="line">    	<span class="comment">// 计算key的hash值，并作为参数传入getNode()方法中</span></span><br><span class="line">        <span class="keyword">return</span> (e = getNode(hash(key), key)) == <span class="keyword">null</span> ? <span class="keyword">null</span> : e.value;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="核心APIs"><a href="#核心APIs" class="headerlink" title="核心APIs"></a>核心APIs</h5><h6 id="从键值对集合中查询；（get-方法）"><a href="#从键值对集合中查询；（get-方法）" class="headerlink" title="从键值对集合中查询；（get()方法）"></a>从键值对集合中查询；（get()方法）</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> V <span class="title">get</span><span class="params">(Object key)</span> </span>&#123;</span><br><span class="line">        Node&lt;K,V&gt; e;</span><br><span class="line">    	<span class="comment">// 计算key的hash值，并作为参数传入getNode()方法中</span></span><br><span class="line">        <span class="keyword">return</span> (e = getNode(hash(key), key)) == <span class="keyword">null</span> ? <span class="keyword">null</span> : e.value;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> Node&lt;K,V&gt; <span class="title">getNode</span><span class="params">(<span class="keyword">int</span> hash, Object key)</span> </span>&#123;</span><br><span class="line">    	<span class="comment">// 准备需要的局部变量：tab-散列数组； first、e-节点、n-散列数组的长度、k-键的类型；</span></span><br><span class="line">        Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; first, e; <span class="keyword">int</span> n; K k;</span><br><span class="line">    	<span class="comment">// 如果散列数组不为空 &amp;&amp; key映射到的桶不为空...</span></span><br><span class="line">    	<span class="comment">// 任务：求出key所映射到的桶；	手段1：hash % n	手段2：(n-1) &amp; hash</span></span><br><span class="line">    	<span class="comment">// 说明：只有在n等于2的乘方时，才会有： hash % n &lt;=&gt; (n-1) &amp; hash</span></span><br><span class="line">        <span class="keyword">if</span> ((tab = table) != <span class="keyword">null</span> &amp;&amp; (n = tab.length) &gt; <span class="number">0</span> &amp;&amp;</span><br><span class="line">            (first = tab[(n - <span class="number">1</span>) &amp; hash]) != <span class="keyword">null</span>) &#123;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 判断桶中的第一个节点是不是待查找的键值对</span></span><br><span class="line">            <span class="comment">// 手段：1 判断节点的hash值与key的hash值是否相等； 2 判断节点的key与key是否相等</span></span><br><span class="line">            <span class="keyword">if</span> (first.hash == hash &amp;&amp; <span class="comment">// always check first node</span></span><br><span class="line">                ((k = first.key) == key || (key != <span class="keyword">null</span> &amp;&amp; key.equals(k))))</span><br><span class="line">                <span class="keyword">return</span> first;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 否则，从桶中继续查找</span></span><br><span class="line">            <span class="keyword">if</span> ((e = first.next) != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">// 判断桶中的节点是不是树节点...</span></span><br><span class="line">                <span class="keyword">if</span> (first <span class="keyword">instanceof</span> TreeNode)</span><br><span class="line">                    <span class="keyword">return</span> ((TreeNode&lt;K,V&gt;)first).getTreeNode(hash, key);</span><br><span class="line">                <span class="comment">// 否则，桶中一定是一个链表</span></span><br><span class="line">                <span class="comment">// 遍历链表进行查找</span></span><br><span class="line">                <span class="keyword">do</span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> (e.hash == hash &amp;&amp;</span><br><span class="line">                        ((k = e.key) == key || (key != <span class="keyword">null</span> &amp;&amp; key.equals(k))))</span><br><span class="line">                        <span class="keyword">return</span> e;</span><br><span class="line">                &#125; <span class="keyword">while</span> ((e = e.next) != <span class="keyword">null</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    	<span class="comment">// 都没能找到，则返回null</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
@@ -157,7 +157,7 @@
 </ul>
 </li>
 </ul>
-<h6 id="遍历HashMap中所有的key-value"><a href="#遍历HashMap中所有的key-value" class="headerlink" title="遍历HashMap中所有的key-value"></a>遍历HashMap中所有的key-value</h6><p><font size=3>注:遍历的操作分为两步——1 获取到键集合 / 键值对Entry集合； 2 使用迭代器模式来遍历键值对；</font></p>
+<h6 id="遍历HashMap中所有的key-value-（keySet-方法）"><a href="#遍历HashMap中所有的key-value-（keySet-方法）" class="headerlink" title="遍历HashMap中所有的key-value （keySet()方法）"></a>遍历HashMap中所有的key-value （keySet()方法）</h6><p><font size=3>注:遍历的操作分为两步——1 获取到键集合 / 键值对Entry集合； 2 使用迭代器模式来遍历键值对；</font></p>
 <blockquote>
 <p>用法</p>
 </blockquote>
@@ -200,7 +200,7 @@
 <p>举例：key=43 43%16=11.所以该key-value会存储在编号为11的桶中</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HashMapDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span> <span class="comment">// 因为IDEA的集成工作做得太棒了，有时候你真弄不清楚到底是谁完成了哪些工作...😳</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testTraversal</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        HashMap&lt;Integer, String&gt; map = <span class="keyword">new</span> HashMap(<span class="number">16</span>);</span><br><span class="line">        <span class="comment">// 可以预见这些key-value会被映射到什么地方吗？</span></span><br><span class="line">        map.put(<span class="number">7</span>, <span class="string">""</span>);</span><br><span class="line">        map.put(<span class="number">11</span>, <span class="string">""</span>);</span><br><span class="line">        map.put(<span class="number">43</span>, <span class="string">""</span>);</span><br><span class="line">        map.put(<span class="number">59</span>, <span class="string">""</span>);</span><br><span class="line">        map.put(<span class="number">19</span>, <span class="string">""</span>);</span><br><span class="line">        map.put(<span class="number">3</span>, <span class="string">""</span>);</span><br><span class="line">        map.put(<span class="number">35</span>, <span class="string">""</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"遍历结果："</span>);</span><br><span class="line">        <span class="keyword">for</span> (Integer key : map.keySet()) &#123;</span><br><span class="line">            System.out.print(key + <span class="string">" -&gt; "</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="comment">// 预期输出结果：19 -&gt; 3 -&gt; 35 -&gt; 7 -&gt; 11 -&gt; 43 -&gt; 59 -&gt; </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h6 id="向容器中插入新的key-value"><a href="#向容器中插入新的key-value" class="headerlink" title="向容器中插入新的key-value"></a>向容器中插入新的key-value</h6><blockquote>
+<h6 id="向容器中插入新的key-value（input-方法）"><a href="#向容器中插入新的key-value（input-方法）" class="headerlink" title="向容器中插入新的key-value（input()方法）"></a>向容器中插入新的key-value（input()方法）</h6><blockquote>
 <p>流程</p>
 </blockquote>
 <ul>
@@ -219,8 +219,10 @@
 <p><font size=3>源码中有很多保证健壮性的代码，但它们不是核心代码，可以跳过</font></p>
 <p><img src="https://s1.ax1x.com/2020/09/02/wpwKl8.jpg" alt="put添加key-value的过程"></p>
 <p>这里比较困惑的是找到key相同的节点后，源码把找到的节点存储到了变量e中；</p>
-<p>其实只需要明确一点，如果找到了key相同的节点，接下来肯定需要执行覆盖操作，具体的手段就要看源码的具体实现了。</p>
-<h6 id="对散列表进行扩容操作"><a href="#对散列表进行扩容操作" class="headerlink" title="对散列表进行扩容操作"></a>对散列表进行扩容操作</h6><blockquote>
+<p>其实只需要明确一点，如果找到了key相同的节点，接下来肯定需要执行覆盖操作，具体的手段就要看源码的具体实现了（这里是使用变量e记录了已经存在的key-value，然后用新的value进行更新）。</p>
+<p><strong>注：覆盖旧值后，put()方法会把旧的value值返回给调用者</strong>👇</p>
+<p><img src="https://s1.ax1x.com/2020/09/03/wC3rxH.png" alt="覆盖旧值后，会把旧的value返回"></p>
+<h6 id="对散列表进行扩容操作（resize-）"><a href="#对散列表进行扩容操作（resize-）" class="headerlink" title="对散列表进行扩容操作（resize()）"></a>对散列表进行扩容操作（resize()）</h6><blockquote>
 <p>预备知识</p>
 </blockquote>
 <ul>
@@ -274,7 +276,7 @@
 <ul>
 <li>#A：<ul>
 <li>1 处理容器容量达到极限的情况； </li>
-<li>2 处理容器正常扩容的情况（可能导致newThr溢出归零）</li>
+<li>2 处理容器正常扩容的情况（但用户指定的loadFactor可能会导致移位/扩大两倍时发生溢出归零）</li>
 </ul>
 </li>
 </ul>
@@ -282,8 +284,8 @@
 <li><p>#Q：为什么需要第二个分支？</p>
 <ul>
 <li>#A：<ul>
-<li>第一个条件分支未计算 newThr ;</li>
-<li>嵌套分支在计算过程中导致 newThr 溢出归零的情况；</li>
+<li>第一个条件分支未计算 newThr的情况（当旧容量=0，而旧的阈值大于0时，分支中只是用旧阈值更新了newCap） ;</li>
+<li>嵌套分支在计算过程中导致 newThr 溢出归零的情况（这时候需要使用loadFactor * newCap的公式重新计算阈值）；</li>
 </ul>
 </li>
 </ul>
@@ -291,7 +293,59 @@
 <li><p>链表桶经过重新映射后，两条链表中的节点顺序并未发生变化，还是保持了扩容前的顺序。</p>
 </li>
 </ul>
-<h6 id="链表树化"><a href="#链表树化" class="headerlink" title="链表树化"></a>链表树化</h6><p>the details is overwhelming, so we’ll just jump into the conclusion.</p>
+<h6 id="桶中节点的重新映射（在resize-方法中实现）"><a href="#桶中节点的重新映射（在resize-方法中实现）" class="headerlink" title="桶中节点的重新映射（在resize()方法中实现）"></a>桶中节点的重新映射（在resize()方法中实现）</h6><div id="anchor1"></div>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (oldTab != <span class="keyword">null</span>) &#123;</span><br><span class="line">	...</span><br><span class="line">        <span class="keyword">else</span> &#123; <span class="comment">// preserve order</span></span><br><span class="line">            Node&lt;K,V&gt; loHead = <span class="keyword">null</span>, loTail = <span class="keyword">null</span>;</span><br><span class="line">            Node&lt;K,V&gt; hiHead = <span class="keyword">null</span>, hiTail = <span class="keyword">null</span>;</span><br><span class="line">            Node&lt;K,V&gt; next;</span><br><span class="line">            ...</span><br></pre></td></tr></table></figure>
+
+
+
+<p>说明：对于不同的节点类型，重新映射的手段并不一样；</p>
+<ul>
+<li>对于树形节点，需先拆分红黑树再映射。</li>
+<li>对于链表类型节点，则需先对链表进行分组，然后再映射（分组后，组内节点相对位置保持不变）。</li>
+</ul>
+<blockquote>
+<p>对链表中的节点进行分组映射</p>
+</blockquote>
+<p>JDK1.7的手段：</p>
+<ul>
+<li>把链表中的节点重新插入到新的桶数组中；</li>
+</ul>
+<p>JDK1.8的手段:</p>
+<ul>
+<li>说明：扩容前被映射到同一个桶中的键值对，经过扩容后，可能会被映射到新的桶中；</li>
+<li>原理：<ul>
+<li>1 映射的过程是使用(n - 1) &amp; hash的方式来计算桶的位置;</li>
+<li>2 扩容前，由于n=16，所以二进制表示的前四位是0000。真正参与&amp;运算的实际上只有hash的后四位——这会导致不同的哈希值被映射到同一个桶的位置；</li>
+<li>3 扩容2倍后，n &gt; 16，所以参与&amp;运算的二进制数字位更多（多出的高位表示16）。不同的hash值会被映射到不同的桶位置；</li>
+</ul>
+</li>
+<li>算法：<ul>
+<li>1 依次遍历链表，并计算节点 <code>hash &amp; oldCap</code> 的值；</li>
+<li>2 如果值为0，将 loHead 和 loTail 指向这个节点；<ul>
+<li>如果后面还有节点 hash &amp; oldCap 为0的话，则将节点链入 loHead 指向的链表中，并将 loTail 指向该节点；</li>
+</ul>
+</li>
+<li>3 如果值为非0的话，则让 hiHead 和 hiTail 指向该节点；</li>
+<li>4 把分组后的两个链表存储到新的桶数组对应的桶中；</li>
+</ul>
+</li>
+</ul>
+<p>重新映射前的桶数组</p>
+<p><img src="https://s1.ax1x.com/2020/09/03/wCNRds.png" alt="映射前"></p>
+<p>重新映射算法得到的分组链表</p>
+<p><img src="https://s1.ax1x.com/2020/09/03/wCUKOg.png" alt="分组后的链表"></p>
+<p>重新映射后的桶数组</p>
+<p><img src="https://s1.ax1x.com/2020/09/03/wCUwm4.png" alt="映射后的桶数组"></p>
+<p>评论：相比于JDK1.7的做法，1.8的做法避免了插入操作的hash计算，效率有提高；</p>
+<h6 id="链表树化-treeifyBin-方法"><a href="#链表树化-treeifyBin-方法" class="headerlink" title="链表树化(treeifyBin()方法)"></a>链表树化(treeifyBin()方法)</h6><p>the details is overwhelming, so we’ll just jump into the conclusion.</p>
+<blockquote>
+<p>流程</p>
+</blockquote>
+<ul>
+<li>1 把链表中的普通节点，转化为树形节点(得到一个树形节点组成的链表)；</li>
+<li>2 把树形节点组成的链表转换为红黑树（treeify()方法）；</li>
+</ul>
 <blockquote>
 <p> 在扩容过程中，树化要满足两个条件：</p>
 </blockquote>
@@ -309,14 +363,11 @@
 </li>
 </ul>
 <blockquote>
-<p>treeifyBin 方法</p>
+<p>treeifyBin 方法-把链表转化为TreeNode类型节点组成的链表</p>
 </blockquote>
-<p>作用：</p>
 <ul>
-<li>1 将普通链表转成为由 TreeNode 型节点组成的链表;</li>
-<li>2 然后再调用treeify来将该链表转为红黑树；</li>
+<li>TreeNode类型间接继承自Node类型，所以包含next指针/引用。aka 通过TreeNode就能保存原始链表中的节点顺序；</li>
 </ul>
-<p>TreeNode间接继承自Node，所以包含next指针。因此通过TreeNode就能保存原始链表中的节点顺序；</p>
 <blockquote>
 <p>树化带来的问题与解决方案</p>
 </blockquote>
@@ -325,7 +376,7 @@
 <li>手段：<ul>
 <li>1 比较键与键之间 hash 的大小，如果 hash 相同，继续往下比较</li>
 <li>2 检测键类是否实现了 Comparable 接口，如果实现调用 compareTo 方法进行比较</li>
-<li>3 如果仍未比较出大小，就需要进行仲裁了，仲裁方法为 tieBreakOrder（大家自己看源码吧）</li>
+<li>3 如果仍未比较出大小，就需要进行仲裁了，仲裁方法为 tieBreakOrder（没看过具体实现）</li>
 </ul>
 </li>
 </ul>
@@ -348,44 +399,63 @@
 </ul>
 </li>
 </ul>
-<h6 id="红黑树拆分"><a href="#红黑树拆分" class="headerlink" title="红黑树拆分"></a>红黑树拆分</h6><blockquote>
+<h6 id="红黑树拆分（split-方法）"><a href="#红黑树拆分（split-方法）" class="headerlink" title="红黑树拆分（split()方法）"></a>红黑树拆分（split()方法）</h6><blockquote>
 <p>说明：散列数组扩容后，需要为先前存储的键值对重新找到存储位置（重新映射）。链表和红黑树上的节点要怎么重新映射呢？</p>
 </blockquote>
 <ul>
-<li><p>链表：依次取出链表上的节点，然后把它重新映射到新的散列数组中即可；</p>
+<li><p>链表：<a href="#anchor1">参考</a></p>
 </li>
 <li><p>红黑树：</p>
 <ul>
-<li>手段1：<ul>
+<li><p>手段1（效率有点低）：</p>
+<ul>
 <li>1 先把红黑树转换成链表；</li>
 <li>2 然后按照链表的方式对所有的键值对重新映射；</li>
 </ul>
 </li>
-<li>手段2：<ul>
-<li>原理：在将普通链表转成红黑树时，HashMap 通过两个额外的引用 next 和 prev 保留了原链表的节点顺序；</li>
-<li>所以，在重新映射红黑树时，就能够按照映射链表的方式进行映射；</li>
-<li>特征：<ul>
-<li>1 重新映射红黑树的逻辑和重新映射链表的逻辑基本一致；</li>
-<li>2 但是重新映射后，会将红黑树拆分成两条<em>由 TreeNode 组成的链表</em>；</li>
-<li>3 如果链表长度小于 UNTREEIFY_THRESHOLD，则<ul>
+<li><p>手段2：</p>
+<ul>
+<li><p>原理：在将普通链表转成红黑树时，HashMap 通过两个额外的引用 next 和 prev 保留了原链表的节点顺序；</p>
+</li>
+<li><p>所以，在重新映射红黑树时，就能够按照映射链表的方式进行映射；</p>
+</li>
+<li><p>特征：</p>
+<ul>
+<li><p>1 重新映射红黑树的逻辑和重新映射链表的逻辑基本一致（代码结构基本相同）；</p>
+</li>
+<li><p>2 但是重新映射后，会将红黑树拆分成两条<em>由 TreeNode 组成的链表</em>（<em>中间状态</em>）；</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">TreeNode&lt;K,V&gt; loHead = <span class="keyword">null</span>, loTail = <span class="keyword">null</span>;</span><br><span class="line">  TreeNode&lt;K,V&gt; hiHead = <span class="keyword">null</span>, hiTail = <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3 如果链表长度小于 UNTREEIFY_THRESHOLD，则</p>
+<ul>
 <li>将链表转换成普通链表（Node）；</li>
 <li>否则根据条件重新将 TreeNode 链表树化（treeify）；</li>
 </ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (loHead != <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (lc &lt;= UNTREEIFY_THRESHOLD) <span class="comment">// 重新映射后的链表长度小于等于UNTREEIFY_THRESHOLD</span></span><br><span class="line">        tab[index] = loHead.untreeify(map); <span class="comment">// 转化为普通链表</span></span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        tab[index] = loHead;</span><br><span class="line">        <span class="keyword">if</span> (hiHead != <span class="keyword">null</span>) <span class="comment">// (else is already treeified)</span></span><br><span class="line">            loHead.treeify(tab);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 </li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
+<p>红黑树重新映射第一步后的结果👇</p>
 <p><img src="https://s1.ax1x.com/2020/09/02/wpX3kQ.png" alt="RBT重新映射后"></p>
 </li>
 </ul>
-<h6 id="红黑树链化"><a href="#红黑树链化" class="headerlink" title="红黑树链化"></a>红黑树链化</h6><ul>
-<li>原理：红黑树中仍然保留了原链表节点顺序；</li>
-<li>手段(Thus)：将 TreeNode 链表转成 Node 类型的链表；</li>
+<h6 id="红黑树链化（untreeify-方法）"><a href="#红黑树链化（untreeify-方法）" class="headerlink" title="红黑树链化（untreeify()方法）"></a>红黑树链化（untreeify()方法）</h6><ul>
+<li><p>场景：当链表中的节点数比较少时，就把红黑树转化为普通链表以节省空间；</p>
+</li>
+<li><p>原理：红黑树中仍然保留了原链表节点顺序；</p>
+</li>
+<li><p>手段(Thus)：</p>
+<ul>
+<li>将 TreeNode 链表转成 Node 类型的链表（即可）；</li>
+</ul>
+</li>
 </ul>
 <p>I do not really understand how does this work, yet time is consuming…</p>
-<h6 id="从容器中删除键值对"><a href="#从容器中删除键值对" class="headerlink" title="从容器中删除键值对"></a>从容器中删除键值对</h6><blockquote>
+<h6 id="从容器中删除键值对（remove-方法）"><a href="#从容器中删除键值对（remove-方法）" class="headerlink" title="从容器中删除键值对（remove()方法）"></a>从容器中删除键值对（remove()方法）</h6><blockquote>
 <p>流程</p>
 </blockquote>
 <ul>
@@ -401,14 +471,17 @@
 <h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><ul>
 <li>在JDK8中HashMap的底层数据结构为：<strong>数组+链表(散列表)+红黑树</strong>；</li>
 <li>当初始容量 * 装载因子 &lt; HashMap中的键值对数量时，对散列数组/桶数组进行扩容；</li>
-<li>装在因子loadFactor默认为0.75;【散列冲突 VS 扩容操作】</li>
+<li>装在因子loadFactor默认为0.75;【太大会容易产生散列冲突 VS 太小就浪费空间】</li>
 <li>初始容量默认为16；【空间 VS 时间】</li>
 <li>计算key的hash值：将key的哈希值的高16位进行异或操作，以此来增加随机性；</li>
 <li>并不是桶子上有8位元素的时候它就能变成红黑树，它得同时满足我们的散列表容量大于64才行；</li>
+<li>使用构造方法指定initialCapacity时，这个参数不会直接初始化capacity，而是先绑定到threshold上，在初始化桶数组时，才会再绑定到newCap上；</li>
 </ul>
 <blockquote>
 <p>what have I done?!</p>
 </blockquote>
+<h5 id="启示"><a href="#启示" class="headerlink" title="启示"></a>启示</h5><p>1 写文章时，需要一些其他工具。比如截长图与截图文字标注工具，否则文字会缺少一些表现力</p>
+<p>2 需要想办法能够对JDK源码进行编辑，这种可望不可及的感觉不好。而且很容易遗忘</p>
 <h5 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h5><p><a href="http://www.tianxiaobo.com/2018/01/18/HashMap-%E6%BA%90%E7%A0%81%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90-JDK1-8/#342-%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6">http://www.tianxiaobo.com/2018/01/18/HashMap-%E6%BA%90%E7%A0%81%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90-JDK1-8/#342-%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6</a></p>
 <p><a href="https://mp.weixin.qq.com/s?__biz=MzI4Njg5MDA5NA==&amp;mid=2247484139&amp;idx=1&amp;sn=bb73ac07081edabeaa199d973c3cc2b0&amp;chksm=ebd743eadca0cafc532f298b6ab98b08205e87e37af6a6a2d33f5f2acaae245057fa01bd93f4&amp;scene=21#wechat_redirect">https://mp.weixin.qq.com/s?__biz=MzI4Njg5MDA5NA==&amp;mid=2247484139&amp;idx=1&amp;sn=bb73ac07081edabeaa199d973c3cc2b0&amp;chksm=ebd743eadca0cafc532f298b6ab98b08205e87e37af6a6a2d33f5f2acaae245057fa01bd93f4&amp;scene=21#wechat_redirect</a></p>
 ]]></content>
@@ -1560,6 +1633,42 @@
       </tags>
   </entry>
   <entry>
+    <title>倒数第k个节点_05_2</title>
+    <url>/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%ACn%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%88%E4%B8%80%E6%AC%A1%E9%81%8D%E5%8E%86%EF%BC%89_05_2.html</url>
+    <content><![CDATA[<h3 id="删除链表中的倒数第n个节点（一次遍历）"><a href="#删除链表中的倒数第n个节点（一次遍历）" class="headerlink" title="删除链表中的倒数第n个节点（一次遍历）"></a>删除链表中的倒数第n个节点（一次遍历）</h3><h4 id="题设-amp-要求"><a href="#题设-amp-要求" class="headerlink" title="题设 &amp; 要求"></a>题设 &amp; 要求</h4><p><img src="https://s1.ax1x.com/2020/08/14/dCLxyj.png" alt="题设 &amp; 要求"></p>
+<a id="more"></a>
+
+<h4 id="分析（难点）"><a href="#分析（难点）" class="headerlink" title="分析（难点）"></a>分析（难点）</h4><p>如何能找到倒数第N个节点（预期节点：此节点的上一个节点）？</p>
+<h4 id="思路2（难点的解决方案）"><a href="#思路2（难点的解决方案）" class="headerlink" title="思路2（难点的解决方案）"></a>思路2（难点的解决方案）</h4><ul>
+<li>定义两个指针front与back，设置两个指针之间的初始间距。</li>
+<li>然后把两个指针同时向后移动，直到front指针到达了链表的尾节点。</li>
+<li>这时候back指针就会指在某一个可以计算的位置——通过设置指针间的初始间距，就能确定back指针停下的具体位置。</li>
+</ul>
+<h4 id="实现SOP"><a href="#实现SOP" class="headerlink" title="实现SOP"></a>实现SOP</h4><ul>
+<li>1 定义所需要的指针front与back与dummy（并初始化）；    注：画图分析指针初始化的位置；    原则：方便编码；&amp; 避免NPE；</li>
+<li>2 画图分析，front指针与back指针之间的初始间距span与n的关系（span = n）；</li>
+<li>3 把front与back指针初始化指向dummy节点(这里引入dummy节点只是为了方便计算指针应该移动的距离)；</li>
+<li>4 把front指针向前移动n个节点；</li>
+<li>5 把front与back指针同时向后移动，直到front指针指向链表的尾节点；</li>
+<li>6 back指向预期节点后，对待删除节点进行删除；</li>
+</ul>
+<h4 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">removeNthFromEnd</span><span class="params">(ListNode head, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 实践证明：在删除的时候使用栈不是一个好主意</span></span><br><span class="line">        <span class="comment">// 鲁棒性代码</span></span><br><span class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1 需要的实例变量</span></span><br><span class="line">        ListNode dummy = <span class="keyword">new</span> ListNode(-<span class="number">1</span>);</span><br><span class="line">        dummy.next = head;</span><br><span class="line"></span><br><span class="line">        ListNode front = dummy;</span><br><span class="line">        ListNode back = dummy;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2 先让front向前走n个节点   如果只有一个节点，然后要删除倒数第一个节点</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;n; i++)&#123; <span class="comment">// 注：front的初始化值会决定循环执行的次数</span></span><br><span class="line">            front = front.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3 再让front与back一起先前移动，直到front到达尾节点</span></span><br><span class="line">        <span class="keyword">while</span>(front != <span class="keyword">null</span> &amp;&amp; front.next != <span class="keyword">null</span>)&#123;</span><br><span class="line">            front = front.next;</span><br><span class="line">            back = back.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4 这里得到的back就是预期删除的节点的前一个节点</span></span><br><span class="line">        <span class="comment">// 执行删除</span></span><br><span class="line">        back.next = back.next.next;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> dummy.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="启示"><a href="#启示" class="headerlink" title="启示"></a>启示</h4><p>1 代码的鲁棒性编码在实现了基本功能后，再进行添加；</p>
+<p>2 对于循环执行次数已知的情况，使用for语法来实现循环——这样能避免令人纠结的循环执行/终止条件；</p>
+<p>3 编写while循环执行表达式的参考：节点的最终状态； &amp;  避免代码中的NPE；</p>
+]]></content>
+      <categories>
+        <category>ListNode</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>LinkedList</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>交换链表节点(迭代)_06</title>
     <url>/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E4%B8%A4%E4%B8%A4%E4%BA%A4%E6%8D%A2%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B9(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_06.html</url>
     <content><![CDATA[<h3 id="两两交换链表中的节点"><a href="#两两交换链表中的节点" class="headerlink" title="两两交换链表中的节点"></a>两两交换链表中的节点</h3><hr>
@@ -1638,42 +1747,6 @@
 <blockquote>
 <p>until next time 😄</p>
 </blockquote>
-]]></content>
-      <categories>
-        <category>ListNode</category>
-      </categories>
-      <tags>
-        <tag>Algorithm</tag>
-        <tag>LinkedList</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>倒数第k个节点_05_2</title>
-    <url>/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%ACn%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%88%E4%B8%80%E6%AC%A1%E9%81%8D%E5%8E%86%EF%BC%89_05_2.html</url>
-    <content><![CDATA[<h3 id="删除链表中的倒数第n个节点（一次遍历）"><a href="#删除链表中的倒数第n个节点（一次遍历）" class="headerlink" title="删除链表中的倒数第n个节点（一次遍历）"></a>删除链表中的倒数第n个节点（一次遍历）</h3><h4 id="题设-amp-要求"><a href="#题设-amp-要求" class="headerlink" title="题设 &amp; 要求"></a>题设 &amp; 要求</h4><p><img src="https://s1.ax1x.com/2020/08/14/dCLxyj.png" alt="题设 &amp; 要求"></p>
-<a id="more"></a>
-
-<h4 id="分析（难点）"><a href="#分析（难点）" class="headerlink" title="分析（难点）"></a>分析（难点）</h4><p>如何能找到倒数第N个节点（预期节点：此节点的上一个节点）？</p>
-<h4 id="思路2（难点的解决方案）"><a href="#思路2（难点的解决方案）" class="headerlink" title="思路2（难点的解决方案）"></a>思路2（难点的解决方案）</h4><ul>
-<li>定义两个指针front与back，设置两个指针之间的初始间距。</li>
-<li>然后把两个指针同时向后移动，直到front指针到达了链表的尾节点。</li>
-<li>这时候back指针就会指在某一个可以计算的位置——通过设置指针间的初始间距，就能确定back指针停下的具体位置。</li>
-</ul>
-<h4 id="实现SOP"><a href="#实现SOP" class="headerlink" title="实现SOP"></a>实现SOP</h4><ul>
-<li>1 定义所需要的指针front与back与dummy（并初始化）；    注：画图分析指针初始化的位置；    原则：方便编码；&amp; 避免NPE；</li>
-<li>2 画图分析，front指针与back指针之间的初始间距span与n的关系（span = n）；</li>
-<li>3 把front与back指针初始化指向dummy节点(这里引入dummy节点只是为了方便计算指针应该移动的距离)；</li>
-<li>4 把front指针向前移动n个节点；</li>
-<li>5 把front与back指针同时向后移动，直到front指针指向链表的尾节点；</li>
-<li>6 back指向预期节点后，对待删除节点进行删除；</li>
-</ul>
-<h4 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">removeNthFromEnd</span><span class="params">(ListNode head, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 实践证明：在删除的时候使用栈不是一个好主意</span></span><br><span class="line">        <span class="comment">// 鲁棒性代码</span></span><br><span class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1 需要的实例变量</span></span><br><span class="line">        ListNode dummy = <span class="keyword">new</span> ListNode(-<span class="number">1</span>);</span><br><span class="line">        dummy.next = head;</span><br><span class="line"></span><br><span class="line">        ListNode front = dummy;</span><br><span class="line">        ListNode back = dummy;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2 先让front向前走n个节点   如果只有一个节点，然后要删除倒数第一个节点</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;n; i++)&#123; <span class="comment">// 注：front的初始化值会决定循环执行的次数</span></span><br><span class="line">            front = front.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3 再让front与back一起先前移动，直到front到达尾节点</span></span><br><span class="line">        <span class="keyword">while</span>(front != <span class="keyword">null</span> &amp;&amp; front.next != <span class="keyword">null</span>)&#123;</span><br><span class="line">            front = front.next;</span><br><span class="line">            back = back.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4 这里得到的back就是预期删除的节点的前一个节点</span></span><br><span class="line">        <span class="comment">// 执行删除</span></span><br><span class="line">        back.next = back.next.next;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> dummy.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="启示"><a href="#启示" class="headerlink" title="启示"></a>启示</h4><p>1 代码的鲁棒性编码在实现了基本功能后，再进行添加；</p>
-<p>2 对于循环执行次数已知的情况，使用for语法来实现循环——这样能避免令人纠结的循环执行/终止条件；</p>
-<p>3 编写while循环执行表达式的参考：节点的最终状态； &amp;  避免代码中的NPE；</p>
 ]]></content>
       <categories>
         <category>ListNode</category>
