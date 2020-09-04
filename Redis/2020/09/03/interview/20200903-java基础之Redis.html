@@ -24,25 +24,21 @@
     var CONFIG = {"hostname":"henryinshanghai.github.io","root":"/","scheme":"Muse","version":"8.0.0-rc.5","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"path":"search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
   </script>
 
-  <meta name="description" content="对链表进行翻转（使用迭代的方式）">
+  <meta name="description" content="Java应用之Redis（快速记忆）简介 是：数据库； 作用：存储数据；">
 <meta property="og:type" content="article">
-<meta property="og:title" content="交换链表节点_02_1">
-<meta property="og:url" content="https://henryinshanghai.github.io/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%AF%B9%E9%93%BE%E8%A1%A8%E8%BF%9B%E8%A1%8C%E7%BF%BB%E8%BD%AC(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_02_1.html">
+<meta property="og:title" content="java基础之Redis">
+<meta property="og:url" content="https://henryinshanghai.github.io/Redis/2020/09/03/interview/20200903-java%E5%9F%BA%E7%A1%80%E4%B9%8BRedis.html">
 <meta property="og:site_name" content="Henry&#39;s blog">
-<meta property="og:description" content="对链表进行翻转（使用迭代的方式）">
+<meta property="og:description" content="Java应用之Redis（快速记忆）简介 是：数据库； 作用：存储数据；">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s1.ax1x.com/2020/08/11/aLKOne.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/08/11/aL1MgP.md.jpg">
-<meta property="article:published_time" content="2020-08-16T05:30:00.000Z">
-<meta property="article:modified_time" content="2020-08-17T09:22:49.088Z">
+<meta property="article:published_time" content="2020-09-03T02:30:00.000Z">
+<meta property="article:modified_time" content="2020-09-04T03:04:41.590Z">
 <meta property="article:author" content="henryInSH">
-<meta property="article:tag" content="Algorithm">
-<meta property="article:tag" content="LinkedList">
+<meta property="article:tag" content="Java stuff">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s1.ax1x.com/2020/08/11/aLKOne.png">
 
 
-<link rel="canonical" href="https://henryinshanghai.github.io/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%AF%B9%E9%93%BE%E8%A1%A8%E8%BF%9B%E8%A1%8C%E7%BF%BB%E8%BD%AC(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_02_1.html">
+<link rel="canonical" href="https://henryinshanghai.github.io/Redis/2020/09/03/interview/20200903-java%E5%9F%BA%E7%A1%80%E4%B9%8BRedis.html">
 
 
 <script class="page-configurations">
@@ -55,7 +51,7 @@
   };
 </script>
 
-  <title>交换链表节点_02_1 | Henry's blog</title>
+  <title>java基础之Redis | Henry's blog</title>
   
 
 
@@ -212,7 +208,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
-          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#对链表进行翻转（使用迭代的方式）"><span class="nav-number">1.</span> <span class="nav-text">对链表进行翻转（使用迭代的方式）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析-👇👇👇"><span class="nav-number">2.</span> <span class="nav-text">分析:👇👇👇</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#节点翻转示意图"><span class="nav-number">2.1.</span> <span class="nav-text">节点翻转示意图</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现过程☕☕☕"><span class="nav-number">3.</span> <span class="nav-text">实现过程☕☕☕</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#step1-定义两个指针，用来遍历和翻转链表；"><span class="nav-number">3.1.</span> <span class="nav-text">step1 定义两个指针，用来遍历和翻转链表；</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step2-遍历链表中的节点，并进行节点间的翻转；（每次翻转两个节点的连接）"><span class="nav-number">3.2.</span> <span class="nav-text">step2 遍历链表中的节点，并进行节点间的翻转；（每次翻转两个节点的连接）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step3-确定循环终止条件"><span class="nav-number">3.3.</span> <span class="nav-text">step3 确定循环终止条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step4-确定返回值"><span class="nav-number">3.4.</span> <span class="nav-text">step4 确定返回值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码重现-🦇🦇🦇"><span class="nav-number">4.</span> <span class="nav-text">代码重现 🦇🦇🦇</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启示"><span class="nav-number">5.</span> <span class="nav-text">启示</span></a></li></ol></div>
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Java应用之Redis（快速记忆）"><span class="nav-number">1.</span> <span class="nav-text">Java应用之Redis（快速记忆）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#简介"><span class="nav-number">1.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#为什么要用缓存？"><span class="nav-number">1.2.</span> <span class="nav-text">为什么要用缓存？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Redis比起Map-guava有什么不一样？"><span class="nav-number">1.3.</span> <span class="nav-text">Redis比起Map&#x2F;guava有什么不一样？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Redis-VS-Memcached"><span class="nav-number">1.4.</span> <span class="nav-text">Redis VS Memcached</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Redis常见的数据结构-amp-数据结构关联的使用场景"><span class="nav-number">1.5.</span> <span class="nav-text">Redis常见的数据结构 &amp; 数据结构关联的使用场景</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Redis中设置数据的过期时间"><span class="nav-number">1.6.</span> <span class="nav-text">Redis中设置数据的过期时间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Redis内存淘汰机制"><span class="nav-number">1.7.</span> <span class="nav-text">Redis内存淘汰机制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Redis的持久化原理"><span class="nav-number">1.8.</span> <span class="nav-text">Redis的持久化原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Redis事务"><span class="nav-number">1.9.</span> <span class="nav-text">Redis事务</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#缓存雪崩-amp-缓存穿透（及解决方案）"><span class="nav-number">1.10.</span> <span class="nav-text">缓存雪崩&amp;缓存穿透（及解决方案）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Redis并发竞争Key的问题"><span class="nav-number">1.11.</span> <span class="nav-text">Redis并发竞争Key的问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#数据写入数据库-amp-缓存时，保证双写一致"><span class="nav-number">1.12.</span> <span class="nav-text">数据写入数据库&amp;缓存时，保证双写一致</span></a></li></ol></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -310,7 +306,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://henryinshanghai.github.io/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%AF%B9%E9%93%BE%E8%A1%A8%E8%BF%9B%E8%A1%8C%E7%BF%BB%E8%BD%AC(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_02_1.html">
+    <link itemprop="mainEntityOfPage" href="https://henryinshanghai.github.io/Redis/2020/09/03/interview/20200903-java%E5%9F%BA%E7%A1%80%E4%B9%8BRedis.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myAvator.jpeg">
@@ -326,7 +322,7 @@
     
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          交换链表节点_02_1
+          java基础之Redis
         </h1>
 
         <div class="post-meta">
@@ -336,14 +332,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-08-16 13:30:00" itemprop="dateCreated datePublished" datetime="2020-08-16T13:30:00+08:00">2020-08-16</time>
+              <time title="创建时间：2020-09-03 10:30:00" itemprop="dateCreated datePublished" datetime="2020-09-03T10:30:00+08:00">2020-09-03</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-17 17:22:49" itemprop="dateModified" datetime="2020-08-17T17:22:49+08:00">2020-08-17</time>
+                <time title="修改时间：2020-09-04 11:04:41" itemprop="dateModified" datetime="2020-09-04T11:04:41+08:00">2020-09-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -351,12 +347,12 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ListNode/" itemprop="url" rel="index"><span itemprop="name">ListNode</span></a>
+                  <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
                 </span>
             </span>
 
           
-            <span id="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%AF%B9%E9%93%BE%E8%A1%A8%E8%BF%9B%E8%A1%8C%E7%BF%BB%E8%BD%AC(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_02_1.html" class="post-meta-item leancloud_visitors" data-flag-title="交换链表节点_02_1" title="热度">
+            <span id="/Redis/2020/09/03/interview/20200903-java%E5%9F%BA%E7%A1%80%E4%B9%8BRedis.html" class="post-meta-item leancloud_visitors" data-flag-title="java基础之Redis" title="热度">
               <span class="post-meta-item-icon">
                 <i class="far fa-eye"></i>
               </span>
@@ -379,8 +375,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%AF%B9%E9%93%BE%E8%A1%A8%E8%BF%9B%E8%A1%8C%E7%BF%BB%E8%BD%AC(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_02_1.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%AF%B9%E9%93%BE%E8%A1%A8%E8%BF%9B%E8%A1%8C%E7%BF%BB%E8%BD%AC(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_02_1.html" itemprop="commentCount"></span>
+    <a title="valine" href="/Redis/2020/09/03/interview/20200903-java%E5%9F%BA%E7%A1%80%E4%B9%8BRedis.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/Redis/2020/09/03/interview/20200903-java%E5%9F%BA%E7%A1%80%E4%B9%8BRedis.html" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -390,14 +386,14 @@
                 <i class="far fa-file-word"></i>
               </span>
               <span class="post-meta-item-text">本文字数：</span>
-              <span>2.1k</span>字
+              <span>3.6k</span>字
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
               <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>分钟
+              <span>3 分钟</span>分钟
             </span>
 
         </div>
@@ -407,54 +403,293 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h3 id="对链表进行翻转（使用迭代的方式）"><a href="#对链表进行翻转（使用迭代的方式）" class="headerlink" title="对链表进行翻转（使用迭代的方式）"></a>对链表进行翻转（使用迭代的方式）</h3><hr>
-<p><img src="https://s1.ax1x.com/2020/08/11/aLKOne.png" alt="翻转链表"></p>
+        <h4 id="Java应用之Redis（快速记忆）"><a href="#Java应用之Redis（快速记忆）" class="headerlink" title="Java应用之Redis（快速记忆）"></a>Java应用之Redis（快速记忆）</h4><h5 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h5><ul>
+<li>是：数据库；</li>
+<li>作用：存储数据；</li>
+</ul>
 <a id="more"></a>
 
-<hr>
-<h3 id="分析-👇👇👇"><a href="#分析-👇👇👇" class="headerlink" title="分析:👇👇👇"></a>分析:👇👇👇</h3><h4 id="节点翻转示意图"><a href="#节点翻转示意图" class="headerlink" title="节点翻转示意图"></a>节点翻转示意图</h4><p><img src="https://s1.ax1x.com/2020/08/11/aL1MgP.md.jpg" alt="节点翻转示意图"></p>
-<p>1 既然是要翻转链表，那每个节点的连接方向都会发生变化；</p>
-<p>2 每个节点都只能有一个连接。当它指向自己的前一个节点时，它就不能再指向自己的下一个节点；</p>
-<p>3 需要处理链表中的每一个节点，但是根据2可知，节点连接方向改变后，无法再沿着链表获取到下一个节点；</p>
-<p>解决手段：在改变节点的连接方向之前，使用一个临时变量保存当前节点的下一个节点；</p>
+<ul>
+<li>特征：<ul>
+<li>1 数据存储在内存中（所以读写速度很快）；</li>
+<li>2 支持事务；</li>
+<li>3 支持持久化；</li>
+<li>4 支持LUA脚本（能够方便地定制与扩展功能）；</li>
+<li>5 支持多种集群方案（所以可以在分布式环境下使用）；</li>
+</ul>
+</li>
+<li>应用：<ul>
+<li>1 缓存；</li>
+<li>2 分布式锁；</li>
+</ul>
+</li>
+</ul>
+<h5 id="为什么要用缓存？"><a href="#为什么要用缓存？" class="headerlink" title="为什么要用缓存？"></a>为什么要用缓存？</h5><ul>
+<li>1 能够更快地对查询进行响应；</li>
+<li>2 由于缓存是存在内存中地，因此可以支持更高的并发量；</li>
+</ul>
+<h5 id="Redis比起Map-guava有什么不一样？"><a href="#Redis比起Map-guava有什么不一样？" class="headerlink" title="Redis比起Map/guava有什么不一样？"></a>Redis比起Map/guava有什么不一样？</h5><ul>
+<li>map/guava：<ul>
+<li>是：本地缓存；</li>
+<li>作用：在本地机器上为数据在内存中创建缓存；</li>
+<li>特征：<ul>
+<li>1 轻量快速；</li>
+<li>2 生命周期随着JVM的销毁而结束（aka 无法持久化）；</li>
+<li>3 多态机器之间的缓存数据没有办法保持一致（aka 多实例时，缓存不一致）；</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Redis/memcached：<ul>
+<li>是：分布式缓存；</li>
+<li>作用：为多台机器提供统一的缓存数据；</li>
+<li>特征：<ul>
+<li>1 当有多台机器/服务器/电脑时，多台机器能够共用一份缓存数据（aka 多实例时，缓存具有一致性）；</li>
+<li>2 为了缓存能够稳定地服务于多台机器，需要做很多其他的准备；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="Redis-VS-Memcached"><a href="#Redis-VS-Memcached" class="headerlink" title="Redis VS Memcached"></a>Redis VS Memcached</h5><ul>
+<li>支持的数据类型：<ul>
+<li>Redis支持更多的数据类型（String, list, hash, set等），Memcached只支持简单的数据类型；</li>
+</ul>
+</li>
+<li>数据持久化：<ul>
+<li>Redis支持数据持久化（aka 把缓存数据保存到磁盘中，以备后用），Memcached不支持持久化；</li>
+</ul>
+</li>
+<li>对集群的支持：<ul>
+<li>Redis天生支持集群(aka 实现服务器集群非常简单)，但Memcached并不是原生支持集群的；</li>
+</ul>
+</li>
+<li>运行原理：<ul>
+<li>Redis是单线程 + 多路IO复用； Memcached是多线程 + 非阻塞IO复用【😵】</li>
+</ul>
+</li>
+</ul>
+<p>综上，现在Redis的使用率斩杀Memcached（太难读了）</p>
+<h5 id="Redis常见的数据结构-amp-数据结构关联的使用场景"><a href="#Redis常见的数据结构-amp-数据结构关联的使用场景" class="headerlink" title="Redis常见的数据结构 &amp; 数据结构关联的使用场景"></a>Redis常见的数据结构 &amp; 数据结构关联的使用场景</h5><ul>
+<li><p>String类型</p>
+<ul>
+<li>常用命令：set,get,decr（值减一）,incr（值加一）,mget（获取多个指定key的值）等  </li>
+<li>应用场景：<ul>
+<li>key-value中，key就是String类型的；</li>
+<li>常规计数：微博数、粉丝数；</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Hash类型（存储key-value集合）</p>
+<ul>
+<li><p>作用：用于存储对象；</p>
+</li>
+<li><p>常用命令：hget（获取对象指定属性的值）,hset（设置对象指定属性的值）,hgetall （查看对象中所有的属性与其绑定的值）等</p>
+</li>
+<li><p>应用：</p>
+<ul>
+<li>存储用户信息</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">key=JavaUser293847</span><br><span class="line">value=&#123;</span><br><span class="line">“id”: 1,</span><br><span class="line">“name”: “SnailClimb”,</span><br><span class="line">“age”: 22,</span><br><span class="line">“location”: “Wuhan, Hubei”</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>list类型</p>
+<ul>
+<li>是：双向链表；</li>
+<li>作用：存储一堆的String数据类型；</li>
+<li>常用命令：lpush（在链表左端添加元素）,rpush,lpop（移除链表左边的第一个元素）,rpop,lrange （获取链表中指定范围的key-value集合）</li>
+<li>特征：<ul>
+<li>支持反向查找与遍历；</li>
+</ul>
+</li>
+<li>应用：<ul>
+<li>实现分页查询（lrange），aka，从某个元素开始读取指定个数的元素；</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Set类型</p>
+<ul>
+<li><p>是：一个集合类型；</p>
+</li>
+<li><p>作用：存储一堆的String类型数据；</p>
+</li>
+<li><p>特征：</p>
+<ul>
+<li>1 可以自动去重；</li>
+<li>2 能够方便地实现集合操作（交集、差集、并集）</li>
+</ul>
+</li>
+<li><p>用法：sadd,spop,smembers（返回指定key对应的集合中的所有元素）,sunion,sismember(判断指定key中指定value是否存在集合中，返回 0 或 1) 等  </p>
+</li>
+<li><p>应用：</p>
+<ul>
+<li>1 微博应用中，可以将一个用户所有的关注人存在一个集合中，将其所有粉丝存在一个集合；</li>
+<li>2 实现共同关注、共同粉丝、共同喜好等功能 （求交集）；</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sinterstore key1 key2 key3 将交集存在key1内</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>SortedSort类型</p>
+<ul>
+<li>作用：同Sort类型；</li>
+<li>特征：集合中的元素能够按score进行有序排列  ；</li>
+<li>原理：sorted set增加了一个权重参数score；</li>
+<li>用法：zadd,zrange,zrem（从排序的集合中删除一个或多个成员）,zcard（获取一个排序的集合中的成员数量）等  </li>
+<li>应用：<ul>
+<li>直播系统中的时时排行榜（用户列表、礼物排行榜、弹幕消息等）</li>
+</ul>
+</li>
+</ul>
 <blockquote>
-<p>实现SOP</p>
+<p>this is nuts!</p>
 </blockquote>
-<p>1 为了能够遍历链表，我们需要一个指针；</p>
-<p>2 为了能够改变节点的连接方向，我们需要另一个指针来指向当前节点的前一个节点；</p>
-<blockquote>
-<p>完整代码(不包含测试用例，可以自己编写main()函数作为测试用例)</p>
+</li>
+</ul>
+<h5 id="Redis中设置数据的过期时间"><a href="#Redis中设置数据的过期时间" class="headerlink" title="Redis中设置数据的过期时间"></a>Redis中设置数据的过期时间</h5><ul>
+<li>作用：保证缓存数据是最新的；</li>
+<li>应用：项目中的 token 或者一些登录信息、短信验证码等</li>
+<li>用法：set key 的时候，指定一个 expire time ；</li>
+<li>原理（过期之后，Redis如何删除过期数据）<ul>
+<li>1 <strong>定期删除</strong><ul>
+<li>redis默认是每隔 100ms 就<strong>随机抽取</strong>一些设置了过期时间的key，检查其是否过期，如果过期就删<br>除 ；（注意这里是随机抽取的，因为数据量很大）</li>
+</ul>
+</li>
+<li>2 *<em>惰性删除 *</em><ul>
+<li>过期key在定期删除时没有被删除掉（还停留在内存里），只有重新查询该过期的key，它才会被redis给删除 ；</li>
+</ul>
+</li>
+<li>遗留问题：过期的key可能会堆积在内存中，影响缓存的正常工作；</li>
+<li>解决方案：Redis内存淘汰机制；</li>
+</ul>
+</li>
+</ul>
+<h5 id="Redis内存淘汰机制"><a href="#Redis内存淘汰机制" class="headerlink" title="Redis内存淘汰机制"></a>Redis内存淘汰机制</h5><ul>
+<li>作用：保证Redis中存储的数据都是热门数据（经常被查询到的数据）；</li>
+<li>数据淘汰策略：<ul>
+<li>从设置了过期时间的数据集中删除：<ul>
+<li>最近最少使用的数据（LRU）；</li>
+<li>即将要过期的数据（TTL）；</li>
+<li>随机的数据（random）；</li>
+</ul>
+</li>
+<li>当内存空间不够用时，在键空间中，移除最近最少使用的key；【最常用】</li>
+<li>从数据集中任意选择数据进行删除；</li>
+<li>不删除旧的缓存数据，如果空间不够用，而又有新的数据要写入缓存，就拒绝新的数据；</li>
+</ul>
+</li>
+</ul>
+<h5 id="Redis的持久化原理"><a href="#Redis的持久化原理" class="headerlink" title="Redis的持久化原理"></a>Redis的持久化原理</h5><ul>
+<li>持久化：把内存中的数据写入硬盘（相当于永久存储）；</li>
+<li>作用：备份数据；</li>
+<li>手段：<ul>
+<li>1 快照（snapshotting/rdb文件）<ul>
+<li>是：一个文件；</li>
+<li>作用：存储内存中某一时刻的数据；</li>
+<li>特征：<ul>
+<li>1 rdb文件可以在多台机器上复制与同步，从而保持备份数据的一致性；</li>
+<li>2 这是Redis默认使用的持久化方式；</li>
+<li>3 快照的细节可以在redis.conf中进行配置；</li>
+</ul>
+</li>
+<li>原理：在某些时刻自动触发创建快照的操作；</li>
+</ul>
+</li>
+<li>2 AOF持久化<ul>
+<li>是：一个文件；</li>
+<li>作用：记录数据的变化过程（被执行的写命令）；</li>
+<li>特征：<ul>
+<li>0 备份数据的实时性更好（所以是主要使用的持久化方案）；</li>
+<li>1 默认情况下，AOF持久化没有开启；</li>
+<li>2 开启AOF后，每次执行写入操作时，写入命令就会被追加到AOF文件中；</li>
+<li>3 AOF存储的细节可以在redis.conf文件中进行配置；</li>
+</ul>
+</li>
+<li>原理：写操作发生后，以一定的规律向AOF文件中追加写操作命令；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="Redis事务"><a href="#Redis事务" class="headerlink" title="Redis事务"></a>Redis事务</h5><blockquote>
+<p>事务；</p>
+<p>是：一个规范；</p>
+<p>作用：提供了一种将多个命令请求打包，然后一次性、按顺序地执行多个命令的机制  ；</p>
+<p>特征：</p>
+<p>​        1 执行事务期间，服务器不会中断事务而去执行其他客户端的请求；</p>
+<p>​        2 如果事务执行到一半时发生意外情况，服务器会把之前执行的事务部分撤销操作；</p>
 </blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 链表/节点的类定义</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val; <span class="comment">// 节点中存储的值</span></span><br><span class="line">    ListNode next; <span class="comment">// 节点连接到的下一个节点</span></span><br><span class="line">    ListNode(<span class="keyword">int</span> x) &#123;val = x;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 0 作用：翻转指定的链表，并返回链表</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">reverseList</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 迭代的方式</span></span><br><span class="line">        ListNode prev = <span class="keyword">null</span>; </span><br><span class="line">        ListNode curr = head; <span class="comment">// 翻转链表需要前后两个指针：一个用于更新头节点，一个用于创建链表的连接</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(curr != <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="comment">// 记录原始的下一个节点 防止链表断掉</span></span><br><span class="line">            ListNode temp = curr.next;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 建立链表的连接</span></span><br><span class="line">            curr.next = prev;</span><br><span class="line">            <span class="comment">// 更新两个指针</span></span><br><span class="line">            prev = curr;</span><br><span class="line">            curr = temp;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> prev;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<h3 id="实现过程☕☕☕"><a href="#实现过程☕☕☕" class="headerlink" title="实现过程☕☕☕"></a>实现过程☕☕☕</h3><h4 id="step1-定义两个指针，用来遍历和翻转链表；"><a href="#step1-定义两个指针，用来遍历和翻转链表；" class="headerlink" title="step1 定义两个指针，用来遍历和翻转链表；"></a>step1 定义两个指针，用来遍历和翻转链表；</h4><p>问题：如何初始化这两个指针？/这两个指针最开始应该指向什么位置？</p>
-<p>答：参考上面的 [链表翻转示意图](#### 节点翻转示意图)</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ListNode prev = <span class="keyword">null</span>; <span class="comment">// 初始化指向一个null节点</span></span><br><span class="line">ListNode curr = head; <span class="comment">// 初始化指向链表的头节点（head与curr一样，都是头节点的一个指针）</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="step2-遍历链表中的节点，并进行节点间的翻转；（每次翻转两个节点的连接）"><a href="#step2-遍历链表中的节点，并进行节点间的翻转；（每次翻转两个节点的连接）" class="headerlink" title="step2 遍历链表中的节点，并进行节点间的翻转；（每次翻转两个节点的连接）"></a>step2 遍历链表中的节点，并进行节点间的翻转；（每次翻转两个节点的连接）</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="keyword">true</span>)&#123; <span class="comment">// 循环终止条件一般是比较容易出错的地方，所以放在最后再完成</span></span><br><span class="line">	<span class="comment">// 1 保存当前节点的下一个节点		作用：这样在遍历时才能直到下一个节点是哪一个</span></span><br><span class="line">    Node temp = curr.next;</span><br><span class="line">    <span class="comment">// 2 把当前节点连接到当前节点的前一个节点		说明：这个相邻节点的关系需要手动维护</span></span><br><span class="line">    curr.next = prev;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 3 维护相邻节点的关系	作用：支持2</span></span><br><span class="line">    prev = curr;</span><br><span class="line">    <span class="comment">// 4 更新当前节点为当前节点的下一个节点		作用：实现遍历链表操作</span></span><br><span class="line">    curr = curr.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="step3-确定循环终止条件"><a href="#step3-确定循环终止条件" class="headerlink" title="step3 确定循环终止条件"></a>step3 确定循环终止条件</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">分析极端情况：</span></span><br><span class="line"><span class="comment">	1 当前节点指针指向链表的尾节点（非null）时，还需要一次循环来翻转last与其上一个节点之间的连接方向；</span></span><br><span class="line"><span class="comment">	2 当前节点指针指向null时，所有翻转都已经完成，循环结束；</span></span><br><span class="line"><span class="comment">	所以循环终止条件为：curr == null;		相应地，(表达式)就应该为curr != null</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">while</span>(curr != <span class="keyword">null</span>)&#123;...&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="step4-确定返回值"><a href="#step4-确定返回值" class="headerlink" title="step4 确定返回值"></a>step4 确定返回值</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 原则：总是应该返回预期链表的头节点</span></span><br><span class="line"><span class="comment">// 手段：查看循环终止时，各个指针的指向情况		翻转后链表的头节点应该是prev</span></span><br><span class="line"><span class="keyword">return</span> prev;</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<h3 id="代码重现-🦇🦇🦇"><a href="#代码重现-🦇🦇🦇" class="headerlink" title="代码重现 🦇🦇🦇"></a>代码重现 🦇🦇🦇</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> val;</span><br><span class="line">    ListNode next;</span><br><span class="line">    </span><br><span class="line">    ListNode(<span class="keyword">int</span> x)&#123; <span class="keyword">this</span>.val = x&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> <span class="title">Solution</span>(<span class="title">ListNode</span> <span class="title">head</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 定义两个指针并初始化	作用：用于连接与遍历</span></span><br><span class="line">    ListNode prev = <span class="keyword">null</span>;</span><br><span class="line">    ListNode curr = head;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 开始遍历，并在遍历的过程中进行节点连接的翻转</span></span><br><span class="line">    <span class="keyword">while</span>(curr != <span class="keyword">null</span>)&#123; <span class="comment">// 循环执行条件</span></span><br><span class="line">        <span class="comment">// 记录当前节点（开始时是头节点）的下一个节点	作用：实现遍历</span></span><br><span class="line">        ListNode temp = curr.next;</span><br><span class="line">        <span class="comment">// 更新当前节点的连接</span></span><br><span class="line">        curr.next = prev; <span class="comment">// 连接到前一个节点	说明：需要维护这种节点的相邻关系</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 维护节点的相邻关系 &amp; 实现遍历</span></span><br><span class="line">        prev = curr; <span class="comment">// 1 把prev指向curr所指向的节点</span></span><br><span class="line">        curr = temp; <span class="comment">// 2 更新curr到链表的下一个节点	由于节点的连接方向已经变化，所以不能使用curr.next 使用预先存储的节点temp</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 返回链表的头节点</span></span><br><span class="line">    <span class="keyword">return</span> prev;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="启示"><a href="#启示" class="headerlink" title="启示"></a>启示</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">知道为什么这么写后，才能把思路翻译成代码。不然就是在背代码了</span><br></pre></td></tr></table></figure>
-
+<ul>
+<li>是：Redis对事务的具体实现；</li>
+<li>手段：使用MULTI、EXEC、WATCH 等命令来实现事务(transaction)功能 ；</li>
+<li>特征：<ul>
+<li>1 Redis事务总能保证事务的ACI(Atomicity  、Consistency  、Isolation)；</li>
+<li>2 在设置了持久化模式之后，Redis事务也能保证事务的D（Durability ）；</li>
+</ul>
+</li>
+</ul>
+<p>ACID：原子性、连续性、隔离性、持久性；</p>
+<h5 id="缓存雪崩-amp-缓存穿透（及解决方案）"><a href="#缓存雪崩-amp-缓存穿透（及解决方案）" class="headerlink" title="缓存雪崩&amp;缓存穿透（及解决方案）"></a>缓存雪崩&amp;缓存穿透（及解决方案）</h5><p>缓存雪崩</p>
+<ul>
+<li>是：一个现象；</li>
+<li>作用：描述缓存在短时间内大量失效（缓存的数据不再是热点数据了）</li>
+<li>特征：请求都会落在数据库服务器上，数据库压力很大</li>
+<li>解决手段：<ul>
+<li>事前：建立Redis集群，保证缓存机器集群的可用性；</li>
+<li>事中：利用各种手段防止MySQL崩掉（ehcache缓存 + hystrix限流/降级等）；</li>
+<li>事后：使用Redis持久化备份的数据尽快恢复缓存；</li>
+</ul>
+</li>
+</ul>
+<p>缓存穿透</p>
+<ul>
+<li>是：一个现象；</li>
+<li>作用：描述客户端故意请求缓存中不存在的数据，使得请求总是落在数据库服务器上；</li>
+<li>解决手段：<ul>
+<li>1 使用布隆过滤器；<ul>
+<li>原理：如果请求的数据在数据库中一定不存在，布隆过滤器就会拦截掉这个请求；</li>
+</ul>
+</li>
+<li>2 把查询为空的结构也添加到缓存中；<ul>
+<li>原理：这样即便客户端请求不存在的数据，缓存也能发挥作用；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="Redis并发竞争Key的问题"><a href="#Redis并发竞争Key的问题" class="headerlink" title="Redis并发竞争Key的问题"></a>Redis并发竞争Key的问题</h5><ul>
+<li>是：一种现象；</li>
+<li>作用：描述多个系统同时操作一个key，而执行的顺序不是预期执行的顺序。最终导致了非预期的结果</li>
+<li>解决手段：分布式锁（首选Zookeeper）；<ul>
+<li>是：一种技术；</li>
+<li>作用：解决分布式（多台机器上都有相同的实例）场景下，多台机器同时操作相同资源的并发问题；</li>
+<li>特征：有点子像多线程并发操作资源的情况；</li>
+<li>手段：使用zookeeper的临时有序节点；</li>
+<li>原理：<ul>
+<li>1 当客户端对某个方法加锁时，在zookeeper上的<strong>与该方法对应的指定节点的目录</strong>下，生成一个唯一的瞬时有序节点  ;</li>
+<li>2 当机器要获取资源的锁时，只需要判断有序节点中序号最小的一个  ；【😵】</li>
+<li>3 当机器要释放锁时，只需将这个瞬时节点删除即可 ；</li>
+</ul>
+</li>
+<li>用法：<ul>
+<li>完成业务流程后，删除对应的子节点来释放锁 ；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="数据写入数据库-amp-缓存时，保证双写一致"><a href="#数据写入数据库-amp-缓存时，保证双写一致" class="headerlink" title="数据写入数据库&amp;缓存时，保证双写一致"></a>数据写入数据库&amp;缓存时，保证双写一致</h5><p>双写一致：</p>
+<ul>
+<li>是：一个要求；</li>
+<li>作用：要求缓存中的数据与数据库中的数据保持一致；</li>
+<li>特征：多数情况下，系统并不必须要保持双写一致（串行化会导致系统处理请求的能力大大降低）；</li>
+<li>手段：把读请求&amp;写请求串行化放到一个队列中；</li>
+<li>原理：请求串行化后，Redis就会同步数据库中新写入的数据。从而保证从缓存中读取的数据总是正确的；</li>
+</ul>
+<p>​    </p>
 
     </div>
 
@@ -485,10 +720,7 @@
       <footer class="post-footer">
           <div class="post-tags">
               
-              <a href="/tags/Algorithm/" rel="tag"><i class="fa fa-tag"></i> Algorithm</a>
-              
-              
-              <a href="/tags/LinkedList/" rel="tag"><i class="fa fa-tag"></i> LinkedList</a>
+              <a href="/tags/Java-stuff/" rel="tag"><i class="fa fa-tag"></i> Java stuff</a>
               
           </div>
 
@@ -496,14 +728,11 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E6%B1%82%E4%B8%A4%E4%B8%AA%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E4%BA%A4%E7%82%B9_01.html" rel="prev" title="两个链表的交点_01">
-                  <i class="fa fa-chevron-left"></i> 两个链表的交点_01
+                <a href="/JDK-source-type/2020/09/01/interview/20200901-java%E5%9F%BA%E7%A1%80%E4%B9%8BHashMap.html" rel="prev" title="java基础之HashMap">
+                  <i class="fa fa-chevron-left"></i> java基础之HashMap
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8-%E5%BE%97%E5%88%B0%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8%EF%BC%88%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F%EF%BC%89_03.html" rel="next" title="合并链表_03">
-                  合并链表_03 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
       </footer>

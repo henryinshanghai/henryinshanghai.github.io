@@ -220,14 +220,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -297,6 +297,116 @@
       
 
       
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://henryinshanghai.github.io/uncategorized/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%94%E8%B0%88.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myAvator.jpeg">
+      <meta itemprop="name" content="henryInSH">
+      <meta itemprop="description" content="collection & catagory & refine">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Henry's blog">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/uncategorized/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%94%E8%B0%88.html" class="post-title-link" itemprop="url">更高级的bean装配第五谈</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-05-05 22:33:48 / 修改时间：22:34:27" itemprop="dateCreated datePublished" datetime="2020-05-05T22:33:48+08:00">2020-05-05</time>
+            </span>
+
+          
+            <span id="/uncategorized/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%94%E8%B0%88.html" class="post-meta-item leancloud_visitors" data-flag-title="更高级的bean装配第五谈" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="far fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+              <span>℃</span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/uncategorized/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%94%E8%B0%88.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/uncategorized/2020/05/05/%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84bean%E8%A3%85%E9%85%8D%E7%AC%AC%E4%BA%94%E8%B0%88.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+              <span class="post-meta-item-text">本文字数：</span>
+              <span>819</span>字
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+              <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>分钟
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>更高级的bean装配第五谈</p>
+<hr>
+<h4 id="在运行时向方法中装配-注入值"><a href="#在运行时向方法中装配-注入值" class="headerlink" title="在运行时向方法中装配/注入值"></a>在运行时向方法中装配/注入值</h4><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">需求：避免在声明bean时使用硬编码；</span><br><span class="line">手段：使原来硬编码的值推迟到运行时再确定；</span><br><span class="line">具体方法：Spring提供的再运行时求值的方式</span><br><span class="line">    <span class="number">1</span> 属性占位符（<span class="keyword">Property</span><span class="title"> </span>placeholder）</span><br><span class="line">    <span class="number">2</span> Spring表达式语言（SpEL）</span><br></pre></td></tr></table></figure>
+
+<h5 id="使用属性表达式来动态注入值"><a href="#使用属性表达式来动态注入值" class="headerlink" title="使用属性表达式来动态注入值"></a>使用属性表达式来动态注入值</h5><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">手段SOP：</span><br><span class="line">    <span class="number">1</span> 把属性单独定义到一个properties文件中（外部文件）</span><br><span class="line">    <span class="number">2</span> 在java配置类中加载属性文件到Spring的Environment中</span><br><span class="line">    <span class="number">3</span> 在java代码中从Environment中获取到属性值————用于替换占位符所占的位置</span><br><span class="line">参考：EnvironmentConfig</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>Spring中的Environment实例：getProperty()方法的各种重载</p>
+<hr>
+<h6 id="在xml配置文件中使用属性占位符"><a href="#在xml配置文件中使用属性占位符" class="headerlink" title="在xml配置文件中使用属性占位符"></a>在xml配置文件中使用属性占位符</h6><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SOP:</span><br><span class="line">	<span class="number">1</span> 在java配置类中声明PropertySourcesPlaceholderConfigurer这个bean；</span><br><span class="line">    或者在xml配置文件中，使用context命名空间中的<span class="keyword">property</span>-placeholder元素</span><br><span class="line">	<span class="number">2</span> 在需要属性值的地方使用属性占位符</span><br><span class="line">作用：用于解析占位符；</span><br><span class="line">特征：</span><br><span class="line">    <span class="number">1</span> 把值得注入操作推迟到运行时；</span><br><span class="line">    <span class="number">2</span> 属性表达式需要放在$&#123;xxx&#125;中</span><br><span class="line">原理：根据名称来解析来自于Spring Environment和属性源中的属性值</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h6 id="使用SpEL表达式来动态注入值"><a href="#使用SpEL表达式来动态注入值" class="headerlink" title="使用SpEL表达式来动态注入值"></a>使用SpEL表达式来动态注入值</h6><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">作用：把一个变量装配到bean的方法中</span><br><span class="line">特征：变量的值在运行时才会计算出来</span><br><span class="line">用法：</span><br><span class="line">    <span class="number">1</span> SpEL表达式要放在#&#123;xxx&#125;中</span><br><span class="line">    <span class="number">2</span> 引用字面量的值</span><br><span class="line">    <span class="number">3</span> 引用bean、属性以及方法</span><br><span class="line">    <span class="number">4</span> 访问类作用域的方法与常量：T()运算符   语法：T(java类型)</span><br><span class="line">    <span class="number">5</span> 使用运算符来创建复杂的表达式</span><br><span class="line">        使用三目运算符来检查<span class="literal">null</span>值</span><br><span class="line">    <span class="number">6</span> 匹配正则表达式的模式</span><br><span class="line">    <span class="number">7</span> 计算集合</span><br><span class="line">太强不记 有点子像正则表达式哈</span><br></pre></td></tr></table></figure>
+
+<p>it’s running late,call it a day~</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -905,112 +1015,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://henryinshanghai.github.io/uncategorized/2020/05/05/Spring%E4%B8%ADBean%E7%9A%84%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D%EF%BC%88%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%89.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myAvator.jpeg">
-      <meta itemprop="name" content="henryInSH">
-      <meta itemprop="description" content="collection & catagory & refine">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Henry's blog">
-    </span>
-
-    
-    
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/uncategorized/2020/05/05/Spring%E4%B8%ADBean%E7%9A%84%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D%EF%BC%88%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%89.html" class="post-title-link" itemprop="url">Spring中Bean的创建&装配（第二谈）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-05-05 15:36:37" itemprop="dateCreated datePublished" datetime="2020-05-05T15:36:37+08:00">2020-05-05</time>
-            </span>
-
-          
-            <span id="/uncategorized/2020/05/05/Spring%E4%B8%ADBean%E7%9A%84%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D%EF%BC%88%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%89.html" class="post-meta-item leancloud_visitors" data-flag-title="Spring中Bean的创建&装配（第二谈）" title="热度">
-              <span class="post-meta-item-icon">
-                <i class="far fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">热度：</span>
-              <span class="leancloud-visitors-count"></span>
-              <span>℃</span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/uncategorized/2020/05/05/Spring%E4%B8%ADBean%E7%9A%84%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D%EF%BC%88%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%89.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/uncategorized/2020/05/05/Spring%E4%B8%ADBean%E7%9A%84%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D%EF%BC%88%E7%AC%AC%E4%BA%8C%E8%B0%88%EF%BC%89.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-              <span class="post-meta-item-text">本文字数：</span>
-              <span>632</span>字
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-              <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>分钟
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>Spring中Bean的创建与装配（第二谈）</p>
-<hr>
-<p>方式2：使用java配置类</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">SOP</span>:</span><br><span class="line">    <span class="number">1</span> 声明一个配置类</span><br><span class="line">    手段：<span class="variable">@Configuration</span></span><br><span class="line">    <span class="number">2</span> 在配置类中声明bean</span><br><span class="line">    手段：编写一个方法，方法会返回需要类型的bean实例；</span><br><span class="line">    <span class="number">3</span> 声明方法的返回对象要作为Spring组件；</span><br><span class="line">    手段：<span class="variable">@Bean</span></span><br><span class="line">特征：方法体中可以使用任意的java语法</span><br></pre></td></tr></table></figure>
-
-<p>bean的引用id</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">默认情况下，bean实例的ID与<span class="meta">@Bean</span>所注解的方法名相同；</span><br><span class="line">需求：手动指定bean实例的ID</span><br><span class="line">手段：<span class="meta">@Bean(name=<span class="meta-string">"《预期为bean实例指定的ID》"</span>)</span></span><br></pre></td></tr></table></figure>
-
-<p>对bean实例进行装配</p>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">对声明的<span class="keyword">bean进行装配：</span></span><br><span class="line"><span class="keyword">手段01：通过“引用创建bean的方法”来装配；</span></span><br><span class="line"><span class="keyword">特征：</span></span><br><span class="line"><span class="keyword"> </span>   <span class="number">1</span> 每次方法调用得到的都是同一个<span class="keyword">bean实例；</span></span><br><span class="line"><span class="keyword"> </span>   <span class="number">2</span> 不推荐使用</span><br><span class="line">原理：</span><br><span class="line">    Spring会拦截对方法的调用：</span><br><span class="line">        如果Spring容器中已经存在了对应的<span class="keyword">bean实例，就直接返回。</span></span><br><span class="line"><span class="keyword"> </span>       如果不存在<span class="keyword">bean实例，才对方法进行调用。从而创建bean实例</span></span><br><span class="line"><span class="keyword"></span></span><br><span class="line"><span class="keyword">手段02：在声明Bean时，通过方法参数指定要装配的bean；</span></span><br><span class="line"><span class="keyword">说明：这是DI的一种方式</span></span><br><span class="line"><span class="keyword">特征：</span></span><br><span class="line"><span class="keyword"> </span>   <span class="number">1</span> 由于使用方法参数，所以要装配的<span class="keyword">bean可以从外部注入；</span></span><br><span class="line"><span class="keyword"> </span>   <span class="number">2</span> 由于从外部注入，待装配的<span class="keyword">bean可以使用其他方式配置（自动扫描 </span><span class="keyword">OR </span>XML配置）</span><br><span class="line">    <span class="number">3</span> 这是推荐的方式</span><br></pre></td></tr></table></figure>
-
-<p>DI的几种方式</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">DI（注入依赖）的几种实现方式：</span><br><span class="line"><span class="number">1</span> 构造器注入</span><br><span class="line"><span class="number">2</span> setter()方法注入</span><br><span class="line"><span class="number">3</span> 其他注入方式</span><br><span class="line"></span><br><span class="line">注入的本质上都是给bean属性绑定值</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1066,13 +1070,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">78k</span>
+    <span title="站点总字数">81k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:10</span>
+    <span title="站点阅读时长">1:14</span>
   </span>
 </div>
 <div class="busuanzi-count">

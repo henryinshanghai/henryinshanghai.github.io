@@ -1,6 +1,304 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>java基础之Redis</title>
+    <url>/Redis/2020/09/03/interview/20200903-java%E5%9F%BA%E7%A1%80%E4%B9%8BRedis.html</url>
+    <content><![CDATA[<h4 id="Java应用之Redis（快速记忆）"><a href="#Java应用之Redis（快速记忆）" class="headerlink" title="Java应用之Redis（快速记忆）"></a>Java应用之Redis（快速记忆）</h4><h5 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h5><ul>
+<li>是：数据库；</li>
+<li>作用：存储数据；</li>
+</ul>
+<a id="more"></a>
+
+<ul>
+<li>特征：<ul>
+<li>1 数据存储在内存中（所以读写速度很快）；</li>
+<li>2 支持事务；</li>
+<li>3 支持持久化；</li>
+<li>4 支持LUA脚本（能够方便地定制与扩展功能）；</li>
+<li>5 支持多种集群方案（所以可以在分布式环境下使用）；</li>
+</ul>
+</li>
+<li>应用：<ul>
+<li>1 缓存；</li>
+<li>2 分布式锁；</li>
+</ul>
+</li>
+</ul>
+<h5 id="为什么要用缓存？"><a href="#为什么要用缓存？" class="headerlink" title="为什么要用缓存？"></a>为什么要用缓存？</h5><ul>
+<li>1 能够更快地对查询进行响应；</li>
+<li>2 由于缓存是存在内存中地，因此可以支持更高的并发量；</li>
+</ul>
+<h5 id="Redis比起Map-guava有什么不一样？"><a href="#Redis比起Map-guava有什么不一样？" class="headerlink" title="Redis比起Map/guava有什么不一样？"></a>Redis比起Map/guava有什么不一样？</h5><ul>
+<li>map/guava：<ul>
+<li>是：本地缓存；</li>
+<li>作用：在本地机器上为数据在内存中创建缓存；</li>
+<li>特征：<ul>
+<li>1 轻量快速；</li>
+<li>2 生命周期随着JVM的销毁而结束（aka 无法持久化）；</li>
+<li>3 多态机器之间的缓存数据没有办法保持一致（aka 多实例时，缓存不一致）；</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Redis/memcached：<ul>
+<li>是：分布式缓存；</li>
+<li>作用：为多台机器提供统一的缓存数据；</li>
+<li>特征：<ul>
+<li>1 当有多台机器/服务器/电脑时，多台机器能够共用一份缓存数据（aka 多实例时，缓存具有一致性）；</li>
+<li>2 为了缓存能够稳定地服务于多台机器，需要做很多其他的准备；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="Redis-VS-Memcached"><a href="#Redis-VS-Memcached" class="headerlink" title="Redis VS Memcached"></a>Redis VS Memcached</h5><ul>
+<li>支持的数据类型：<ul>
+<li>Redis支持更多的数据类型（String, list, hash, set等），Memcached只支持简单的数据类型；</li>
+</ul>
+</li>
+<li>数据持久化：<ul>
+<li>Redis支持数据持久化（aka 把缓存数据保存到磁盘中，以备后用），Memcached不支持持久化；</li>
+</ul>
+</li>
+<li>对集群的支持：<ul>
+<li>Redis天生支持集群(aka 实现服务器集群非常简单)，但Memcached并不是原生支持集群的；</li>
+</ul>
+</li>
+<li>运行原理：<ul>
+<li>Redis是单线程 + 多路IO复用； Memcached是多线程 + 非阻塞IO复用【😵】</li>
+</ul>
+</li>
+</ul>
+<p>综上，现在Redis的使用率斩杀Memcached（太难读了）</p>
+<h5 id="Redis常见的数据结构-amp-数据结构关联的使用场景"><a href="#Redis常见的数据结构-amp-数据结构关联的使用场景" class="headerlink" title="Redis常见的数据结构 &amp; 数据结构关联的使用场景"></a>Redis常见的数据结构 &amp; 数据结构关联的使用场景</h5><ul>
+<li><p>String类型</p>
+<ul>
+<li>常用命令：set,get,decr（值减一）,incr（值加一）,mget（获取多个指定key的值）等  </li>
+<li>应用场景：<ul>
+<li>key-value中，key就是String类型的；</li>
+<li>常规计数：微博数、粉丝数；</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Hash类型（存储key-value集合）</p>
+<ul>
+<li><p>作用：用于存储对象；</p>
+</li>
+<li><p>常用命令：hget（获取对象指定属性的值）,hset（设置对象指定属性的值）,hgetall （查看对象中所有的属性与其绑定的值）等</p>
+</li>
+<li><p>应用：</p>
+<ul>
+<li>存储用户信息</li>
+</ul>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">key=JavaUser293847</span><br><span class="line">value=&#123;</span><br><span class="line">“id”: 1,</span><br><span class="line">“name”: “SnailClimb”,</span><br><span class="line">“age”: 22,</span><br><span class="line">“location”: “Wuhan, Hubei”</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>list类型</p>
+<ul>
+<li>是：双向链表；</li>
+<li>作用：存储一堆的String数据类型；</li>
+<li>常用命令：lpush（在链表左端添加元素）,rpush,lpop（移除链表左边的第一个元素）,rpop,lrange （获取链表中指定范围的key-value集合）</li>
+<li>特征：<ul>
+<li>支持反向查找与遍历；</li>
+</ul>
+</li>
+<li>应用：<ul>
+<li>实现分页查询（lrange），aka，从某个元素开始读取指定个数的元素；</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Set类型</p>
+<ul>
+<li><p>是：一个集合类型；</p>
+</li>
+<li><p>作用：存储一堆的String类型数据；</p>
+</li>
+<li><p>特征：</p>
+<ul>
+<li>1 可以自动去重；</li>
+<li>2 能够方便地实现集合操作（交集、差集、并集）</li>
+</ul>
+</li>
+<li><p>用法：sadd,spop,smembers（返回指定key对应的集合中的所有元素）,sunion,sismember(判断指定key中指定value是否存在集合中，返回 0 或 1) 等  </p>
+</li>
+<li><p>应用：</p>
+<ul>
+<li>1 微博应用中，可以将一个用户所有的关注人存在一个集合中，将其所有粉丝存在一个集合；</li>
+<li>2 实现共同关注、共同粉丝、共同喜好等功能 （求交集）；</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">sinterstore key1 key2 key3 将交集存在key1内</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>SortedSort类型</p>
+<ul>
+<li>作用：同Sort类型；</li>
+<li>特征：集合中的元素能够按score进行有序排列  ；</li>
+<li>原理：sorted set增加了一个权重参数score；</li>
+<li>用法：zadd,zrange,zrem（从排序的集合中删除一个或多个成员）,zcard（获取一个排序的集合中的成员数量）等  </li>
+<li>应用：<ul>
+<li>直播系统中的时时排行榜（用户列表、礼物排行榜、弹幕消息等）</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>this is nuts!</p>
+</blockquote>
+</li>
+</ul>
+<h5 id="Redis中设置数据的过期时间"><a href="#Redis中设置数据的过期时间" class="headerlink" title="Redis中设置数据的过期时间"></a>Redis中设置数据的过期时间</h5><ul>
+<li>作用：保证缓存数据是最新的；</li>
+<li>应用：项目中的 token 或者一些登录信息、短信验证码等</li>
+<li>用法：set key 的时候，指定一个 expire time ；</li>
+<li>原理（过期之后，Redis如何删除过期数据）<ul>
+<li>1 <strong>定期删除</strong><ul>
+<li>redis默认是每隔 100ms 就<strong>随机抽取</strong>一些设置了过期时间的key，检查其是否过期，如果过期就删<br>除 ；（注意这里是随机抽取的，因为数据量很大）</li>
+</ul>
+</li>
+<li>2 *<em>惰性删除 *</em><ul>
+<li>过期key在定期删除时没有被删除掉（还停留在内存里），只有重新查询该过期的key，它才会被redis给删除 ；</li>
+</ul>
+</li>
+<li>遗留问题：过期的key可能会堆积在内存中，影响缓存的正常工作；</li>
+<li>解决方案：Redis内存淘汰机制；</li>
+</ul>
+</li>
+</ul>
+<h5 id="Redis内存淘汰机制"><a href="#Redis内存淘汰机制" class="headerlink" title="Redis内存淘汰机制"></a>Redis内存淘汰机制</h5><ul>
+<li>作用：保证Redis中存储的数据都是热门数据（经常被查询到的数据）；</li>
+<li>数据淘汰策略：<ul>
+<li>从设置了过期时间的数据集中删除：<ul>
+<li>最近最少使用的数据（LRU）；</li>
+<li>即将要过期的数据（TTL）；</li>
+<li>随机的数据（random）；</li>
+</ul>
+</li>
+<li>当内存空间不够用时，在键空间中，移除最近最少使用的key；【最常用】</li>
+<li>从数据集中任意选择数据进行删除；</li>
+<li>不删除旧的缓存数据，如果空间不够用，而又有新的数据要写入缓存，就拒绝新的数据；</li>
+</ul>
+</li>
+</ul>
+<h5 id="Redis的持久化原理"><a href="#Redis的持久化原理" class="headerlink" title="Redis的持久化原理"></a>Redis的持久化原理</h5><ul>
+<li>持久化：把内存中的数据写入硬盘（相当于永久存储）；</li>
+<li>作用：备份数据；</li>
+<li>手段：<ul>
+<li>1 快照（snapshotting/rdb文件）<ul>
+<li>是：一个文件；</li>
+<li>作用：存储内存中某一时刻的数据；</li>
+<li>特征：<ul>
+<li>1 rdb文件可以在多台机器上复制与同步，从而保持备份数据的一致性；</li>
+<li>2 这是Redis默认使用的持久化方式；</li>
+<li>3 快照的细节可以在redis.conf中进行配置；</li>
+</ul>
+</li>
+<li>原理：在某些时刻自动触发创建快照的操作；</li>
+</ul>
+</li>
+<li>2 AOF持久化<ul>
+<li>是：一个文件；</li>
+<li>作用：记录数据的变化过程（被执行的写命令）；</li>
+<li>特征：<ul>
+<li>0 备份数据的实时性更好（所以是主要使用的持久化方案）；</li>
+<li>1 默认情况下，AOF持久化没有开启；</li>
+<li>2 开启AOF后，每次执行写入操作时，写入命令就会被追加到AOF文件中；</li>
+<li>3 AOF存储的细节可以在redis.conf文件中进行配置；</li>
+</ul>
+</li>
+<li>原理：写操作发生后，以一定的规律向AOF文件中追加写操作命令；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="Redis事务"><a href="#Redis事务" class="headerlink" title="Redis事务"></a>Redis事务</h5><blockquote>
+<p>事务；</p>
+<p>是：一个规范；</p>
+<p>作用：提供了一种将多个命令请求打包，然后一次性、按顺序地执行多个命令的机制  ；</p>
+<p>特征：</p>
+<p>​        1 执行事务期间，服务器不会中断事务而去执行其他客户端的请求；</p>
+<p>​        2 如果事务执行到一半时发生意外情况，服务器会把之前执行的事务部分撤销操作；</p>
+</blockquote>
+<ul>
+<li>是：Redis对事务的具体实现；</li>
+<li>手段：使用MULTI、EXEC、WATCH 等命令来实现事务(transaction)功能 ；</li>
+<li>特征：<ul>
+<li>1 Redis事务总能保证事务的ACI(Atomicity  、Consistency  、Isolation)；</li>
+<li>2 在设置了持久化模式之后，Redis事务也能保证事务的D（Durability ）；</li>
+</ul>
+</li>
+</ul>
+<p>ACID：原子性、连续性、隔离性、持久性；</p>
+<h5 id="缓存雪崩-amp-缓存穿透（及解决方案）"><a href="#缓存雪崩-amp-缓存穿透（及解决方案）" class="headerlink" title="缓存雪崩&amp;缓存穿透（及解决方案）"></a>缓存雪崩&amp;缓存穿透（及解决方案）</h5><p>缓存雪崩</p>
+<ul>
+<li>是：一个现象；</li>
+<li>作用：描述缓存在短时间内大量失效（缓存的数据不再是热点数据了）</li>
+<li>特征：请求都会落在数据库服务器上，数据库压力很大</li>
+<li>解决手段：<ul>
+<li>事前：建立Redis集群，保证缓存机器集群的可用性；</li>
+<li>事中：利用各种手段防止MySQL崩掉（ehcache缓存 + hystrix限流/降级等）；</li>
+<li>事后：使用Redis持久化备份的数据尽快恢复缓存；</li>
+</ul>
+</li>
+</ul>
+<p>缓存穿透</p>
+<ul>
+<li>是：一个现象；</li>
+<li>作用：描述客户端故意请求缓存中不存在的数据，使得请求总是落在数据库服务器上；</li>
+<li>解决手段：<ul>
+<li>1 使用布隆过滤器；<ul>
+<li>原理：如果请求的数据在数据库中一定不存在，布隆过滤器就会拦截掉这个请求；</li>
+</ul>
+</li>
+<li>2 把查询为空的结构也添加到缓存中；<ul>
+<li>原理：这样即便客户端请求不存在的数据，缓存也能发挥作用；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="Redis并发竞争Key的问题"><a href="#Redis并发竞争Key的问题" class="headerlink" title="Redis并发竞争Key的问题"></a>Redis并发竞争Key的问题</h5><ul>
+<li>是：一种现象；</li>
+<li>作用：描述多个系统同时操作一个key，而执行的顺序不是预期执行的顺序。最终导致了非预期的结果</li>
+<li>解决手段：分布式锁（首选Zookeeper）；<ul>
+<li>是：一种技术；</li>
+<li>作用：解决分布式（多台机器上都有相同的实例）场景下，多台机器同时操作相同资源的并发问题；</li>
+<li>特征：有点子像多线程并发操作资源的情况；</li>
+<li>手段：使用zookeeper的临时有序节点；</li>
+<li>原理：<ul>
+<li>1 当客户端对某个方法加锁时，在zookeeper上的<strong>与该方法对应的指定节点的目录</strong>下，生成一个唯一的瞬时有序节点  ;</li>
+<li>2 当机器要获取资源的锁时，只需要判断有序节点中序号最小的一个  ；【😵】</li>
+<li>3 当机器要释放锁时，只需将这个瞬时节点删除即可 ；</li>
+</ul>
+</li>
+<li>用法：<ul>
+<li>完成业务流程后，删除对应的子节点来释放锁 ；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="数据写入数据库-amp-缓存时，保证双写一致"><a href="#数据写入数据库-amp-缓存时，保证双写一致" class="headerlink" title="数据写入数据库&amp;缓存时，保证双写一致"></a>数据写入数据库&amp;缓存时，保证双写一致</h5><p>双写一致：</p>
+<ul>
+<li>是：一个要求；</li>
+<li>作用：要求缓存中的数据与数据库中的数据保持一致；</li>
+<li>特征：多数情况下，系统并不必须要保持双写一致（串行化会导致系统处理请求的能力大大降低）；</li>
+<li>手段：把读请求&amp;写请求串行化放到一个队列中；</li>
+<li>原理：请求串行化后，Redis就会同步数据库中新写入的数据。从而保证从缓存中读取的数据总是正确的；</li>
+</ul>
+<p>​    </p>
+]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>Java stuff</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>java基础之HashMap</title>
     <url>/JDK-source-type/2020/09/01/interview/20200901-java%E5%9F%BA%E7%A1%80%E4%B9%8BHashMap.html</url>
     <content><![CDATA[<h4 id="java集合类型之HashMap"><a href="#java集合类型之HashMap" class="headerlink" title="java集合类型之HashMap"></a>java集合类型之HashMap</h4><p>对于JDK源码来说，它有点像吉他谱中的F和弦。第一道坎，跨过去就会是另一番风景</p>
@@ -1633,42 +1931,6 @@
       </tags>
   </entry>
   <entry>
-    <title>倒数第k个节点_05_2</title>
-    <url>/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%ACn%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%88%E4%B8%80%E6%AC%A1%E9%81%8D%E5%8E%86%EF%BC%89_05_2.html</url>
-    <content><![CDATA[<h3 id="删除链表中的倒数第n个节点（一次遍历）"><a href="#删除链表中的倒数第n个节点（一次遍历）" class="headerlink" title="删除链表中的倒数第n个节点（一次遍历）"></a>删除链表中的倒数第n个节点（一次遍历）</h3><h4 id="题设-amp-要求"><a href="#题设-amp-要求" class="headerlink" title="题设 &amp; 要求"></a>题设 &amp; 要求</h4><p><img src="https://s1.ax1x.com/2020/08/14/dCLxyj.png" alt="题设 &amp; 要求"></p>
-<a id="more"></a>
-
-<h4 id="分析（难点）"><a href="#分析（难点）" class="headerlink" title="分析（难点）"></a>分析（难点）</h4><p>如何能找到倒数第N个节点（预期节点：此节点的上一个节点）？</p>
-<h4 id="思路2（难点的解决方案）"><a href="#思路2（难点的解决方案）" class="headerlink" title="思路2（难点的解决方案）"></a>思路2（难点的解决方案）</h4><ul>
-<li>定义两个指针front与back，设置两个指针之间的初始间距。</li>
-<li>然后把两个指针同时向后移动，直到front指针到达了链表的尾节点。</li>
-<li>这时候back指针就会指在某一个可以计算的位置——通过设置指针间的初始间距，就能确定back指针停下的具体位置。</li>
-</ul>
-<h4 id="实现SOP"><a href="#实现SOP" class="headerlink" title="实现SOP"></a>实现SOP</h4><ul>
-<li>1 定义所需要的指针front与back与dummy（并初始化）；    注：画图分析指针初始化的位置；    原则：方便编码；&amp; 避免NPE；</li>
-<li>2 画图分析，front指针与back指针之间的初始间距span与n的关系（span = n）；</li>
-<li>3 把front与back指针初始化指向dummy节点(这里引入dummy节点只是为了方便计算指针应该移动的距离)；</li>
-<li>4 把front指针向前移动n个节点；</li>
-<li>5 把front与back指针同时向后移动，直到front指针指向链表的尾节点；</li>
-<li>6 back指向预期节点后，对待删除节点进行删除；</li>
-</ul>
-<h4 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">removeNthFromEnd</span><span class="params">(ListNode head, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 实践证明：在删除的时候使用栈不是一个好主意</span></span><br><span class="line">        <span class="comment">// 鲁棒性代码</span></span><br><span class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1 需要的实例变量</span></span><br><span class="line">        ListNode dummy = <span class="keyword">new</span> ListNode(-<span class="number">1</span>);</span><br><span class="line">        dummy.next = head;</span><br><span class="line"></span><br><span class="line">        ListNode front = dummy;</span><br><span class="line">        ListNode back = dummy;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2 先让front向前走n个节点   如果只有一个节点，然后要删除倒数第一个节点</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;n; i++)&#123; <span class="comment">// 注：front的初始化值会决定循环执行的次数</span></span><br><span class="line">            front = front.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3 再让front与back一起先前移动，直到front到达尾节点</span></span><br><span class="line">        <span class="keyword">while</span>(front != <span class="keyword">null</span> &amp;&amp; front.next != <span class="keyword">null</span>)&#123;</span><br><span class="line">            front = front.next;</span><br><span class="line">            back = back.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4 这里得到的back就是预期删除的节点的前一个节点</span></span><br><span class="line">        <span class="comment">// 执行删除</span></span><br><span class="line">        back.next = back.next.next;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> dummy.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="启示"><a href="#启示" class="headerlink" title="启示"></a>启示</h4><p>1 代码的鲁棒性编码在实现了基本功能后，再进行添加；</p>
-<p>2 对于循环执行次数已知的情况，使用for语法来实现循环——这样能避免令人纠结的循环执行/终止条件；</p>
-<p>3 编写while循环执行表达式的参考：节点的最终状态； &amp;  避免代码中的NPE；</p>
-]]></content>
-      <categories>
-        <category>ListNode</category>
-      </categories>
-      <tags>
-        <tag>Algorithm</tag>
-        <tag>LinkedList</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>交换链表节点(迭代)_06</title>
     <url>/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E4%B8%A4%E4%B8%A4%E4%BA%A4%E6%8D%A2%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B9(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_06.html</url>
     <content><![CDATA[<h3 id="两两交换链表中的节点"><a href="#两两交换链表中的节点" class="headerlink" title="两两交换链表中的节点"></a>两两交换链表中的节点</h3><hr>
@@ -1747,6 +2009,42 @@
 <blockquote>
 <p>until next time 😄</p>
 </blockquote>
+]]></content>
+      <categories>
+        <category>ListNode</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>LinkedList</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>倒数第k个节点_05_2</title>
+    <url>/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%ACn%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%88%E4%B8%80%E6%AC%A1%E9%81%8D%E5%8E%86%EF%BC%89_05_2.html</url>
+    <content><![CDATA[<h3 id="删除链表中的倒数第n个节点（一次遍历）"><a href="#删除链表中的倒数第n个节点（一次遍历）" class="headerlink" title="删除链表中的倒数第n个节点（一次遍历）"></a>删除链表中的倒数第n个节点（一次遍历）</h3><h4 id="题设-amp-要求"><a href="#题设-amp-要求" class="headerlink" title="题设 &amp; 要求"></a>题设 &amp; 要求</h4><p><img src="https://s1.ax1x.com/2020/08/14/dCLxyj.png" alt="题设 &amp; 要求"></p>
+<a id="more"></a>
+
+<h4 id="分析（难点）"><a href="#分析（难点）" class="headerlink" title="分析（难点）"></a>分析（难点）</h4><p>如何能找到倒数第N个节点（预期节点：此节点的上一个节点）？</p>
+<h4 id="思路2（难点的解决方案）"><a href="#思路2（难点的解决方案）" class="headerlink" title="思路2（难点的解决方案）"></a>思路2（难点的解决方案）</h4><ul>
+<li>定义两个指针front与back，设置两个指针之间的初始间距。</li>
+<li>然后把两个指针同时向后移动，直到front指针到达了链表的尾节点。</li>
+<li>这时候back指针就会指在某一个可以计算的位置——通过设置指针间的初始间距，就能确定back指针停下的具体位置。</li>
+</ul>
+<h4 id="实现SOP"><a href="#实现SOP" class="headerlink" title="实现SOP"></a>实现SOP</h4><ul>
+<li>1 定义所需要的指针front与back与dummy（并初始化）；    注：画图分析指针初始化的位置；    原则：方便编码；&amp; 避免NPE；</li>
+<li>2 画图分析，front指针与back指针之间的初始间距span与n的关系（span = n）；</li>
+<li>3 把front与back指针初始化指向dummy节点(这里引入dummy节点只是为了方便计算指针应该移动的距离)；</li>
+<li>4 把front指针向前移动n个节点；</li>
+<li>5 把front与back指针同时向后移动，直到front指针指向链表的尾节点；</li>
+<li>6 back指向预期节点后，对待删除节点进行删除；</li>
+</ul>
+<h4 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">removeNthFromEnd</span><span class="params">(ListNode head, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 实践证明：在删除的时候使用栈不是一个好主意</span></span><br><span class="line">        <span class="comment">// 鲁棒性代码</span></span><br><span class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1 需要的实例变量</span></span><br><span class="line">        ListNode dummy = <span class="keyword">new</span> ListNode(-<span class="number">1</span>);</span><br><span class="line">        dummy.next = head;</span><br><span class="line"></span><br><span class="line">        ListNode front = dummy;</span><br><span class="line">        ListNode back = dummy;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2 先让front向前走n个节点   如果只有一个节点，然后要删除倒数第一个节点</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;n; i++)&#123; <span class="comment">// 注：front的初始化值会决定循环执行的次数</span></span><br><span class="line">            front = front.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3 再让front与back一起先前移动，直到front到达尾节点</span></span><br><span class="line">        <span class="keyword">while</span>(front != <span class="keyword">null</span> &amp;&amp; front.next != <span class="keyword">null</span>)&#123;</span><br><span class="line">            front = front.next;</span><br><span class="line">            back = back.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4 这里得到的back就是预期删除的节点的前一个节点</span></span><br><span class="line">        <span class="comment">// 执行删除</span></span><br><span class="line">        back.next = back.next.next;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> dummy.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="启示"><a href="#启示" class="headerlink" title="启示"></a>启示</h4><p>1 代码的鲁棒性编码在实现了基本功能后，再进行添加；</p>
+<p>2 对于循环执行次数已知的情况，使用for语法来实现循环——这样能避免令人纠结的循环执行/终止条件；</p>
+<p>3 编写while循环执行表达式的参考：节点的最终状态； &amp;  避免代码中的NPE；</p>
 ]]></content>
       <categories>
         <category>ListNode</category>
