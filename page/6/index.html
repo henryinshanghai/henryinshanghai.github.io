@@ -220,14 +220,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">39</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -297,6 +297,120 @@
       
 
       
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://henryinshanghai.github.io/uncategorized/2020/05/05/Spring%E4%B8%ADbean%E7%9A%84%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D%EF%BC%88%E7%AC%AC%E4%B8%89%E8%B0%88%EF%BC%89.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myAvator.jpeg">
+      <meta itemprop="name" content="henryInSH">
+      <meta itemprop="description" content="collection & catagory & refine">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Henry's blog">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/uncategorized/2020/05/05/Spring%E4%B8%ADbean%E7%9A%84%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D%EF%BC%88%E7%AC%AC%E4%B8%89%E8%B0%88%EF%BC%89.html" class="post-title-link" itemprop="url">Spring中bean的创建&装配（第三谈）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-05-05 15:51:41 / 修改时间：15:51:46" itemprop="dateCreated datePublished" datetime="2020-05-05T15:51:41+08:00">2020-05-05</time>
+            </span>
+
+          
+            <span id="/uncategorized/2020/05/05/Spring%E4%B8%ADbean%E7%9A%84%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D%EF%BC%88%E7%AC%AC%E4%B8%89%E8%B0%88%EF%BC%89.html" class="post-meta-item leancloud_visitors" data-flag-title="Spring中bean的创建&装配（第三谈）" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="far fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+              <span>℃</span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/uncategorized/2020/05/05/Spring%E4%B8%ADbean%E7%9A%84%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D%EF%BC%88%E7%AC%AC%E4%B8%89%E8%B0%88%EF%BC%89.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/uncategorized/2020/05/05/Spring%E4%B8%ADbean%E7%9A%84%E5%88%9B%E5%BB%BA&%E8%A3%85%E9%85%8D%EF%BC%88%E7%AC%AC%E4%B8%89%E8%B0%88%EF%BC%89.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+              <span class="post-meta-item-text">本文字数：</span>
+              <span>880</span>字
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+              <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>分钟
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Spring中bean的创建&amp;装配（第三谈）</p>
+<hr>
+<h4 id="方式3：使用xml文件进行配置"><a href="#方式3：使用xml文件进行配置" class="headerlink" title="方式3：使用xml文件进行配置"></a>方式3：使用xml文件进行配置</h4><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">SOP</span>:<span class="string"></span></span><br><span class="line">    <span class="attr">1</span> <span class="string">创建一个xml文件；</span></span><br><span class="line">    <span class="attr">2</span> <span class="string">在文件顶部声明多个XML模式文件（XSD）————这些文件指定了在xml文件中的可用标签</span></span><br><span class="line">    <span class="attr">3</span> <span class="string">在spring-bean模式下添加beans元素————作为所有bean配置的根元素；</span></span><br><span class="line">    <span class="attr">4</span> <span class="string">在beans中声明所有需要Spring bean实例的配置</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="实现手段1：构造器方式注入-装配-DI"><a href="#实现手段1：构造器方式注入-装配-DI" class="headerlink" title="实现手段1：构造器方式注入/装配/DI"></a>实现手段1：构造器方式注入/装配/DI</h5><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="string">声明构造器方式的DI（注入引用）</span></span><br><span class="line">    <span class="string">ref属性</span></span><br><span class="line">    <span class="string">ConstructorArgReferenceTest-context.xml</span></span><br><span class="line"></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="string">使用c命名空间声明构造器DI(注入引用)</span></span><br><span class="line">    <span class="string">c:xx-ref="bean</span> <span class="string">id"</span></span><br><span class="line">    <span class="string">CNamespaceReferenceTest-context.xml</span></span><br><span class="line"></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="string">声明构造器方式的DI(注入字面量值)：</span></span><br><span class="line">    <span class="string">value="xxx"</span></span><br><span class="line"><span class="string">说明：c命名空间会有另一套规则</span></span><br><span class="line"></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="string">构造器方式的DI(装配字面量集合):</span></span><br><span class="line">    <span class="string">&lt;constructor-arg&gt;</span></span><br><span class="line">        <span class="string">&lt;list&gt;</span></span><br><span class="line">            <span class="string">&lt;value&gt;...&lt;/value&gt;</span></span><br><span class="line">            <span class="string">...</span></span><br><span class="line">        <span class="string">&lt;/list&gt;</span></span><br><span class="line">    <span class="string">&lt;...&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="string">构造器方式的DI(装配引用集合)</span></span><br><span class="line">    <span class="string">...</span></span><br><span class="line">        <span class="string">...</span></span><br><span class="line">            <span class="string">&lt;ref&gt;...&lt;/ref&gt;</span></span><br><span class="line"><span class="string">说明：在装配集合时，constructor-arg原生元素比c命名空间更好用</span></span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h5 id="实现手段2：属性设置方式的注入-装配-DI"><a href="#实现手段2：属性设置方式的注入-装配-DI" class="headerlink" title="实现手段2：属性设置方式的注入/装配/DI"></a>实现手段2：属性设置方式的注入/装配/DI</h5><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">通过setter方法注入依赖</span><br><span class="line">原则：对强依赖使用构造器注入，对可选性的依赖使用setter注入；</span><br><span class="line">用法：</span><br><span class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"属性名"</span> <span class="keyword">ref</span>=<span class="string">"bean id"</span>/&gt;</span><br><span class="line"></span><br><span class="line">setter注入的替换方案：p-命名空间</span><br><span class="line">又是一套烦人的语法</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p>多种配置方式的共用</p>
+<figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-----------</span></span><br><span class="line">多种装配方式的混用mix</span><br><span class="line">说明：显式的xml配置总是必不可少，因为自动扫描+装配的方式需要先启动注解扫描<span class="keyword">context</span>:<span class="keyword">component</span>-sacn；</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -931,104 +1045,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://henryinshanghai.github.io/uncategorized/2020/05/03/%E6%88%91%E7%9A%84%E7%AC%AC%E4%BA%8C%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/myAvator.jpeg">
-      <meta itemprop="name" content="henryInSH">
-      <meta itemprop="description" content="collection & catagory & refine">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Henry's blog">
-    </span>
-
-    
-    
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/uncategorized/2020/05/03/%E6%88%91%E7%9A%84%E7%AC%AC%E4%BA%8C%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0.html" class="post-title-link" itemprop="url">我的第二篇博客文章</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-05-03 22:59:30 / 修改时间：23:01:03" itemprop="dateCreated datePublished" datetime="2020-05-03T22:59:30+08:00">2020-05-03</time>
-            </span>
-
-          
-            <span id="/uncategorized/2020/05/03/%E6%88%91%E7%9A%84%E7%AC%AC%E4%BA%8C%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0.html" class="post-meta-item leancloud_visitors" data-flag-title="我的第二篇博客文章" title="热度">
-              <span class="post-meta-item-icon">
-                <i class="far fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">热度：</span>
-              <span class="leancloud-visitors-count"></span>
-              <span>℃</span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/uncategorized/2020/05/03/%E6%88%91%E7%9A%84%E7%AC%AC%E4%BA%8C%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/uncategorized/2020/05/03/%E6%88%91%E7%9A%84%E7%AC%AC%E4%BA%8C%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-              <span class="post-meta-item-text">本文字数：</span>
-              <span>10</span>字
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-              <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>分钟
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="第一章"><a href="#第一章" class="headerlink" title="第一章"></a>第一章</h2><p>内容</p>
-<hr>
-<h2 id="第二章"><a href="#第二章" class="headerlink" title="第二章"></a>第二章</h2><p>内容</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1084,7 +1100,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">81k</span>
+    <span title="站点总字数">82k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
