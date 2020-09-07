@@ -1,6 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>设计模式之单例模式</title>
+    <url>/Design-Model/2020/09/07/interview/20200907-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F.html</url>
+    <content><![CDATA[<h4 id="快速博客（使用双重检查锁来实现多线程下的单例模式）"><a href="#快速博客（使用双重检查锁来实现多线程下的单例模式）" class="headerlink" title="快速博客（使用双重检查锁来实现多线程下的单例模式）"></a>快速博客（使用双重检查锁来实现多线程下的单例模式）</h4><h5 id="单例"><a href="#单例" class="headerlink" title="单例"></a>单例</h5><p>是：一个性质；</p>
+<p>作用：描述特定的类只能存在一个实例对象的性质；</p>
+<h5 id="单线程下的单例"><a href="#单线程下的单例" class="headerlink" title="单线程下的单例"></a>单线程下的单例</h5><p>手段：</p>
+<ul>
+<li>1 类中持有静态私有变量uniqueInstance;</li>
+<li>2 把构造方法私有化；</li>
+<li>3 提供一个公开的获取单例对象的方法getInstance()；<ul>
+<li>在方法中，先判空，再new出来单例对象；</li>
+</ul>
+</li>
+</ul>
+<p>代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Singleton uniqueInstance;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(uniqueInstance == <span class="keyword">null</span>)&#123;</span><br><span class="line">            uniqueInstance = <span class="keyword">new</span> Singleton();</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> uniqueInstance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="多线程下的单例模式（特征：双重检查锁）"><a href="#多线程下的单例模式（特征：双重检查锁）" class="headerlink" title="多线程下的单例模式（特征：双重检查锁）"></a>多线程下的单例模式（特征：双重检查锁）</h5><p>手段：</p>
+<ul>
+<li><p>1 为创建单例对象的if()语句块加锁（类对象的锁）；</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">synchronized</span>(Singleton<span class="class">.<span class="keyword">class</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(uniqueInstance == <span class="keyword">null</span>)&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2 避免多线程不必要地抢夺锁（如果实例已经创建了，就没有必要再去抢夺锁了）</p>
+<p>手段：在抢夺锁之前，判断单例是不是已经存在了；</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(uniqueInstance == <span class="keyword">null</span>)&#123;</span><br><span class="line">    <span class="keyword">synchronized</span>(Singleton<span class="class">.<span class="keyword">class</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(xxx)&#123;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3 避免多线程下，创建对象操作所引起的非单例情况；</p>
+<p>手段：为实例变量添加volatile修饰符，避免创建对象时发生指令重排；</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Singleton instance;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h6 id="完成代码"><a href="#完成代码" class="headerlink" title="完成代码"></a>完成代码</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Singleton instance;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> == instance) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (Singleton<span class="class">.<span class="keyword">class</span>) </span>&#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">null</span> == instance) &#123;</span><br><span class="line">                    instance = <span class="keyword">new</span> Singleton();   </span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>ok, until next time 😄</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Design Model</category>
+      </categories>
+      <tags>
+        <tag>Fancy Stuff</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java垃圾回收机制</title>
     <url>/JVM/2020/09/07/interview/20200907-Java%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6.html</url>
     <content><![CDATA[<h4 id="JVM之垃圾回收"><a href="#JVM之垃圾回收" class="headerlink" title="JVM之垃圾回收"></a>JVM之垃圾回收</h4><h5 id="为什么要进行垃圾回收？"><a href="#为什么要进行垃圾回收？" class="headerlink" title="为什么要进行垃圾回收？"></a>为什么要进行垃圾回收？</h5><ul>
@@ -169,6 +214,140 @@
       </categories>
       <tags>
         <tag>Garbage Collection</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>设计模式之简单工厂模式</title>
+    <url>/Design-Model/2020/09/07/interview/20200907-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F.html</url>
+    <content><![CDATA[<p>诚实地讲，我看过设计模式的一本书，但是仍旧觉得它是悬浮在大气层外面的东西。现在对设计模式的基本认识是，它能够：</p>
+<ul>
+<li>封装变化，从而以最小的代码改动应对需求变化；</li>
+</ul>
+<a id="more"></a>
+
+<h4 id="常见的设计模式"><a href="#常见的设计模式" class="headerlink" title="常见的设计模式"></a>常见的设计模式</h4><h5 id="简单工厂模式"><a href="#简单工厂模式" class="headerlink" title="简单工厂模式"></a>简单工厂模式</h5><ul>
+<li><p>作用：解耦<strong>客户端代码</strong>与<strong>具体实例</strong>之间的依赖；</p>
+</li>
+<li><p>直接依赖导致的问题：</p>
+<ul>
+<li>场景：A对象如果要调用B对象，最简单的做法就是直接new一个B出来【直接依赖】。</li>
+<li>需求改动：系统需要把B类修改成C类（假如C类和B类实现了同一个接口/继承自同一个类）；</li>
+<li>手段：程序员只能改动A类代码（客户端代码）。</li>
+<li>特征：如果程序中有100个地方new了B对象，那么就要修改100处（😫）。</li>
+</ul>
+</li>
+<li><p>简单工厂模式的用法SOP：</p>
+<ul>
+<li>1 定义一个工厂类IFactory(工厂类能够创建各种类型的实例);</li>
+<li>2 编写客户端代码时，使用工厂类来获取到所需要的实例B；</li>
+<li>3 当需求变化为：客户端代码使用实例C时,客户端代码不需要做出任何变化…(really?)</li>
+</ul>
+</li>
+<li><p>示例</p>
+<blockquote>
+<p>水果接口</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Fruit</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">// 接口中规定的行为集合</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">grow</span><span class="params">()</span></span>;<span class="comment">// 生长</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">harveset</span><span class="params">()</span></span>; <span class="comment">// 收货</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">plant</span><span class="params">()</span></span>;<span class="comment">// 种植</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>两个子类型：苹果和葡萄</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Apple</span> <span class="keyword">implements</span> <span class="title">Fruit</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Apple.grow()"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">harveset</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Apple.harveset()"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">plant</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Apple.plant()"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Grape</span> <span class="keyword">implements</span> <span class="title">Fruit</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Grape.grow()"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">harveset</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Grape.harveset()"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">plant</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Grape.plant()"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>园丁（工厂类） 用于生产各种水果</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Gardener</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Fruit <span class="title">getFruit</span><span class="params">(String fruit)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 根据传入的参数，来new出对应类型的实例</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="string">"apple"</span>.equalsIgnoreCase(fruit))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Apple();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"grape"</span>.equalsIgnoreCase(fruit))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Grape();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>客户端代码</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 需要苹果时，传入APPLE参数</span></span><br><span class="line">    Fruit fruit0 = Gardener.getFruit(<span class="string">"APPLE"</span>);</span><br><span class="line">    <span class="comment">// 消费苹果实例	aka 调用apple实例的方法</span></span><br><span class="line">    fruit0.grow();</span><br><span class="line">    <span class="comment">// 需要葡萄时，传入GRAPE参数</span></span><br><span class="line">    Fruit fruit1 = Gardener.getFruit(<span class="string">"GRAPE"</span>);</span><br><span class="line">    fruit1.harveset();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>需求变动时，客户端代码还是需要改动呀？传入工厂类的参数需要变化</p>
+</blockquote>
+</li>
+<li><p>简单工厂模式的作用：</p>
+<ul>
+<li>1 客户端代码不需要直接new具体实例，而是通过工厂类去获取；</li>
+<li>2 把创建实例的部分从客户端代码中分离出去了——<strong>创建代码</strong> 与 <strong>消费代码</strong>分离，职责更清晰</li>
+</ul>
+</li>
+</ul>
+<h5 id="简单工厂模式的改进"><a href="#简单工厂模式的改进" class="headerlink" title="简单工厂模式的改进"></a>简单工厂模式的改进</h5><ul>
+<li><p>issue：每次增加新类型的水果（比如梨子），就必须要改动工厂类（在类代码中添加if/else语句）；</p>
+</li>
+<li><p>手段：在工厂类代码中，使用反射的方式来创建类型的实例对象；</p>
+</li>
+<li><p>特征：</p>
+<ul>
+<li>1 反射方式创建实例时，需要传入<strong>实例所属的类的全限定名</strong>；</li>
+<li>2 反射方式创建实例时，能够<strong>使用同一行代码创建出不同的实例</strong>（根据1中传入参数的不同）；</li>
+</ul>
+</li>
+<li><p>示例</p>
+<blockquote>
+<p>1 在工厂类中使用反射来创建实例对象；</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Gardener</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Fruit <span class="title">getFruit</span><span class="params">(String fruitPath)</span> <span class="keyword">throws</span> Exception</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 1 获取到类型的Class对象；		手段：Class.forName("类的全限定名")</span></span><br><span class="line">        Class&lt;?&gt; c = Class.forName(fruitPath);</span><br><span class="line">        <span class="comment">// 2 调用Class对象的newInstance()方法，并进行强制类型转换。得到需要的实例对象</span></span><br><span class="line">        <span class="keyword">return</span> (Fruit)c.newInstance();       </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>2 客户端代码在调用时，传入需要类型的全限定名；</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 需要获取苹果的实例	则传入Apple类的全限定名</span></span><br><span class="line">    Fruit fruit0 = Gardener.getFruit(<span class="string">"com.xrq.simplefactory.Apple"</span>);</span><br><span class="line">    fruit0.grow();</span><br><span class="line">    Fruit fruit1 = Gardener.getFruit(<span class="string">"com.xrq.simplefactory.Grape"</span>);</span><br><span class="line">    fruit1.harveset();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>隐藏问题：如果项目进行了重构，则类的全限定名就会发生变化。由于客户端代码使用类的全限定名进行了硬编码，所以客户端代码就无法再找到类的class文件（进而加载到JVM中生成Class对象）</p>
+</li>
+</ul>
+<h5 id="应对项目重构的方式"><a href="#应对项目重构的方式" class="headerlink" title="应对项目重构的方式"></a>应对项目重构的方式</h5><ul>
+<li><p>原则：避免客户端代码中的硬编码；</p>
+</li>
+<li><p>手段：</p>
+<ul>
+<li><p>1 创建一个属性文件(Fruit.properties),在其中定义水果 -&gt; 类路径的关系；</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Apple=com.xrq.simplefactory.Apple</span><br><span class="line">Grape=com.xrq.simplefactory.Grape</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2 在客户端代码中，先加载属性文件。然后解析出参数，传入工厂类方法中</p>
+<p>…</p>
+</li>
+</ul>
+</li>
+<li><p>作用：如果需求发生变动，不需要修改客户端代码，只需要修改配置文件中特定键对应的值即可；</p>
+</li>
+</ul>
+<h5 id="简单工厂模式在JDK中的应用"><a href="#简单工厂模式在JDK中的应用" class="headerlink" title="简单工厂模式在JDK中的应用"></a>简单工厂模式在JDK中的应用</h5><p>答：Java线程池的Executors类；</p>
+<p>作用：把<strong>创建线程池</strong>与<strong>使用线程池</strong>的代码进行分离；</p>
+<p>用法：</p>
+<ul>
+<li>1 获取线程池【这种创建线程池的方式似乎是不推荐使用的】；<ul>
+<li>Executors.newSingleThreadExecutor()；</li>
+</ul>
+</li>
+<li>2 使用线程池；<ul>
+<li>…</li>
+</ul>
+</li>
+</ul>
+<p>特征：</p>
+<p>​    开发者可以不用关心线程池是如何去实现的，直接使用Executors方法提供给开发者的ThreadPoolExecutor就可以了</p>
+<h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><p>简单工厂模式的作用：</p>
+<ul>
+<li>1 把实例的创建过程从客户端代码中分离/解耦出去；</li>
+<li>2 （aka）把<strong>创建实例</strong> 与 <strong>消费实例</strong>进行分离；</li>
+</ul>
+<h5 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h5><p><a href="https://www.cnblogs.com/xrq730/p/4902597.html">五月的仓颉</a></p>
+<blockquote>
+<p>until next time, Bless！</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Design Model</category>
+      </categories>
+      <tags>
+        <tag>Fancy Stuff</tag>
       </tags>
   </entry>
   <entry>
@@ -2268,42 +2447,6 @@
       </tags>
   </entry>
   <entry>
-    <title>倒数第k个节点_05_2</title>
-    <url>/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%ACn%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%88%E4%B8%80%E6%AC%A1%E9%81%8D%E5%8E%86%EF%BC%89_05_2.html</url>
-    <content><![CDATA[<h3 id="删除链表中的倒数第n个节点（一次遍历）"><a href="#删除链表中的倒数第n个节点（一次遍历）" class="headerlink" title="删除链表中的倒数第n个节点（一次遍历）"></a>删除链表中的倒数第n个节点（一次遍历）</h3><h4 id="题设-amp-要求"><a href="#题设-amp-要求" class="headerlink" title="题设 &amp; 要求"></a>题设 &amp; 要求</h4><p><img src="https://s1.ax1x.com/2020/08/14/dCLxyj.png" alt="题设 &amp; 要求"></p>
-<a id="more"></a>
-
-<h4 id="分析（难点）"><a href="#分析（难点）" class="headerlink" title="分析（难点）"></a>分析（难点）</h4><p>如何能找到倒数第N个节点（预期节点：此节点的上一个节点）？</p>
-<h4 id="思路2（难点的解决方案）"><a href="#思路2（难点的解决方案）" class="headerlink" title="思路2（难点的解决方案）"></a>思路2（难点的解决方案）</h4><ul>
-<li>定义两个指针front与back，设置两个指针之间的初始间距。</li>
-<li>然后把两个指针同时向后移动，直到front指针到达了链表的尾节点。</li>
-<li>这时候back指针就会指在某一个可以计算的位置——通过设置指针间的初始间距，就能确定back指针停下的具体位置。</li>
-</ul>
-<h4 id="实现SOP"><a href="#实现SOP" class="headerlink" title="实现SOP"></a>实现SOP</h4><ul>
-<li>1 定义所需要的指针front与back与dummy（并初始化）；    注：画图分析指针初始化的位置；    原则：方便编码；&amp; 避免NPE；</li>
-<li>2 画图分析，front指针与back指针之间的初始间距span与n的关系（span = n）；</li>
-<li>3 把front与back指针初始化指向dummy节点(这里引入dummy节点只是为了方便计算指针应该移动的距离)；</li>
-<li>4 把front指针向前移动n个节点；</li>
-<li>5 把front与back指针同时向后移动，直到front指针指向链表的尾节点；</li>
-<li>6 back指向预期节点后，对待删除节点进行删除；</li>
-</ul>
-<h4 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">removeNthFromEnd</span><span class="params">(ListNode head, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 实践证明：在删除的时候使用栈不是一个好主意</span></span><br><span class="line">        <span class="comment">// 鲁棒性代码</span></span><br><span class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1 需要的实例变量</span></span><br><span class="line">        ListNode dummy = <span class="keyword">new</span> ListNode(-<span class="number">1</span>);</span><br><span class="line">        dummy.next = head;</span><br><span class="line"></span><br><span class="line">        ListNode front = dummy;</span><br><span class="line">        ListNode back = dummy;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2 先让front向前走n个节点   如果只有一个节点，然后要删除倒数第一个节点</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;n; i++)&#123; <span class="comment">// 注：front的初始化值会决定循环执行的次数</span></span><br><span class="line">            front = front.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3 再让front与back一起先前移动，直到front到达尾节点</span></span><br><span class="line">        <span class="keyword">while</span>(front != <span class="keyword">null</span> &amp;&amp; front.next != <span class="keyword">null</span>)&#123;</span><br><span class="line">            front = front.next;</span><br><span class="line">            back = back.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4 这里得到的back就是预期删除的节点的前一个节点</span></span><br><span class="line">        <span class="comment">// 执行删除</span></span><br><span class="line">        back.next = back.next.next;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> dummy.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="启示"><a href="#启示" class="headerlink" title="启示"></a>启示</h4><p>1 代码的鲁棒性编码在实现了基本功能后，再进行添加；</p>
-<p>2 对于循环执行次数已知的情况，使用for语法来实现循环——这样能避免令人纠结的循环执行/终止条件；</p>
-<p>3 编写while循环执行表达式的参考：节点的最终状态； &amp;  避免代码中的NPE；</p>
-]]></content>
-      <categories>
-        <category>ListNode</category>
-      </categories>
-      <tags>
-        <tag>Algorithm</tag>
-        <tag>LinkedList</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>交换链表节点(迭代)_06</title>
     <url>/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E4%B8%A4%E4%B8%A4%E4%BA%A4%E6%8D%A2%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B9(%E8%BF%AD%E4%BB%A3%E6%96%B9%E5%BC%8F)_06.html</url>
     <content><![CDATA[<h3 id="两两交换链表中的节点"><a href="#两两交换链表中的节点" class="headerlink" title="两两交换链表中的节点"></a>两两交换链表中的节点</h3><hr>
@@ -2382,6 +2525,42 @@
 <blockquote>
 <p>until next time 😄</p>
 </blockquote>
+]]></content>
+      <categories>
+        <category>ListNode</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>LinkedList</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>倒数第k个节点_05_2</title>
+    <url>/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%ACn%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%88%E4%B8%80%E6%AC%A1%E9%81%8D%E5%8E%86%EF%BC%89_05_2.html</url>
+    <content><![CDATA[<h3 id="删除链表中的倒数第n个节点（一次遍历）"><a href="#删除链表中的倒数第n个节点（一次遍历）" class="headerlink" title="删除链表中的倒数第n个节点（一次遍历）"></a>删除链表中的倒数第n个节点（一次遍历）</h3><h4 id="题设-amp-要求"><a href="#题设-amp-要求" class="headerlink" title="题设 &amp; 要求"></a>题设 &amp; 要求</h4><p><img src="https://s1.ax1x.com/2020/08/14/dCLxyj.png" alt="题设 &amp; 要求"></p>
+<a id="more"></a>
+
+<h4 id="分析（难点）"><a href="#分析（难点）" class="headerlink" title="分析（难点）"></a>分析（难点）</h4><p>如何能找到倒数第N个节点（预期节点：此节点的上一个节点）？</p>
+<h4 id="思路2（难点的解决方案）"><a href="#思路2（难点的解决方案）" class="headerlink" title="思路2（难点的解决方案）"></a>思路2（难点的解决方案）</h4><ul>
+<li>定义两个指针front与back，设置两个指针之间的初始间距。</li>
+<li>然后把两个指针同时向后移动，直到front指针到达了链表的尾节点。</li>
+<li>这时候back指针就会指在某一个可以计算的位置——通过设置指针间的初始间距，就能确定back指针停下的具体位置。</li>
+</ul>
+<h4 id="实现SOP"><a href="#实现SOP" class="headerlink" title="实现SOP"></a>实现SOP</h4><ul>
+<li>1 定义所需要的指针front与back与dummy（并初始化）；    注：画图分析指针初始化的位置；    原则：方便编码；&amp; 避免NPE；</li>
+<li>2 画图分析，front指针与back指针之间的初始间距span与n的关系（span = n）；</li>
+<li>3 把front与back指针初始化指向dummy节点(这里引入dummy节点只是为了方便计算指针应该移动的距离)；</li>
+<li>4 把front指针向前移动n个节点；</li>
+<li>5 把front与back指针同时向后移动，直到front指针指向链表的尾节点；</li>
+<li>6 back指向预期节点后，对待删除节点进行删除；</li>
+</ul>
+<h4 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">removeNthFromEnd</span><span class="params">(ListNode head, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 实践证明：在删除的时候使用栈不是一个好主意</span></span><br><span class="line">        <span class="comment">// 鲁棒性代码</span></span><br><span class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1 需要的实例变量</span></span><br><span class="line">        ListNode dummy = <span class="keyword">new</span> ListNode(-<span class="number">1</span>);</span><br><span class="line">        dummy.next = head;</span><br><span class="line"></span><br><span class="line">        ListNode front = dummy;</span><br><span class="line">        ListNode back = dummy;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2 先让front向前走n个节点   如果只有一个节点，然后要删除倒数第一个节点</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;n; i++)&#123; <span class="comment">// 注：front的初始化值会决定循环执行的次数</span></span><br><span class="line">            front = front.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3 再让front与back一起先前移动，直到front到达尾节点</span></span><br><span class="line">        <span class="keyword">while</span>(front != <span class="keyword">null</span> &amp;&amp; front.next != <span class="keyword">null</span>)&#123;</span><br><span class="line">            front = front.next;</span><br><span class="line">            back = back.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4 这里得到的back就是预期删除的节点的前一个节点</span></span><br><span class="line">        <span class="comment">// 执行删除</span></span><br><span class="line">        back.next = back.next.next;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> dummy.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="启示"><a href="#启示" class="headerlink" title="启示"></a>启示</h4><p>1 代码的鲁棒性编码在实现了基本功能后，再进行添加；</p>
+<p>2 对于循环执行次数已知的情况，使用for语法来实现循环——这样能避免令人纠结的循环执行/终止条件；</p>
+<p>3 编写while循环执行表达式的参考：节点的最终状态； &amp;  避免代码中的NPE；</p>
 ]]></content>
       <categories>
         <category>ListNode</category>
