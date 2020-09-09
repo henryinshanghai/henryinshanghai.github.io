@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=EB+Garamond:300,300italic,400,400italic,700,700italic|Roboto+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1.0.2/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"henryinshanghai.github.io","root":"/","scheme":"Muse","version":"8.0.0-rc.5","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"path":"search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+
+  <meta name="description" content="代理模式 &amp; Java所提供的具体实现手段_Ⅰ代理模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式之代理模式">
+<meta property="og:url" content="https://henryinshanghai.github.io/Design-Model/Proxy-mode/2020/09/08/interview/20200908-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html">
+<meta property="og:site_name" content="Henry&#39;s blog">
+<meta property="og:description" content="代理模式 &amp; Java所提供的具体实现手段_Ⅰ代理模式">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/08/wMyxZ6.png">
+<meta property="article:published_time" content="2020-09-08T04:30:00.000Z">
+<meta property="article:modified_time" content="2020-09-09T03:27:24.282Z">
+<meta property="article:author" content="henryInSH">
+<meta property="article:tag" content="Fancy Stuff">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/09/08/wMyxZ6.png">
+
+
+<link rel="canonical" href="https://henryinshanghai.github.io/Design-Model/Proxy-mode/2020/09/08/interview/20200908-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>设计模式之代理模式 | Henry's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Henry's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Henry's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">focus works better than curiosity</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#代理模式-amp-Java所提供的具体实现手段-Ⅰ"><span class="nav-number">1.</span> <span class="nav-text">代理模式 &amp; Java所提供的具体实现手段_Ⅰ</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#代理模式"><span class="nav-number">1.1.</span> <span class="nav-text">代理模式</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#UML图描述各个部分的关系："><span class="nav-number">1.1.1.</span> <span class="nav-text">UML图描述各个部分的关系：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#用法（根据UML类图）"><span class="nav-number">1.1.2.</span> <span class="nav-text">用法（根据UML类图）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#为什么客户端代码中需要使用代理对象呢？😕"><span class="nav-number">1.1.3.</span> <span class="nav-text">为什么客户端代码中需要使用代理对象呢？😕</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#JDK动态代理"><span class="nav-number">1.2.</span> <span class="nav-text">JDK动态代理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CGLib动态代理"><span class="nav-number">1.3.</span> <span class="nav-text">CGLib动态代理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#总结"><span class="nav-number">1.4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#参考"><span class="nav-number">1.5.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="henryInSH"
+      src="/images/myAvator.jpeg">
+  <p class="site-author-name" itemprop="name">henryInSH</p>
+  <div class="site-description" itemprop="description">collection & catagory & refine</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/henryinshanghai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;henryinshanghai" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2291972433@qq.com" title="E-Mail → mailto:2291972433@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/CyC2018/CS-Notes/blob/master/notes/Leetcode%20%E9%A2%98%E8%A7%A3%20-%20%E7%9B%AE%E5%BD%95.md" title="https:&#x2F;&#x2F;github.com&#x2F;CyC2018&#x2F;CS-Notes&#x2F;blob&#x2F;master&#x2F;notes&#x2F;Leetcode%20%E9%A2%98%E8%A7%A3%20-%20%E7%9B%AE%E5%BD%95.md" rel="noopener" target="_blank">Leecode刷题目录</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.showdoc.cc/" title="https:&#x2F;&#x2F;www.showdoc.cc&#x2F;" rel="noopener" target="_blank">在线Api文档</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.processon.com/" title="https:&#x2F;&#x2F;www.processon.com&#x2F;" rel="noopener" target="_blank">在线作图</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.atool9.com/colorpicker.php" title="http:&#x2F;&#x2F;www.atool9.com&#x2F;colorpicker.php" rel="noopener" target="_blank">在线颜色选择器</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.iconfont.cn/" title="https:&#x2F;&#x2F;www.iconfont.cn&#x2F;" rel="noopener" target="_blank">阿里巴巴矢量图标</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.ubuuk.com/" title="https:&#x2F;&#x2F;www.ubuuk.com&#x2F;" rel="noopener" target="_blank">设计</a>
+        </li>
+    </ul>
+  </div>
+
+      </section>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://henryinshanghai.github.io/Design-Model/Proxy-mode/2020/09/08/interview/20200908-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myAvator.jpeg">
+      <meta itemprop="name" content="henryInSH">
+      <meta itemprop="description" content="collection & catagory & refine">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Henry's blog">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          设计模式之代理模式
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-08 12:30:00" itemprop="dateCreated datePublished" datetime="2020-09-08T12:30:00+08:00">2020-09-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-09 11:27:24" itemprop="dateModified" datetime="2020-09-09T11:27:24+08:00">2020-09-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Model/" itemprop="url" rel="index"><span itemprop="name">Design Model</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Model/Proxy-mode/" itemprop="url" rel="index"><span itemprop="name">Proxy mode</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/Design-Model/Proxy-mode/2020/09/08/interview/20200908-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html" class="post-meta-item leancloud_visitors" data-flag-title="设计模式之代理模式" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="far fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+              <span>℃</span>
+            </span>
+            <span class="post-meta-item" title="热度" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="far fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/Design-Model/Proxy-mode/2020/09/08/interview/20200908-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/Design-Model/Proxy-mode/2020/09/08/interview/20200908-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+              <span class="post-meta-item-text">本文字数：</span>
+              <span>6.4k</span>字
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+              <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>分钟
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="代理模式-amp-Java所提供的具体实现手段-Ⅰ"><a href="#代理模式-amp-Java所提供的具体实现手段-Ⅰ" class="headerlink" title="代理模式 &amp; Java所提供的具体实现手段_Ⅰ"></a>代理模式 &amp; Java所提供的具体实现手段_Ⅰ</h4><h5 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h5><a id="more"></a>
+
+<ul>
+<li><p>作用：</p>
+<ul>
+<li>1 解耦<strong>客户端代码</strong>与<strong>具体实例</strong>之间的依赖关系；</li>
+<li>2 控制<strong>客户端代码</strong>对<strong>具体实例</strong>的访问；</li>
+<li>3 在代理中，对具体实例的功能进行增强（有点子像装饰器模式，figure out this later）；</li>
+</ul>
+</li>
+<li><p>特征：</p>
+<ul>
+<li><p>1 这里的“代理”指的是<strong>具体实例</strong>的代理；</p>
+<blockquote>
+<p>比如我要租房，而我没办法直接找到房东。</p>
+<p>但是我知道链家的经纪人一般能够作为房东（具体实例）的代理;</p>
+<p>所以我只要联系链家经纪人（房东的代理），就能去租房东的房子了；</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>应用场景：</p>
+<ul>
+<li>1 客户端代码不希望直接访问某个具体实例（这会导致强耦合）；</li>
+<li>2 客户端代码无法直接访问到某个具体实例（WHY?🙋）；</li>
+</ul>
+<p>在以上场景中，客户端代码可以<strong>通过代理对象来访问到具体实例（目标对象）</strong>；</p>
+</li>
+</ul>
+<h6 id="UML图描述各个部分的关系："><a href="#UML图描述各个部分的关系：" class="headerlink" title="UML图描述各个部分的关系："></a>UML图描述各个部分的关系：</h6><p><img src="https://s1.ax1x.com/2020/09/08/wMyxZ6.png" alt="代理模式中各个部分之间的关系"></p>
+<p><font size=2>可能是我不太清楚UML图的规则，我不很喜欢UML描述各部分关系的方式</font></p>
+<h6 id="用法（根据UML类图）"><a href="#用法（根据UML类图）" class="headerlink" title="用法（根据UML类图）"></a>用法（根据UML类图）</h6><ul>
+<li><p>用法（根据UML类图）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1 准备一个接口		特征：目标类 与 代理类都需要实现这个接口（这样才能在代码中无差别地使用接口类型）</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Subject</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">doSomething</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2 定义具体类型</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RealSubject</span> <span class="keyword">implements</span> <span class="title">Subject</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"This is real doSomeThing"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3 定义代理类型	作用：代理具体的类型</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProxySubject</span> <span class="keyword">implements</span> <span class="title">Subject</span> </span>&#123; <span class="comment">// 特征1：实现具体类型所实现的接口</span></span><br><span class="line">	<span class="comment">// 特征2：持有具体类型的实例变量</span></span><br><span class="line">    <span class="keyword">private</span> Subject mSubject;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 特征3：通过构造方法来初始化具体类型的实例变量</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ProxySubject</span><span class="params">(Subject realSubject)</span> </span>&#123;</span><br><span class="line">        mSubject = realSubject;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 委托具体实例完成具体的操作</span></span><br><span class="line">        mSubject.doSomething();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 4 客户端代码的编写</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 4-1 创建具体类型</span></span><br><span class="line">        Subject mRealSubject=<span class="keyword">new</span> RealSubject();</span><br><span class="line">        <span class="comment">// 4-2 创建代理类</span></span><br><span class="line">        ProxySubject mProxy = <span class="keyword">new</span> ProxySubject(mRealSubject);</span><br><span class="line">        <span class="comment">// 4-3 客户端代码调用代理对象来实现需要的操作</span></span><br><span class="line">        mProxy.doSomething();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>代码有点子多，拆解一下：</p>
+<ul>
+<li>根据UML类图实现代理模式的流程：<ul>
+<li>1 准备一个接口；<ul>
+<li>作用：具体类型 与 代理类型都需要实现这个接口，以便在客户端代码中能够无差别地使用代理对象替代具体实例；</li>
+</ul>
+</li>
+<li>2 编写具体类型；<ul>
+<li>作用：实现具体的方法，作为最终会被执行的方法；</li>
+</ul>
+</li>
+<li>3 编写代理类型；<ul>
+<li>作用：控制客户端代码中对具体实例的访问（虚）；</li>
+</ul>
+</li>
+<li>4 编写客户端代码；<ul>
+<li>作用：使用各个组件编写出的主流程代码（体现代理模式的作用）；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="为什么客户端代码中需要使用代理对象呢？😕"><a href="#为什么客户端代码中需要使用代理对象呢？😕" class="headerlink" title="为什么客户端代码中需要使用代理对象呢？😕"></a>为什么客户端代码中需要使用代理对象呢？😕</h6><ul>
+<li><p>窘境：在第4步中，为了创建出代理对象，还是需要先创建出具体实例。既然已经有了具体实例，为什么还要使用代理对象呢？</p>
+</li>
+<li><p>原因：这里是因为<em>代理类中具体类型的实例变量</em>是通过<em>构造方法的参数</em>进行初始化的——这样不能很好地描述代理模式的工作方式（因为客户端代码中既存在代理对象，又存在具体实例对象）；【uncertain】</p>
+</li>
+<li><p>解决手段：在代理类中，可以在声明实例变量的时候进行初始化操作；</p>
+</li>
+<li><p>特征/issue：</p>
+<ul>
+<li>这样每个代理类就只能代理某一种具体的类型；就像一个链家经纪人只能代理一个房东一样，这种处理方式效率很低；</li>
+</ul>
+<p>追问：</p>
+</li>
+<li><p>追问：</p>
+<ul>
+<li>有没有其他方式能够用代理对象代理多个具体类型呢？</li>
+</ul>
+</li>
+</ul>
+<h5 id="JDK动态代理"><a href="#JDK动态代理" class="headerlink" title="JDK动态代理"></a>JDK动态代理</h5><ul>
+<li><p>作用：</p>
+<ul>
+<li>创建出目标对象的代理对象，以控制对目标对象的访问；</li>
+</ul>
+</li>
+<li><p>特征：</p>
+<ul>
+<li>1 不需要为每个<em>具体类型</em>都手动创建<em>其对应的代理类型</em>；</li>
+<li>2 使用JDK提供的工具，传入需要的参数即可得到一个代理对象；</li>
+<li>3 代理类并不是在程序编译的时候创建，而是在运行的过程中通过Java的反射机制动态的进行创建；</li>
+</ul>
+</li>
+<li><p>用法：</p>
+<ul>
+<li>1 准备一个接口；</li>
+<li>2 准备一个具体类型；</li>
+<li>3 自定义一个处理器类型，实现InvocationHandler接口，并重写invoke()方法；</li>
+<li>4 在客户端代码中，通过Proxy.newProxyInstance(&lt;类加载器&gt;, &lt;接口数组&gt;, &lt;处理器&gt;)来获取到一个代理对象；</li>
+<li>5 通过4中得到的代理对象来操作具体对象（以获取到一些增强的功能）</li>
+</ul>
+</li>
+<li><p>代码示例</p>
+<blockquote>
+<p>1 定义接口</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 代理类和被代理的接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">SaleComputer</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">sale</span><span class="params">(<span class="keyword">double</span> money)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>2 定义具体类型</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by qjq on 2020/2/23 10:53</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Lenovo</span> <span class="keyword">implements</span> <span class="title">SaleComputer</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">sale</span><span class="params">(<span class="keyword">double</span> money)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"卖出一台电脑，价值："</span>+money);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"联想电脑"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"展示电脑"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>3 客户端代码【注：InvocationHandler接口的实现类使用匿名内部类来实现】</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationHandler; <span class="comment">// 全限定名以java开头，说明是JDK提供的类型/接口</span></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by qjq on 2020/2/23 10:55</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProxyTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//1. 创建真实对象</span></span><br><span class="line">        Lenovo company = <span class="keyword">new</span> Lenovo();</span><br><span class="line">        <span class="comment">//2. 创建动态代理</span></span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        三个参数：</span></span><br><span class="line"><span class="comment">            1. 类加载器：真实对象.getClass().getClassLoader()</span></span><br><span class="line"><span class="comment">            2. 接口数组：真实对象.getClass().getInterfaces()</span></span><br><span class="line"><span class="comment">            3. 处理器：new InvocationHandler()，处理和被代理对象的方法，即方法增强的地方</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        SaleComputer proxy_lenovo = (SaleComputer) 					           Proxy.newProxyInstance(company.getClass().getClassLoader(), company.getClass().getInterfaces(),</span><br><span class="line">                <span class="keyword">new</span> InvocationHandler() &#123;</span><br><span class="line">            <span class="comment">/*代理逻辑编写的方法，代理对象调用的所有方法都会触发该方法的执行</span></span><br><span class="line"><span class="comment">            参数：</span></span><br><span class="line"><span class="comment">                1. proxy：代理对象（一般不用）</span></span><br><span class="line"><span class="comment">                2. method：代理对象调用的方法，被封装为的对象</span></span><br><span class="line"><span class="comment">                3. args：代理对象调用的方法时，传入的实际参数</span></span><br><span class="line"><span class="comment">            */</span></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">                Object obj =<span class="keyword">null</span>;</span><br><span class="line">                System.out.println(<span class="string">"这里是代理。。。。"</span>);</span><br><span class="line">                <span class="keyword">if</span> (<span class="string">"sale"</span>.equals(method.getName()))&#123;</span><br><span class="line">                    <span class="comment">//增强参数</span></span><br><span class="line">                    Double money = (Double) args[<span class="number">0</span>];<span class="comment">//用户买电脑付的钱</span></span><br><span class="line">                    money = money*<span class="number">0.8</span>;<span class="comment">//给电脑厂商的钱</span></span><br><span class="line">                    System.out.println(<span class="string">"你被增强啦"</span>);</span><br><span class="line">                    <span class="comment">//使用compay对象执行此方法，返回值就是真实对象方法的返回值</span></span><br><span class="line">                    obj = method.invoke(company, money);</span><br><span class="line">                    <span class="comment">//增强返回值</span></span><br><span class="line">                    obj = obj+<span class="string">"_鼠标垫"</span>;</span><br><span class="line">                &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                    obj = method.invoke(company, args);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> obj;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 客户端代码使用代理对象来编码</span></span><br><span class="line">        String computer = proxy_lenovo.sale(<span class="number">8000</span>);<span class="comment">//用户付钱</span></span><br><span class="line">        System.out.println(computer);<span class="comment">//用户得到的产品</span></span><br><span class="line">        System.out.println(<span class="string">"---------------------"</span>);</span><br><span class="line">        proxy_lenovo.show();<span class="comment">//展示商品</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>疑问：</p>
+<p>如果只是通过代理获取到一些增强的功能，那代理模式就和装饰者模式没有差别呀😮</p>
+</li>
+<li><p>不足：</p>
+<p>获取代理对象时，需要传入代理类型预期实现的接口。所以如果具体类型没有实现任何接口，就不能通过这种方式来生成代理对象😳</p>
+</li>
+<li><p>解决手段：CGLib动态代理</p>
+</li>
+</ul>
+<h5 id="CGLib动态代理"><a href="#CGLib动态代理" class="headerlink" title="CGLib动态代理"></a>CGLib动态代理</h5><ul>
+<li><p>特征：</p>
+<ul>
+<li>1 不要求具体类型实现接口；</li>
+<li>2 具体类型的方法不能被final修饰（因为final修饰的方法无法被重写，所以子类方法的字节码无法正常生成）；</li>
+<li>3 具体类型不能被final修饰（因为被final修饰的类无法被继承，也就无法生成子类字节码）；</li>
+<li>4 依赖于第三方库cglib；</li>
+</ul>
+</li>
+<li><p>原理：</p>
+<ul>
+<li>1 动态生成具体类型(被代理类)的子类字节码;</li>
+<li>2 由于其字节码都是按照jvm编译后的class文件的规范编写的，因而其可以被jvm正常加载并运行;</li>
+</ul>
+</li>
+<li><p>用法：</p>
+<ul>
+<li>1 引入cglib的jar包；</li>
+<li>2 调用jar包所提供的Enhancer类的create()方法，生成代理对象；<ul>
+<li>create()方法的参数：<ul>
+<li>&lt;Class对象&gt;：具体类型的Class对象/字节码；</li>
+<li>&lt;Callback类型实例&gt;: 自定义的代理增强实现；<ul>
+<li>手段：编写一个类，实现Callback接口/子接口的实现类<strong>MethodInterceptor</strong>；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>代码示例：</p>
+<blockquote>
+<p>具体类型</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 电脑生产商</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Lenovo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">sale</span><span class="params">(<span class="keyword">double</span> money)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"卖出一台电脑，价值："</span>+money);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"联想电脑"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"展示电脑"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>客户端代码【注：Callback类型参数使用匿名内部类】</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> net.sf.cglib.proxy.Enhancer;</span><br><span class="line"><span class="keyword">import</span> net.sf.cglib.proxy.MethodInterceptor;</span><br><span class="line"><span class="keyword">import</span> net.sf.cglib.proxy.MethodProxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * CGLib动态代理</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CglibProxy</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> Lenovo factory = <span class="keyword">new</span> Lenovo();</span><br><span class="line">        <span class="comment">// 创建代理对象	手段：Enhancer.create(&lt;Class对象&gt;, &lt;Callback对象&gt;)</span></span><br><span class="line">        <span class="comment">// 1 获取具体类型的Class对象		手段:实例.getClass()；</span></span><br><span class="line">        <span class="comment">// 2 创建Callback类型的对象(匿名内部类)	手段：new MethodInterceptor()&#123; ... &#125; </span></span><br><span class="line">        Lenovo proxy_CGLib = (Lenovo) Enhancer.create(factory.getClass(), <span class="keyword">new</span> MethodInterceptor() &#123;</span><br><span class="line">            <span class="comment">/**</span></span><br><span class="line"><span class="comment">             * 执行被代理对象的任何方法都会经过该方法</span></span><br><span class="line"><span class="comment">             *</span></span><br><span class="line"><span class="comment">             * <span class="doctag">@param</span> proxy 代理对象 </span></span><br><span class="line"><span class="comment">             * <span class="doctag">@param</span> method 方法所封装得到的对象</span></span><br><span class="line"><span class="comment">             * <span class="doctag">@param</span> args 参数封装得到的对象    注：以上三个参数和基于接口的动态代理中invoke方法的参数是一样的</span></span><br><span class="line"><span class="comment">             * <span class="doctag">@param</span> methodProxy ：当前执行方法的代理对象</span></span><br><span class="line"><span class="comment">             * <span class="doctag">@return</span> 调用方法的返回值</span></span><br><span class="line"><span class="comment">             * <span class="doctag">@throws</span> Throwable</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Object <span class="title">intercept</span><span class="params">(Object proxy, Method method, Object[] args, MethodProxy methodProxy)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">                Object obj = <span class="keyword">null</span>;</span><br><span class="line">                System.out.println(<span class="string">"这里是CGLib动态代理。。。。"</span>);</span><br><span class="line">                <span class="keyword">if</span> (<span class="string">"sale"</span>.equals(method.getName())) &#123;<span class="comment">//当是sale方法时</span></span><br><span class="line">                    <span class="comment">//增强参数</span></span><br><span class="line">                    Double money = (Double) args[<span class="number">0</span>];<span class="comment">//用户买电脑付的钱</span></span><br><span class="line">                    money = money * <span class="number">0.8</span>;<span class="comment">//给电脑厂商的钱</span></span><br><span class="line">                    System.out.println(<span class="string">"你被增强啦"</span>);</span><br><span class="line">                    <span class="comment">//使用factory对象执行此方法，返回值就是真实对象方法的返回值</span></span><br><span class="line">                    obj = method.invoke(factory, money);</span><br><span class="line">                    <span class="comment">//增强返回值</span></span><br><span class="line">                    obj = obj + <span class="string">"_鼠标垫"</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;<span class="comment">//因为这里只有两个方法，所以使用else，也就是指show方法</span></span><br><span class="line">                    obj = method.invoke(factory, args);<span class="comment">//这里执行打印，有无返回值一样</span></span><br><span class="line">                    System.out.println(<span class="string">"小新pro13"</span>);</span><br><span class="line">                    System.out.println(<span class="string">"ThinkPad"</span>);</span><br><span class="line">                    System.out.println(<span class="string">"...."</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> obj;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="comment">// 客户端代码使用代理对象进行编码</span></span><br><span class="line">        String computer = proxy_CGLib.sale(<span class="number">8000</span>);<span class="comment">//用户付钱</span></span><br><span class="line">        System.out.println(computer);<span class="comment">//用户得到的产品</span></span><br><span class="line">        System.out.println(<span class="string">"---------------------"</span>);</span><br><span class="line">        proxy_CGLib.show();<span class="comment">//展示商品</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><ul>
+<li>静态代理：<ul>
+<li>需要手动创建代理类，而且每一个具体类型都需要单独创建一个代理类；</li>
+</ul>
+</li>
+<li>JDK动态代理：<ul>
+<li>1 要求具体类型实现某种接口（可自定义）；</li>
+<li>2 使用JDK提供的Proxy类型的newProxyInstance()方法来动态创建代理类；</li>
+</ul>
+</li>
+<li>CGLib动态代理：<ul>
+<li>1 要求具体类型不能被final修饰；</li>
+<li>2 原理：扩展被代理的类型，隐式得到一个增强后的子类；</li>
+</ul>
+</li>
+</ul>
+<h5 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h5><p><a href="https://segmentfault.com/a/1190000021841185">segmentFault-代理模式总结</a></p>
+<p><a href="https://juejin.im/post/6844903544965857294">掘金-代理模式</a></p>
+<blockquote>
+<p>until next time</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+            -------------本文结束
+            <i class="fa fa-paw"></i>
+            感谢您的阅读-------------
+        </div>
+    
+</div>
+        
+      
+
+      
+        
+          
+        
+      
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              
+              <a href="/tags/Fancy-Stuff/" rel="tag"><i class="fa fa-tag"></i> Fancy Stuff</a>
+              
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Design-Model/2020/09/07/interview/20200907-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F.html" rel="prev" title="设计模式之单例模式">
+                  <i class="fa fa-chevron-left"></i> 设计模式之单例模式
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+      
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">henryInSH</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">98k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:29</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      const visitors = document.querySelector('.leancloud_visitors');
+      const url = decodeURI(visitors.id);
+      const title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            const counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      const visitors = document.querySelectorAll('.leancloud_visitors');
+      const entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            const target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    const { app_id, app_key, server_url } = {"enable":true,"app_id":"UniIgz3JDa7i7uw8D3N3lo3o-gzGzoHsz# <your app id>","app_key":"X24wntmAxHx5dzjdEq87nF2H# <your app key>","server_url":null,"security":true};
+    function fetchData(api_server) {
+      const Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    const api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+  
+
+  
+<script>
+NexT.utils.loadComments('#valine-comments', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: location.pathname,
+    }, {"enable":true,"appId":"UniIgz3JDa7i7uw8D3N3lo3o-gzGzoHsz","appKey":"X24wntmAxHx5dzjdEq87nF2H","placeholder":"Just go go","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":false,"serverURLs":null,"enableQQ":false,"requiredFields":[]}
+    ));
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
