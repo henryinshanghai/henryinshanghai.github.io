@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=EB+Garamond:300,300italic,400,400italic,700,700italic|Roboto+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1.0.2/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"henryinshanghai.github.io","root":"/","scheme":"Muse","version":"8.0.0-rc.5","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"path":"search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+
+  <meta name="description" content="HashMap类型的resize()过程 这个其实在上次分析的时候就学了一遍，但是不够熟悉 所以没有答上来。再复习一波~  参考：HashMap详解-田小波">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java基础之快速复习（4）">
+<meta property="og:url" content="https://henryinshanghai.github.io/Java-Basic/2020/09/12/interview/20200912-java%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%BF%AB%E9%80%9F%E5%A4%8D%E4%B9%A0%EF%BC%884%EF%BC%89.html">
+<meta property="og:site_name" content="Henry&#39;s blog">
+<meta property="og:description" content="HashMap类型的resize()过程 这个其实在上次分析的时候就学了一遍，但是不够熟悉 所以没有答上来。再复习一波~  参考：HashMap详解-田小波">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/13/w0dbnK.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/13/w0wFHS.png">
+<meta property="article:published_time" content="2020-09-12T02:30:00.000Z">
+<meta property="article:modified_time" content="2020-09-13T10:44:53.411Z">
+<meta property="article:author" content="henryInSH">
+<meta property="article:tag" content="Java stuff">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/09/13/w0dbnK.png">
+
+
+<link rel="canonical" href="https://henryinshanghai.github.io/Java-Basic/2020/09/12/interview/20200912-java%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%BF%AB%E9%80%9F%E5%A4%8D%E4%B9%A0%EF%BC%884%EF%BC%89.html">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>java基础之快速复习（4） | Henry's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Henry's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Henry's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">focus works better than curiosity</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#HashMap类型的resize-过程"><span class="nav-number">1.</span> <span class="nav-text">HashMap类型的resize()过程</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#resize-方法SOP："><span class="nav-number">1.1.</span> <span class="nav-text">resize()方法SOP：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#源码-SOP框架-："><span class="nav-number">1.2.</span> <span class="nav-text">源码(SOP框架)：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#源码拆解："><span class="nav-number">1.3.</span> <span class="nav-text">源码拆解：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#哈希桶扩容后，红黑树中节点的重新映射过程"><span class="nav-number">1.4.</span> <span class="nav-text">哈希桶扩容后，红黑树中节点的重新映射过程</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#其他参考文章"><span class="nav-number">1.5.</span> <span class="nav-text">其他参考文章</span></a></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="henryInSH"
+      src="/images/myAvator.jpeg">
+  <p class="site-author-name" itemprop="name">henryInSH</p>
+  <div class="site-description" itemprop="description">collection & catagory & refine</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/henryinshanghai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;henryinshanghai" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2291972433@qq.com" title="E-Mail → mailto:2291972433@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/CyC2018/CS-Notes/blob/master/notes/Leetcode%20%E9%A2%98%E8%A7%A3%20-%20%E7%9B%AE%E5%BD%95.md" title="https:&#x2F;&#x2F;github.com&#x2F;CyC2018&#x2F;CS-Notes&#x2F;blob&#x2F;master&#x2F;notes&#x2F;Leetcode%20%E9%A2%98%E8%A7%A3%20-%20%E7%9B%AE%E5%BD%95.md" rel="noopener" target="_blank">Leecode刷题目录</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.showdoc.cc/" title="https:&#x2F;&#x2F;www.showdoc.cc&#x2F;" rel="noopener" target="_blank">在线Api文档</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.processon.com/" title="https:&#x2F;&#x2F;www.processon.com&#x2F;" rel="noopener" target="_blank">在线作图</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.atool9.com/colorpicker.php" title="http:&#x2F;&#x2F;www.atool9.com&#x2F;colorpicker.php" rel="noopener" target="_blank">在线颜色选择器</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.iconfont.cn/" title="https:&#x2F;&#x2F;www.iconfont.cn&#x2F;" rel="noopener" target="_blank">阿里巴巴矢量图标</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.ubuuk.com/" title="https:&#x2F;&#x2F;www.ubuuk.com&#x2F;" rel="noopener" target="_blank">设计</a>
+        </li>
+    </ul>
+  </div>
+
+      </section>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://henryinshanghai.github.io/Java-Basic/2020/09/12/interview/20200912-java%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%BF%AB%E9%80%9F%E5%A4%8D%E4%B9%A0%EF%BC%884%EF%BC%89.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myAvator.jpeg">
+      <meta itemprop="name" content="henryInSH">
+      <meta itemprop="description" content="collection & catagory & refine">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Henry's blog">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          java基础之快速复习（4）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-12 10:30:00" itemprop="dateCreated datePublished" datetime="2020-09-12T10:30:00+08:00">2020-09-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-13 18:44:53" itemprop="dateModified" datetime="2020-09-13T18:44:53+08:00">2020-09-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java-Basic/" itemprop="url" rel="index"><span itemprop="name">Java Basic</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/Java-Basic/2020/09/12/interview/20200912-java%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%BF%AB%E9%80%9F%E5%A4%8D%E4%B9%A0%EF%BC%884%EF%BC%89.html" class="post-meta-item leancloud_visitors" data-flag-title="java基础之快速复习（4）" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="far fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+              <span>℃</span>
+            </span>
+            <span class="post-meta-item" title="热度" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="far fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/Java-Basic/2020/09/12/interview/20200912-java%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%BF%AB%E9%80%9F%E5%A4%8D%E4%B9%A0%EF%BC%884%EF%BC%89.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/Java-Basic/2020/09/12/interview/20200912-java%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%BF%AB%E9%80%9F%E5%A4%8D%E4%B9%A0%EF%BC%884%EF%BC%89.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+              <span class="post-meta-item-text">本文字数：</span>
+              <span>7.6k</span>字
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+              <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>分钟
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h5 id="HashMap类型的resize-过程"><a href="#HashMap类型的resize-过程" class="headerlink" title="HashMap类型的resize()过程"></a>HashMap类型的resize()过程</h5><blockquote>
+<p>这个其实在上次分析的时候就学了一遍，但是不够熟悉 所以没有答上来。再复习一波~</p>
+</blockquote>
+<p>参考：<a href="http://www.tianxiaobo.com/2018/01/18/HashMap-%E6%BA%90%E7%A0%81%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90-JDK1-8/#342-%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6">HashMap详解-田小波</a></p>
+<a id="more"></a>
+
+<h6 id="resize-方法SOP："><a href="#resize-方法SOP：" class="headerlink" title="resize()方法SOP："></a>resize()方法SOP：</h6><ul>
+<li>1 计算新的<strong>哈希桶数组的容量newCap</strong>和<strong>新阈值newThr</strong>；<a href="#step1">跳转</a></li>
+<li>2 根据1中计算出的newCap来<strong>创建新的哈希桶数组</strong>/<strong>对桶数组table进行初始化</strong>；<a href="#step2">跳转</a></li>
+<li>3 把键值对重新映射到新的桶数组中（<strong>比较复杂</strong>）；<a href="#step3">跳转</a><ul>
+<li>1 如果节点是树节点，则需要对红黑树进行拆分；【红黑树对象的split()方法】</li>
+<li>2 如果节点是链表节点，则将节点按照原始顺序进行分组；【循环 + 重新映射】</li>
+</ul>
+</li>
+</ul>
+<h6 id="源码-SOP框架-："><a href="#源码-SOP框架-：" class="headerlink" title="源码(SOP框架)："></a>源码(SOP框架)：</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> Node&lt;K,V&gt;[] resize() &#123;</span><br><span class="line">	<span class="comment">/* Step1: 计算新的桶数组的容量newCap与阈值newThr */</span></span><br><span class="line">	...</span><br><span class="line">	threshold = newThr;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/* step2: 根据计算出的newCap来得到新的桶数组newTab,并绑定到table引用上 */</span></span><br><span class="line">	...</span><br><span class="line">	table = newTab;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/* step3:把旧的哈希桶数组中的键值对重新映射到新的哈希桶数组中 */</span></span><br><span class="line">	<span class="keyword">if</span> (oldTab != <span class="keyword">null</span>) &#123;</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> newTab;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="源码拆解："><a href="#源码拆解：" class="headerlink" title="源码拆解："></a>源码拆解：</h6><ul>
+<li><span id="step1">step1</span>：计算新哈希桶数组的容量newCap与新阈值newThr；</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 记录旧桶数组的容量与阈值</span></span><br><span class="line">Node&lt;K,V&gt;[] oldTab = table;</span><br><span class="line">   <span class="keyword">int</span> oldCap = (oldTab == <span class="keyword">null</span>) ? <span class="number">0</span> : oldTab.length;</span><br><span class="line">   <span class="keyword">int</span> oldThr = threshold;</span><br><span class="line">   <span class="keyword">int</span> newCap, newThr = <span class="number">0</span>;</span><br><span class="line">   <span class="comment">// 如果 table 不为空，表明已经初始化过了</span></span><br><span class="line">   <span class="keyword">if</span> (oldCap &gt; <span class="number">0</span>) &#123;</span><br><span class="line">       <span class="comment">// 当 table 容量超过容量最大值，则不再扩容</span></span><br><span class="line">       <span class="keyword">if</span> (oldCap &gt;= MAXIMUM_CAPACITY) &#123;</span><br><span class="line">           threshold = Integer.MAX_VALUE;</span><br><span class="line">           <span class="keyword">return</span> oldTab;</span><br><span class="line">       &#125; </span><br><span class="line">       <span class="comment">// 如果旧容量并没有超过最大容量，则:按旧容量和阈值的2倍计算新容量和阈值的大小</span></span><br><span class="line">       <span class="keyword">else</span> <span class="keyword">if</span> ((newCap = oldCap &lt;&lt; <span class="number">1</span>) &lt; MAXIMUM_CAPACITY &amp;&amp;</span><br><span class="line">                oldCap &gt;= DEFAULT_INITIAL_CAPACITY)</span><br><span class="line">           newThr = oldThr &lt;&lt; <span class="number">1</span>; <span class="comment">// 🚩注：这里计算newThr，可能会导致newThr的值为零（因为数值溢出）</span></span><br><span class="line">   &#125; <span class="keyword">else</span> <span class="keyword">if</span> (oldThr &gt; <span class="number">0</span>) <span class="comment">// 如果旧的阈值大于0，说明“程序员在调用构造方法时指定了初始容量”，则：</span></span><br><span class="line">       <span class="comment">// 把“程序员指定的初始化容量”作为“新桶数组的容量”</span></span><br><span class="line">       <span class="comment">/*</span></span><br><span class="line"><span class="comment">        * 手段：把 threshold 的值绑定到 newCap（以作为新桶数组的容量）</span></span><br><span class="line"><span class="comment">        * 原理：HashMap()构造方法中，使用了threshold变量来暂时保 initialCapacity参数的值（🚩 参考id="helper" 😳）</span></span><br><span class="line"><span class="comment">        */</span> </span><br><span class="line">       newCap = oldThr;</span><br><span class="line">   <span class="keyword">else</span> &#123;  <span class="comment">// 如果旧的阈值为0，说明“程序员调用了默认的构造方法”，则:</span></span><br><span class="line">       <span class="comment">// 为newCap、newThr变量绑定默认值（默认容量、默认阈值）</span></span><br><span class="line">       <span class="comment">/*</span></span><br><span class="line"><span class="comment">        * 调用无参构造方法时，桶数组容量为默认容量，</span></span><br><span class="line"><span class="comment">        * 阈值为默认容量与默认负载因子乘积</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">       newCap = DEFAULT_INITIAL_CAPACITY;</span><br><span class="line">       newThr = (<span class="keyword">int</span>)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   <span class="comment">// 如果newThr 为 0，说明：1 上面的if&#123;&#125;中没有更新newThr的值； 或者2在计算newThr发生了溢出，导致newThr的值为0。则</span></span><br><span class="line"><span class="comment">// 按“阈值计算公式”进行计算；	公式：阈值 = 容量 * 负载因子</span></span><br><span class="line">   <span class="keyword">if</span> (newThr == <span class="number">0</span>) &#123;</span><br><span class="line">       <span class="keyword">float</span> ft = (<span class="keyword">float</span>)newCap * loadFactor;</span><br><span class="line">       <span class="comment">// 从两个值中取一个绑定到newThr</span></span><br><span class="line">       newThr = (newCap &lt; MAXIMUM_CAPACITY &amp;&amp; ft &lt; (<span class="keyword">float</span>)MAXIMUM_CAPACITY ?</span><br><span class="line">                 (<span class="keyword">int</span>)ft : Integer.MAX_VALUE);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 把计算得到的newThr绑定到全局变量threshold上</span></span><br><span class="line">   threshold = newThr;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>🚩 程序员调用了有初始容量的构造方法时…</p>
+<p><span id="helper">辅助代码</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">HashMap</span><span class="params">(<span class="keyword">int</span> initialCapacity, <span class="keyword">float</span> loadFactor)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 参数判空</span></span><br><span class="line">    	...</span><br><span class="line">            </span><br><span class="line">        <span class="comment">// 把程序员指定的初始容量调整后绑定到了threshold变量上（暂存initialCapacity）</span></span><br><span class="line">        <span class="keyword">this</span>.threshold = tableSizeFor(initialCapacity);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>计算新容量与新阈值的代码说明：</p>
+</blockquote>
+<ul>
+<li><p>如果旧哈希桶的容量大于0，说明“哈希桶已经初始化过了”。则：</p>
+<ul>
+<li>尝试使用旧容量&amp;旧阈值的2倍来更新newCap&newThr;<ul>
+<li>1 判断容量是否已经到达最大容量MAXIMUM_CAPACITY，如果是，直接返回旧的哈希桶数组；</li>
+<li>2 如果旧容量没有到达最大容量MAXIMUM_CAPACITY，则：<ul>
+<li>尝试按照扩容两倍的方式来更新newCap与newThr；</li>
+<li>注：如果扩容两倍导致容量超限，则语句不会被执行（newCap与newThr仍旧为0）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>如果旧哈希桶的容量等于0，说明“哈希桶还没有被初始化”（aka 程序员通过默认构造器创建的hashMap对象），则：</p>
+<ul>
+<li>如果旧的阈值大于0，说明“程序员在调用构造方法时指定了初始容量”，则：<ul>
+<li>使用”程序员指定的初始容量调整后的值”来更新newCap；</li>
+</ul>
+</li>
+<li>如果旧的阈值等于0，说明”程序员调用了默认的构造方法”，则:<ul>
+<li>使用“默认的值”来更新newCap&amp;newThr；</li>
+</ul>
+</li>
+</ul>
+<hr>
+</li>
+<li><p>处理上面流程中可能没有被更新的newThr；</p>
+<ul>
+<li>如果newThr仍旧等于0，说明：要么newThr的值没有被更新过，要么在更新newThr时发生了溢出。则：<ul>
+<li>使用“阈值 = 容量 * 扩容因子”的公式来计算阈值，并使用计算结果来更新newThr；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>Period</strong></p>
+<ul>
+<li><p><span id="step2">step2: </span> 根据1中计算出的newCap来<strong>创建新的哈希桶数组</strong>;</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建新的桶数组，桶数组的初始化也是在这里完成的</span></span><br><span class="line">Node&lt;K,V&gt;[] newTab = (Node&lt;K,V&gt;[])<span class="keyword">new</span> Node[newCap];</span><br><span class="line">table = newTab; <span class="comment">// 把新创建的数组绑定到table全局变量上</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><span id="step3">step3: </span>把键值对重新映射到新的桶数组中;</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (oldTab != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">// 如果旧的桶数组不为空，则遍历桶数组，并将键值对映射到新的桶数组中</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; oldCap; ++j) &#123;</span><br><span class="line">            Node&lt;K,V&gt; e;</span><br><span class="line">            <span class="keyword">if</span> ((e = oldTab[j]) != <span class="keyword">null</span>) &#123;</span><br><span class="line">                oldTab[j] = <span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">if</span> (e.next == <span class="keyword">null</span>)</span><br><span class="line">                    newTab[e.hash &amp; (newCap - <span class="number">1</span>)] = e;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (e <span class="keyword">instanceof</span> TreeNode)</span><br><span class="line">                    <span class="comment">// 重新映射时，需要对红黑树进行拆分</span></span><br><span class="line">                    ((TreeNode&lt;K,V&gt;)e).split(<span class="keyword">this</span>, newTab, j, oldCap);</span><br><span class="line">                <span class="keyword">else</span> &#123; <span class="comment">// preserve order</span></span><br><span class="line">                    Node&lt;K,V&gt; loHead = <span class="keyword">null</span>, loTail = <span class="keyword">null</span>;</span><br><span class="line">                    Node&lt;K,V&gt; hiHead = <span class="keyword">null</span>, hiTail = <span class="keyword">null</span>;</span><br><span class="line">                    Node&lt;K,V&gt; next;</span><br><span class="line">                    <span class="comment">// 遍历链表，并将链表节点按原顺序进行分组</span></span><br><span class="line">                    <span class="keyword">do</span> &#123;</span><br><span class="line">                        next = e.next;</span><br><span class="line">                        <span class="keyword">if</span> ((e.hash &amp; oldCap) == <span class="number">0</span>) &#123;</span><br><span class="line">                            <span class="keyword">if</span> (loTail == <span class="keyword">null</span>)</span><br><span class="line">                                loHead = e;</span><br><span class="line">                            <span class="keyword">else</span></span><br><span class="line">                                loTail.next = e;</span><br><span class="line">                            loTail = e;</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">else</span> &#123;</span><br><span class="line">                            <span class="keyword">if</span> (hiTail == <span class="keyword">null</span>)</span><br><span class="line">                                hiHead = e;</span><br><span class="line">                            <span class="keyword">else</span></span><br><span class="line">                                hiTail.next = e;</span><br><span class="line">                            hiTail = e;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; <span class="keyword">while</span> ((e = next) != <span class="keyword">null</span>);</span><br><span class="line">                    <span class="comment">// 将分组后的链表映射到新桶中</span></span><br><span class="line">                    <span class="keyword">if</span> (loTail != <span class="keyword">null</span>) &#123;</span><br><span class="line">                        loTail.next = <span class="keyword">null</span>;</span><br><span class="line">                        newTab[j] = loHead;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span> (hiTail != <span class="keyword">null</span>) &#123;</span><br><span class="line">                        hiTail.next = <span class="keyword">null</span>;</span><br><span class="line">                        newTab[j + oldCap] = hiHead;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>重新映射键值对的代码说明</p>
+</blockquote>
+<ul>
+<li><p>分类1：对桶中的链表进行分组映射；</p>
+<blockquote>
+<p>知识卡1：向HashMap中插入键值对的流程；</p>
+<ul>
+<li>1 计算键值对应该插入到的哈希桶的位置；</li>
+<li>2 尝试把键值对插入到桶中（作为链表节点/红黑树节点）；</li>
+</ul>
+<p>说明：JDK1.8中，对第一步做了优化以减少哈希冲突；</p>
+</blockquote>
+<blockquote>
+<p>知识卡2：JDK1.8中，计算键值对预期插入的桶位置的流程；</p>
+<ul>
+<li>1 根据键值对的key，调用key的hashCode()方法计算得到其哈希值hash_key；</li>
+<li>2 根据公式(n - 1) &amp; hash_key来计算出它预期插入的桶位置；</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>知识卡3：默认情况下，扩容操作会被桶数组的容量扩大为旧容量的2倍；</p>
+</blockquote>
+<ul>
+<li><p>手段：把链表中的键值对重新映射到<strong>扩容后新的哈希桶数组</strong>中；</p>
+</li>
+<li><p>特征：</p>
+<ul>
+<li>1 先前被映射到同一个桶中的键值对，在重新映射时，会被映射到不同的桶中；</li>
+<li>2 <strong>不同的桶</strong>分为两个桶：旧位置的桶 + （旧位置 + 扩容长度）位置的桶；</li>
+<li>3 这种手段不需要重新计算哈希值，只要查看高一位bit的值是0还是1，就能够得到<strong>键值对应该被映射到的哈希桶位置</strong>；</li>
+</ul>
+</li>
+<li><p>原理：</p>
+<ul>
+<li>1 重新映射时， (n - 1) &amp; hash_key表达式中hash_key的值是不变的；</li>
+<li>2 表达式中的n变成了先前的2倍，具体到二进制表示上——最高位1的前一个bit的值从0变成1；</li>
+<li>3 由于按位与&amp;的特征（全1为1，否则为0），所以，根据hash_key的对应bit的值就能得到表达式(n - 1) &amp; hash_key的结果（aka 桶的位置）</li>
+</ul>
+</li>
+<li><p>具体代码实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (oldTab != <span class="keyword">null</span>) &#123;</span><br><span class="line">	<span class="comment">// 如果旧的桶数组不为空，则遍历桶数组，并将键值对映射到新的桶数组中</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; oldCap; ++j) &#123;</span><br><span class="line">		Node&lt;K,V&gt; e;</span><br><span class="line">		<span class="comment">// 获取当前桶位置的节点e，如果节点e不为null...</span></span><br><span class="line">		<span class="keyword">if</span> ((e = oldTab[j]) != <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="comment">// 处理其他的情况</span></span><br><span class="line">			...</span><br><span class="line">			<span class="keyword">else</span> &#123; <span class="comment">// preserve order</span></span><br><span class="line">				<span class="comment">/* 准备需要的指针 	注：根据原理，链表的键值对会被映射到两个桶中 */</span></span><br><span class="line">				Node&lt;K,V&gt; loHead = <span class="keyword">null</span>, loTail = <span class="keyword">null</span>; <span class="comment">// “原始桶位置上的链表分组”的头尾指针 </span></span><br><span class="line">				Node&lt;K,V&gt; hiHead = <span class="keyword">null</span>, hiTail = <span class="keyword">null</span>; <span class="comment">// “新的桶位置上的链表分组”的头尾指针</span></span><br><span class="line">				Node&lt;K,V&gt; next; <span class="comment">// 记录当前节点的下一个节点</span></span><br><span class="line">				<span class="comment">// 遍历链表，并将链表节点按原顺序进行分组</span></span><br><span class="line">				<span class="keyword">do</span> &#123;</span><br><span class="line">					next = e.next;</span><br><span class="line">                    <span class="comment">// 判断当前节点应该添加到的“链表分组”</span></span><br><span class="line">                    <span class="comment">// 手段：判断节点的哈希值 &amp; 桶数组的旧容量 的结果是否为0【WHY？】</span></span><br><span class="line">					<span class="keyword">if</span> ((e.hash &amp; oldCap) == <span class="number">0</span>) &#123;</span><br><span class="line">                        <span class="comment">// 构建链表loHead</span></span><br><span class="line">						<span class="keyword">if</span> (loTail == <span class="keyword">null</span>)</span><br><span class="line">							loHead = e;</span><br><span class="line">						<span class="keyword">else</span></span><br><span class="line">							loTail.next = e;</span><br><span class="line">						loTail = e;</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="comment">// 构建链表hiHead</span></span><br><span class="line">						<span class="keyword">if</span> (hiTail == <span class="keyword">null</span>)</span><br><span class="line">							hiHead = e;</span><br><span class="line">						<span class="keyword">else</span></span><br><span class="line">							hiTail.next = e;</span><br><span class="line">						hiTail = e;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125; <span class="keyword">while</span> ((e = next) != <span class="keyword">null</span>);</span><br><span class="line">				<span class="comment">// 将分组后的链表（loHead、hiHead）添加到新桶中</span></span><br><span class="line">				<span class="keyword">if</span> (loTail != <span class="keyword">null</span>) &#123;</span><br><span class="line">					loTail.next = <span class="keyword">null</span>;</span><br><span class="line">					newTab[j] = loHead;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">if</span> (hiTail != <span class="keyword">null</span>) &#123;</span><br><span class="line">					hiTail.next = <span class="keyword">null</span>;</span><br><span class="line">					newTab[j + oldCap] = hiHead;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>链表中的键值对重新映射过程的SOP：</p>
+<ul>
+<li><p>原始桶数组；</p>
+<p><img src="https://s1.ax1x.com/2020/09/13/w0dbnK.png" alt="原始桶数组"></p>
+</li>
+<li><p>桶数组扩容后，对链表中的键值对重新映射；</p>
+<ul>
+<li><p>1 依次遍历链表，并计算节点 <code>hash &amp; oldCap</code> 的值【为什么是这个公式？🚩】；</p>
+<p><img src="https://s1.ax1x.com/2020/09/13/w0wFHS.png" alt="遍历桶中链表的节点"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    next = e.next;</span><br><span class="line">    <span class="comment">// 判断当前节点应该添加到的“链表分组”</span></span><br><span class="line">    <span class="comment">// 手段：判断节点的哈希值 &amp; 桶数组的旧容量 的结果是否为0【WHY？】</span></span><br><span class="line">    <span class="keyword">if</span> ((e.hash &amp; oldCap) == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// 构建链表loHead</span></span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 构建链表hiHead</span></span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">while</span> ((e = next) != <span class="keyword">null</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>- 2 根据计算结果，对节点进行分组并创建分组后的链表（&lt;font size=2&gt;分组依据：键值对应该存放在原始桶位置or新的桶位置&lt;/font&gt;）；
+
+  手段：创建链表的一般步骤（两个指针head + tail）；
+
+  ![分组节点并创建分组链表](https://s1.ax1x.com/2020/09/13/w0ws4H.png)
+
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建loHead链表</span></span><br><span class="line"><span class="keyword">if</span> (loTail == <span class="keyword">null</span>)</span><br><span class="line">    loHead = e;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    loTail.next = e;</span><br><span class="line">loTail = e;</span><br><span class="line">        </span><br><span class="line"><span class="comment">// 创建hiHead链表</span></span><br><span class="line"><span class="keyword">if</span> (hiTail == <span class="keyword">null</span>)</span><br><span class="line">    hiHead = e;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    hiTail.next = e;</span><br><span class="line">hiTail = e;</span><br></pre></td></tr></table></figure>
+
+
+
+- 3 把创建的分组链表添加到新桶数组中预期位置；
+
+  手段：把分组后链表的头节点绑定到桶数组的预期位置上；
+
+  ![把链表绑定到桶数组的预期位置](https://s1.ax1x.com/2020/09/13/w00dRs.png)
+
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将分组后的链表（loHead、hiHead）添加到新桶中</span></span><br><span class="line"><span class="keyword">if</span> (loTail != <span class="keyword">null</span>) &#123;</span><br><span class="line">    loTail.next = <span class="keyword">null</span>;</span><br><span class="line">    newTab[j] = loHead; <span class="comment">// 旧的桶位置</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (hiTail != <span class="keyword">null</span>) &#123;</span><br><span class="line">    hiTail.next = <span class="keyword">null</span>;</span><br><span class="line">    newTab[j + oldCap] = hiHead; <span class="comment">// 新的桶位置</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></code></pre><hr>
+<h6 id="哈希桶扩容后，红黑树中节点的重新映射过程"><a href="#哈希桶扩容后，红黑树中节点的重新映射过程" class="headerlink" title="哈希桶扩容后，红黑树中节点的重新映射过程"></a>哈希桶扩容后，红黑树中节点的重新映射过程</h6><blockquote>
+<p>这个过程又会有很多细节，所以这里就简单捋一下</p>
+</blockquote>
+<p>参考：<a href="http://www.tianxiaobo.com/2018/01/18/HashMap-%E6%BA%90%E7%A0%81%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90-JDK1-8/#342-%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6">红黑树的拆分</a></p>
+<ul>
+<li><p>手段：按照映射链表节点的方式来重新映射红黑树中的节点；</p>
+</li>
+<li><p>原理：在<strong>将普通链表转成红黑树treeifyBin()方法</strong>时，HashMap 通过两个额外的引用 next 和 prev <strong>保留了原链表的节点顺序</strong>；</p>
+</li>
+<li><p>特征：不需要先把红黑树转化成链表，然后再映射到新的桶数组（效率更高）；</p>
+</li>
+<li><p>代码实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 红黑树转链表阈值</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> UNTREEIFY_THRESHOLD = <span class="number">6</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">split</span><span class="params">(HashMap&lt;K,V&gt; map, Node&lt;K,V&gt;[] tab, <span class="keyword">int</span> index, <span class="keyword">int</span> bit)</span> </span>&#123;</span><br><span class="line">    TreeNode&lt;K,V&gt; b = <span class="keyword">this</span>;</span><br><span class="line">    <span class="comment">// Relink into lo and hi lists, preserving order</span></span><br><span class="line">    TreeNode&lt;K,V&gt; loHead = <span class="keyword">null</span>, loTail = <span class="keyword">null</span>;</span><br><span class="line">    TreeNode&lt;K,V&gt; hiHead = <span class="keyword">null</span>, hiTail = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">int</span> lc = <span class="number">0</span>, hc = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">/* </span></span><br><span class="line"><span class="comment">     * 红黑树节点仍然保留了 next 引用，故仍可以按链表方式遍历红黑树。</span></span><br><span class="line"><span class="comment">     * 下面的循环是对红黑树节点进行分组，与“对链表分组”类似</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">for</span> (TreeNode&lt;K,V&gt; e = b, next; e != <span class="keyword">null</span>; e = next) &#123;</span><br><span class="line">        next = (TreeNode&lt;K,V&gt;)e.next;</span><br><span class="line">        e.next = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> ((e.hash &amp; bit) == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> ((e.prev = loTail) == <span class="keyword">null</span>)</span><br><span class="line">                loHead = e;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                loTail.next = e;</span><br><span class="line">            loTail = e;</span><br><span class="line">            ++lc;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> ((e.prev = hiTail) == <span class="keyword">null</span>)</span><br><span class="line">                hiHead = e;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                hiTail.next = e;</span><br><span class="line">            hiTail = e;</span><br><span class="line">            ++hc;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 判断分组后的树是否需要反树化为链表</span></span><br><span class="line">    <span class="keyword">if</span> (loHead != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">// 如果 loHead 不为空，且链表长度小于等于 6，则将红黑树转成链表</span></span><br><span class="line">        <span class="keyword">if</span> (lc &lt;= UNTREEIFY_THRESHOLD)</span><br><span class="line">            tab[index] = loHead.untreeify(map);</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            tab[index] = loHead;</span><br><span class="line">            <span class="comment">/* </span></span><br><span class="line"><span class="comment">             * hiHead == null 时，表明扩容后，</span></span><br><span class="line"><span class="comment">             * 所有节点仍在原位置，树结构不变，无需重新树化</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">            <span class="keyword">if</span> (hiHead != <span class="keyword">null</span>) </span><br><span class="line">                loHead.treeify(tab);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 把分组后的红黑树绑定到预期的桶中</span></span><br><span class="line">    <span class="keyword">if</span> (hiHead != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (hc &lt;= UNTREEIFY_THRESHOLD)</span><br><span class="line">            tab[index + bit] = hiHead.untreeify(map);</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            tab[index + bit] = hiHead;</span><br><span class="line">            <span class="keyword">if</span> (loHead != <span class="keyword">null</span>)</span><br><span class="line">                hiHead.treeify(tab);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h6 id="其他参考文章"><a href="#其他参考文章" class="headerlink" title="其他参考文章"></a>其他参考文章</h6><p><a href="https://www.toocruel.net/java8de-hashmapxiang-jie-cun-chu-jie-gou-gong-neng-shi-xian-kuo-rong-you-hua-xian-cheng-an-quan-bian-li-fang-fa/">JDK1.8中HashMap扩容机制简介</a></p>
+<p><a href="https://mp.weixin.qq.com/s/qVoebks_Ba17ZtKMlzcbgw">JDK1.7中HashMap扩容机制简介</a></p>
+<blockquote>
+<p>it’s been a day, until next time 😄</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+            -------------本文结束
+            <i class="fa fa-paw"></i>
+            感谢您的阅读-------------
+        </div>
+    
+</div>
+        
+      
+
+      
+        
+          
+        
+      
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              
+              <a href="/tags/Java-stuff/" rel="tag"><i class="fa fa-tag"></i> Java stuff</a>
+              
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Java-Basic/2020/09/12/interview/20200912-java%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%BF%AB%E9%80%9F%E5%A4%8D%E4%B9%A0%EF%BC%883%EF%BC%89.html" rel="prev" title="java基础之快速复习（3）">
+                  <i class="fa fa-chevron-left"></i> java基础之快速复习（3）
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Java-Basic/2020/09/13/interview/20200913-java%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%BF%AB%E9%80%9F%E5%A4%8D%E4%B9%A0%EF%BC%885%EF%BC%89.html" rel="next" title="java基础之快速复习（5）">
+                  java基础之快速复习（5） <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+      
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">henryInSH</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">131k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:59</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      const visitors = document.querySelector('.leancloud_visitors');
+      const url = decodeURI(visitors.id);
+      const title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            const counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      const visitors = document.querySelectorAll('.leancloud_visitors');
+      const entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            const target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    const { app_id, app_key, server_url } = {"enable":true,"app_id":"UniIgz3JDa7i7uw8D3N3lo3o-gzGzoHsz# <your app id>","app_key":"X24wntmAxHx5dzjdEq87nF2H# <your app key>","server_url":null,"security":true};
+    function fetchData(api_server) {
+      const Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    const api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+  
+
+  
+<script>
+NexT.utils.loadComments('#valine-comments', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: location.pathname,
+    }, {"enable":true,"appId":"UniIgz3JDa7i7uw8D3N3lo3o-gzGzoHsz","appKey":"X24wntmAxHx5dzjdEq87nF2H","placeholder":"Just go go","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":false,"serverURLs":null,"enableQQ":false,"requiredFields":[]}
+    ));
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

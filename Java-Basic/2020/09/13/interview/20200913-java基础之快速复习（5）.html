@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=EB+Garamond:300,300italic,400,400italic,700,700italic|Roboto+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1.0.2/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"henryinshanghai.github.io","root":"/","scheme":"Muse","version":"8.0.0-rc.5","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"path":"search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+
+  <meta name="description" content="Java基础速查JDK中哈希操作参考：JDK中的哈希应用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java基础之快速复习（5）">
+<meta property="og:url" content="https://henryinshanghai.github.io/Java-Basic/2020/09/13/interview/20200913-java%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%BF%AB%E9%80%9F%E5%A4%8D%E4%B9%A0%EF%BC%885%EF%BC%89.html">
+<meta property="og:site_name" content="Henry&#39;s blog">
+<meta property="og:description" content="Java基础速查JDK中哈希操作参考：JDK中的哈希应用">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-09-13T14:30:00.000Z">
+<meta property="article:modified_time" content="2020-09-14T14:57:56.993Z">
+<meta property="article:author" content="henryInSH">
+<meta property="article:tag" content="Java stuff">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://henryinshanghai.github.io/Java-Basic/2020/09/13/interview/20200913-java%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%BF%AB%E9%80%9F%E5%A4%8D%E4%B9%A0%EF%BC%885%EF%BC%89.html">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>java基础之快速复习（5） | Henry's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Henry's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Henry's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">focus works better than curiosity</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Java基础速查"><span class="nav-number">1.</span> <span class="nav-text">Java基础速查</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#JDK中哈希操作"><span class="nav-number">1.1.</span> <span class="nav-text">JDK中哈希操作</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#HashMap存储键值对的过程"><span class="nav-number">1.1.1.</span> <span class="nav-text">HashMap存储键值对的过程</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#根据key-value中的key来计算预期插入到的桶位置（Java8）"><span class="nav-number">1.1.2.</span> <span class="nav-text">根据key-value中的key来计算预期插入到的桶位置（Java8）</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Java中的基本数据类型（8种）"><span class="nav-number">1.2.</span> <span class="nav-text">Java中的基本数据类型（8种）</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#分类："><span class="nav-number">1.2.1.</span> <span class="nav-text">分类：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#为什么long类型与double类型都是使用8字节内存，但是所能表示的数据范围却差别那么大呢？"><span class="nav-number">1.2.2.</span> <span class="nav-text">为什么long类型与double类型都是使用8字节内存，但是所能表示的数据范围却差别那么大呢？</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Base64编码"><span class="nav-number">1.3.</span> <span class="nav-text">Base64编码</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#流程SOP"><span class="nav-number">1.3.1.</span> <span class="nav-text">流程SOP:</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#应用示例："><span class="nav-number">1.3.2.</span> <span class="nav-text">应用示例：</span></a></li></ol></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="henryInSH"
+      src="/images/myAvator.jpeg">
+  <p class="site-author-name" itemprop="name">henryInSH</p>
+  <div class="site-description" itemprop="description">collection & catagory & refine</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/henryinshanghai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;henryinshanghai" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2291972433@qq.com" title="E-Mail → mailto:2291972433@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/CyC2018/CS-Notes/blob/master/notes/Leetcode%20%E9%A2%98%E8%A7%A3%20-%20%E7%9B%AE%E5%BD%95.md" title="https:&#x2F;&#x2F;github.com&#x2F;CyC2018&#x2F;CS-Notes&#x2F;blob&#x2F;master&#x2F;notes&#x2F;Leetcode%20%E9%A2%98%E8%A7%A3%20-%20%E7%9B%AE%E5%BD%95.md" rel="noopener" target="_blank">Leecode刷题目录</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.showdoc.cc/" title="https:&#x2F;&#x2F;www.showdoc.cc&#x2F;" rel="noopener" target="_blank">在线Api文档</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.processon.com/" title="https:&#x2F;&#x2F;www.processon.com&#x2F;" rel="noopener" target="_blank">在线作图</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.atool9.com/colorpicker.php" title="http:&#x2F;&#x2F;www.atool9.com&#x2F;colorpicker.php" rel="noopener" target="_blank">在线颜色选择器</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.iconfont.cn/" title="https:&#x2F;&#x2F;www.iconfont.cn&#x2F;" rel="noopener" target="_blank">阿里巴巴矢量图标</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.ubuuk.com/" title="https:&#x2F;&#x2F;www.ubuuk.com&#x2F;" rel="noopener" target="_blank">设计</a>
+        </li>
+    </ul>
+  </div>
+
+      </section>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://henryinshanghai.github.io/Java-Basic/2020/09/13/interview/20200913-java%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%BF%AB%E9%80%9F%E5%A4%8D%E4%B9%A0%EF%BC%885%EF%BC%89.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myAvator.jpeg">
+      <meta itemprop="name" content="henryInSH">
+      <meta itemprop="description" content="collection & catagory & refine">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Henry's blog">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          java基础之快速复习（5）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-13 22:30:00" itemprop="dateCreated datePublished" datetime="2020-09-13T22:30:00+08:00">2020-09-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-14 22:57:56" itemprop="dateModified" datetime="2020-09-14T22:57:56+08:00">2020-09-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java-Basic/" itemprop="url" rel="index"><span itemprop="name">Java Basic</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/Java-Basic/2020/09/13/interview/20200913-java%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%BF%AB%E9%80%9F%E5%A4%8D%E4%B9%A0%EF%BC%885%EF%BC%89.html" class="post-meta-item leancloud_visitors" data-flag-title="java基础之快速复习（5）" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="far fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+              <span>℃</span>
+            </span>
+            <span class="post-meta-item" title="热度" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="far fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/Java-Basic/2020/09/13/interview/20200913-java%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%BF%AB%E9%80%9F%E5%A4%8D%E4%B9%A0%EF%BC%885%EF%BC%89.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/Java-Basic/2020/09/13/interview/20200913-java%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%BF%AB%E9%80%9F%E5%A4%8D%E4%B9%A0%EF%BC%885%EF%BC%89.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+              <span class="post-meta-item-text">本文字数：</span>
+              <span>1.9k</span>字
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+              <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>分钟
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="Java基础速查"><a href="#Java基础速查" class="headerlink" title="Java基础速查"></a>Java基础速查</h4><h5 id="JDK中哈希操作"><a href="#JDK中哈希操作" class="headerlink" title="JDK中哈希操作"></a>JDK中哈希操作</h5><p>参考：<a href="https://juejin.im/post/6844903583255642120#heading-7">JDK中的哈希应用</a></p>
+<a id="more"></a>
+
+<blockquote>
+<p>知识卡：哈希；</p>
+<ul>
+<li><p>是：一种技术；</p>
+</li>
+<li><p>作用：把任意长度的输入转化为固定长度的输出（哈希值）；</p>
+</li>
+<li><p>特征：</p>
+<ul>
+<li>1 相同的输入总是得到相同的输出；</li>
+<li>2 不同的输入总是得到不同的输出（真实实现时无法保证 aka 碰撞）；</li>
+</ul>
+</li>
+<li><p>手段：哈希函数；</p>
+<ul>
+<li>直接定址法：直接以<strong>关键字k或者k加上某个常数（k+c）</strong>作为哈希地址。</li>
+<li>数字分析法：提取<strong>关键字中取值比较均匀的数字</strong>作为哈希地址。</li>
+<li>除留余数法：用<strong>关键字k除以某个不大于哈希表长度m的数p</strong>，将所得余数作为哈希表地址。</li>
+</ul>
+<p>衡量哈希函数质量好坏的指标：1 发生碰撞的概率； 2 发生碰撞时的解决方案；</p>
+<ul>
+<li>哈希函数发生碰撞时，常用的解决手段：<ul>
+<li>1 开放定址法；<ul>
+<li>如果发生了冲突，就去寻找下一个空的散列地址；</li>
+</ul>
+</li>
+<li>2 链地址法；<ul>
+<li>如果发生冲突，就把新的键值对作为链表节点链接在已有的键值对后面；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h6 id="HashMap存储键值对的过程"><a href="#HashMap存储键值对的过程" class="headerlink" title="HashMap存储键值对的过程"></a>HashMap存储键值对的过程</h6><ul>
+<li>1 根据key-value中的key，找到键值对预期插入的哈希桶数组中的位置；</li>
+<li>2 根据具体情况，把键值对插入到底层数据结构中；</li>
+</ul>
+<h6 id="根据key-value中的key来计算预期插入到的桶位置（Java8）"><a href="#根据key-value中的key来计算预期插入到的桶位置（Java8）" class="headerlink" title="根据key-value中的key来计算预期插入到的桶位置（Java8）"></a>根据key-value中的key来计算预期插入到的桶位置（Java8）</h6><p>SOP:</p>
+<ul>
+<li><p>1 根据key计算出一个哈希值；</p>
+</li>
+<li><p>2 根据哈希值与哈希桶数组的长度，计算得到预期插入的桶位置；</p>
+<ul>
+<li>代码</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">hash</span><span class="params">(Object key)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> h;</span><br><span class="line">    <span class="keyword">return</span> (key == <span class="keyword">null</span>) ? <span class="number">0</span> : (h = key.hashCode()) ^ (h &gt;&gt;&gt; <span class="number">16</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>代码说明</p>
+<ul>
+<li><p>1 先使用key的hashCode()方法，得到一个最初版本的hash值（一个32位的数字）；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">h = key.hashCode() <span class="comment">// hashCode()是Object类型的实例方法</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2 对1中得到的hash值执行无符号右移16位的操作；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">h &gt;&gt;&gt; <span class="number">16</span> <span class="comment">// &gt;&gt;&gt;是无符号右移的操作符：忽略符号位，空位都用0补齐</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3 把1中计算得到的hash值与右移16位之后的结果，进行异或操作；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(h = key.hashCode()) ^ (h &gt;&gt;&gt; <span class="number">16</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>作用(2+3)：最终减少哈希碰撞;</p>
+<p>手段：把最初hash值的高16位与低16位异或，使得每一位的数字都能参与到<strong>桶位置的计算</strong>中；</p>
+<p>原理：避免了<strong>虽然哈希值不同，但由于哈希值低位上的数字相同，而计算得到了相同的桶位置</strong>这种碰撞情况；</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="Java中的基本数据类型（8种）"><a href="#Java中的基本数据类型（8种）" class="headerlink" title="Java中的基本数据类型（8种）"></a>Java中的基本数据类型（8种）</h5><h6 id="分类："><a href="#分类：" class="headerlink" title="分类："></a>分类：</h6><ul>
+<li>1 整数类型；<ul>
+<li><code>byte</code> - 8 位。<ul>
+<li>数值范围：-128~127；</li>
+</ul>
+</li>
+<li><code>short</code> - 16 位。</li>
+<li><code>int</code> - 32 位。</li>
+<li><code>long</code> - 64 位，赋值时一般在数字后加上 <code>l</code> 或 <code>L</code>。</li>
+</ul>
+</li>
+<li>2 浮点型；<ul>
+<li><code>float</code> - 32 位，直接赋值时必须在数字后加上 <code>f</code> 或 <code>F</code>。</li>
+<li><code>double</code> - 64 位，赋值时一般在数字后加 <code>d</code> 或 <code>D</code> 。</li>
+</ul>
+</li>
+<li>3 字符型；<ul>
+<li><code>char</code> - 16 位，存储 Unicode 码，用单引号赋值。</li>
+<li>数值范围：0~65535；</li>
+</ul>
+</li>
+<li>4 布尔型；<ul>
+<li><code>boolean</code> - 只有 true 和 false 两个取值。</li>
+</ul>
+</li>
+</ul>
+<h6 id="为什么long类型与double类型都是使用8字节内存，但是所能表示的数据范围却差别那么大呢？"><a href="#为什么long类型与double类型都是使用8字节内存，但是所能表示的数据范围却差别那么大呢？" class="headerlink" title="为什么long类型与double类型都是使用8字节内存，但是所能表示的数据范围却差别那么大呢？"></a>为什么long类型与double类型都是使用8字节内存，但是所能表示的数据范围却差别那么大呢？</h6><p>答：因为整数类型与浮点数类型在计算机中的底层表示是不一样的；</p>
+<ul>
+<li>整数类型long的底层存储方式；<ul>
+<li>符号位（一个bit） + 数值位（63个bit）；</li>
+</ul>
+</li>
+<li>浮点类型double的底层表示方式；<ul>
+<li>符号位 + 指数位 + 尾数位；</li>
+</ul>
+</li>
+</ul>
+<h5 id="Base64编码"><a href="#Base64编码" class="headerlink" title="Base64编码"></a>Base64编码</h5><p>参考：<a href="https://www.cnblogs.com/linguanh/p/11205256.html">Base64编码过程</a></p>
+<blockquote>
+<p> 知识卡：编码</p>
+<p>是：一种技术/一个过程；</p>
+<p>作用：把信息转换成另一种形式，方便计算机进行处理；</p>
+<p>手段：Basexxx编码；</p>
+<p>原理：</p>
+<ul>
+<li>1 编码算法；</li>
+<li>2 编码对照表格；</li>
+</ul>
+<p>特征：</p>
+<ul>
+<li>不同编码方式的基本原理都是相同的，主要差异在于：<ul>
+<li>1 具体使用<strong>几位二进制数字</strong>来作为<strong>编码对照表的查找索引</strong>;</li>
+<li>2 不同编码方式<strong>使用的编码对照表格</strong>各有不同；</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h6 id="流程SOP"><a href="#流程SOP" class="headerlink" title="流程SOP:"></a>流程SOP:</h6><ul>
+<li>0 准备预期要被编码的字符串；</li>
+<li>1 把字符串中的字符转化成Ascii编码表的数值；</li>
+<li>2 把1中得到的数值转化为二进制数字（要求为8位的整数倍）；</li>
+<li>3 根据BaseX编码算法中的<strong>获取查找索引的规则</strong>，把2中得到的二进制数字划分成一个个单元；</li>
+<li>4 把3中得到的一个个单元转化为10进制数字；</li>
+<li>5 使用4中得到的10进制数字作为<strong>编码对照表的查找索引</strong>，得到编码后的字符集合；</li>
+</ul>
+<h6 id="应用示例："><a href="#应用示例：" class="headerlink" title="应用示例："></a>应用示例：</h6><ul>
+<li><p>任务：对原始字符串“ILU”按照Base16算法进行编码；</p>
+</li>
+<li><p>流程：</p>
+<ul>
+<li><p>1 把字符串中的字符转化成Ascii编码表的数值；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">I = <span class="number">73</span>, L = <span class="number">76</span>, U = <span class="number">85</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2 把1中得到的数值转化为二进制数字（要求为8位的整数倍）；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">73</span> = <span class="number">01001001</span></span><br><span class="line"></span><br><span class="line"><span class="number">76</span> = <span class="number">01001100</span></span><br><span class="line"></span><br><span class="line"><span class="number">85</span> = <span class="number">01010101</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3 根据BaseX编码算法中的<strong>计算查找索引的规则</strong>，把2中得到的二进制数字划分成一个个单元；</p>
+<blockquote>
+<p>说明：Base16规定-使用4位二进制数字来计算查找索引</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+            -------------本文结束
+            <i class="fa fa-paw"></i>
+            感谢您的阅读-------------
+        </div>
+    
+</div>
+        
+      
+
+      
+        
+          
+        
+      
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              
+              <a href="/tags/Java-stuff/" rel="tag"><i class="fa fa-tag"></i> Java stuff</a>
+              
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Java-Basic/2020/09/12/interview/20200912-java%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%BF%AB%E9%80%9F%E5%A4%8D%E4%B9%A0%EF%BC%884%EF%BC%89.html" rel="prev" title="java基础之快速复习（4）">
+                  <i class="fa fa-chevron-left"></i> java基础之快速复习（4）
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Computer-Basic/2020/09/14/interview/20200914-%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%EF%BC%881%EF%BC%89.html" rel="next" title="计算机基础（1）">
+                  计算机基础（1） <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+      
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">henryInSH</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">131k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:59</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      const visitors = document.querySelector('.leancloud_visitors');
+      const url = decodeURI(visitors.id);
+      const title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            const counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      const visitors = document.querySelectorAll('.leancloud_visitors');
+      const entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            const target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    const { app_id, app_key, server_url } = {"enable":true,"app_id":"UniIgz3JDa7i7uw8D3N3lo3o-gzGzoHsz# <your app id>","app_key":"X24wntmAxHx5dzjdEq87nF2H# <your app key>","server_url":null,"security":true};
+    function fetchData(api_server) {
+      const Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    const api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+  
+
+  
+<script>
+NexT.utils.loadComments('#valine-comments', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: location.pathname,
+    }, {"enable":true,"appId":"UniIgz3JDa7i7uw8D3N3lo3o-gzGzoHsz","appKey":"X24wntmAxHx5dzjdEq87nF2H","placeholder":"Just go go","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":false,"serverURLs":null,"enableQQ":false,"requiredFields":[]}
+    ));
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
