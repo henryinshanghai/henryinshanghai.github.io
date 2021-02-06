@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=EB+Garamond:300,300italic,400,400italic,700,700italic|Roboto+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1.0.2/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"henryinshanghai.github.io","root":"/","scheme":"Muse","version":"8.0.0-rc.5","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"path":"search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+
+  <meta name="description" content="Git官网上的信息（第一手资料）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git官网信息">
+<meta property="og:url" content="https://henryinshanghai.github.io/Git/2020/09/19/%E6%95%99%E7%A8%8B%E7%B1%BB%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%8E%E8%AE%A4%E8%AF%86/Github%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/20200919-Git%E5%AE%98%E7%BD%91%E4%BF%A1%E6%81%AF.html">
+<meta property="og:site_name" content="Henry&#39;s blog">
+<meta property="og:description" content="Git官网上的信息（第一手资料）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/19/wokO78.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/20/wouzy4.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/20/woMT5q.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/20/woQGLQ.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/20/wolY6O.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/20/wo1CjO.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/20/wo1VUA.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/20/wog34I.png">
+<meta property="article:published_time" content="2020-09-19T04:30:00.000Z">
+<meta property="article:modified_time" content="2021-02-06T15:23:35.692Z">
+<meta property="article:author" content="henryInSH">
+<meta property="article:tag" content="Tools">
+<meta property="article:tag" content="Git Related Info">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/09/19/wokO78.png">
+
+
+<link rel="canonical" href="https://henryinshanghai.github.io/Git/2020/09/19/%E6%95%99%E7%A8%8B%E7%B1%BB%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%8E%E8%AE%A4%E8%AF%86/Github%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/20200919-Git%E5%AE%98%E7%BD%91%E4%BF%A1%E6%81%AF.html">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Git官网信息 | Henry's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Henry's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Henry's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">focus works better than curiosity</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Git官网上的信息（第一手资料）"><span class="nav-number">1.</span> <span class="nav-text">Git官网上的信息（第一手资料）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#主页面（官网的信息对初学者并不友好）"><span class="nav-number">1.1.</span> <span class="nav-text">主页面（官网的信息对初学者并不友好）</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#链接详情1：easy-to-learn"><span class="nav-number">1.1.1.</span> <span class="nav-text">链接详情1：easy to learn</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#链接详情2：tiny-footprint-with-lightning-fast-performance"><span class="nav-number">1.1.2.</span> <span class="nav-text">链接详情2：tiny footprint with lightning fast performance</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#链接详情3：-cheap-local-branching"><span class="nav-number">1.1.3.</span> <span class="nav-text">链接详情3： cheap local branching</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#链接详情4：staging-areas"><span class="nav-number">1.1.4.</span> <span class="nav-text">链接详情4：staging areas</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#链接详情5：-multiple-workflows"><span class="nav-number">1.1.5.</span> <span class="nav-text">链接详情5： multiple workflows</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Multiple-Backups"><span class="nav-number">1.1.6.</span> <span class="nav-text">Multiple Backups</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#多个备份"><span class="nav-number">1.1.7.</span> <span class="nav-text">多个备份</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Any-Workflow"><span class="nav-number">1.1.8.</span> <span class="nav-text">Any Workflow</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#任何工作流"><span class="nav-number">1.1.9.</span> <span class="nav-text">任何工作流</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Subversion-Style-Workflow"><span class="nav-number">1.1.10.</span> <span class="nav-text">Subversion-Style Workflow</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Integration-Manager-Workflow"><span class="nav-number">1.1.11.</span> <span class="nav-text">Integration Manager Workflow</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Integration-Manager工作流"><span class="nav-number">1.1.12.</span> <span class="nav-text">Integration Manager工作流</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Dictator-and-Lieutenants-Workflow"><span class="nav-number">1.1.13.</span> <span class="nav-text">Dictator and Lieutenants Workflow</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#独裁者和中尉工作流"><span class="nav-number">1.1.14.</span> <span class="nav-text">独裁者和中尉工作流</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#官网提供的视频资料"><span class="nav-number">1.2.</span> <span class="nav-text">官网提供的视频资料</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#尝试搜索youtube上的学习资料"><span class="nav-number">1.3.</span> <span class="nav-text">尝试搜索youtube上的学习资料</span></a></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="henryInSH"
+      src="/images/myAvator.jpeg">
+  <p class="site-author-name" itemprop="name">henryInSH</p>
+  <div class="site-description" itemprop="description">collection & catagory & refine</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/henryinshanghai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;henryinshanghai" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2291972433@qq.com" title="E-Mail → mailto:2291972433@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/CyC2018/CS-Notes/blob/master/notes/Leetcode%20%E9%A2%98%E8%A7%A3%20-%20%E7%9B%AE%E5%BD%95.md" title="https:&#x2F;&#x2F;github.com&#x2F;CyC2018&#x2F;CS-Notes&#x2F;blob&#x2F;master&#x2F;notes&#x2F;Leetcode%20%E9%A2%98%E8%A7%A3%20-%20%E7%9B%AE%E5%BD%95.md" rel="noopener" target="_blank">Leecode刷题目录</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.showdoc.cc/" title="https:&#x2F;&#x2F;www.showdoc.cc&#x2F;" rel="noopener" target="_blank">在线Api文档</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.processon.com/" title="https:&#x2F;&#x2F;www.processon.com&#x2F;" rel="noopener" target="_blank">在线作图</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.atool9.com/colorpicker.php" title="http:&#x2F;&#x2F;www.atool9.com&#x2F;colorpicker.php" rel="noopener" target="_blank">在线颜色选择器</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.iconfont.cn/" title="https:&#x2F;&#x2F;www.iconfont.cn&#x2F;" rel="noopener" target="_blank">阿里巴巴矢量图标</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.ubuuk.com/" title="https:&#x2F;&#x2F;www.ubuuk.com&#x2F;" rel="noopener" target="_blank">设计</a>
+        </li>
+    </ul>
+  </div>
+
+      </section>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://henryinshanghai.github.io/Git/2020/09/19/%E6%95%99%E7%A8%8B%E7%B1%BB%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%8E%E8%AE%A4%E8%AF%86/Github%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/20200919-Git%E5%AE%98%E7%BD%91%E4%BF%A1%E6%81%AF.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myAvator.jpeg">
+      <meta itemprop="name" content="henryInSH">
+      <meta itemprop="description" content="collection & catagory & refine">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Henry's blog">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Git官网信息
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-19 12:30:00" itemprop="dateCreated datePublished" datetime="2020-09-19T12:30:00+08:00">2020-09-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-06 23:23:35" itemprop="dateModified" datetime="2021-02-06T23:23:35+08:00">2021-02-06</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Git/" itemprop="url" rel="index"><span itemprop="name">Git</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/Git/2020/09/19/%E6%95%99%E7%A8%8B%E7%B1%BB%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%8E%E8%AE%A4%E8%AF%86/Github%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/20200919-Git%E5%AE%98%E7%BD%91%E4%BF%A1%E6%81%AF.html" class="post-meta-item leancloud_visitors" data-flag-title="Git官网信息" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="far fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+              <span>℃</span>
+            </span>
+            <span class="post-meta-item" title="热度" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="far fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/Git/2020/09/19/%E6%95%99%E7%A8%8B%E7%B1%BB%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%8E%E8%AE%A4%E8%AF%86/Github%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/20200919-Git%E5%AE%98%E7%BD%91%E4%BF%A1%E6%81%AF.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/Git/2020/09/19/%E6%95%99%E7%A8%8B%E7%B1%BB%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%8E%E8%AE%A4%E8%AF%86/Github%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/20200919-Git%E5%AE%98%E7%BD%91%E4%BF%A1%E6%81%AF.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+              <span class="post-meta-item-text">本文字数：</span>
+              <span>13k</span>字
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+              <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>12 分钟</span>分钟
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="Git官网上的信息（第一手资料）"><a href="#Git官网上的信息（第一手资料）" class="headerlink" title="Git官网上的信息（第一手资料）"></a>Git官网上的信息（第一手资料）</h4><a id="more"></a>
+
+<h5 id="主页面（官网的信息对初学者并不友好）"><a href="#主页面（官网的信息对初学者并不友好）" class="headerlink" title="主页面（官网的信息对初学者并不友好）"></a>主页面（官网的信息对初学者并不友好）</h5><ul>
+<li><p>Git is a <a href="https://git-scm.com/about/free-and-open-source">free and open source</a> distributed version control system designed to handle everything from small to very large projects with speed and efficiency.</p>
+<blockquote>
+<p>Git是一个免费、开源的分布式版本控制系统，用于快速高效地处理小型-大型项目；</p>
+</blockquote>
+<blockquote>
+<p>链接详情：</p>
+<ul>
+<li>Git开源遵守的是什么类型的许可证；<ul>
+<li>作用：你可以拿Git做哪些事，又不至于违反规则；</li>
+<li>特征：对你我这种不同的程序员不重要，别多想😳</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+</li>
+<li><p>Git is <a href="https://git-scm.com/doc">easy to learn</a> and has a <a href="https://git-scm.com/about/small-and-fast">tiny footprint with lightning fast performance</a>. It outclasses SCM tools like Subversion, CVS, Perforce, and ClearCase with features like <a href="https://git-scm.com/about/branching-and-merging">cheap local branching</a>, convenient <a href="https://git-scm.com/about/staging-area">staging areas</a>, and <a href="https://git-scm.com/about/distributed">multiple workflows</a>.</p>
+<blockquote>
+<p>Git很容易学习并且占用空间很小（tiny footprint），速度快。</p>
+<p>它超越了很多SCM（Software configuration management）工具（比如Subversion, CVS, 其他同类品）,具体原因在于<strong>快捷的本地分支</strong>、<strong>方便的暂存区</strong>、<strong>多个工作流</strong>；</p>
+</blockquote>
+</li>
+</ul>
+<h6 id="链接详情1：easy-to-learn"><a href="#链接详情1：easy-to-learn" class="headerlink" title="链接详情1：easy to learn"></a>链接详情1：<a href="https://git-scm.com/doc">easy to learn</a></h6><blockquote>
+<ul>
+<li>1 使用手册/cheat sheet；</li>
+<li>2 书；</li>
+<li>3 视频；</li>
+</ul>
+<p>我就纳闷了，要是容易学的话。还需要一本书吗？🙋</p>
+</blockquote>
+<h6 id="链接详情2：tiny-footprint-with-lightning-fast-performance"><a href="#链接详情2：tiny-footprint-with-lightning-fast-performance" class="headerlink" title="链接详情2：tiny footprint with lightning fast performance"></a>链接详情2：<a href="https://git-scm.com/about/small-and-fast">tiny footprint with lightning fast performance</a></h6><blockquote>
+<p><strong>Git is fast</strong>. With Git, nearly all operations are performed locally, giving it a huge speed advantage on centralized systems that constantly have to communicate with a server somewhere.</p>
+<p>Git was built to work on the Linux kernel, meaning that it has had to effectively handle large repositories from day one. Git is written in C, reducing the overhead of runtimes associated with higher-level languages. Speed and performance has been a primary design goal of the Git from the start.</p>
+</blockquote>
+<blockquote>
+<p>翻译：</p>
+<p>Git很快. 使用Git时,几乎所有的操作都是在本地执行的—比起集中式的系统，这给了Git一个巨大的速度优势（因为集中式的系统总是会与某个远程的服务器执行网络操作）</p>
+<p>Git是为了在Linux内核上工作而创建的,这意味着它一开始就必须能够有效地处理大的仓库;</p>
+<p>Git是用C语言写成的，这减少了使用高级语言时会产生的运行时开销；</p>
+<p>速度与性能是设计Git时考虑的首要目标；</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>Let’s see how common operations <strong>stack up against</strong> Subversion, a common centralized version control system that is similar to CVS or Perforce. <em>Smaller is faster.</em></p>
+<p>翻译：让我们看一下Git在常用操作中与Subversion的比拼（Subxxx是一个常用的中心化版本控制系统,它与CVS或者Perforce这些个产品类似） 更小意味着更快</p>
+</blockquote>
+<p><font size=2>看不太懂的图片</font></p>
+<p><img src="https://s1.ax1x.com/2020/09/19/wokO78.png" alt="对比图"></p>
+<p>虽然不太清楚具体是啥意思，但是git的条状图明显低很多…</p>
+<p>不过既然是在对Git和Subversion进行操作耗时比较,肯定需要准备相同的测试用例，然后进行同样的操作（初中物理之<strong>控制变量法</strong>）</p>
+<blockquote>
+<p>For testing, large AWS instances were set up in the same availability zone. Git and SVN were installed on both machines, the Ruby repository was copied to both Git and SVN servers, and common operations were performed on both.</p>
+</blockquote>
+<blockquote>
+<p>测试条件：</p>
+<p>1 在同一可用区域中设置了大型AWS实例；</p>
+<p>2 Git和SVN都安装在这两台机器上；</p>
+<p>3 Ruby存储库被复制到Git和SVN服务器上，并在这两台机器上执行常见操作。</p>
+</blockquote>
+<blockquote>
+<p>In some cases the commands don’t match up exactly. Here, matching on the lowest common denominator was attempted. For example, the ‘commit’ tests also include the time to push for Git, though most of the time you would not actually be pushing to the server immediately after a commit where the two commands cannot be separated in SVN.</p>
+</blockquote>
+<blockquote>
+<p>测试的不精确性说明：</p>
+<p>在某些情况下，命令与预期操作并不完全匹配。所以在这里，尝试在最小公分母上进行匹配。<br>例如，“commit”测试还包括推送Git的时间——多数情况下您不会在<strong>提交</strong>之后立即<strong>推送到服务器</strong>（但是在SVN中两个命令不能分开）</p>
+</blockquote>
+<p>实验数据(单位为s)；</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th></th>
+<th align="center">Git</th>
+<th align="center">SVN</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Commit Files (A)</td>
+<td>Add, commit and push 113 modified files (2164+, 2259-)</td>
+<td align="center">0.64</td>
+<td align="center">2.60</td>
+<td>4x</td>
+</tr>
+<tr>
+<td>Commit Images (B)</td>
+<td>Add, commit and push a thousand 1 kB images</td>
+<td align="center">1.53</td>
+<td align="center">24.70</td>
+<td>16x</td>
+</tr>
+<tr>
+<td>Diff Current</td>
+<td>Diff 187 changed files (1664+, 4859-) against last commit</td>
+<td align="center">0.25</td>
+<td align="center">1.09</td>
+<td>4x</td>
+</tr>
+<tr>
+<td>Diff Recent</td>
+<td>Diff against 4 commits back (269 changed/3609+,6898-)</td>
+<td align="center">0.25</td>
+<td align="center">3.99</td>
+<td>16x</td>
+</tr>
+<tr>
+<td>Diff Tags</td>
+<td>Diff two tags against each other (v1.9.1.0/v1.9.3.0)</td>
+<td align="center">1.17</td>
+<td align="center">83.57</td>
+<td>71x</td>
+</tr>
+<tr>
+<td>Log (50)</td>
+<td>Log of the last 50 commits (19 kB of output)</td>
+<td align="center">0.01</td>
+<td align="center">0.38</td>
+<td>31x</td>
+</tr>
+<tr>
+<td>Log (All)</td>
+<td>Log of all commits (26,056 commits – 9.4 MB of output)</td>
+<td align="center">0.52</td>
+<td align="center">169.20</td>
+<td>325x</td>
+</tr>
+<tr>
+<td>Log (File)</td>
+<td>Log of the history of a single file (array.c – 483 revs)</td>
+<td align="center">0.60</td>
+<td align="center">82.84</td>
+<td>138x</td>
+</tr>
+<tr>
+<td>Update</td>
+<td>Pull of Commit A scenario (113 files changed, 2164+, 2259-)</td>
+<td align="center">0.90</td>
+<td align="center">2.82</td>
+<td>3x</td>
+</tr>
+<tr>
+<td>Blame</td>
+<td>Line annotation of a single file (array.c)</td>
+<td align="center">1.91</td>
+<td align="center">3.04</td>
+<td>1x</td>
+</tr>
+</tbody></table>
+<p><font size=2>同样这里的操作先不逐一解释，只是看实验数据</font></p>
+<blockquote>
+<p>Note that this is the best case scenario for SVN—a server with no load with a gigabit connection to the client machine. Nearly all of these times would be even worse for SVN if that connection was slower, while many of the Git times would not be affected.</p>
+</blockquote>
+<blockquote>
+<p>留意对于SVN来说，这是最好的情况—一个与客户机有千兆位连接的无负载服务器。</p>
+<p>如果这个允许链接的数量更低一些，那么：</p>
+<ul>
+<li>SVN几乎所有操作的时间数据都会变得更糟；</li>
+<li>但是Git的许多操作都不会受到影响。</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>Clearly, in many of these common version control operations, <strong>Git is one or two orders of magnitude faster than SVN</strong>, even under ideal conditions for SVN.</p>
+</blockquote>
+<blockquote>
+<p>显然，在许多常见的版本控制操作中，Git比SVN快一到两个数量级，即使在SVN的理想条件下也是如此。</p>
+</blockquote>
+<blockquote>
+<p>One place where Git is slower is in the initial clone operation. Here, Git is downloading the entire history rather than only the latest version. As seen in the above charts, it’s not considerably slower for an operation that is only performed once.</p>
+</blockquote>
+<blockquote>
+<p>但是有一个操作Git会更慢一些（比起SVN）：初始的克隆操作；在这个操作中,Git会下载整个历史不只是当前的最新版本。</p>
+<p>从上面的图表可以看出，对于一个只会执行一次的操作，它还不算太慢；</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th></th>
+<th align="center">Git*</th>
+<th align="center">Git</th>
+<th align="center">SVN</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Clone</td>
+<td>Clone and shallow clone(*) in Git vs checkout in SVN</td>
+<td align="center">21.0</td>
+<td align="center">107.5</td>
+<td align="center">14.0</td>
+</tr>
+<tr>
+<td>Size (MB)</td>
+<td>Size of total client side data and files after clone/checkout (in MB)</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>It’s also interesting to note that the size of the data on the client side is very similar even though Git also has every version of every file for the entire history of the project. This illustrates how efficient it is at compressing and storing data on the client side.</p>
+</blockquote>
+<blockquote>
+<p>有趣的是，尽管Git还拥有项目整个历史中每个文件的每个版本，但客户端的数据大小非常相似。</p>
+<p>这说明了它在客户端压缩和存储数据的效率。</p>
+</blockquote>
+<h6 id="链接详情3：-cheap-local-branching"><a href="#链接详情3：-cheap-local-branching" class="headerlink" title="链接详情3： cheap local branching"></a>链接详情3： <a href="https://git-scm.com/about/branching-and-merging">cheap local branching</a></h6><ul>
+<li>分支与合并</li>
+</ul>
+<blockquote>
+<p>The Git feature that really makes it <strong>stand apart from</strong> nearly every other SCM out there is its branching model.</p>
+<p>Git allows and encourages you to have multiple local branches that can be entirely independent of each other. The creation, merging, and deletion of those lines of development takes seconds.</p>
+</blockquote>
+<blockquote>
+<p>Git所以区别于其他的SCM(Software configuration management)工具的主要原因在于：它的分支模型；</p>
+<p>Git允许/鼓励你持有多个相互独立的本地分支；</p>
+<p>这些个分支（开发线）的创建、合并与删除都只是几秒钟的工作；</p>
+</blockquote>
+<ul>
+<li>分支模型的作用</li>
+</ul>
+<blockquote>
+<p>This means that you can do things like:</p>
+<ul>
+<li><strong>Frictionless Context Switching</strong>. <ul>
+<li>Create a branch to try out an idea, commit a few times, switch back to where you branched from, apply a patch, switch back to where you are experimenting, and merge it in.</li>
+</ul>
+</li>
+<li><strong>Role-Based Codelines</strong>. Have a branch that always contains only what goes to production, another that you merge work into for testing, and several smaller ones for day to day work.</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>这意味着你可以做下面这样的事情:</p>
+<ul>
+<li>简单的上下文切换.<ul>
+<li>创建一个分支来尝试一个新的想法，提交几次改动，然后切换回创建分支的地方，应用一个补丁（🚩），切换回你正在进行试验的地方，把实验的恭喜合并到主分支；</li>
+</ul>
+</li>
+<li>基于角色的代码行；<ul>
+<li>创建一个分支：这个分支中只包含会提交到生产环境中的代码；</li>
+<li>创建另一个分支：这个分支用于用于合并新添加的功能后进行测试；</li>
+<li>创建其他几个分支：这些个分支用于日常工作，aka，小功能的开发；</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li><strong>Feature Based Workflow</strong>. Create new branches for each new feature you’re working on so you can seamlessly switch back and forth between them, then delete each branch when that feature gets merged into your main line.</li>
+<li><strong>Disposable Experimentation</strong>. Create a branch to experiment in, realize it’s not going to work, and just delete it - abandoning the work—with nobody else ever seeing it (even if you’ve pushed other branches in the meantime).</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>基于功能特性的工作流.<ul>
+<li>为每一个你正在开发的新功能创建一个新的分支，这样你可以在这些分支之间<strong>无缝地/无顾忌地</strong>来回切换。并且在把功能合并到代码主分支之后，就可以删除该功能对应的分支</li>
+</ul>
+</li>
+<li>一次性的实验.<ul>
+<li>创建一个分支用来试验一些想法，然后发现这个想法行不通，接着就可以把这个分支删除掉—放弃那些失败的尝试—甚至都不会有人看到它；</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p><img src="https://s1.ax1x.com/2020/09/20/wouzy4.png" alt="Git中的分支模型"></p>
+<blockquote>
+<p>Notably, when you push to a remote repository, you do not have to push all of your branches. You can choose to share just one of your branches, a few of them, or all of them. This tends to free people to try new ideas without worrying about having to plan how and when they are going to merge it in or share it with others.</p>
+<p>There are ways to accomplish some of this with other systems, but the work involved is much more difficult and <strong>error-prone</strong>. Git makes this process incredibly easy and it changes the way most developers work when they learn it.</p>
+</blockquote>
+<blockquote>
+<p>值得注意的是，当你推送代码到远程仓库时，你不需要推送你的所有分支。</p>
+<p>你可以选择分享你的某一个分支/其中几个分支或是所有的分支。</p>
+<p>这样的话，团队中的其他成员在尝试新的想法时，就不需要担心应该在何时，以何种方式把新的想法合并或者分享给其他人；</p>
+</blockquote>
+<blockquote>
+<p>在其他系统中,也有一些手段能够实现这些功能，但是所涉及的工作要困难得多，而且容易出错。</p>
+<p>Git使这个过程非常简单，它改变了大多数开发人员学习它时的工作方式。</p>
+</blockquote>
+<h6 id="链接详情4：staging-areas"><a href="#链接详情4：staging-areas" class="headerlink" title="链接详情4：staging areas"></a>链接详情4：<a href="https://git-scm.com/about/staging-area">staging areas</a></h6><blockquote>
+<p>Unlike the other systems, Git has something called the “staging area” or “index”. This is an intermediate area where commits can be formatted and reviewed before completing the commit.</p>
+<p>One thing that <strong>sets Git apart from</strong> other tools is that it’s possible to quickly <strong>stage</strong> some of your files and commit them without committing all of the other modified files in your working directory or having to list them on the command line during the commit.</p>
+</blockquote>
+<blockquote>
+<p>与其他系统不同，Git有一个叫做“临时区域”或“索引”的东西。这是一个中间区域，可以在完成提交之前,<strong>对提交的内容进行格式化和检查</strong>。</p>
+<p>Git与其他工具不同的一点是，它可以<strong>快速暂存一些文件并提交它们</strong>，而无需：</p>
+<ul>
+<li>1 提交工作目录中的<strong>所有修改过的其他文件</strong>；</li>
+<li>2 也不必在提交期间将<strong>它们</strong>列在命令行上。</li>
+</ul>
+</blockquote>
+<p>暂存区的工作流程</p>
+<p><img src="https://s1.ax1x.com/2020/09/20/woMT5q.png" alt="暂存区的SOP"></p>
+<blockquote>
+<p>This allows you to stage only portions of a modified file. Gone are the days of making two logically unrelated modifications to a file before you realized that you forgot to commit one of them. Now you can just stage the change you need for the current commit and stage the other change for the next commit. This feature scales up to as many different changes to your file as needed.</p>
+</blockquote>
+<blockquote>
+<p>这允许您仅暂存<strong>已修改文件的部分内容</strong>。</p>
+<p>对一个文件进行了两次逻辑上不相关的改动，然后你发现自己忘记了提交其中的某个改动。这样的事情再也不会发生了。</p>
+<p>现在，您只需<strong>为当前提交准备所需的更改</strong>，并<strong>为下一次提交准备另一个更改</strong>。此功能可根据需要对文件进行多次不同的更改。</p>
+</blockquote>
+<blockquote>
+<p>Of course, Git also makes it easy to ignore this feature if you don’t want that kind of control — just add a ‘-a’ to your commit command in order to add all changes to all files to the staging area.</p>
+</blockquote>
+<blockquote>
+<p>当然，如果您不想要这种控制，Git还可以让您很容易忽略此功能—只需在commit命令中添加’-a’，以便将对所有文件的所有更改添加到临时区域。(这个貌似更常用吧<del>~</del>)</p>
+</blockquote>
+<p><img src="https://s1.ax1x.com/2020/09/20/woQGLQ.png" alt="一次性提交文件中的所有改动"></p>
+<h6 id="链接详情5：-multiple-workflows"><a href="#链接详情5：-multiple-workflows" class="headerlink" title="链接详情5： multiple workflows"></a>链接详情5： <a href="https://git-scm.com/about/distributed">multiple workflows</a></h6><p>Distributed(分配/分发)</p>
+<blockquote>
+<p>One of the nicest features of any Distributed SCM, Git included, is that it’s distributed. This means that instead of doing a “checkout” of <strong>the current tip of the source code</strong>, you do a “clone” of the entire repository.</p>
+</blockquote>
+<blockquote>
+<p>分布式SCM工具（包括Git）的最好的一个特性就是：它是distributed的。</p>
+<p>这意味着，不必对<strong>源代码的当前tip</strong>进行“签出”，而是对<strong>整个存储库</strong>进行“克隆”。</p>
+</blockquote>
+<blockquote>
+<h6 id="Multiple-Backups"><a href="#Multiple-Backups" class="headerlink" title="Multiple Backups"></a>Multiple Backups</h6><p>This means that even if you’re using a centralized workflow, every user <strong>essentially</strong> has a full backup of the main server. Each of these copies could be pushed up to replace the main server in the event of a crash or corruption. In effect, there is no <strong>single point of failure</strong> with Git unless there is only a single copy of the repository.</p>
+</blockquote>
+<blockquote>
+<h6 id="多个备份"><a href="#多个备份" class="headerlink" title="多个备份"></a>多个备份</h6><p>这意味着，即使您使用集中化的工作流，每个用户<strong>实际上</strong>都有主服务器的完整备份。在发生崩溃或损坏时，这些副本中的每一个都可以进行push操作以替换主服务器。实际上，Git不存在单点故障，除非存储库只有一个副本。</p>
+</blockquote>
+<blockquote>
+<h6 id="Any-Workflow"><a href="#Any-Workflow" class="headerlink" title="Any Workflow"></a>Any Workflow</h6><p>Because of Git’s distributed nature and superb branching system, an almost endless number of workflows can be implemented with relative ease.</p>
+</blockquote>
+<blockquote>
+<h6 id="任何工作流"><a href="#任何工作流" class="headerlink" title="任何工作流"></a>任何工作流</h6><p>由于<strong>Git的分布式特性</strong>和<strong>出色的分支系统</strong>，因此可以相对容易地实现<strong>几乎无止境的工作流</strong>。</p>
+</blockquote>
+<blockquote>
+<h6 id="Subversion-Style-Workflow"><a href="#Subversion-Style-Workflow" class="headerlink" title="Subversion-Style Workflow"></a>Subversion-Style Workflow</h6><p>A centralized workflow is very common, especially from people transitioning from a centralized system. Git will not allow you to push if someone has pushed since the last time you fetched, so a centralized model where all developers push to the same server works just fine.</p>
+</blockquote>
+<blockquote>
+<p>Subversion类别的工作流<br>集中化工作流是非常常见的，尤其是从集中化系统过渡的人员。</p>
+<p>如果在你<strong>拉取代码</strong>之后，有其他人做了<strong>提交的操作</strong>，那么Git不允许你推送；所以一个<strong>所有开发人员都推到同一个服务器上</strong>的“集中式模型”其实就能够很好地工作。</p>
+</blockquote>
+<p><img src="https://s1.ax1x.com/2020/09/20/wolY6O.png" alt="Subversion类别的工作流"></p>
+<blockquote>
+<h6 id="Integration-Manager-Workflow"><a href="#Integration-Manager-Workflow" class="headerlink" title="Integration Manager Workflow"></a>Integration Manager Workflow</h6><p>Another common Git workflow involves an integration manager — a single person who commits to the ‘blessed’ repository. A number of developers then clone from that repository, push to their own independent repositories, and ask the integrator to pull in their changes. This is the type of development model often seen with open source or GitHub repositories.</p>
+</blockquote>
+<blockquote>
+<h6 id="Integration-Manager工作流"><a href="#Integration-Manager工作流" class="headerlink" title="Integration Manager工作流"></a>Integration Manager工作流</h6><p>另一个常见的Git工作流涉及到一个<strong>集成经理</strong>-一个提交到“受祝福”存储库的人。然后，许多开发人员<strong>从该存储库中克隆</strong>，推送到他们<strong>自己的独立存储库</strong>，并<strong>要求集成经理引入他们的更改</strong>。这是在开源或GitHub存储库中经常看到的开发模型类型。【clone - &lt;改动&gt; - pull request】</p>
+</blockquote>
+<p><img src="https://s1.ax1x.com/2020/09/20/wo1CjO.png" alt="有一个审核经理的工作流模式"></p>
+<blockquote>
+<h6 id="Dictator-and-Lieutenants-Workflow"><a href="#Dictator-and-Lieutenants-Workflow" class="headerlink" title="Dictator and Lieutenants Workflow"></a>Dictator and Lieutenants Workflow</h6><p>For more massive projects, a development workflow like that of the Linux kernel is often effective. In this model, some people (‘lieutenants’) are in charge of a specific subsystem of the project and they merge in all changes related to that subsystem. Another integrator (the ‘dictator’) can pull changes from only his/her lieutenants and then push to the ‘blessed’ repository that everyone then clones from again.</p>
+</blockquote>
+<blockquote>
+<h6 id="独裁者和中尉工作流"><a href="#独裁者和中尉工作流" class="headerlink" title="独裁者和中尉工作流"></a>独裁者和中尉工作流</h6><p>对于更大规模的项目，像<strong>Linux内核</strong>那样的开发工作流通常是有效的。在这个模型中，一些人（“副手”）负责项目的一个特定子系统，他们将与该子系统相关的所有变更合并在一起。另一个集成商（“独裁者”）可以只从他/她的副手那里获取更改，然后推送到“受祝福的”存储库，然后每个人都可以从中再次克隆。</p>
+</blockquote>
+<p><img src="https://s1.ax1x.com/2020/09/20/wo1VUA.png" alt="Linux系统开发的工作流"></p>
+<blockquote>
+<p>I’m not satisfied, what is repository after all?</p>
+<p>这就是我不满意官方网站的地方，就是我通读了整个网站，也是没有得到我需要了解的内容。Git到底是怎么工作的？</p>
+</blockquote>
+<h5 id="官网提供的视频资料"><a href="#官网提供的视频资料" class="headerlink" title="官网提供的视频资料"></a>官网提供的视频资料</h5><p>官网提供的视频是打不开的😳</p>
+<h5 id="尝试搜索youtube上的学习资料"><a href="#尝试搜索youtube上的学习资料" class="headerlink" title="尝试搜索youtube上的学习资料"></a>尝试搜索youtube上的学习资料</h5><p>参考:<a href="https://www.youtube.com/watch?v=SWYqp7iY_Tc">Traversy Media</a></p>
+<blockquote>
+<p>个人还是更偏向英文的视频，可能有点偏见…</p>
+<p>但是看视频有一个缺点（相比于看文本），你没办法快速定位到你想要的内容。所以很大可能你需要把了解过的内容重新看一遍…这时候的心态应该是”温故而知新”</p>
+</blockquote>
+<ul>
+<li><p>什么叫分布式/非中心化的版本管理系统？</p>
+<p>多个程序员合作同一个项目，而不需要呆在同一个局域网中。</p>
+</li>
+<li><p>Git常用命令</p>
+<p><img src="https://s1.ax1x.com/2020/09/20/wog34I.png" alt="Git常用命令"></p>
+</li>
+<li><p>安装Git</p>
+<ul>
+<li>Linux系统；使用命令安装</li>
+<li>Mac：官网/包管理工具HomeBrew;</li>
+<li>Windows：官网（包含Git-Bash命令行工具）；/GUI工具（不推荐）</li>
+</ul>
+<blockquote>
+<p>bear in mind:你不需要了解Git的方方面面，因为它会很复杂。Just Basics</p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li><p>tips</p>
+<ul>
+<li>1 使用git bash命令行工具，而不是Windows自带的命令行工具（aka cmd黑窗口）；</li>
+</ul>
+</li>
+<li><p>用法</p>
+<ul>
+<li><p>1 创建一个空的文件夹；</p>
+</li>
+<li><p>2 在文件夹中创建几个文件；</p>
+</li>
+<li><p>3 把文件夹初始化为一个仓库；</p>
+</li>
+<li><p>4 把特定的文件添加到暂存区(staging area)并查看当前缓存区的文件状态;</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git add &lt;file&gt; <span class="comment">// 把文件添加到暂存区	用于后继提交</span></span><br><span class="line">git status <span class="comment">// 查看当前暂存区中的文件</span></span><br><span class="line">    暂存区中的文件状态：</span><br><span class="line">    	<span class="number">1</span> 待提交（Changes to be committed）；</span><br><span class="line">    	<span class="number">2</span> 未被追踪(Untracked files);</span><br><span class="line">git rm --cached &lt;file&gt; <span class="comment">// 把文件从暂存区中移除</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<hr>
+<p>在添加文件到暂存区时使用通配符*：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add *.html <span class="comment">// 把所有后缀名为html的文件添加到暂存区</span></span><br></pre></td></tr></table></figure>
+
+<p>在添加所有文件都添加到暂存区:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add . <span class="comment">// .表示的是all</span></span><br></pre></td></tr></table></figure>
+
+<p>声明那些在仓库中你不想要添加到版本控制系统中的文件（预期-git add也无法添加这些文件）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">在项目的根目录下创建.gitignore文件</span><br><span class="line">touch .gitignore</span><br><span class="line"></span><br><span class="line">然后编辑.gitignore文件，添加想要忽略的文件与目录</span><br><span class="line">log.txt</span><br><span class="line">/dir2</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>验证.gitignore中声明的<strong>被版本管理系统忽略的文件/目录</strong>是不是真的被忽略的；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> 在工作目录中做一些改动；</span><br><span class="line">    添加新的目录/dir1（目录中添加新的文件test1.txt）</span><br><span class="line">    添加新的目录/dir2(目录中添加新的文件test2.txt)</span><br><span class="line"><span class="number">2</span> 在.gitignore文件中添加“预期被忽略的文件/目录”</span><br><span class="line">    log.txt</span><br><span class="line">    /dir2</span><br><span class="line"><span class="number">3</span> 把所有文件添加到暂存区</span><br><span class="line">    git add .</span><br><span class="line"><span class="number">4</span> 查看暂存区中所有状态下的文件</span><br><span class="line">    git status</span><br><span class="line">预期：暂存区中没有记录新增的文件log.txt与新增的目录/dir;但是却记录了新增的目录/dir1</span><br><span class="line">结果：符合预期</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果你和其他几个开发者共同开发一个项目，并且你被分配了login功能这个任务。</p>
+<blockquote>
+<p>在功能没有完全开发完成之前，开发者不应该把自己做出的改动提交到主分支中；</p>
+</blockquote>
+<p>手段：</p>
+<ul>
+<li>1 创建一个叫做login的<strong>分支</strong>，然后把自己改动的代码提交到login分支中（而不是主分支）；</li>
+<li>2 在login功能开发完成后，再把login分支<strong>合并到</strong>主分支中；</li>
+</ul>
+<p>用法：</p>
+<ul>
+<li><p>1 创建一个login分支；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch &lt;自定义的分支名称login&gt;</span><br></pre></td></tr></table></figure>
+
+<p>注：这时只是创建了分支，但是开发环境仍旧处在master分支上；</p>
+</li>
+<li><p>2 切换开发环境到刚刚创建的login分支；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout &lt;预期切换到的分支名称login&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3 在新的分支上开发login功能；</p>
+<p>xxx</p>
+</li>
+<li><p>4 验证在提交到login分支上的改动是否会影响到master分支；</p>
+<ul>
+<li><p>手段：切换回主分支，然后查看Git仓库中是否存在3中做出的改动；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout &lt;预期切换到的分支名称master&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>5 在login功能开发完成后，希望把<strong>提交到login分支的改动</strong>合并到master分支上；</p>
+<ul>
+<li><p>手段：</p>
+<ul>
+<li>1 在master分支中，把login分支合并进来；</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge &lt;预期合并进来的分支名称login&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>2 填写合并此分支到master分支的原因（这应该是master分支的管理者需要做的事情）；</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add the login function, blah blah blah...</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+</li>
+<li><p>远程仓库；</p>
+<p>用法：</p>
+<ul>
+<li><p>1 创建一个Github账号xxx；</p>
+</li>
+<li><p>2 在xxx账号下，创建一个公开仓库；</p>
+</li>
+<li><p>3 把<strong>在Github上创建的仓库</strong>作为<strong>本地仓库的远程仓库</strong>；</p>
+<ul>
+<li><p>查看本地仓库当前所有的远程仓库；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote <span class="comment">// 没有绑定远程仓库时，命令执行的结果为空</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>根据github项目中提供的命令行信息，把github项目作为本地项目的远程仓库；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin git<span class="meta">@github</span>.com:henryinshanghai/my_webapp_sample.git</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>4 把本地仓库的内容推送到<strong>远程仓库的主分支</strong>中；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push -u origin master <span class="comment">// 同样是github项目提供的命令，可以无脑复制</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>5 推送成功后，刷新github项目的页面就能够看到本地项目的内容已经推送到远程仓库中了；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在github项目的网页上点击一下刷新按钮</span><br></pre></td></tr></table></figure>
+
+<hr>
+</li>
+<li><p>6 为了让其他程序员更容易了解这个项目，为项目添加README.md文件（项目说明）</p>
+<ul>
+<li><p>0 通过git bash页面来在项目根目录下创建一个README.md文件；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch README.md <span class="comment">// 这是Linux系统的语法吧</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>1 然后编辑这个文件的内容（可以直接在命令行中使用命令来编辑，也可以通过文本编辑器软件进行编辑）；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">I<span class="string">'m the night!</span></span><br><span class="line"><span class="string">I'</span>m Vengeance!</span><br><span class="line">I<span class="string">'m batman</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2 把所有工作区（working area）被改动的文件添加到暂存区(staging area);</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add . <span class="comment">// .表示all的意思</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3 把所有暂存区中待提交的文件，提交到本地仓库（local repository）；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push <span class="comment">// 由于前面已经为本地项目指定了github项目作为远程仓库，所以这里直接push即可</span></span><br></pre></td></tr></table></figure>
+
+<p><font size=2>注：首次推送到github项目时，可能需要登录github来验证用户的合法性;</font></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>在github上公开的仓库可以被其他程序员克隆到本地进行学习。这里模拟克隆github项目到本地的过程；</p>
+<ul>
+<li><p>说明：由于没有其他的程序员，所以这里<strong>自己来克隆自己的项目到自己的电脑上</strong>。只是为了熟悉流程</p>
+</li>
+<li><p>手段：</p>
+<ul>
+<li><p>1 在自己的电脑上创建一个新的文件夹/myapp2；</p>
+</li>
+<li><p>2 在/myapp2中打开git bash界面；</p>
+</li>
+<li><p>3 从github上拉取项目到自己电脑的文件夹中；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">语法：git clone &lt;github项目所提供的克隆地址&gt;</span><br><span class="line">特征：克隆项目时，由于是远程通信，所以有多个协议可以选择（https、ssh等）。这里选择https，因为它是第一个</span><br><span class="line">git clone https:<span class="comment">//github.com/henryinshanghai/my_webapp_sample.git</span></span><br><span class="line">结果：github项目中的所有内容都会被拷贝到本地文件夹中</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<p>在多个开发的情况下，如果其他开发者对远程仓库做了某些改动。在一天的工作开始之前，你需要把这些改动从远程仓库拉取到本地仓库中</p>
+<ul>
+<li><p>手段：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull <span class="comment">// 拉取远程仓库的变动到本地仓库</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>alright, can’t dwell on this forever. until next time 😄</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+            -------------本文结束
+            <i class="fa fa-paw"></i>
+            感谢您的阅读-------------
+        </div>
+    
+</div>
+        
+      
+
+      
+        
+          
+        
+      
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              
+              <a href="/tags/Tools/" rel="tag"><i class="fa fa-tag"></i> Tools</a>
+              
+              
+              <a href="/tags/Git-Related-Info/" rel="tag"><i class="fa fa-tag"></i> Git Related Info</a>
+              
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Network/2020/09/18/%E6%95%99%E7%A8%8B%E7%B1%BB%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%8E%E8%AE%A4%E8%AF%86/Github%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/20200918-%E4%BB%8EGithub%E7%9A%84%E6%93%8D%E4%BD%9C%E5%88%B0SSH%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%BA%94%E7%94%A8.html" rel="prev" title="从Github的操作到SSH协议的应用">
+                  <i class="fa fa-chevron-left"></i> 从Github的操作到SSH协议的应用
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Git/2021/02/06/%E6%95%99%E7%A8%8B%E7%B1%BB%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%8E%E8%AE%A4%E8%AF%86/Github%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/20210206-Git%E5%9C%A8%E5%B7%A5%E4%BD%9C%E5%9C%BA%E6%99%AF%E4%B8%AD%E7%9A%84%E7%94%A8%E6%B3%95.html" rel="next" title="Git在工作场景中的用法">
+                  Git在工作场景中的用法 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+      
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">henryInSH</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">169k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:33</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      const visitors = document.querySelector('.leancloud_visitors');
+      const url = decodeURI(visitors.id);
+      const title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            const counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      const visitors = document.querySelectorAll('.leancloud_visitors');
+      const entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            const target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    const { app_id, app_key, server_url } = {"enable":true,"app_id":"UniIgz3JDa7i7uw8D3N3lo3o-gzGzoHsz# <your app id>","app_key":"X24wntmAxHx5dzjdEq87nF2H# <your app key>","server_url":null,"security":true};
+    function fetchData(api_server) {
+      const Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    const api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+  
+
+  
+<script>
+NexT.utils.loadComments('#valine-comments', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: location.pathname,
+    }, {"enable":true,"appId":"UniIgz3JDa7i7uw8D3N3lo3o-gzGzoHsz","appKey":"X24wntmAxHx5dzjdEq87nF2H","placeholder":"Just go go","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":false,"serverURLs":null,"enableQQ":false,"requiredFields":[]}
+    ));
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

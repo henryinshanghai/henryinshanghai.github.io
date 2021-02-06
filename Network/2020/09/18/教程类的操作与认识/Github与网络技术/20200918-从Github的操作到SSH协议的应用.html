@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=EB+Garamond:300,300italic,400,400italic,700,700italic|Roboto+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1.0.2/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"henryinshanghai.github.io","root":"/","scheme":"Muse","version":"8.0.0-rc.5","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"path":"search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+
+  <meta name="description" content="Github与班级作业从一个大事件说起">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从Github的操作到SSH协议的应用">
+<meta property="og:url" content="https://henryinshanghai.github.io/Network/2020/09/18/%E6%95%99%E7%A8%8B%E7%B1%BB%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%8E%E8%AE%A4%E8%AF%86/Github%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/20200918-%E4%BB%8EGithub%E7%9A%84%E6%93%8D%E4%BD%9C%E5%88%B0SSH%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%BA%94%E7%94%A8.html">
+<meta property="og:site_name" content="Henry&#39;s blog">
+<meta property="og:description" content="Github与班级作业从一个大事件说起">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/18/w5pNyF.png">
+<meta property="article:published_time" content="2020-09-18T04:30:00.000Z">
+<meta property="article:modified_time" content="2021-02-06T15:23:38.289Z">
+<meta property="article:author" content="henryInSH">
+<meta property="article:tag" content="Network">
+<meta property="article:tag" content="Github Operation">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/09/18/w5pNyF.png">
+
+
+<link rel="canonical" href="https://henryinshanghai.github.io/Network/2020/09/18/%E6%95%99%E7%A8%8B%E7%B1%BB%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%8E%E8%AE%A4%E8%AF%86/Github%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/20200918-%E4%BB%8EGithub%E7%9A%84%E6%93%8D%E4%BD%9C%E5%88%B0SSH%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%BA%94%E7%94%A8.html">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>从Github的操作到SSH协议的应用 | Henry's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Henry's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Henry's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">focus works better than curiosity</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Github与班级作业"><span class="nav-number">1.</span> <span class="nav-text">Github与班级作业</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#从一个大事件说起"><span class="nav-number">1.1.</span> <span class="nav-text">从一个大事件说起</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#小明看到的教程：克隆Github上的项目到本地"><span class="nav-number">1.2.</span> <span class="nav-text">小明看到的教程：克隆Github上的项目到本地</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#step0：从黑客空间提供的Github项目地址（用来交作业的仓库），fork这个项目到自己的账号下；"><span class="nav-number">1.2.1.</span> <span class="nav-text">step0：从黑客空间提供的Github项目地址（用来交作业的仓库），fork这个项目到自己的账号下；</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#step1-在你的电脑上创建一个空文件夹，然后执行git命令，把这个空文件夹变成一个被Git管理的仓库；"><span class="nav-number">1.2.2.</span> <span class="nav-text">step1:在你的电脑上创建一个空文件夹，然后执行git命令，把这个空文件夹变成一个被Git管理的仓库；</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#step2：配置Git使用者的用户名和邮箱；"><span class="nav-number">1.2.3.</span> <span class="nav-text">step2：配置Git使用者的用户名和邮箱；</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#step3：配置Git的密钥；"><span class="nav-number">1.2.4.</span> <span class="nav-text">step3：配置Git的密钥；</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#step4-把自己github账号下的远程仓库克隆到-拉取到本地，放肆玩耍"><span class="nav-number">1.2.5.</span> <span class="nav-text">step4: 把自己github账号下的远程仓库克隆到&#x2F;拉取到本地，放肆玩耍</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#把本地仓库的改动弄到自己账号下的远程仓库中"><span class="nav-number">1.3.</span> <span class="nav-text">把本地仓库的改动弄到自己账号下的远程仓库中</span></a></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="henryInSH"
+      src="/images/myAvator.jpeg">
+  <p class="site-author-name" itemprop="name">henryInSH</p>
+  <div class="site-description" itemprop="description">collection & catagory & refine</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/henryinshanghai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;henryinshanghai" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2291972433@qq.com" title="E-Mail → mailto:2291972433@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/CyC2018/CS-Notes/blob/master/notes/Leetcode%20%E9%A2%98%E8%A7%A3%20-%20%E7%9B%AE%E5%BD%95.md" title="https:&#x2F;&#x2F;github.com&#x2F;CyC2018&#x2F;CS-Notes&#x2F;blob&#x2F;master&#x2F;notes&#x2F;Leetcode%20%E9%A2%98%E8%A7%A3%20-%20%E7%9B%AE%E5%BD%95.md" rel="noopener" target="_blank">Leecode刷题目录</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.showdoc.cc/" title="https:&#x2F;&#x2F;www.showdoc.cc&#x2F;" rel="noopener" target="_blank">在线Api文档</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.processon.com/" title="https:&#x2F;&#x2F;www.processon.com&#x2F;" rel="noopener" target="_blank">在线作图</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.atool9.com/colorpicker.php" title="http:&#x2F;&#x2F;www.atool9.com&#x2F;colorpicker.php" rel="noopener" target="_blank">在线颜色选择器</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.iconfont.cn/" title="https:&#x2F;&#x2F;www.iconfont.cn&#x2F;" rel="noopener" target="_blank">阿里巴巴矢量图标</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.ubuuk.com/" title="https:&#x2F;&#x2F;www.ubuuk.com&#x2F;" rel="noopener" target="_blank">设计</a>
+        </li>
+    </ul>
+  </div>
+
+      </section>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://henryinshanghai.github.io/Network/2020/09/18/%E6%95%99%E7%A8%8B%E7%B1%BB%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%8E%E8%AE%A4%E8%AF%86/Github%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/20200918-%E4%BB%8EGithub%E7%9A%84%E6%93%8D%E4%BD%9C%E5%88%B0SSH%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%BA%94%E7%94%A8.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myAvator.jpeg">
+      <meta itemprop="name" content="henryInSH">
+      <meta itemprop="description" content="collection & catagory & refine">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Henry's blog">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          从Github的操作到SSH协议的应用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-18 12:30:00" itemprop="dateCreated datePublished" datetime="2020-09-18T12:30:00+08:00">2020-09-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-06 23:23:38" itemprop="dateModified" datetime="2021-02-06T23:23:38+08:00">2021-02-06</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Network/" itemprop="url" rel="index"><span itemprop="name">Network</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/Network/2020/09/18/%E6%95%99%E7%A8%8B%E7%B1%BB%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%8E%E8%AE%A4%E8%AF%86/Github%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/20200918-%E4%BB%8EGithub%E7%9A%84%E6%93%8D%E4%BD%9C%E5%88%B0SSH%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%BA%94%E7%94%A8.html" class="post-meta-item leancloud_visitors" data-flag-title="从Github的操作到SSH协议的应用" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="far fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+              <span>℃</span>
+            </span>
+            <span class="post-meta-item" title="热度" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="far fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/Network/2020/09/18/%E6%95%99%E7%A8%8B%E7%B1%BB%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%8E%E8%AE%A4%E8%AF%86/Github%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/20200918-%E4%BB%8EGithub%E7%9A%84%E6%93%8D%E4%BD%9C%E5%88%B0SSH%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%BA%94%E7%94%A8.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/Network/2020/09/18/%E6%95%99%E7%A8%8B%E7%B1%BB%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%8E%E8%AE%A4%E8%AF%86/Github%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/20200918-%E4%BB%8EGithub%E7%9A%84%E6%93%8D%E4%BD%9C%E5%88%B0SSH%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%BA%94%E7%94%A8.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+              <span class="post-meta-item-text">本文字数：</span>
+              <span>5.4k</span>字
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+              <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>分钟
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="Github与班级作业"><a href="#Github与班级作业" class="headerlink" title="Github与班级作业"></a>Github与班级作业</h4><h5 id="从一个大事件说起"><a href="#从一个大事件说起" class="headerlink" title="从一个大事件说起"></a>从一个大事件说起</h5><a id="more"></a>
+
+<p>长期的CURD让小明同学陷入生活的土拨鼠漩涡，这个框架也只是要记忆更多的规则。每天都会生理不适到想要呕吐… 痛定思痛，于是他倒吸一口气，花了几千大洋从黑客空间上买下了一门算法课程。课程要过些天才正式开始，但是想象自己能够在leetcode上各种造，他的内心满是欢喜…</p>
+<p>课程本身有各种安排和各种口号，按图索骥，为了能够以一种统一的方式让大家交作业。要求每个学生都创建自己的Github账号，然后做一通操作。操作都有截图教程，小明不多想，一通操作猛如虎，然后就遇到了一个经典的现象：操作时，电脑没有按照教程预期地成功执行对应的操作；</p>
+<p>小明一阵心绞痛，TM我再也做这些我根本不知道在干嘛的操作了。于是，唰唰唰，3分钟里标签页就开了10多个…</p>
+<h5 id="小明看到的教程：克隆Github上的项目到本地"><a href="#小明看到的教程：克隆Github上的项目到本地" class="headerlink" title="小明看到的教程：克隆Github上的项目到本地"></a>小明看到的教程：<a href="https://shimo.im/docs/m5rtM8K8rNsjw5jk/read">克隆Github上的项目到本地</a></h5><h6 id="step0：从黑客空间提供的Github项目地址（用来交作业的仓库），fork这个项目到自己的账号下；"><a href="#step0：从黑客空间提供的Github项目地址（用来交作业的仓库），fork这个项目到自己的账号下；" class="headerlink" title="step0：从黑客空间提供的Github项目地址（用来交作业的仓库），fork这个项目到自己的账号下；"></a>step0：从黑客空间提供的Github项目地址（用来交作业的仓库），<strong>fork</strong>这个项目到自己的账号下；</h6><ul>
+<li><p>Github是什么？</p>
+<p>是：一个互联网上的网站；</p>
+<p>作用：</p>
+<ul>
+<li>1 超大存储空间的U盘；</li>
+<li>2 为用户<strong>管理自己所存储的东西</strong>提供各种类型的操作；</li>
+</ul>
+<p>特征：</p>
+<ul>
+<li>1 只要有网络，就可以对自己存储的东西进行访问（类似于百度网盘）；</li>
+<li>2 能够记录用户<strong>对自己所存储内容的各种改动</strong>（类似于???）;</li>
+</ul>
+<p>应用：</p>
+<ul>
+<li>1 使用者使用Github对自己的项目（可能是代码项目也可能是其他的资料）进行历史版本管理；</li>
+</ul>
+<p>用法：</p>
+<p>​    <font size=2>这个我还不是很熟悉，Github主要的应用是代码托管。并且还有社交化的属性，难点就在于具体用法 🚩Mark 找到好的教程后回来填坑</font></p>
+<hr>
+</li>
+<li><p>fork是什么意思？</p>
+<p>fork的英文本意是叉子。一个叉子有多个分叉，这是fork操作所借用的词语特性</p>
+<p>在上面的语境中，fork一个项目有两个含义：</p>
+<ul>
+<li>1 把原始项目拷贝一份，得到<strong>与当前时刻的原始项目完全相同</strong>的一个项目副本；</li>
+<li>2 把拷贝得到的项目副本存储在你自己的github账号下；</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p> 内心OS:计算机行业层出不穷的新缩写有时候真是叫人心累。</p>
+<p> 一方面那些达则兼济天下的奇才把各种工具封装到<strong>路人可用</strong>的程度，</p>
+<p> 另一方面为了知道自己到底在做什么，<strong>作为路人的我等</strong>又要去了解具体的实现原理。</p>
+</blockquote>
+<ul>
+<li>前置条件：在Github的网站上注册一个账号（类似于注册QQ）</li>
+</ul>
+<p><font size=2>评论：这一步操作我知道自己在做什么，而且操作也是成功的；😄</font></p>
+<h6 id="step1-在你的电脑上创建一个空文件夹，然后执行git命令，把这个空文件夹变成一个被Git管理的仓库；"><a href="#step1-在你的电脑上创建一个空文件夹，然后执行git命令，把这个空文件夹变成一个被Git管理的仓库；" class="headerlink" title="step1:在你的电脑上创建一个空文件夹，然后执行git命令，把这个空文件夹变成一个被Git管理的仓库；"></a>step1:在你的电脑上创建一个空文件夹，然后执行git命令，把这个空文件夹变成一个被Git管理的仓库；</h6><ul>
+<li><p>Git是什么？</p>
+<p>是：一个工具；</p>
+<p>作用：对特定类型的文件进行版本管理；</p>
+<hr>
+</li>
+<li><p>版本管理是什么？</p>
+<ul>
+<li><p>是：一个过程；</p>
+</li>
+<li><p>作用：记录一个文件从初始版本到当前版本的变化过程；</p>
+</li>
+<li><p>应用：</p>
+<ul>
+<li>1 不断扩展一个文件的功能（今天没干完，保存一下，明天接着来）；</li>
+<li>2 尝试扩展文件的某个功能，如果尝试失败，则回退到之前功能正常的版本（后悔药）；</li>
+</ul>
+</li>
+<li><p>特征：</p>
+<ul>
+<li>1 该工具只能在命令行环境下使用；</li>
+<li>2 这样的工作方式下，不存在<strong>中心仓库</strong>这样的概念，终端程序员对代码有更大的自主权；</li>
+<li>3 Git中使用<strong>仓库</strong>来描述<strong>一个被Git工具管理的文件夹</strong>；</li>
+</ul>
+</li>
+<li><p>用法：</p>
+<ul>
+<li>1 在预期被Git管理的文件夹下，执行git命令git init；<ul>
+<li>作用：在文件夹中创建一个.git的子目录，用来保存版本信息。文件夹也就从普通的文件夹变成了<strong>Git中的一个仓库</strong>；（鸟枪换铳/老母鸡变鸭）</li>
+</ul>
+</li>
+<li>参考:<a href="http://www.ruanyifeng.com/blog/2018/10/git-internals.html">Git操作入门</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>评论：这一步我也清楚在做什么，并且操作是成功的；</p>
+</li>
+<li><p>前置条件：在你的电脑上已经安装了Git这个工具（在官网上就能找到教程 请认准官网）；</p>
+</li>
+</ul>
+<h6 id="step2：配置Git使用者的用户名和邮箱；"><a href="#step2：配置Git使用者的用户名和邮箱；" class="headerlink" title="step2：配置Git使用者的用户名和邮箱；"></a>step2：配置Git使用者的用户名和邮箱；</h6><blockquote>
+<p>为什么Git这种工具类的产品还需要注册用户呢？😱</p>
+<p>答：Git其实更多用于团队中的多个成员合作一个项目，为了能够记录项目的某些改动具体是由哪一个成员做出的，所以需要记录使用Git的成员。Thus，使用Git前需要注册用户名与邮箱；</p>
+</blockquote>
+<ul>
+<li><p>手段:git config命令</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">"用户名"</span></span><br><span class="line">git config --global user.email <span class="string">"邮箱"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>特征：手动配置完成关于Git的属性后，需要验证自己进行的配置是否已经生效了；</p>
+<ul>
+<li><p>手段</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global --list <span class="comment">// 列表显式当前所有的配置信息</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="step3：配置Git的密钥；"><a href="#step3：配置Git的密钥；" class="headerlink" title="step3：配置Git的密钥；"></a>step3：配置Git的密钥；</h6><blockquote>
+<p>为什么Git这种工具类的产品还需要有密钥呢？</p>
+<p>答：密钥是用于加密通信双方的通信内容的；</p>
+</blockquote>
+<blockquote>
+<p>#Q 我使用Git来记录项目中的改动，为什么会有通信过程的出现呢？</p>
+<p>答：因为具体的使用场景是-</p>
+<ul>
+<li><p>1 主线项目托管在github上（比如Redis项目的开源代码）；</p>
+</li>
+<li><p>2 各路程序员分别fork一个项目副本到自己的github账号下（这一步并不总是必要吧😒）；</p>
+<p>作用：项目fork到自己的账号下，程序员就对这个项目副本<strong>有完全的权限</strong>了，aka，可以自由编码</p>
+</li>
+<li><p>3 程序员A把fork得到的项目副本克隆到本地，愉快地做各种各样的尝试（策马奔腾）</p>
+</li>
+</ul>
+<p>所以，在本地对文件进行改动后，需要<strong>把本地做出的改动通过网络提交到远程仓库上</strong>。通信的过程就是这么来的</p>
+</blockquote>
+<ul>
+<li><blockquote>
+<p>为啥会有通信我清楚了，但为啥会需要密钥的？</p>
+<p>答：对于网络间的通信，为了保证通信的安全。一般都需要一些额外的措施来保证安全性；</p>
+</blockquote>
+<ul>
+<li><blockquote>
+<p>任务：保证通信过程的安全性；</p>
+<p>手段：在通信时，选择某个支持安全通信的通信协议；</p>
+<p>特征：</p>
+<ul>
+<li>1 通信协议都已经实现了通信安全的细节；</li>
+<li>2 不同的通信协议有不同的特性；</li>
+<li>3 支持安全通信的协议往往都会需要密钥（参考：协议的原理）；</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>说明：在这里<strong>使用SSH协议</strong>来支持从本地仓库到远程仓库之间的安全通信；</p>
+<p>原因：在<strong>对通信进行校验</strong>时，SSH协议可以<strong>通过配置公私钥的方式</strong>实现校验（而不需要像其他协议那样每次输入密码进行校验）；</p>
+<blockquote>
+<p>SSH协议；</p>
+<p>是：一种网络通信/传输协议；</p>
+<p>作用：保证网络通信的安全性；</p>
+<p>原理：在网络中创建<strong>安全隧道</strong>来实现SSH客户端与服务端的连接；</p>
+<p>应用：</p>
+<ul>
+<li>1 远程登录到其他的电脑主机上；</li>
+</ul>
+<p>用法：</p>
+<ul>
+<li>在主流的操作系统中，都有封装了这些通信协议的软件可以直接使用（比如Windows中的Secure CRT）。</li>
+</ul>
+</blockquote>
+<hr>
+<blockquote>
+<p>SSH协议用于远程登录的基本用法；</p>
+<p>任务：以user作为用户名来登录到远程主机host上；</p>
+<p>手段/命令：$ ssh user@host</p>
+<p>特征：</p>
+<ul>
+<li>1 主机上SSH服务一般在22端口启动；</li>
+<li>2 在命令中使用-p参数可以修改客户端所连接到的主机端口（这是两边的事情，需要相互兼顾）</li>
+</ul>
+</blockquote>
+<hr>
+<blockquote>
+<p>SSH协议能够保证安全通信的原理；</p>
+<p>手段：公钥加密；</p>
+<p>SOP:</p>
+<ul>
+<li>0 客户端发出登录请求给远程主机host；</li>
+<li>1 收到请求后，远程主机host把自己的公钥响应给客户端；</li>
+<li>2 客户端使用拿到的公钥<strong>对登录信息进行加密</strong>，然后再次请求远程主机host；</li>
+<li>3 远程主机host接受到请求后，使用自己的私钥<strong>对加密后的登录信息进行解密</strong>——在服务器端对比密码，根据密码是否正确决定用户能否登录成功。</li>
+</ul>
+<p>特征：</p>
+<ul>
+<li>1 SSH协议中的公钥是远程主机自己签发的，没有经过第三方认证（不像https协议那样）；<ul>
+<li>既然没有经过认证，第三方就很容易对公钥进行伪造。aka <strong>中间人攻击</strong></li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<hr>
+<blockquote>
+<p>中间人攻击；</p>
+<p>是：一个术语；</p>
+<p>作用：描述“利用通信过程原理上的缺陷，通过伪装通信方，而达到欺骗通信方的目的”的过程；</p>
+<p>原理：</p>
+<ul>
+<li>既然远程主机的公钥是没有第三方认证的，我就可以伪造一个公钥，用来冒充远程主机的公钥（假设我使用了主机fake自己签发的公钥）；</li>
+<li>在步骤1中，主机fake把自己的公钥发送给客户端；</li>
+<li>在步骤2中，主机fake拦截来自客户端的请求，并直接对加密的登录信息进行解密（毕竟客户端是使用自己提供的公钥加密的嘛）。然后伪装成客户端向远程主机host发起登录请求；</li>
+<li>最终远程主机会校验登录信息通过，fake成功（伪装客户端）登录到了远程主机中（😳）</li>
+</ul>
+</blockquote>
+<hr>
+<ul>
+<li><p>SSH协议解决中间人攻击的手段；</p>
+<ul>
+<li><p>手段1：口令登录（即密码登录）；</p>
+</li>
+<li><p>原理：客户端手动校验主机的公钥并选择新人；</p>
+<blockquote>
+<p>SOP:</p>
+<ul>
+<li><p>键入命令尝试直接登录；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh user<span class="meta">@host</span> <span class="comment">// $是一个提示符，不是键入的内容</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>SSH协议会给出一个提示信息：您当前登录的主机公钥为xxx，但是不确定它是不是您想要登录的主机…</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">The authenticity of host <span class="string">'host (12.18.429.21)'</span> can<span class="string">'t be established.</span></span><br><span class="line"><span class="string">RSA key fingerprint is 98:2e:d7:e0:de:9f:ac:67:28:c2:42:2d:37:16:58:4d.</span></span><br><span class="line"><span class="string">Are you sure you want to continue connecting (yes/no)?</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>RSA key fingerprint:公钥指纹</p>
+<p>是：对公钥字符串进行MD5计算的结果；</p>
+<p>特征：</p>
+<ul>
+<li><p>1 RSA算法得到的公钥长度为1024位字符；</p>
+</li>
+<li><p>2 MD5计算后，得到的公钥指纹只有128位，且具有唯一性；</p>
+<p>98:2e:d7:e0:de:9f:ac:67:28:c2:42:2d:37:16:58:4d</p>
+</li>
+</ul>
+</blockquote>
+</li>
+<li><p>客户端拿到SSH协议提示的信息，再去远程主机的网站上找到它所公布出来的公钥。一一对照核对公钥是不是正确的；</p>
+</li>
+<li><p>经过核对后，客户端接受了当前主机的公钥；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Are you sure you want to <span class="keyword">continue</span> <span class="title">connecting</span> <span class="params">(yes/no)</span>? </span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>输入yes后，系统提示:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Warning: Permanently added <span class="string">'host,12.18.429.21'</span> (RSA) to the list of known hosts.</span><br></pre></td></tr></table></figure>
+
+<p>警告：永久性地把主机xxx添加到认证主机的列表中；</p>
+</li>
+<li><p>然后系统提示输入密码（口令）；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Password:(enter password)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>密码正确，则登录成功👍</p>
+</li>
+</ul>
+</blockquote>
+</li>
+<li><p>特征：</p>
+<ul>
+<li>再次登录时，很多步骤都会被简化（因为远程主机的公钥已经被存储在本地了）。会直接要求输入密码；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>手段2：公钥登录；</p>
+</li>
+<li><p>原理：</p>
+<ul>
+<li>1 客户端把自己的公钥存在远程主机上；</li>
+<li>2 客户端尝试登录请求时，服务器在给客户端的响应中包含一个随机字符串；</li>
+<li>3 客户端使用自己的私钥对随机字符串进行加密，然后再次尝试发送登录请求（包含加密后的字符串信息）；</li>
+<li>4 请求达到远程主机后，远程主机使用<strong>1中存储的公钥</strong>对加密字符串进行解密；<ul>
+<li>如果解密得到的字符串与自己之前响应的字符串相同，则：客户端是可信的，允许登录；</li>
+<li>否则，不允许登录</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>特征：</p>
+<ul>
+<li>1 客户端不需要每次登录时都使用口令/密码；</li>
+<li>2 要求客户端必须要提供自己的公钥；</li>
+</ul>
+<blockquote>
+<p>客户端从哪儿能获取到自己的公钥？</p>
+<ul>
+<li><p>手段：使用ssh协议提供的命令自己生成一个；</p>
+</li>
+<li><p>命令：ssh-keygen</p>
+</li>
+<li><p>用法：</p>
+<ul>
+<li>1 键入命令后，一路回车；</li>
+<li>2 想办法把生成的公钥放到远程主机上；</li>
+</ul>
+</li>
+<li><p>结果：命令执行结束后，在$HOME/.ssh/目录下，会新生成两个文件——id_rsa.pub（公钥）和id_rsa（私钥）</p>
+</li>
+</ul>
+</blockquote>
+<p>更多细节，参考:<a href="https://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html">SSH协议之远程登录</a></p>
+</li>
+</ul>
+<hr>
+<p>  按照图文教程提供的命令，执行下来没得动静。但现在我知道我在做什么了：<strong>生成客户端的公钥</strong>，然后<strong>把生成的公钥字符串添加到远程主机中</strong>；</p>
+<blockquote>
+<p>任务1：生成客户端的公钥；</p>
+<p>手段：ssh-keygen命令；</p>
+<p>用法：一路回车（不设置私钥）；</p>
+</blockquote>
+<blockquote>
+<p>任务2：把生成的公添加到远程主机中；</p>
+<p>手段：Github的仓库提供了一个页面字段（<strong>页面字段</strong>是一个封装地很好地设置某个属性值地方式了，因为它不需要使用者打开某种类型的shell窗口-这玩意挺吓人的），在页面中填入公钥文件的内容即可；</p>
+</blockquote>
+<p>  评论：这一通操作后，客户端被远程仓库成功授权。以后提交本地仓库的改动就再也不需要输入密码了😄</p>
+<blockquote>
+<p>验证Git密钥的配置（客户端 + 远程仓库）是否成功；</p>
+<p>手段：ssh -T <a href="mailto:git@github.com">git@github.com</a>命令；</p>
+<p>用法：</p>
+<ul>
+<li>1 键入命令直接回车；</li>
+<li>2 预期出现successfully…</li>
+</ul>
+</blockquote>
+<h6 id="step4-把自己github账号下的远程仓库克隆到-拉取到本地，放肆玩耍"><a href="#step4-把自己github账号下的远程仓库克隆到-拉取到本地，放肆玩耍" class="headerlink" title="step4: 把自己github账号下的远程仓库克隆到/拉取到本地，放肆玩耍"></a>step4: 把自己github账号下的远程仓库克隆到/拉取到本地，放肆玩耍</h6><ul>
+<li>手段：git clone命令；</li>
+<li>用法：git clone &lt;远程仓库在指定协议下的url&gt;;</li>
+<li>实例：git clone <a href="mailto:git@github.com">git@github.com</a>:henryinshanghai/algorithm017.git</li>
+<li>特征：如果项目比较大，从github远程仓库拉取到本地会比较慢；</li>
+<li>解决手段：<a href="https://www.bilibili.com/video/BV1aE411p7Cd?from=search&seid=7922504800095438521">用gitee做跳板</a></li>
+</ul>
+<blockquote>
+<p>上面短短的4个步骤，小明就花了一天的时间。但现在如果小花也要弄这些操作，小明半个小时既可以搞定了</p>
+<p>🚩但是小明的脑壳上始终有一篇阴云：SSH加密过程中的公钥和私钥到底是什么说法，有点子混沌…</p>
+</blockquote>
+<h5 id="把本地仓库的改动弄到自己账号下的远程仓库中"><a href="#把本地仓库的改动弄到自己账号下的远程仓库中" class="headerlink" title="把本地仓库的改动弄到自己账号下的远程仓库中"></a>把本地仓库的改动<em>弄到</em>自己账号下的远程仓库中</h5><blockquote>
+<p>明确任务的各个阶段；</p>
+<p>Git中的概念：</p>
+<ul>
+<li><p>工作区（Working Directory）；</p>
+<p>是：一个文件夹/目录；</p>
+<p>作用：程序员能够直接对这个目录/目录下的文件进行各种操作；</p>
+<p>特征：</p>
+<ul>
+<li>1 这个目录接受Git版本工具的管理；</li>
+<li>2 程序员能够把工作区的变动提交到xxx；</li>
+</ul>
+</li>
+<li><p>版本库（Repository）；</p>
+<ul>
+<li><p>是：一个隐藏目录/.git；</p>
+</li>
+<li><p>作用：支持Git对工作区进行版本管理；</p>
+</li>
+<li><p>特征：</p>
+<ul>
+<li>1 这个隐藏目录就是Git的版本库；</li>
+<li>2 版本库中有很多东西（引用:<a href="https://www.liaoxuefeng.com/wiki/896043488029600/897271968352576">工作区与暂存区</a>）：<ul>
+<li>01 stage暂存区；</li>
+<li>02 仓库的第一个分支master；</li>
+<li>03 指向master的一个指针HEAD;</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://s1.ax1x.com/2020/09/18/w5pNyF.png" alt="工作区与版本库"></p>
+</li>
+</ul>
+</li>
+<li><p>原理：Git版本库如何能够记录对文件的改动呢？</p>
+<ul>
+<li>step1：使用git add &lt;被修改的文件&gt;命令来<strong>把文件的变动添加stage暂存区</strong>；</li>
+<li>step2：使用git commit xxx命令来提交改动，aka，<strong>把暂存区的内容提交到当前分支</strong>；</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>这里廖雪峰的讲法似乎有很多人并不认同，明天还是要到官网上看看。see u tomorrow🌙</p>
+</blockquote>
+</blockquote>
+<p>参考：<a href="https://git-scm.com/">Git官网</a></p>
+<p>这个内容相对较多，分到下一篇吧</p>
+<blockquote>
+<p>until next time~ 😄</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+            -------------本文结束
+            <i class="fa fa-paw"></i>
+            感谢您的阅读-------------
+        </div>
+    
+</div>
+        
+      
+
+      
+        
+          
+        
+      
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              
+              <a href="/tags/Network/" rel="tag"><i class="fa fa-tag"></i> Network</a>
+              
+              
+              <a href="/tags/Github-Operation/" rel="tag"><i class="fa fa-tag"></i> Github Operation</a>
+              
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Binary-Search-Tree/2020/09/17/%E7%AE%97%E6%B3%95/%E6%A0%91/20200917-%E9%AA%8C%E8%AF%81%E4%B8%80%E6%A3%B5%E4%BA%8C%E5%8F%89%E6%A0%91%E6%98%AF%E5%90%A6%E6%98%AF%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91.html" rel="prev" title="验证一棵二叉树是否是二叉搜索树">
+                  <i class="fa fa-chevron-left"></i> 验证一棵二叉树是否是二叉搜索树
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Git/2020/09/19/%E6%95%99%E7%A8%8B%E7%B1%BB%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%8E%E8%AE%A4%E8%AF%86/Github%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/20200919-Git%E5%AE%98%E7%BD%91%E4%BF%A1%E6%81%AF.html" rel="next" title="Git官网信息">
+                  Git官网信息 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+      
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">henryInSH</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">169k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:33</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      const visitors = document.querySelector('.leancloud_visitors');
+      const url = decodeURI(visitors.id);
+      const title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            const counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      const visitors = document.querySelectorAll('.leancloud_visitors');
+      const entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            const target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    const { app_id, app_key, server_url } = {"enable":true,"app_id":"UniIgz3JDa7i7uw8D3N3lo3o-gzGzoHsz# <your app id>","app_key":"X24wntmAxHx5dzjdEq87nF2H# <your app key>","server_url":null,"security":true};
+    function fetchData(api_server) {
+      const Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    const api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+  
+
+  
+<script>
+NexT.utils.loadComments('#valine-comments', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: location.pathname,
+    }, {"enable":true,"appId":"UniIgz3JDa7i7uw8D3N3lo3o-gzGzoHsz","appKey":"X24wntmAxHx5dzjdEq87nF2H","placeholder":"Just go go","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":false,"serverURLs":null,"enableQQ":false,"requiredFields":[]}
+    ));
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
