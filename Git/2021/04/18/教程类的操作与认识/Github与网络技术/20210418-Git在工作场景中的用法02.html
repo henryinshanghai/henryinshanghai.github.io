@@ -24,27 +24,22 @@
     var CONFIG = {"hostname":"henryinshanghai.github.io","root":"/","scheme":"Muse","version":"8.0.0-rc.5","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"path":"search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
   </script>
 
-  <meta name="description" content="把链表中的奇数位置节点与偶数位置节点放在一起题设 与 要求">
+  <meta name="description" content="Git中的那些个允许你反悔的操作反悔有哪些类型？">
 <meta property="og:type" content="article">
-<meta property="og:title" content="奇偶链表_10">
-<meta property="og:url" content="https://henryinshanghai.github.io/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%A5%87%E5%81%B6%E9%93%BE%E8%A1%A8%EF%BC%88%E6%8A%8A%E5%A5%87%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8E%E5%81%B6%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8A%E7%9A%84%E8%8A%82%E7%82%B9%E8%BF%9E%E5%9C%A8%E4%B8%80%E8%B5%B7%EF%BC%89_10.html">
+<meta property="og:title" content="Git在工作场景中的用法02">
+<meta property="og:url" content="https://henryinshanghai.github.io/Git/2021/04/18/%E6%95%99%E7%A8%8B%E7%B1%BB%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%8E%E8%AE%A4%E8%AF%86/Github%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/20210418-Git%E5%9C%A8%E5%B7%A5%E4%BD%9C%E5%9C%BA%E6%99%AF%E4%B8%AD%E7%9A%84%E7%94%A8%E6%B3%9502.html">
 <meta property="og:site_name" content="Henry&#39;s blog">
-<meta property="og:description" content="把链表中的奇数位置节点与偶数位置节点放在一起题设 与 要求">
+<meta property="og:description" content="Git中的那些个允许你反悔的操作反悔有哪些类型？">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s1.ax1x.com/2020/08/15/dklpjK.md.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/08/15/dkldDU.md.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/08/15/dklLKf.md.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/08/15/dkteIO.md.jpg">
-<meta property="article:published_time" content="2020-08-16T12:46:25.000Z">
-<meta property="article:modified_time" content="2020-08-17T08:40:31.179Z">
+<meta property="article:published_time" content="2021-04-18T10:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-18T11:06:06.726Z">
 <meta property="article:author" content="henryInSH">
-<meta property="article:tag" content="Algorithm">
-<meta property="article:tag" content="LinkedList">
+<meta property="article:tag" content="Tools">
+<meta property="article:tag" content="Git Related Info">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s1.ax1x.com/2020/08/15/dklpjK.md.png">
 
 
-<link rel="canonical" href="https://henryinshanghai.github.io/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%A5%87%E5%81%B6%E9%93%BE%E8%A1%A8%EF%BC%88%E6%8A%8A%E5%A5%87%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8E%E5%81%B6%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8A%E7%9A%84%E8%8A%82%E7%82%B9%E8%BF%9E%E5%9C%A8%E4%B8%80%E8%B5%B7%EF%BC%89_10.html">
+<link rel="canonical" href="https://henryinshanghai.github.io/Git/2021/04/18/%E6%95%99%E7%A8%8B%E7%B1%BB%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%8E%E8%AE%A4%E8%AF%86/Github%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/20210418-Git%E5%9C%A8%E5%B7%A5%E4%BD%9C%E5%9C%BA%E6%99%AF%E4%B8%AD%E7%9A%84%E7%94%A8%E6%B3%9502.html">
 
 
 <script class="page-configurations">
@@ -57,7 +52,7 @@
   };
 </script>
 
-  <title>奇偶链表_10 | Henry's blog</title>
+  <title>Git在工作场景中的用法02 | Henry's blog</title>
   
 
 
@@ -214,7 +209,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
-          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#把链表中的奇数位置节点与偶数位置节点放在一起"><span class="nav-number">1.</span> <span class="nav-text">把链表中的奇数位置节点与偶数位置节点放在一起</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#题设-与-要求"><span class="nav-number">2.</span> <span class="nav-text">题设 与 要求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试用例"><span class="nav-number">3.</span> <span class="nav-text">测试用例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#附加说明"><span class="nav-number">4.</span> <span class="nav-text">附加说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分析（问题的难点）"><span class="nav-number">5.</span> <span class="nav-text">分析（问题的难点）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#思路（难点的解决方案）"><span class="nav-number">6.</span> <span class="nav-text">思路（难点的解决方案）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#根据思路进行编码（细节处理）"><span class="nav-number">7.</span> <span class="nav-text">根据思路进行编码（细节处理）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码分解SOP"><span class="nav-number">8.</span> <span class="nav-text">代码分解SOP</span></a></li></ol></div>
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Git中的那些个允许你反悔的操作"><span class="nav-number">1.</span> <span class="nav-text">Git中的那些个允许你反悔的操作</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#反悔有哪些类型？"><span class="nav-number">1.1.</span> <span class="nav-text">反悔有哪些类型？</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#开发feature的工作流程"><span class="nav-number">1.1.1.</span> <span class="nav-text">开发feature的工作流程</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#不满意工作区的变更，想要丢弃掉它们"><span class="nav-number">1.1.2.</span> <span class="nav-text">不满意工作区的变更，想要丢弃掉它们</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#不满意暂存区中存储的变更，想要丢弃它们"><span class="nav-number">1.1.3.</span> <span class="nav-text">不满意暂存区中存储的变更，想要丢弃它们</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#不满意某一次commit中所包含的变更，想要调整-丢弃它们"><span class="nav-number">1.1.4.</span> <span class="nav-text">不满意某一次commit中所包含的变更，想要调整&#x2F;丢弃它们</span></a></li></ol></li></ol></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -312,7 +307,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://henryinshanghai.github.io/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%A5%87%E5%81%B6%E9%93%BE%E8%A1%A8%EF%BC%88%E6%8A%8A%E5%A5%87%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8E%E5%81%B6%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8A%E7%9A%84%E8%8A%82%E7%82%B9%E8%BF%9E%E5%9C%A8%E4%B8%80%E8%B5%B7%EF%BC%89_10.html">
+    <link itemprop="mainEntityOfPage" href="https://henryinshanghai.github.io/Git/2021/04/18/%E6%95%99%E7%A8%8B%E7%B1%BB%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%8E%E8%AE%A4%E8%AF%86/Github%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/20210418-Git%E5%9C%A8%E5%B7%A5%E4%BD%9C%E5%9C%BA%E6%99%AF%E4%B8%AD%E7%9A%84%E7%94%A8%E6%B3%9502.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/myAvator.jpeg">
@@ -328,7 +323,7 @@
     
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          奇偶链表_10
+          Git在工作场景中的用法02
         </h1>
 
         <div class="post-meta">
@@ -337,28 +332,22 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-08-16 20:46:25" itemprop="dateCreated datePublished" datetime="2020-08-16T20:46:25+08:00">2020-08-16</time>
+              <time title="创建时间：2021-04-18 18:00:00 / 修改时间：19:06:06" itemprop="dateCreated datePublished" datetime="2021-04-18T18:00:00+08:00">2021-04-18</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-17 16:40:31" itemprop="dateModified" datetime="2020-08-17T16:40:31+08:00">2020-08-17</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ListNode/" itemprop="url" rel="index"><span itemprop="name">ListNode</span></a>
+                  <a href="/categories/Git/" itemprop="url" rel="index"><span itemprop="name">Git</span></a>
                 </span>
             </span>
 
           
-            <span id="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%A5%87%E5%81%B6%E9%93%BE%E8%A1%A8%EF%BC%88%E6%8A%8A%E5%A5%87%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8E%E5%81%B6%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8A%E7%9A%84%E8%8A%82%E7%82%B9%E8%BF%9E%E5%9C%A8%E4%B8%80%E8%B5%B7%EF%BC%89_10.html" class="post-meta-item leancloud_visitors" data-flag-title="奇偶链表_10" title="热度">
+            <span id="/Git/2021/04/18/%E6%95%99%E7%A8%8B%E7%B1%BB%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%8E%E8%AE%A4%E8%AF%86/Github%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/20210418-Git%E5%9C%A8%E5%B7%A5%E4%BD%9C%E5%9C%BA%E6%99%AF%E4%B8%AD%E7%9A%84%E7%94%A8%E6%B3%9502.html" class="post-meta-item leancloud_visitors" data-flag-title="Git在工作场景中的用法02" title="热度">
               <span class="post-meta-item-icon">
                 <i class="far fa-eye"></i>
               </span>
@@ -381,8 +370,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%A5%87%E5%81%B6%E9%93%BE%E8%A1%A8%EF%BC%88%E6%8A%8A%E5%A5%87%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8E%E5%81%B6%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8A%E7%9A%84%E8%8A%82%E7%82%B9%E8%BF%9E%E5%9C%A8%E4%B8%80%E8%B5%B7%EF%BC%89_10.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%A5%87%E5%81%B6%E9%93%BE%E8%A1%A8%EF%BC%88%E6%8A%8A%E5%A5%87%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8E%E5%81%B6%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8A%E7%9A%84%E8%8A%82%E7%82%B9%E8%BF%9E%E5%9C%A8%E4%B8%80%E8%B5%B7%EF%BC%89_10.html" itemprop="commentCount"></span>
+    <a title="valine" href="/Git/2021/04/18/%E6%95%99%E7%A8%8B%E7%B1%BB%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%8E%E8%AE%A4%E8%AF%86/Github%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/20210418-Git%E5%9C%A8%E5%B7%A5%E4%BD%9C%E5%9C%BA%E6%99%AF%E4%B8%AD%E7%9A%84%E7%94%A8%E6%B3%9502.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/Git/2021/04/18/%E6%95%99%E7%A8%8B%E7%B1%BB%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%8E%E8%AE%A4%E8%AF%86/Github%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/20210418-Git%E5%9C%A8%E5%B7%A5%E4%BD%9C%E5%9C%BA%E6%99%AF%E4%B8%AD%E7%9A%84%E7%94%A8%E6%B3%9502.html" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -392,14 +381,14 @@
                 <i class="far fa-file-word"></i>
               </span>
               <span class="post-meta-item-text">本文字数：</span>
-              <span>1.3k</span>字
+              <span>1.7k</span>字
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
               <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>分钟
+              <span>2 分钟</span>分钟
             </span>
 
         </div>
@@ -409,50 +398,87 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h4 id="把链表中的奇数位置节点与偶数位置节点放在一起"><a href="#把链表中的奇数位置节点与偶数位置节点放在一起" class="headerlink" title="把链表中的奇数位置节点与偶数位置节点放在一起"></a>把链表中的奇数位置节点与偶数位置节点放在一起</h4><h4 id="题设-与-要求"><a href="#题设-与-要求" class="headerlink" title="题设 与 要求"></a>题设 与 要求</h4><p><img src="https://s1.ax1x.com/2020/08/15/dklpjK.md.png" alt="题设与要求"></p>
-<a id="more"></a>
-
-<h4 id="测试用例"><a href="#测试用例" class="headerlink" title="测试用例"></a>测试用例</h4><p><img src="https://s1.ax1x.com/2020/08/15/dkldDU.md.png" alt="测试用例"></p>
-<h4 id="附加说明"><a href="#附加说明" class="headerlink" title="附加说明"></a>附加说明</h4><p><img src="https://s1.ax1x.com/2020/08/15/dklLKf.md.png" alt="提示信息"></p>
-<h4 id="分析（问题的难点）"><a href="#分析（问题的难点）" class="headerlink" title="分析（问题的难点）"></a>分析（问题的难点）</h4><ul>
-<li>如何把奇数/偶数位置的节点都连接起来？</li>
-<li>如何把奇数位置节点的集合 与 偶数位置节点的集合连接起来？</li>
-</ul>
-<h4 id="思路（难点的解决方案）"><a href="#思路（难点的解决方案）" class="headerlink" title="思路（难点的解决方案）"></a>思路（难点的解决方案）</h4><ul>
-<li>如何把奇数位置/偶数位置的节点都连接起来？<ul>
-<li>答：使用两个指针odd、even，初始化指向第一个节点与第二个节点。然后去创建奇数位置节点链表与偶数位置节点链表；</li>
-</ul>
-</li>
-<li>如何把奇数位置节点集合与偶数位置节点集合连接起来？<ul>
-<li>答：只要把odd链表的尾节点连接到even链表的头节点就可以了</li>
-</ul>
-</li>
-</ul>
-<h4 id="根据思路进行编码（细节处理）"><a href="#根据思路进行编码（细节处理）" class="headerlink" title="根据思路进行编码（细节处理）"></a>根据思路进行编码（细节处理）</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">oddEvenList</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 鲁棒性代码</span></span><br><span class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span> || head.next == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 1 定义需要的实例变量</span></span><br><span class="line">        ListNode odd = head; <span class="comment">// 奇数位置节点的指针	作用：连接奇数位置的节点</span></span><br><span class="line">        ListNode even = head.next; <span class="comment">// 偶数位置节点的指针	作用：连接偶数位置的节点</span></span><br><span class="line">        ListNode evenHead = even; <span class="comment">// 作用：记录偶数节点链表的头节点</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2 遍历当前链表	在循环中：1 创建奇数位置节点链表； 2 创建偶数位置节点链表</span></span><br><span class="line">        <span class="keyword">while</span>(even != <span class="keyword">null</span> &amp;&amp; even.next != <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="comment">// 创建链表SOP： 1 建立连接； 2 更新指针；</span></span><br><span class="line">            odd.next = even.next;</span><br><span class="line">            odd = odd.next;</span><br><span class="line"></span><br><span class="line">            even.next = odd.next;</span><br><span class="line">            even = even.next; <span class="comment">// even会率先达到链表的尾部</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3 把偶数链表连接到奇数链表的尾节点上</span></span><br><span class="line">        odd.next = evenHead;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4 返回新链表的头节点（作图可知）</span></span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="代码分解SOP"><a href="#代码分解SOP" class="headerlink" title="代码分解SOP"></a>代码分解SOP</h4><ul>
-<li>定义需要的实例变量</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ListNode odd = head; <span class="comment">// 用于指向奇数位置的节点</span></span><br><span class="line">ListNode even = head.next; <span class="comment">// 用于指向偶数位置的节点</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>遍历当前链表中的所有节点    在循环中：1 创建奇数节点的链表； 2 创建偶数节点的链表</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(ture)&#123; <span class="comment">// 参考：画图</span></span><br><span class="line">    <span class="comment">// 创建连接</span></span><br><span class="line">    odd.next = even.next;</span><br><span class="line">    <span class="comment">// 更新指针</span></span><br><span class="line">    odd = odd.next;</span><br><span class="line">    </span><br><span class="line">    even.next = odd.next;</span><br><span class="line">    even = even.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://s1.ax1x.com/2020/08/15/dkteIO.md.jpg" alt="遇事不决画个图"></p>
-<ul>
-<li>确定循环执行表达式</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 根据链表中的节点数的不同，循环终结会有两种情况</span></span><br><span class="line"><span class="comment">// 1 链表中的节点数目为偶数个	even.next == null</span></span><br><span class="line"><span class="comment">// 2 链表中的节点数目为奇数个	even == null</span></span><br><span class="line"><span class="comment">// 当这两种情况之一发生时，就要终止循环 所以</span></span><br><span class="line"><span class="keyword">while</span>(even == <span class="keyword">null</span> &amp;&amp; even.next != <span class="keyword">null</span>)&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>把偶数链表连接到奇数链表上</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">odd.next = evenHead; <span class="comment">// 连接到记录的最初的偶数链表的头节点</span></span><br></pre></td></tr></table></figure>
+        <h4 id="Git中的那些个允许你反悔的操作"><a href="#Git中的那些个允许你反悔的操作" class="headerlink" title="Git中的那些个允许你反悔的操作"></a>Git中的那些个允许你反悔的操作</h4><h5 id="反悔有哪些类型？"><a href="#反悔有哪些类型？" class="headerlink" title="反悔有哪些类型？"></a>反悔有哪些类型？</h5><a id="more"></a>
 
 <blockquote>
-<p>Bingo! good morning,good afternoon,and good night 🌙</p>
+<ul>
+<li>做了不该做的事情；<ul>
+<li>比如提交了不应该提交的文件(可能你正在尝试一种方案还没有结束)、填写了错误的提交信息…</li>
+</ul>
+</li>
+<li>忘记了做该做的事情，而变更已经作为一个整体提交了。<ul>
+<li>这种情况，一般可以通过添加新的提交来处理。所以也就不用反悔了</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h6 id="开发feature的工作流程"><a href="#开发feature的工作流程" class="headerlink" title="开发feature的工作流程"></a>开发feature的工作流程</h6><blockquote>
+<p>一般情况下，对于任何功能的开发，我们都是从工作区开始进行编码的。普遍的操作流程如下：</p>
+<p>本地操作</p>
+<ul>
+<li>在工作区中分阶段做出文件变更；</li>
+<li>在正式形成一个commit(commit表示一系列变更的集合)之前，把当前的变更暂存到staging area;</li>
+<li>在确认当前变更集合能够实现到某一个小功能时，创建一个commit，并添加对应的提交信息。</li>
+</ul>
+<p>远端操作</p>
+<ul>
+<li>对某个更高层级的feature，通常会需要在本地做出多个commit - 它们共同支持feature特性；</li>
+<li>在本地测试feature的功能Okay后，开发者把本地的commits向push到远程分支 - push操作是对于两个分支来说的，所以一次push中可能会包含有多个commit（而一个commit中可能会包含有多个文件的变更）</li>
+</ul>
+</blockquote>
+<h6 id="不满意工作区的变更，想要丢弃掉它们"><a href="#不满意工作区的变更，想要丢弃掉它们" class="headerlink" title="不满意工作区的变更，想要丢弃掉它们"></a>不满意工作区的变更，想要丢弃掉它们</h6><blockquote>
+<p>场景1：不满意工作区中某一个文件的变更；</p>
+<p>手段：git checkout – <filename></p>
+<p>特征：这是针对于某一个文件的变更的丢弃操作。</p>
+<p>验证手段：比较工作区中的该文件 与 暂存区中的该文件是否完全相同 - git diff – <filename></p>
+</blockquote>
+<blockquote>
+<p>场景2：不满意工作区中所有文件的变更；</p>
+<p>手段：git reset –hard HEAD</p>
+<p>特征：这会把工作区、暂存区中的文件都恢复成为 HEAD指针指向的commit中的文件内容。</p>
+<p>验证手段：比较工作区、暂存区、版本仓库中的文件集合之间是否存在差异 - git status</p>
+</blockquote>
+<h6 id="不满意暂存区中存储的变更，想要丢弃它们"><a href="#不满意暂存区中存储的变更，想要丢弃它们" class="headerlink" title="不满意暂存区中存储的变更，想要丢弃它们"></a>不满意暂存区中存储的变更，想要丢弃它们</h6><blockquote>
+<p>场景1：为了实现featureA，尝试了实现方式1，本地测试后，把实现方式1相关的代码 暂存到了 staging area中。然后在工作区尝试了实现方式2，发现实现方式2更好。所以， 现在想要把暂存区中存储的所有文件先清空，然后把工作区中的变更 存储到 staging area中</p>
+<p>手段：git reset HEAD</p>
+<p>特征：</p>
+<ul>
+<li>1 这会把staging area中的内容 同步成 HEAD指针所指向的commit中的文件内容；</li>
+<li>2 这样的操作不会干扰到工作区中的文件变更；</li>
+<li>3 如果只是需要对staging area中的某个文件进行恢复，执行 git reset HEAD <filename></li>
+</ul>
+<p>验证手段：比较暂存区与HEAD指向的版本仓库之间的不同 - git diff –cached</p>
+</blockquote>
+<h6 id="不满意某一次commit中所包含的变更，想要调整-丢弃它们"><a href="#不满意某一次commit中所包含的变更，想要调整-丢弃它们" class="headerlink" title="不满意某一次commit中所包含的变更，想要调整/丢弃它们"></a>不满意某一次commit中所包含的变更，想要调整/丢弃它们</h6><blockquote>
+<p>场景1：为了实现某一个任务，在工作区做了一些变更，其中有一些变更还暂存到了staging area.但是周末两天回来后，就已经忘记自己当前的状态了…</p>
+<p>手段：git reset –hard HEAD</p>
+<p>特征：</p>
+<ul>
+<li>1 –hard会把工作区、暂存区恢复成 与commit_reference所指定的commit中的文件完全相同；</li>
+<li>2 在执行这个语句之后，被丢弃的commit会被Git视为垃圾，在一段时间后会被清理掉；</li>
+</ul>
+<p>注：由于使用–hard会把你工作区的变更一并抹掉，所以执行命令前需要确认工作区中的变更都已经statsh(寄存)到别处了</p>
+</blockquote>
+<blockquote>
+<p>场景2：本地工作区中两个功能A与B在同时开发，结果在想要产生功能A的commit时，不小心把功能B相关的文件包含了进去。这时候想要丢掉这个错误的commit，从工作区重新产生正确的commit</p>
+<p>手段：git reset –soft <commit_reference></p>
+<p>特征：</p>
+<ul>
+<li>1 这里的<commit_reference>可以使用 HEAD表达式形式的相对引用，也可以使用 commitId形式的绝对引用；</li>
+<li>2 –soft的作用 - 不删除工作空间改动代码，撤销commit，不撤销git add；</li>
+</ul>
+<p>扩展：</p>
+<ul>
+<li>1 –mixed选项的作用 - 不删除工作空间改动代码、撤销commit、并且撤销git add . 操作；<ul>
+<li>注：不带选项时，默认使用的就是就是–mixed选项。</li>
+</ul>
+</li>
+<li>2 如果想要修改最近一次commit的message，可以使用 - git commit –amend</li>
+</ul>
+<p>参考: <a href="https://blog.csdn.net/w958796636/article/details/53611133">git reset的各种选项</a></p>
+</blockquote>
+<blockquote>
+<p>Here it is, until next time 😄</p>
 </blockquote>
 
     </div>
@@ -478,45 +504,16 @@
       
         
           
-<div class="my_post_copyright">
-  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
-
-  <!-- JS库 sweetalert 可修改路径 -->
-  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>本文标题:</span><a href="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%A5%87%E5%81%B6%E9%93%BE%E8%A1%A8%EF%BC%88%E6%8A%8A%E5%A5%87%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8E%E5%81%B6%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8A%E7%9A%84%E8%8A%82%E7%82%B9%E8%BF%9E%E5%9C%A8%E4%B8%80%E8%B5%B7%EF%BC%89_10.html">奇偶链表_10</a></p>
-  <p><span>文章作者:</span><a href="/" title="访问 henryInSH 的个人博客">henryInSH</a></p>
-  <p><span>发布时间:</span>2020年08月16日 - 20:46</p>
-  <p><span>最后更新:</span>2020年08月17日 - 16:40</p>
-  <p><span>原始链接:</span><a href="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%A5%87%E5%81%B6%E9%93%BE%E8%A1%A8%EF%BC%88%E6%8A%8A%E5%A5%87%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8E%E5%81%B6%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8A%E7%9A%84%E8%8A%82%E7%82%B9%E8%BF%9E%E5%9C%A8%E4%B8%80%E8%B5%B7%EF%BC%89_10.html" title="奇偶链表_10">https://henryinshanghai.github.io/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%A5%87%E5%81%B6%E9%93%BE%E8%A1%A8%EF%BC%88%E6%8A%8A%E5%A5%87%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8E%E5%81%B6%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8A%E7%9A%84%E8%8A%82%E7%82%B9%E8%BF%9E%E5%9C%A8%E4%B8%80%E8%B5%B7%EF%BC%89_10.html</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://henryinshanghai.github.io/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E5%A5%87%E5%81%B6%E9%93%BE%E8%A1%A8%EF%BC%88%E6%8A%8A%E5%A5%87%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8E%E5%81%B6%E6%95%B0%E4%BD%8D%E7%BD%AE%E4%B8%8A%E7%9A%84%E8%8A%82%E7%82%B9%E8%BF%9E%E5%9C%A8%E4%B8%80%E8%B5%B7%EF%BC%89_10.html"  aria-label="复制成功！"></i></span>
-  </p>
-  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
-</div>
-<script>
-    var clipboard = new Clipboard('.fa-clipboard');
-    $(".fa-clipboard").click(function(){
-      clipboard.on('success', function(){
-        swal({
-          title: "",
-          text: '复制成功',
-          icon: "success",
-          showConfirmButton: true
-          });
-	});
-    });
-</script>
-
         
       
 
       <footer class="post-footer">
           <div class="post-tags">
               
-              <a href="/tags/Algorithm/" rel="tag"><i class="fa fa-tag"></i> Algorithm</a>
+              <a href="/tags/Tools/" rel="tag"><i class="fa fa-tag"></i> Tools</a>
               
               
-              <a href="/tags/LinkedList/" rel="tag"><i class="fa fa-tag"></i> LinkedList</a>
+              <a href="/tags/Git-Related-Info/" rel="tag"><i class="fa fa-tag"></i> Git Related Info</a>
               
           </div>
 
@@ -524,14 +521,11 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/ListNode/2020/08/16/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/%E6%8A%8A%E9%93%BE%E8%A1%A8%E5%88%86%E9%9A%94%E6%88%90k%E4%B8%AA%E5%AD%90%E9%93%BE%E8%A1%A8_09.html" rel="prev" title="分隔链表得到子链表_09">
-                  <i class="fa fa-chevron-left"></i> 分隔链表得到子链表_09
+                <a href="/Git/2021/02/06/%E6%95%99%E7%A8%8B%E7%B1%BB%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%8E%E8%AE%A4%E8%AF%86/Github%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/20210206-Git%E5%9C%A8%E5%B7%A5%E4%BD%9C%E5%9C%BA%E6%99%AF%E4%B8%AD%E7%9A%84%E7%94%A8%E6%B3%95.html" rel="prev" title="Git在工作场景中的用法">
+                  <i class="fa fa-chevron-left"></i> Git在工作场景中的用法
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/interview/2020/08/26/interview/%E8%AE%B0%E4%B8%80%E6%AC%A1%E9%9D%A2%E8%AF%95%EF%BC%88%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8%EF%BC%89.html" rel="next" title="记一次面试（字节跳动）">
-                  记一次面试（字节跳动） <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
       </footer>
